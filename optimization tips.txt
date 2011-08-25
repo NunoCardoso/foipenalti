@@ -1,0 +1,5 @@
+- Usar precompilação
+- static images: meter expiration date
+- memcache: expiration dates
+- meter JQUERY no CDN
+- comprimir jqueries 

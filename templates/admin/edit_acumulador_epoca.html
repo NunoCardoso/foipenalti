@@ -1,0 +1,29 @@
+{% extends "admin_main.html" %}
+{% block title %}Editar acumulador de época{% endblock %}
+{% block content %} 
+{% spaceless %}
+{% autoescape off %}
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+<DIV CLASS="admin-tabs">
+	<UL CLASS="tabs">
+		<LI{% ifequal tab "edit" %} CLASS="active"{% endifequal %}>
+			<A CLASS="admin-tab-link" rel="edit" href="#" >Editar acumulador de época</A></LI>
+	</UL>
+	<!-- This is used so the contents don't appear to the right of the tabs -->
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents{% ifequal tab 'edit' %} tab_contents_active{% endifequal %}" id="edit">
+			{{edit}}
+		</DIV>
+	</DIV>
+</DIV>
+
+{% endautoescape %}
+{% endspaceless %}
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "main.html" %}
+{% block title %}Leis do futebol{% endblock %}
+{% block content %} 
+{% spaceless %}
+<DIV style="margin:10px;">
+<H1>Leis do futebol</H1>
+
+<B>Nota:</B> as leis aqui descritas foram retiradas do sítio da <a href="http://www.lpfp.pt/futebol/leisjogo/index.aspx">Liga Portuguesa de Futebol Profissional</A>.
+<blockquote>
+	<UL>
+		<LI><A HREF='leis#1'>O que é o 'Foi penalti'?</a></LI>
+		<LI><A HREF='leis#2'>Então é mais um sítio de estatísticas, tal como o zerozero.pt?</a></LI>
+		<LI><A HREF='leis#3'>Epá, o site é leeeeeeento e sempre a gerar erros!</a></LI>
+		<LI><A HREF='leis#4'>Ok, mas quem decide que o lance for penálti ou não?</a></LI>
+		<LI><A href="/leis#5">O que é o ICC&#0153? Como são calculados os seus valores?</a></LI>
+		<LI><A href="/leis#6">Bah, como é que eu sei que o ICC&#0153 está a ser em calculado?</a></LI>
+		<LI><A HREF='leis#7'>Mas nem todos os penaltis dão em golo...</a></LI>
+		<LI><A HREF='leis#8'>Epá, falta o lance X! Estou a ver que isto está tudo viciado...</a></LI>
+		<LI><A HREF='leis#9'>E as competições a eliminar...?</a></LI>
+		<LI><A HREF='leis#10'>Pois, mas tu és isento?</a></LI>
+		<LI><A HREF='leis#11'>Mmmm issto cheira-me mal, não deve ser isento...</a></LI>
+		<LI><A HREF='leis#12'>O sistema existe?</a></LI>
+		<LI><A HREF='leis#13'>Pá, era porreiro se fizesses uma página onde se vê X com Y a fazer Z...</a></LI>
+		<LI><A HREF='leis#14'>Gostei. Até gostava de contribuir com mais dados, outras ideias, etc...</a></LI>			
+	</UL>
+</blockquote>
+		
+<a name="1"></a>
+	<H3>O que é o 'foi penalti'?</H3>
+<blockquote>	
+	O 'Foi penalti' é um sítio que repõe a verdade desportiva nas classificações e resultados dos clubes portugueses. Aqui, iremos rectificar as decisões dos árbitros e gerar tabelas virtuais de como seriam os resultados dos clubes, caso os árbitros fossem (cof cof) perfeitos. 
+</blockquote>
+	
+<a name="2" /></a>
+	<H3>O zerozero.pt não tem uma coisa semelhante?</H3>
+<blockquote>
+	Sim, o <a href="http://www.zerozero.pt/tt.php">Casos da Jornada</a>. Durante o desenvolvimento deste sítio e a recolha de infomação a partir do zerozero.pt, tive conhecimento dessa secção. Apesar de muitas das métricas de cálculo de classificações virtuais serem semelhantes, os algoritmos e páginas deste sítio foram desenvolvidos por mim e sem nenhuma cópia vergonhosa. 
+	<P>
+	As principais diferenças são: 
+<blockquote>	
+		<ul>
+		<li style="list-style:lower-roman inside">O zerozero.pt baseia-se na comunidade para a sugestão e avaliação dos lances. A minha abordagem é o uso de lances reportados pelo jornal 'O Jogo' e respectivo julgamento de ex-árbirtos na sua secção 'Tribunal O Jogo'. Isso garante alguma isenção clubística. </li>
+		<li style="list-style:lower-roman inside">O foipenalti.com procura dar estatísticas mais detalhadas e outros tops, como jogadores que inventam mais penalties, o ICC&#0153, bem como permitir a personalização dos pesos a dar aos erros para a geração de classificações virtuais.</li>
+	</ul>
+</blockquote>		
+	Em resumo: sim, o zerozero.pt fez primeiro, não sabia, agora toca a fazer alguma coisa melhor e com mais piada.	Mas deixem-me dizer que o zerozero.pt é um colosso de site, espantosa obra de engenharia de software, sou fã e recomendo vivamente!
+
+</blockquote>
+
+<a name="2.5" /></a>
+	<H3>Epá, o site é leeeeeeento e sempre a gerar erros!</H3>
+<blockquote> O site é uma <a href="http://appengine.google.com">Google App Engine</A>. Os dados estão guardados na BigTable do Google. Há muitas páginas no "Foi penalti" que envolvem a análise de dezenas de jogos e jogadores, e para horas de ponta, é provável que a geração da página exceda os 30 segundos. Estou a preparar um sistema de caches mais eficiente, mas até lá... ah, e o logotipo tem lá marcado "beta", ou seja, a página ainda está em franca modificação e está longe de ser uma release estável.
+</blockquote>
+
+<a name="3" /></a>
+	<H3>Ok, mas quem decide que o lance for penálti ou não?</H3>
+<blockquote>		O jornal <a href="http://www.ojogo.pt">O Jogo</a> tem uma secção muito interessante, chamada 'Tribunal de O Jogo', onde ex-árbitros analisam os lances <I>post-mortem</I>. Sendo mais que um e, tipicamente em número ímpar, dá para fazer uma média e decidir qual seria o julgamento certo para cada lance. Por enquanto, esta é a única fonte, mas estamos À procura de mais fontes isentas...
+</blockquote>
+
+<a name="3.5"></a>
+<H3>O que é o ICC&#0153? Como são calculados os seus valores?</H3>
+<P>O ICC&#0153, ou <I>Índice de carregamento ao colo</I>, é uma métrica da minha autoria que procura dar pesos aos erros dos árbitros consoante a sua influência no decorrer do jogo. Os vários lances são classificados de acordo com o seu tipo (penalti por assinalar, vermelho mostrado, etc) e o seu impacto é traduzido através de um peso.</P> 
+<P>No final, quando o árbitro tem influência no resultado (com ou sem redistribuição de pontos), são também adicionados pesos de agravamento, para que o ICC&#0153 dê mais importância a actuações desastrosas de árbitros que mexeram no placar final. </P>
+<P>Os pesos atribuídos são ainda experimentais e sem fundamento empírico, e podem (diria mesmo, vão) ser alterados no decurso da presente época. Note-se que, ao alterar os valores dos pesos, os cálculos de ICC&#015 é actualizado para todos os clubes, para todas as competições. Os pesos actuais são os seguintes:</P> 
+<UL>
+<LI>Factor resultado alterado e pontos redistribuídos: 1.0
+<LI>Factor resultado alterado e pontos mantidos: 0.5 
+<LI>Factor golo validado: 1.0
+<LI>Factor golo invalidado: 1.0
+<LI>Factor penalti marcado e concretizado: 0.9
+<LI>Factor penalti marcado e não concretizado: 0.9
+<LI>Factor penalti não marcado: 0.9
+<LI>Factor fora de jogo marcado que é situação de golo iminente: 0.75
+<LI>Factor fora de jogo não marcado e concretizado: 0.75
+<LI>Factor fora de jogo não marcado e não concretizado: 0.75
+<LI>Factor fora de jogo marcado que não é situação de golo iminente: 0.5
+<LI>Factor vermelho não mostrado: 0.5
+<LI>Factor vermelho mostrado: 0.5
+<LI>Factor falta perigosa marcada e concretizada: 0.4
+<LI>Factor falta perigosa marcada e não concretizada: 0.4
+<LI>Factor falta perigosa não marcada: 0.4
+<LI>Factor amarelo não mostrado: 0.3
+<LI>Factor amarelo mostrado: 0.3
+</UL>	
+<P>
+Na forja está a associação dos pesos ao tempo em que o lance decorreu, e ao resultado nessa altura. Por outras palavras, um penalti assinalado quando o resultado é de 0-0 aos 90' tem outro impacto do que um penalti assinalado aos 3', ou quando o resultado é 5-0, não é? </P>
+<a name="3.6"></a>
+<H3>Bah, como é que eu sei que o ICC&#0153 está a ser em calculado?</H3>
+Bem, podes fazer as contas à mão, ou até vou ser generoso: aqui está o <A href="/static/analisa_jogo.py.txt">código fonte da classe AnalisaJogo</A> que analisa cada jogo com os seus lances, e faz o cálculo dos ICC&#0153 para cada equipa interveniente. 
+
+
+<a name="4" /></a>	
+	<H3>Mas nem todos os penaltis dão em golo...</H3>
+<blockquote>	Pois, nem as expulsões têm influência directa no resultado. Mas futebol é uma arte plástica e geométrica (um abraço, Gabriel Alves), e geralmente o arredondamento matemático que se faz para um penalti por assinalar, ou um fora-de-jogo anulado quando o avançado ia isolado, dá sempre golo com 99,99% de confiança. Mesmo assim, está na forja um sistema personalizado de cálculo de classificações 'virtuais' de acordo com pesos dados pelo utilizador.
+</blockquote>
+
+<a name="4.2" /></a>	
+<H3>Epá, falta o lance X! Estou a ver que isto está tudo viciado...</H3>
+<blockquote>
+Não sejas assim... vá, procura no YouTube, <a href="http://www.TugaGolo.com"> ou <a href="http://videos.sapo.pt">vídeos SAPO</A> um vídeo com o lance que falta, e manda-me um mail para <a href="mailto:foipenalti@foipenalti.com">foipenalti@foipenalti.com</A> com detalhes sobre: 
+<UL>
+<LI>O jogo em questão - clubes, jornada, vídeos do jogo
+<LI>O lance - minuto, protagonistas, em que minuto do vídeo se vê, e já agora, alguma citação a algum comentário feito por algum comentador nos jornais portugueses 		
+</UL>	
+Caso o tal lance seja efectivamente relevante, será adicionado. E obrigado pela ajuda.
+</blockquote>
+	
+<a name="4.5" /></a>	
+	<H3>E as competições a eliminar?</H3>
+<blockquote>Por enquanto só faço estatística da liga principal. Tenho planos para estender a outras competições, e quem sabe arranjar historial de épocas transactas, mas não é prioridade agora. 
+</blockquote>
+
+<a name="5" /></a>		
+	<H3>Pois, mas tu és isento?</H3>
+<blockquote>Eu? Sou adepto ferrenho do F.C.Porto. Sócio durante anos, bancada anual no velhinho Estádio das Antas e presente na inauguração do Estádio do Dragão. Contudo, tenho o grande defeito de usar as leis do futebol, e não a cor da camisola, para analisar os lances nas repetições. Não há muitos como eu, mas também fique descansado: eu não participo em julgamentos dos lances de jogos que possuem análises do "Tribunal O Jogo". A minha análise será ao nível dos jogos que não possuem lances analisados. 
+</blockquote>
+
+
+<a name="5.5" /></a>		
+	<H3>Mmmm issto cheira-me mal, não deve ser isento...</H3>
+<blockquote>Claro. Compro um dómínio e pago do meu bolso, perco horas do meu tempo livre a programar e a depurar dezenas e dezenas de scripts, mais horas a compilar dados de jogoadores, jogos e árbitros, outras horas a alimentar o sistema com lances, vídeos, análises de árbitros, horas a monitorizar e a optimizar o site, tudo isto só para disfarçar o facto de este sítio ser a derradeira arma secreta do Pinto da Costa para ganhar um campeonato! Faz um favor à tua cabeça, não entres por aí...
+</blockquote>
+
+		
+<a name="6" /></a>			
+	<H3>O sistema existe?</H3>
+<blockquote>	Claro que existe. <a href="http://xafarica.weblog.com.pt/arquivo/415296.html">Há dúvidas?</a> :)
+</blockquote>
+
+<a name="7" /></a>			
+	<H3>Pá, era porreiro se fizesses uma página onde se vê X com Y a fazer Z...</H3>
+<blockquote>Estás a ver ali, no lado direito, um rectângulo a dizer "feedback"? Clica nele e usa a interface dada pelo <a href="http://uservoice.com">UserVoice</A> para sugerir páginas com quadros, tabelas e outras estatísticas para "monitorizar" o "sistema". Por exemplo, páginas com ranking de árbitros que erram mais, páginas de parelhas erros de árbitros / clubes beneficiados, páginas com os melhores / piores comentadores (ou seja, os que alinham mais na média ou não), clubes com mais expulsões perdoadas, etc. Não me lembro delas todas, mas podes sugerir, que eu meto na pilha de tarefas. 
+</blockquote>
+
+<a name="9" /></a>			
+	<H3>Gostei. Até gostava de contribuir com mais dados, outras ideias, etc...</H3>
+<blockquote> Envia mail para <a href="mailto:foipenalti@foipenalti.com">foipenalti@foipenalti.com</a>. Venha de lá essas ideias. 
+</blockquote>	
+</DIV>
+{% endspaceless %}
+{% endblock %}

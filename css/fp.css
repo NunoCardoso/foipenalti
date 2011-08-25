@@ -1,0 +1,635 @@
+.fp-shadow {
+	box-shadow: -3px 3px 4px #888;
+	-moz-box-shadow: -3px 3px 4px #888;
+	-webkit-box-shadow: -3px 3px 4px #888;
+}
+
+.fp-little-shadow {
+	box-shadow: -2px 2px 2px #888;
+	-moz-box-shadow: -2px 2px 2px #888;
+	-webkit-box-shadow: -2px 2px 2px #888;
+}
+
+.fp-medium-radius {
+	-moz-border-radius:12px;	
+	-webkit-border-radius:12px;	
+	border-radius: 12px;
+	o-border-radius: 12px;
+	-o-border-radius: 12px;
+	-opera-border-radius: 12px;
+}
+
+.fp-small-radius {
+	-moz-border-radius:8px;	
+	-webkit-border-radius:8px;	
+	border-radius: 8px;
+	o-border-radius: 8px;
+	-o-border-radius: 8px;
+	-opera-border-radius: 8px;
+}
+
+.fp-micro-radius {
+	-moz-border-radius:4px;	
+	-webkit-border-radius:4px;	
+	border-radius: 4px;
+	o-border-radius: 4px;
+	-o-border-radius: 4px;
+	-opera-border-radius: 4px;
+}
+
+.fp-arbitro-img {
+	float:left;
+	width:100px;
+	padding:5px;
+	border:1px solid #ccc;
+}
+
+.fp-calendario-mes-table {
+	width:210px;
+	height:170px;
+	font-size:12px;
+	border-collapse: collapse;
+	margin:auto;
+}
+
+.fp-calendario-mes-table THEAD TR TD {
+	-moz-border-radius: 12px 12px 0px 0px;	
+	-webkit-border-radius:12px 12px 0px 0px ;	
+	border-radius:12px 12px 0px 0px ;	
+}
+
+.fp-calendario-mes-table TBODY TR:last-child TD:first-child {
+	-moz-border-radius: 0px 0px 0px 12px;	
+	-webkit-border-radius: 0px 0px 0px 12px;	
+	border-radius: 0px 0px 0px 12px;	
+}
+
+.fp-calendario-mes-table TBODY TR:last-child TD:last-child {
+	-moz-border-radius: 0px 0px 12px 0px;	
+	-webkit-border-radius:0px 0px 12px 0px;	
+	border-radius:0px 0px 12px 0px;	
+}
+
+.fp-calendario-mes-table-title{
+ text-align:center;
+ font-weight:bold;
+}
+
+.fp-calendario-mes-table-header TR TD{
+	padding:1px;
+	background-color:#white;
+	text-align:center;
+}
+
+.fp-calendario-dia {
+	min-width:28px;
+	min-height:25px;
+	padding:1px;	
+	text-align:center;
+	background-color:#DFE9F0;
+}
+
+.fp-calendario-current-day {
+   border:2px solid black;
+	font-weight:bold;	
+	font-size:1.2em;
+	
+}
+
+.fp-calendario-event {
+	background-color: #84B3EA;
+	padding: 1px;
+	height: 18px;
+	width: 23px;
+	text-align: center;
+	margin: auto;
+	-webkit-border-radius: 4px;
+	border-top-left-radius: 4px 4px;
+	border-top-right-radius: 4px 4px;
+	border-bottom-right-radius: 4px 4px;
+	border-bottom-left-radius: 4px 4px;
+}
+
+.fp-calendario-event:hover {
+	background-color: #5483aA;
+	cursor: pointer;
+}
+
+.fp-comentario-box {
+	background-color: #f0f0f0;
+	width:600px;
+	text-align:center;
+	font-size:13px;
+	margin-bottom:20px;
+	margin-top:20px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:10px;
+	border:1px solid #142c46;
+	min-height: 50px; 
+}
+
+.fp-clube-logo-small { 
+	/*IMG*/
+	height:16px;
+	margin-right:3px;
+	display:inline-block;
+}
+
+.fp-date {
+	margin-top:10px;
+	text-align:center;
+}	
+
+#fp-detalhe-icc-table TR TD {
+	padding:3px;
+}
+
+
+#fp-ficha-jogo {
+	width:1px; /* alguma coisa para evitar que não seja a 100% */
+}
+
+.fp-ficha-jogo-emblema-esquerda {
+	text-align:right;
+	margin-right:30px;
+	max-width:400px;
+	min-width:300px;
+}
+
+.fp-ficha-jogo-emblema-direita {
+	text-align:left;
+	margin-left:30px;
+	min-width:300px;
+	max-width:400px;
+}
+
+.fp-ficha-jogo-clube-esquerda {
+	font-size:24px;
+	text-align:right;
+	padding-right:10px
+}
+	
+.fp-ficha-jogo-clube-direita {
+	font-size:24px;
+	text-align:left;
+	padding-left:10px
+}
+
+.fp-ficha-jogo-golos-esquerda {
+	font-size:36px;
+	width:20px; 
+	text-align:right;
+}
+
+.fp-ficha-jogo-golos-direita {
+	font-size:36px;
+	width:20px;
+	text-align:left;
+}
+
+.fp-ficha-jogo-jogador-div {
+	display:inline-block; 
+	font-size:14px;
+	height:19px;
+	vertical-align:bottom;
+	min-width: 400px;
+
+}
+	
+.fp-ficha-jogo-jogador-nome-esquerda {	
+	display:inline-block;
+	margin-left:10px;
+	height:19px;
+	line-height:19px;
+	vertical-align:bottom
+}
+
+.fp-ficha-jogo-jogador-nome-esquerda A {	
+	display:inline-block;
+	height:19px;
+	line-height:19px;
+}
+
+.fp-ficha-jogo-jogador-nome-direita {
+	display:inline-block;
+	margin-right:10px;
+	height:19px;
+	line-height:19px;
+	vertical-align:bottom
+}
+
+.fp-ficha-jogo-jogador-nome-direita A {	
+	display:inline-block;
+	height:19px;
+	line-height:19px;
+}
+
+.fp-ficha-jogo-jogador-numero {	
+	display:inline-block;
+	width:20px;
+	height:19px;
+	line-height:19px;
+	vertical-align:bottom
+}
+
+#fp-fixed-video-screen-div {
+	z-index:10;
+	position:fixed; 
+	top:280px; 
+	right:50px; 
+}
+
+.fp-hr {
+	height:1px;
+	background-color:#888;
+	width:95%;
+	text-align:center;
+	margin:5px;
+}
+
+.fp-jogador-img {
+	float:left;
+	height:100px;
+	padding:5px;
+	border:1px solid #ccc;
+}
+
+.fp-link-video:hover {
+	text-decoration:none;
+	background:#1f3c58;
+	padding:5px;
+	color:white;
+}
+
+.fp-link-video {
+	display:block;
+	width:120px;
+	float:left;
+	text-align:left;
+	font-size:14px;
+	text-decoration:none;
+	padding:5px;
+}
+
+.fp-lista-numero-jogador {
+ width:16px;
+ display:inline-block;
+ text-align:right;
+ padding-right:5px;
+}
+
+.fp-modal {
+	padding:3px;
+	margin:0px;
+	border:3px solid #1f3c58;
+	background-color:#effafc;
+}
+
+.fp-modal-escape {
+	text-align:right; 
+	font-size:80%;
+}
+
+.fp-modal-button {
+	text-align:center;
+	border:1px solid #888;
+	height:30px;
+	margin:20px;
+	font-size:16px;
+}
+
+.fp-modal-button A {
+	width:100%;
+	height:100%;
+	line-height:30px;
+	background-image:url(../img/navi_bg.png);
+	display:block;
+	text-decoration:none;
+}
+
+.fp-modal-button A:hover {
+	width:100%;
+	height:100%;
+	background-image:url(../img/navi_bg_hover.png);
+	display:block;
+	text-decoration:none;
+}
+
+.fp-pager {
+	text-align:center;
+}
+
+.fp-pager A {
+	background-color: #DFE9F0;
+	border: 1px solid #888;
+	display: inline-block;
+	line-height: 15px;
+	padding: 3px;
+	min-width: 15px;
+	text-decoration:none;
+	margin:2px;
+}
+
+.fp-pager A:hover {
+	background-color:#fff;
+	text-decoration:none;
+	border-radius:3px;  
+	box-shadow: 0px 3px 3px #888;
+	-moz-box-shadow: 0px 3px 3px #888;
+	-webkit-box-shadow: 0px 3px 3px #888;
+}
+
+.fp-pager-div {
+	display:inline-block;
+	width:100%;
+}
+
+.fp-post p {
+	margin:0px;
+	display:inline;
+}
+
+.fp-post {
+	margin-bottom:10px;
+}
+
+.fp-results-page-div {
+	margin-left:10px;
+	margin-top:10px;
+	display:inline-block;
+}
+
+.fp-search-button {
+    min-width:190px;
+    outline:none;
+    min-height:30px;
+    font-weight:bold;
+    font-size:13px;
+    line-height:20px;
+    margin:0px;
+    text-decoration:none;
+    display:inline-block;
+    -moz-border-radius:12px;
+    -webkit-border-radius:12px;
+    border-radius:12px;
+    padding:3px 13px;   
+    position:relative;
+    float:none;
+    cursor:pointer;
+    -webkit-box-shadow: -2px 2px 2px #888;
+    -moz-box-shadow: -2px 2px 2px #888;
+    box-shadow:-2px 2px 2px #888;
+	 -webkit-appearance: push-button;
+	 color: #142c46;
+    border: solid 1px #142c46;
+    background: -webkit-gradient(linear, left top, left bottom, from(#DFE9F0), to(#FFFFFF));
+    background: -moz-linear-gradient(top,  #DFE9F0,  #ffffff);
+    x-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#DFE9F0', endColorstr='#ffffff');
+}
+
+.fp-search-button:hover, .fp-search-button:focus {
+    background: -webkit-gradient(linear, left top, left bottom, from(#EFF9FF), to(#FFFFFF));
+    background: -moz-linear-gradient(top,  #EFF9FF,  #ffffff);
+    x-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#DFE9F0', endColorstr='#ffffff');
+}
+
+.fp-search-button:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#DFE9F0));
+    background: -moz-linear-gradient(top,  #FFFFFF,  #DFE9F0);
+    x-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#DFE9F0');
+    top: 1px;
+}
+
+
+.fp-search-result-element-box-large {
+   background-color:#DFE9F0;
+	max-width:280px;
+	margin-right:10px;
+	margin-bottom:10px;
+	border:1px solid #888;
+	float:left;
+	position:relative; /* importante para que os filhos possam tem absolute */
+}
+
+.fp-search-result-element-box-small {
+  background-color:#DFE9F0;
+	max-width:130px;
+	margin-right:10px;
+	margin-bottom:10px;
+	border:1px solid #888;
+	float:left;
+	position:relative; /* importante para que os filhos possam tem absolute */
+}
+
+.fp-search-result-element-box-large A, .fp-search-result-element-box-small A {
+	display: block;
+	height: auto;
+	width: 100%;
+	text-decoration:none;
+	color:black;
+}
+
+.fp-search-result-element-box-large A:hover, .fp-search-result-element-box-small A:hover {
+	background-color:#fff;
+}
+
+.fp-search-result-element-box-img {
+	display:inline-block;
+	height:40px;
+	margin-top:5px;
+	padding:5px;
+}
+
+.fp-search-result-element-box-img img{ 
+	 vertical-align: middle;
+    height: 100%;
+}
+
+.fp-search-result-element-box-description {
+	padding:5px;
+	/*position:absolute; /* importante para que o DIV apresente shrink-to-fit*/
+}
+
+.fp-search-result-element-box-description-element {
+	width:100%;
+}
+
+.fp-search-form-box {
+	background-color: #DFE9F0;
+	width:850px;
+	font-size:14px;
+	margin-left:10px;
+	margin-bottom:20px;
+	padding:10px;
+	border:1px solid #142c46;
+}
+
+.fp-search-form-box-list li {
+	list-style: circle;
+	margin-left:10px;
+	margin-top:4px;
+	margin-bottom:4px;
+}
+
+.fp-subtitulo {
+	font-size:20px;
+	padding:5px;
+	margin-bottom:10px;
+}
+
+.fp-table {
+	width:auto;
+	margin:auto;
+	font-size: 12px;
+	-webkit-box-shadow:0px 0px 10px #DDD;
+	box-shadow:0px 0px 10px #DDD;
+	-moz-box-shadow:0px 0px 10px #DDD;	
+	table-layout:fixed;
+}
+
+.fp-table TBODY TR TD {
+	padding:2px;
+}
+
+.fp-table TBODY TR:nth-child(odd) TD {
+	background-color:#F8F8F8;
+}
+
+.fp-table TBODY TR:nth-child(even) TD {
+	background-color:#FFFFFF;
+}
+
+.fp-table thead tr th {
+	background-color:#DFE9F0;
+	color:#142c46;
+	padding:5px;
+	border-top: 2px solid #142c46;
+	border-bottom: 1px solid #142c46;
+}
+
+.fp-table TBODY TR:last-child TD {
+	border-bottom: 1px solid #142c46;
+}
+
+/* this has to be the first one, so that headerSortUp and headerSortDown can override it */
+.fp-table thead tr .header {
+	background-image: url('../img/bg.gif');
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+	padding-right:17px;	
+}
+
+.fp-table thead tr th:hover {
+	background-color:#FFFFFF;
+}
+
+.fp-table thead tr .headerSortUp {
+	background-image: url('../img/asc.gif');
+}
+
+.fp-table thead tr .headerSortDown {
+	background-image: url('../img/desc.gif');
+}
+
+.fp-table thead tr .headerSortDown, .fp-table thead tr .headerSortUp {
+	background-color:#DDD;
+}
+
+/* setting roundness on cells */
+
+.fp-table THEAD TR:first-child TH:first-child {
+/*	-moz-border-radius: 12px 0px 0px 0px;	
+	-webkit-border-radius:12px 0px 0px 0px ;	
+	border-radius:12px 0px 0px 0px ;	*/
+}
+
+.fp-table THEAD TR:first-child TH:last-child {
+/*	-moz-border-radius: 0px 12px 0px 0px;	
+	-webkit-border-radius:0px 12px 0px 0px;	
+	border-radius:0px 12px 0px 0px;	*/
+}
+
+.fp-table TBODY TR:last-child TD:first-child {
+/*	-moz-border-radius: 0px 0px 0px 12px;	
+	-webkit-border-radius: 0px 0px 0px 12px;	
+	border-radius: 0px 0px 0px 12px;	*/
+}
+
+.fp-table TBODY TR:last-child TD:last-child {
+/*	-moz-border-radius: 0px 0px 12px 0px;	
+	-webkit-border-radius:0px 0px 12px 0px;	
+	border-radius:0px 0px 12px 0px;	*/
+}
+
+.fp-tabela-classificacao-linha-lugar-descida {
+	background-color:#ff8082;
+}
+.fp-tabela-classificacao-linha-lugar-liga-campeoes{
+	background-color:#b5ecff;
+}
+.fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes {
+	background-color:#88bff3;
+}
+.fp-tabela-classificacao-linha-lugar-liga-europa {
+	background-color:#b5b2d9;
+}
+
+/* make all links in TABLESORTER to behave with a background */
+.fp-table * > A {
+	display: inline;
+	height: 100%;
+	width: 100%;
+}
+
+.fp-table * > A:hover {
+	text-shadow:1px 1px 1px #DDD;
+	background-color:#FFF;
+}
+
+.fp-table-wrapper {
+	margin-left:25px;
+	margin-right:25px;
+}
+
+.fp-table-gadgets {
+	height:25px;
+	margin:auto;
+}
+
+.fp-table-tablesorter-pager IMG, .fp-table-tablesorter-pager INPUT {
+	vertical-align:bottom;
+}
+
+.fp-table-tablesorter-pager-counter {
+	border:0px;
+	width:30px;
+	text-align: center;
+}
+
+.fp-tabela-jornada-div {
+	width:290px;
+	margin-left:0px;
+	margin-bottom:10px;
+	margin-right:10px;
+	float:left;
+}
+
+.fp-caixa-sumario-lances {
+	font-size:14px;
+	margin-bottom:20px;
+	width:800px;
+	padding:10px;
+	background-color:#effafc;
+}
+
+.fp-video-box {
+	background-color: #DFE9F0;
+	margin:auto;
+	display:inline-block;
+	text-align:center;
+	padding:10px;
+	border:3px solid #142c46;
+	z-index:20px;
+}

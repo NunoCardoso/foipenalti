@@ -1,0 +1,43 @@
+
+
+{# editar um clube existente #}
+{% if edit %}
+<form action="/admin/acumulador_jornada/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# novo clube #}
+{% if new_single %}
+<form action="/admin/acumulador_jornada/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar acumulador de jornada {{obj}}</DIV>
+{% endif %}
+	<table>
+	<tr>
+		<td><label for="acuj_jornada">Jornada</label></td>
+		<td><input type="text" name="acuj_jornada" id="acuj_jornada" size=80 value="2011/2012:Liga:X"/></td>
+	</tr>
+
+
+	<tr>
+		<td><label for="acuj_versao">Versão</label></td>
+		<td><input type="text" name="acuj_versao" id="acuj_versao" size=20 value="2"/></td>
+	</tr>
+	
+	{% if edit %}
+	<tr>
+		<td>Conteúdos:</td>
+		<td>{{obj.acuj_content}}</td>
+	</tr>
+	{% endif %}
+
+	<tr>
+		<td colspan="2">Nota: a estatística re-escreve sobre uma estatística da mesma jornada, mesma versão</td>
+	</tr>
+	<tr>
+		<td colspan="2"><input type="submit" value="Criar novo acumulador de jornada"/></td>
+	</tr>
+	</table>
+</form>

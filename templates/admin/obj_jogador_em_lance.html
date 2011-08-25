@@ -1,0 +1,46 @@
+<form action="/admin/{{objname}}/new?{{ this_id }}={{ obj.key.id }}" method="post">
+	<table>	
+	{% if "jjj_jogador"|isnotinlist:omit %}
+		<tr>	
+		{% if jogadores_clube1 %}
+			<td colspan=2><select size=1 name="jgd_id" id="jgd_id">
+			<option value="" DEFAULT>-- {{ obj.jog_clube1.clu_nome_curto}} --</option>
+			{% for jogador in jogadores_clube1 %}
+				<option value="{{ jogador.key.id }}">{{ jogador.jgd_nome }}</option>
+			{% endfor %}
+			<option value=""></option>
+			<option value="">-- {{ obj.jog_clube2.clu_nome_curto }} --</option>
+			{% for jogador in jogadores_clube2 %}
+				<option value="{{ jogador.key.id }}">{{ jogador.jgd_nome }}</option>
+			{% endfor %}
+		</select></td>
+		{% else %}
+			<td><label for="jel_jogador">Nome do jogador</label></td>
+			<td><input type="text" name="jel_jogador" id="jel_jogador" size=40/></td>
+		{% endif %}
+		</tr>	
+	{% endif %}
+	
+	{% if "jel_lance"|isnotinlist:omit %}
+	<tr>
+		<td><label for="jel_lance">Lance</label></td>
+		<td><input type="text" name="jel_lance" id="jel_lance" size=80 value="(usar: época:jornada:clube_sigla1:clube_sigla2:lance_numero)"/></td>
+	</tr>
+	{% endif %}
+	<tr>
+		<td><label for="jel_papel">Papel</label></td>
+		<td>
+		<select name="jel_papel" id="jel_papel" size=1>
+			{% for item in tipos_jels.items %}
+			<option VALUE="{{item.0}}"{% ifequal jel_papel {{item.0}} %} SELECTED{% endifequal %}>{{item.1}}</OPTION>
+			{% endfor %}
+		</select>
+		
+		</td>
+	</tr>
+
+	<tr>
+		<td colspan="2"><input type="submit" value="Associar jogador a lance"/></td>
+	</tr>
+	</table>
+</form>

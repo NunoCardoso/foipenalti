@@ -1,0 +1,144 @@
+{% extends "main.html" %}
+{% block title %}Procurar lance{% endblock %}
+{% block content %} 
+{% spaceless %}
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+
+<H2 style="margin-left:10px;">Procurar lance</H2>
+
+<div class="fp-search-form-box fp-shadow fp-medium-radius">
+	<form action="" method="get">
+		<UL class="fp-search-form-box-list">
+			<LI>Quero ver lances da competição 
+				<select size=1 name="cmp">
+				<option value="">qualquer</option>
+				{% for competicao in competicoes %}
+					<option value="{{ competicao.key.id }}"{% if lan_competicao and competicao.cmp_nome|eq:lan_competicao.cmp_nome  %} SELECTED{% endif %}>{{ competicao.cmp_nome_completo}}</option>
+				{% endfor %} 
+			</select>
+		</li>
+		
+		<LI>... já agora, lances de jogos entre o  
+			<select size=1 name="clu1">
+				<option value="">qualquer clube</option>
+				{% for clube in clubes %}
+					<option value="{{ clube.key.id }}"{% if lan_clube1 and clube.key.id|matcheslong:lan_clube1 %} SELECTED{% endif %}>{{ clube.clu_nome_curto}}</option>
+				{% endfor %} 
+			</select>
+			e o 
+			<select size=1 name="clu2">
+				<option value="">qualquer clube</option>
+			{% for clube in clubes %}
+					<option value="{{ clube.key.id }}"{% if lan_clube2 and clube.key.id|matcheslong:lan_clube2 %} SELECTED{% endif %}>{{ clube.clu_nome_curto}}</option>
+				{% endfor %} 
+			</select>, e/ou arbitrados por 
+			
+			<select size=1 name="arb">
+				<option value="">qualquer árbitro</option>
+				{% for arbitro in arbitros %}
+					<option value="{{ arbitro.key.id }}"{% if lan_arbitro and arbitro.key.id|matcheslong:lan_arbitro %} SELECTED{% endif %}>{{ arbitro.arb_nome}}</option>
+				{% endfor %} 
+			</select>...
+			</LI>
+			
+			<LI>Lances de <select size=1 name="cla">
+				<option value="">qualquer</option>
+				{% for tipo in tipos_lances %}
+					<option value="{{ forloop.counter0 }}" {% ifequal forloop.counter0 lan_classe  %}SELECTED{% endifequal %}>
+					{{ tipo.1}}</option>
+				{% endfor %} 
+			</select>...
+		</li>
+		<LI>... e onde o jogador <input type="text" class="nome_jogador_autocomplete" AUTOCOMPLETE="OFF" size="30" name="jgd" value ="{{lan_jogador}}"> esteve envolvido.
+		
+		
+		</LI>
+	<LI>Quero ver <select size=1 name="nr">
+			<option {% ifequal num_resultados 15 %}SELECTED{% endifequal %}>15</option>
+			<option {% ifequal num_resultados 30 %}SELECTED{% endifequal %}>30</option>
+			<option {% ifequal num_resultados 45 %}SELECTED{% endifequal %}>45</option>
+			</select> resultados de cada vez.  
+				<div style="margin-top:10px;display:block;"><input type="submit" class="fp-search-button" value="Procurar lances"></div>
+				</LI>
+	</UL>
+	
+</form>
+</div>
+{% if results %}
+
+<div class="fp-pager-div">
+	<div style="position:absolute;margin-left:10px;">Foram encontrados {{results_total}} lance(s).</div> 
+	{% if results_page_links|array_len_ne:1 %}
+	<div class="fp-pager">
+    {% for page in results_page_links %}
+		<A href="{{page.1}}">{{page.0}}</a>
+	 {% endfor %}
+	</div>	
+	{% endif %}
+</div>
+<script type="text/javascript">
+	var results = {{results|to_json}}
+</script>
+
+<DIV ID="main-submenu" CLASS="fp-shadow" style="border:1px solid black;margin-left:10px;">
+	<UL>
+		<LI CLASS="main-submenu-firstitem active">
+			<A onClick="javascript:print_results(results,'procurar_lance','slides',$('.fp-results-page-div'))" CLASS="submenu-link" href="#">&#10063;</A></LI>
+		<LI>
+		<LI CLASS="main-submenu-lastitem">
+			<A onClick="javascript:print_results(results,'procurar_lance','table',$('.fp-results-page-div'))" CLASS="submenu-link" href="#">&#9776;</A></LI>
+		<LI>
+	</UL>
+</DIV>
+<div class="clear"></div>
+	
+<div class="fp-results-page-div"></div>
+
+<div class="fp-pager-div">
+	{% if results_page_links|array_len_ne:1 %}
+	<div class="fp-pager">
+	   {% for page in results_page_links %}
+		<A href="{{page.1}}">{{page.0}}</a>
+	 {% endfor %}
+	</div>	
+	{% endif %}
+</div>	
+	
+{% else %}
+	{% if num_resultados %}Sem resultados.{% endif %}
+{% endif %}
+<script>
+$(document).ready(function() {
+	print_results(results, 'procurar_lance',"slides", $(".fp-results-page-div"))
+})
+</script>
+<script>	
+$(document).ready(function() {
+$(".nome_jogador_autocomplete").autocomplete('/autocomplete/nome_jogador', {
+		minChars:2, 
+		mustMatch: true, 
+		autoFill: true,
+		autoSelect: true,
+		multiple: false,
+		matchSubset:true,
+		// como o valor seleccionado é depois colocado na caixa
+		formatResult:function (row) {
+         return row[1]
+		},
+		// como o valor é mostrado nas opções
+		formatItem:function (row) {
+         return row[1]
+		}
+	})
+	// importante para que não faça pesquisa no final
+	$(".nome_jogador_autocomplete").unbind("search")
+})
+</script>
+{% endspaceless %}
+{% endblock %}

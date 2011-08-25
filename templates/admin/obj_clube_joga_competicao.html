@@ -1,0 +1,50 @@
+
+{# novos cjc a mando de uma competicao #}
+{% if new_for_parent_id %}
+<form action="/admin/{{objname}}/new?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar um cjc existente #}
+{% if edit %}
+<form action="/admin/{{objname}}/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# novo clube #}
+{% if new_single %}
+<form action="/admin/{{objname}}/new" method="post">
+{% endif %}	
+
+<table>
+	<tr>
+		<td>Clube:</td>
+		<td><select size=1 name="cjc_clube_id" id="cjc_clube_id"/>
+			<option value="">--</option>
+				{% for clube in clubes %}
+				<option value="{{clube.key.id}}" {% if edit %}{% ifequal obj.cjc_clube.clu_nome clube.clu_nome %} SELECTED{% endifequal %}{% endif %}>{{clube.clu_nome}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Competição:</td>
+		<td><select size=1 name="cjc_competicao_id" id="cjc_competicao_id"/>
+			<option value="">--</option>
+				{% for competicao in competicoes %}
+				<option value="{{competicao.key.id}}" {% if edit %}{% ifequal obj.cjc_competicao.cmp_nome competicao.cmp_nome %} SELECTED{% endifequal %}{% endif %}>{{competicao.cmp_nome}}</option>
+				{% endfor %}
+			</select>
+			</td>
+	</tr>
+	
+	<tr>
+		<td>Classificação anterior:</td>
+		<td><input type="number" min="0" step="1" name="cjc_classificacao_anterior" id="cjc_classificacao_anterior" size=6 placeholder="0"/></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2"><input type="submit" style="width:300px;" value="Associar clube a competição"/></td>
+	</tr>
+</table>
+</form>

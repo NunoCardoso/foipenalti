@@ -1,0 +1,86 @@
+{# novos ctj a mando de um clube/competicao #}
+{% if new_for_parent_id %}
+<form action="/admin/{{objname}}/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar vários ctj existentes #}
+{% if multiple_edit %}
+<form action="/admin/{{objname}}/save_multiple" method="post">
+{% endif %}	
+
+{# novos ctj sem estarem presos a nada #}
+{% if new_multiple %}
+<form action="/admin/{{objname}}/new_multiple" method="post">
+{% endif %}	
+
+<input type='hidden' id="prefix" name='prefix' value='ctj'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novas CTJs a serem associadas ao jogador {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar CTJs associadas ao jogador {{obj}}</DIV>
+{% endif %}
+		
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+						
+	<table>
+		<tr>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="ctj{{i}}_id" id="ctj{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}	
+			<td style="margin:5px;">
+				<input type="checkbox" id="ctj{{i}}_checkbox" name="ctj{{i}}_checkbox">
+			</td>
+			
+			<td>
+				<div style="display:inline;">
+					<select class="aware-change" size=1 name="ctj{{i}}_clube_id" id="ctj{{i}}_clube_id"/>
+				{% for clube in clubes %}
+				<option value="{{clube.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"ctj_clube"|eq:clube %} SELECTED{% endif %}>{{clube.clu_nome_curto}}</option>
+				{% endfor %}
+					</select>
+				</div>
+				
+				{% if new_for_parent_id or multiple_edit %}
+				<input type="hidden" name="ctj{{i}}_jogador_id" id="ctj{{i}}_jogador_id" value="{{obj|get_id}}"/> 
+				{% else %}
+				<div style="display:inline;">
+				<input class="aware-change nome_jogador_autocomplete" type="text" AUTOCOMPLETE="OFF" size="40" id="ctj{{i}}_jogador" name="ctj{{i}}_jogador" placeholder="jogador" {% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"ctj_jogador"}}'{% endif %}>
+				</div>
+				{% endif %}
+				<div style="display:inline;">
+				<input class="aware-change" type="number" min="0" step="1" name="ctj{{i}}_numero" id="ctj{{i}}_numero" size=6 placeholder="Nº" {% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"ctj_numero"}}'{% endif %}/>
+				</div>
+				
+				<div style="display:inline;">
+				
+				<select class="aware-change" name="ctj{{i}}_epocas_id" id="ctj{{i}}_epocas_id" size=4 multiple>
+				{% for epoca in epocas %}
+				<option value="{{epoca.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"ctj_epocas"|containsepocakey:epoca.key %} SELECTED{% endif %}>{{epoca.epo_nome}}</option>
+				{% endfor %}
+				</select>
+			</td>
+		</tr>		
+	</table>
+					</td>
+				</tr>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novos{% endif %} CTJ {% if new_for_parent_id or multiple_edit %}associadas ao jogador {{obj.ctj_jogador}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

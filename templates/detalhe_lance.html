@@ -1,0 +1,66 @@
+{% extends "main.html" %}
+{% block title %}Lance #{{lance.lan_numero}}, jogo {{lance.lan_jogo.jog_clube1.clu_nome_curto}} {{lance.lan_jogo.jog_golos_clube1}} - {{lance.lan_jogo.jog_golos_clube2}} {{lance.lan_jogo.jog_clube2.clu_nome_curto}}{% endblock %}
+{% block content %} 
+{% spaceless %}
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+<div style="text-align:center;margin:10px;"><H3>Lance número {{lance.lan_numero}} do jogo {{lance.lan_jogo.jog_clube1.clu_nome_curto}} {{lance.lan_jogo.jog_golos_clube1}} - {{lance.lan_jogo.jog_golos_clube2}} {{lance.lan_jogo.jog_clube2.clu_nome_curto}}</H2></DIV>
+
+<HR width="97%" color="#888" style="margin-top:5px; margin-bottom:20px;">
+
+{{lance_html}}
+
+<!-- comentarios -->
+	{% if lance.lan_comentario %}
+	{% if jogo.jog_comentario %}
+	<div class="fp-comentario-box fp-medium-radius fp-shadow">
+		<IMG style='float:left; margin-right:10px;height:50px;' src='{{settings.image_avatar}}'>
+		<div style="text-align:left;width:100%;"><P>&#8220{{lance.lan_comentario}}&#8221</P></DIV>
+	</DIV>
+	{% endif %}
+	{% endif %}
+
+<!-- videos -->
+<div style="text-align:center;width:100%;display:inline-block;font-size:20px;margin:10px;">Lances</DIV>	
+<div class="fp-videos" style="width:100%;text-align:center;">
+	{% if lance.lan_link_videos %}
+
+	<div id="fp-video-container" style="min-width:470px; margin:auto; text-align:center;"  class="fp-video-box fp-shadow fp-medium-radius">
+		<div id="fp-video-links" style="float:left; width:120px; min-height:300px;">
+		{% for video in lance.lan_link_videos %}
+			<A class="fp-watch-video fp-link-video" href="#" VIDEO_HTML="{{video|urlencode}}" 
+		 	TARGET_DIV="fp-lance-video-screen">#{{forloop.counter}} {{video|getvideosource}}</A>
+		{% endfor %}
+		</div>
+		<div id="fp-lance-video-screen" style="min-width:300px;min-height:300px;float:left;">
+			{{lance.lan_link_videos|getfirstvideo}}
+		</div>		
+	</div>
+{% else %}
+	<div style="text-align:center;">Não há vídeos para este jogo.</div>
+{% endif %}
+</div>
+
+<script>$(document).ready(function() {
+$(".marqueeable").each(function() {	addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})</script>
+
+<div style="margin:10px;">
+{% if request.url|doesntstartswith:"http://localhost" %}
+<div id="disqus_thread"></div>
+<script type="text/javascript" src="http://disqus.com/forums/{{ settings.disqus }}/embed.js"></script>
+<noscript><a href="http://{{ settings.disqus }}.disqus.com/?url=ref">Ver comentários.</a></noscript>
+{% endif %}
+<div><a href="/agradecimentos">Fonte dos dados</a></div>
+</div>
+{% endspaceless %}
+{% endblock %}

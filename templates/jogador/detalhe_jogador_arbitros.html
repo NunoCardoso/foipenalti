@@ -1,0 +1,43 @@
+{% spaceless %}
+{% autoescape off %}
+<div class="fp-subtitulo" style="margin-top:20px;">Árbitros que sancionaram {{jogador.jgd_nome}} em {{epoca.epo_nome}}</div> 
+
+	<table id="fp-detalhe-jogador-arbitros" class='fp-table'>
+		<THEAD>
+			<tr style="text-align:center;"><TH>Árbitro</TH><TH>Cartões</TH></tr>
+		</THEAD>
+		<TBODY>
+		{% for item in dados %}	
+		<tr>
+		<TD><P class="marqueeable">
+			<a href="/detalhe_arbitro?id={{item.arbitro.key.id}}">{{item.arbitro.arb_nome}}</a>
+		</P></TD>	
+		<td value="{{item.indisciplina}}" style="text-align:right;">					
+		<P class="marqueeable">
+					{% if item.indisciplina|gt:0 %}
+				{% if item.cartoes_amarelos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_amarelos }} &times; <img src="img/amarelo.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% if item.cartoes_duplo_amarelos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_duplo_amarelos }} &times; <img src="img/duploamarelo.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% if item.cartoes_vermelhos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_vermelhos }} &times; <img src="img/vermelho.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% endif %}
+			</P></TD>
+		</TD>
+		</tr>	
+		{% endfor %}
+	</tbody>
+	</table>	
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_jogador?id={{jogador.key.id}}&menu=detalhe_jogador_arbitros&epoca={{epoca.epo_nome}}">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV>
+	
+<script>$(document).ready(function() {$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}}); $(".marqueeable").each(function() {	addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})</script>
+{% endautoescape %}
+{% endspaceless %}

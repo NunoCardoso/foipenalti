@@ -1,0 +1,55 @@
+{% autoescape off %}
+<TABLE id="fp-homepage-classificacao" CLASS="fp-homepage-classificacao">
+	<THEAD>
+		<TR>
+			<TH style="width:15px;">P</TH>
+			<TH style="width:90px;">Clube</TH>
+			<TH style="width:10px;">J</TH>
+			<TH style="width:10px;">V</TH>
+			<TH style="width:10px;">E</TH>
+			<TH style="width:10px;">D</TH>
+			<TH style="width:35px;">GM/S</TH>
+			<TH style="width:20px;">P</TH>
+		</TR>
+	</THEAD>
+	<TBODY>
+		{% for linha in classificacao_real %}
+		<TR>		
+				<TD style="text-align:center;">
+					{% if linha.psr|isinintegerlist:competicao.cmp_lugares_descida %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-descida fp-medium-radius">
+			{% else %}
+				{% if linha.psr|isinintegerlist:competicao.cmp_lugares_liga_campeoes %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius">
+				{% else %}
+					{% if linha.psr|isinintegerlist:competicao.cmp_lugares_eliminatorias_liga_campeoes %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius">
+					{% else %}
+						{% if linha.psr|isinintegerlist:competicao.cmp_lugares_liga_europa %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius">
+						{% else %}
+						<DIV>
+						{% endif %}	
+					{% endif %}	
+				{% endif %}	
+			{% endif %}	
+		{{linha.psr}}</DIV></TD>
+		<TD style="text-align:left;"><A HREF="detalhe_clube?id={{linha.clube.key.id}}">{{linha.clube.clu_nome_curto}}</A></TD>
+		<TD>{{linha.jr}}</TD>
+		<TD>{{linha.vr}}</TD>
+		<TD>{{linha.er}}</TD>
+		<TD>{{linha.dr}}</TD>
+		<TD>{{linha.gmr}}-{{linha.gsr}}</TD>
+		<TD 
+		{% if linha.pr|lt:linha.pr %}
+		   style="background-color:#99FF99"
+		{% else %}{% if linha.pr|gt:linha.pr %}
+			style="background-color:#FF9999"
+		{% endif %}{% endif %}><B>{{linha.pr}}</B>
+		
+		</TD>
+		</TR>
+		{% endfor %}	
+	</TBODY>
+</TABLE>
+{% endautoescape %}

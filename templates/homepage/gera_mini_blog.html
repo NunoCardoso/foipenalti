@@ -1,0 +1,17 @@
+{% autoescape off %}
+{% for post in posts %}
+  <div class="fp-post">
+	 <span style="font-size:11px;color:#888;">{{post.pub_date|pp_dayweek_day_month}}</span><BR>
+    <a href="{{ post.get_absolute_url }}"><B>{{ post.title }}</B></a>
+    {# {% ifnotequal post.excerpt None %} #}
+      {#  {{ post.excerpt_html }}&nbsp; <a href="{{ post.get_absolute_url|setdomainright }}"><I>Ler mais...</I></a> #}
+  {#    {% else %} #}
+  {#         {{ post.body_html }} #}
+
+{{ post.body_html|striptags|truncatewords:30 }}&nbsp;  <a href="{{ post.get_absolute_url|setdomainright }}"><I>Ler mais...</I></a>
+
+ {#      {% endifnotequal %} #}
+</div>
+{% endfor %}
+{% endautoescape %}
+    

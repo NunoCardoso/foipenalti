@@ -1,0 +1,138 @@
+TOP JOGADORES:
+
+{'top_jogadores':
+	{ "mais_golos":[
+		{ "jgd":1L, "gol":1L}, { "jgd":2L, "gol":2L}
+				  	],
+ 	 "mais_cartoes":[
+		{ "jgd":1L, "crt":{ "ca":1L, "cda":1L, "cv":1L, "tot":1L}  
+	 				],
+	 "mais_lances":[
+		{ "jgd":1L, "num":1L 
+	 				]
+
+	}
+}
+
+TOP_CLUBES
+
+{'top_clubes':
+	{"mais_golos_marcados_e_validados_com_erro_arbitro":[
+		{ "clu":1L, "gol":1L}, { "clu":2L, "gol":2L}
+				  	],
+	{"mais_golos_sofridos_e_validados_com_erro_arbitro":[
+		{ "clu":1L, "gol":1L}, { "clu":2L, "gol":2L}
+				  	],
+	{"mais_golos_marcados_e_invalidados_com_erro_arbitro":[
+		{ "clu":1L, "gol":1L}, { "clu":2L, "gol":2L}
+				  	],
+	{"mais_golos_sofridos_e_invalidados_com_erro_arbitro":[
+		{ "clu":1L, "gol":1L}, { "clu":2L, "gol":2L}
+				  	],
+	{"saldo_golos":[
+		{ "clu":1L, "gol":1L}, { "clu":2L, "gol":2L}
+				  	],
+	{"mais_pontos_ganhos_com_erro_arbitro":[
+		{ "clu":1L, "p":1L}, { "clu":2L, "p":2L}
+				  	],
+	{"mais_pontos_perdidos_com_erro_arbitro":[
+		{ "clu":1L, "p":1L}, { "clu":2L, "p":2L}
+				  	],
+	{"saldo_pontos":[
+		{ "clu":1L, "p":1L}, { "clu":2L, "p":2L}
+				  	],
+	{"mais_icc":[
+		{ "clu":1L, "icc":1L}, { "clu":2L, "icc":2L}
+				  	],
+	}
+	"mais_indisciplinados"
+}
+
+TOP ARBITROS:
+
+{'top_arbitros':
+	{ "cartoes_mostrados":[
+		{ "arb":1L, "jr":1L,  "crt":{ "ca":1L, "cda":1L, "cv":1L, "tot":1L} 
+	 				],
+	  "icc":[
+		{ 'icc': 1.504, 'arb': 10012L, 'jr': 1}
+			]
+	}
+}
+
+TOP JOGOS:
+
+{'top_jogos':
+	{ "mais_golos":[
+		{ "jog":1L, "gol":1L}, { "jog":2L, "gol":2L}
+				  	],
+	 "maiores_goleadas",[
+		{ "jog":1L, "dif":1L}, { "jog":2L, "dif":2L}
+				  	],
+	"mais_icc",[
+		{ "jog":1L, "icc":1L}, { "jog":2L, "icc":2L}
+					],
+	"mais_indisciplina":[
+		{'crt': {'ca': 8, 'cda': 0, 'tot': 12.0, 'cv': 2}, 'jog': 1990939L}
+			]
+	}
+}
+
+TABELA_ICC
+{"tabela_icc": [
+	{ "arb":1L, "icc":0, "jr":0, "clus":[
+		{ "clu":1L , "icc": 1L}, { "clu":1L , "icc": 1L},
+		]
+	},
+	{ "arb":1L, "icc":0, "jr":0, "clus":[
+		{ "clu":1L , "icc": 1L}, { "clu":1L , "icc": 1L},
+		]
+	}
+	]
+} 
+	
+ICC:
+{"icc":[
+	{ "clu":1L, "icc":1L, "height":1L},
+ 	{ "clu":1L, "icc":1L, "height":1L},
+ 	(...)
+	]
+}
+
+
+CLASSIFICACAO
+
+{"classificacao_real":
+	{"total":
+		[{"clube":key1,"posicao_real":1, etc}, 
+		 {"clube":key2,"posicao_real":2, etc},
+		 {"..."}], 
+	 "parcial":
+		[{"jornada":jornada1, "classificacao_parcial":
+			[{"clube":key1,"posicao_real":1, etc},
+			 {"clube":key2,"posicao_real":2, etc},
+			 {"..."}] },
+		 {"jornada":jornada2, "classificacao_parcial":
+			[{"clube":key1,"posicao_real":1, etc},
+			 {"clube":key2,"posicao_real":2, etc},
+			 {"..."}] },
+		 {...}]
+   }
+}
+
+
+ACUMULADOR JORNADA: 
+
+{
+'jogador': {
+  43009L: { # jgd_id
+     14L: { #clu_id
+			'a_v': {}, 'a_da': {}, 'a_a': {}, 
+			'cda': 0, 'ca': 0, 'jr': 1, 'mj': 90, 'gm': 0, 'cv': 0
+			}
+  }, 4L: {
+		4L: {
+			'a_v': {},  'a_da': {}, 'a_a': {}, 
+			'cda': 0, 'ca': 0, 'jr': 1, 'mj': 44L,'gm': 0, 'cv': 0
+			 }
+	} 

@@ -1,0 +1,82 @@
+{% if this_id %}
+<form action="/admin/jornada/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% else %}
+{# não é preciso adicionar id de competição... eu dou um id de cada jornada, e basta não alterar a competição #}
+{% if multiple_edit %}
+<form action="/admin/jornada/save_multiple" method="post">
+{% else %}
+<form action="/admin/jornada/new_multiple" method="post">
+{% endif %}
+{% endif %}
+
+<input type='hidden' id="prefix" name='prefix' value='jor'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novas jornadas a serem associadas à competição {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar jornadas associadas a uma competição</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+						
+	<table>
+		<tr>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="jor{{i}}_id" id="jor{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}	
+			<td style="margin:5px;">
+				<input type="checkbox" id="jor{{i}}_checkbox" name="jor{{i}}_checkbox">
+			</td>
+			<td>
+				<input type="text" class="aware-change" name="jor{{i}}_nome_completo" id="jor{{i}}_nome_completo" size=20 placeholder="Nome completo"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jor_nome_completo"}}'{% endif %}/>
+			</td>
+			
+			<td>
+			{% if new_for_parent_id %}
+				<B>{{obj.cmp_nome}}</B>
+			{% else %}
+			{% if multiple_edit and objs|has_element:i %}
+				<B>{{objs|get_element:i|attribute:"jor_competicao"}}</B>
+				<input type="hidden" name="jor{{i}}_competicao_id" id="jor{{i}}_competicao_id" value='{{objs|get_element:i|attribute:"jor_competicao"|get_id}}'/>
+			{% else %}
+			<select class="aware-change" size=1 name="jor{{i}}_competicao_id" id="jor{{i}}_competicao_id"/>
+				<option value="">--</option>
+				{% for competicao in competicoes %}
+				<option value="{{competicao.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jor_competicao"|eq:competicao %} SELECTED{% endif %}>{{competicao.cmp_nome}}</option>
+				{% endfor %}
+				</select>
+			{% endif %}
+			{% endif %}
+			</td>
+
+			<td><input type="text" class="aware-change" name="jor{{i}}_nome_curto" id="jor{{i}}_nome_curto" size=20 placeholder="Nome curto"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jor_nome_curto"}}'{% endif %}/></td>
+			{# o id é para distinguir a página mnew de medit, senão a data n funciona #}
+			<td><input class="datepicker-date aware-change" type="text" name="jor{{i}}_data" id="jor{{i}}_data_{{multiple_edit}}" size=10 placeholder="1970/01/01" {% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jor_data"|pp_year_month_day}}'{% endif %}/></td>
+	
+			<td><input class="aware-change" type="number" min="1" step="1" size="5" name="jor{{i}}_ordem" id="jor{{i}}_ordem" placeholder="Ord." {% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jor_ordem"}}'{% endif %}/></td>
+
+			<td><input class="aware-change" type="text" name="jor{{i}}_link_zz" id="jor{{i}}_link_zz" size=30 placeholder="Link" {% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jor_link_zz"}}'{% endif %}/></td>
+		</tr>
+	</table>
+					</td>
+				</tr>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novas{% endif %} jornadas {% if new_for_parent_id or multiple_edit %}associadas à competição {{obj.cmp_nome}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

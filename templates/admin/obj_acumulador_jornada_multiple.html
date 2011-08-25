@@ -1,0 +1,52 @@
+{% if new_for_parent_id %}
+<form action="/admin/acumulador_jornada/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% else %}
+{% if multiple_edit %}
+<form action="/admin/acumulador_jornada/save_multiple" method="post">
+{% else %}
+<form action="/admin/acumulador_jornada/new_multiple" method="post">
+{% endif %}
+{% endif %}
+
+<input type='hidden' id="prefix" name='prefix' value='acuj'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar acumulador_jornada</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+						
+	<table>
+		<tr>
+			<td style="margin:5px;">
+				<input type="checkbox" id="acuj{{i}}_checkbox" name="acuj{{i}}_checkbox">
+			</td>
+			<td>
+				<input type="text" class="aware-change" name="acuj{{i}}_jornada" id="acuj{{i}}_jornada" size=20 placeholder="Jornada"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"acuj_jornada"}}'{% else %} value='2011/2012:Liga:X'{% endif %}/>
+			</td>
+			<td>
+				<input type="text" class="aware-change" name="acuj{{i}}_versao" id="acuj{{i}}_versao" size=5 placeholder="Versão"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"acuj_versao"}}'{% else %} value='2'{% endif %}/>
+			</td>
+		</tr>
+	</table>
+					</td>
+				</tr>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novos{% endif %} acumuladores de jornada" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

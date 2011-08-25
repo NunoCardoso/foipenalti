@@ -1,0 +1,31 @@
+
+{# editar uma fonte existente #}
+{% if edit %}
+<form action="/admin/fonte/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# nova fonte #}
+{% if new_single %}
+<form action="/admin/fonte/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar fonte {{obj.fon_nome}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><label for="fon_nome">Nome</label></td>
+		<td><input type="text" name="fon_nome" id="fon_nome" size=40{% if edit %} value="{{obj.fon_nome}}"{% endif %}/></td>
+	</tr>
+	<tr>
+		<td><label for="fon_link">Link</label></td>
+		<td><input type="text" name="fon_link" id="fon_link" size=60{% if edit %} value="{{obj.fon_link}}"{% endif %}/></td>
+	</tr>
+
+	<tr>
+		<td colspan="2"><input style="width:400px:" type="submit" value="{% if edit %}Editar{% else %}Criar nova{% endif %} fonte"/></td>
+	</tr>
+	</table>
+</form>

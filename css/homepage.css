@@ -1,0 +1,329 @@
+#fp-homepage-atalhos {
+	height:200px;
+	width:330px;
+	display:inline-block;
+	margin-left:260px; /* valor igual ao width do fp-homepage-calendario, que como está absolute... tem de ser assim */
+}  
+
+.fp-carrossel-calendario {
+
+}
+
+.fp-carrossel-classificacao {
+	width:200px;
+	height:310px;
+	float:left;
+	margin-right:3px;
+}
+
+.fp-carrossel-classificacao-element {
+	float:left;
+	width:200px;
+	height:310px;
+}
+
+.fp-carrossel-classificacao-element-header {
+	text-align:center;
+}
+
+.fp-carrossel-classificacao-element-header A {
+	font-size:12px;
+	height:24px;
+	line-height:24px;
+	color:white;
+}
+
+.fp-carrossel-jornada {
+	width:214px;
+	height:310px;
+	float:left;
+}
+
+.fp-carrossel-jornada-element {
+	float:left;
+	width:214px;
+	height:310px;
+}
+
+.fp-carrossel-jornada-element-header {
+	text-align:center;
+}
+
+.fp-carrossel-jornada-element-header A {
+	font-size:12px;
+	height:24px;
+	line-height:24px;
+	color:white;
+}
+
+.fp-carrossel-pic-title {
+	width:480px;
+	height:310px;
+	float:left;
+	margin-right:3px;
+}
+
+.fp-homepage-box {
+	font-size:14px;
+	margin-right:10px;
+	padding:5px;
+}
+
+.fp-homepage-top-image {
+	padding:8px;
+	margin-left:10px;
+	margin-bottom:10px;
+	border:1px solid #142c46;
+} 
+
+#fp-homepage-calendario {
+ height:200px;
+ width:260px;
+ float:left;
+ display:inline-block;
+ position:absolute; /* importante para os balloons */
+}
+
+.fp-homepage-classificacao {
+	font-size:10px;
+	width:200px; 
+	height:280px;
+	margin:auto;
+}
+
+.fp-homepage-classificacao TBODY TR TH {
+	font-weight:bold;
+	background-color:#D8F2F9;	
+	padding-top:1px;
+	padding-bottom:1px;
+}
+
+.fp-homepage-classificacao TH, .fp-homepage-classificacao TD {
+	padding:1px;
+}
+
+.fp-homepage-classificacao TBODY TR:nth-child(odd) TD {
+	background-color:#DFE9F0;
+}
+
+.fp-homepage-classificacao TBODY TR:nth-child(even) TD {
+	background-color:#eFf3F8;
+}
+
+.fp-homepage-classificacao thead tr th {
+	background-color:white;
+	color:black;
+	padding:1px;
+}
+
+.fp-homepage-classificacao THEAD TR:first-child TH:first-child {
+	-moz-border-radius: 12px 0px 0px 0px;	
+	-webkit-border-radius:12px 0px 0px 0px ;	
+	border-radius:12px 0px 0px 0px ;	
+}
+
+.fp-homepage-classificacao THEAD TR:first-child TH:last-child {
+	-moz-border-radius: 0px 12px 0px 0px;	
+	-webkit-border-radius:0px 12px 0px 0px;	
+	border-radius:0px 12px 0px 0px;	
+}
+
+.fp-homepage-classificacao TBODY TR:last-child TD:first-child {
+	-moz-border-radius: 0px 0px 0px 12px;	
+	-webkit-border-radius: 0px 0px 0px 12px;	
+	border-radius: 0px 0px 0px 12px;	
+}
+
+.fp-homepage-classificacao TBODY TR:last-child TD:last-child {
+	-moz-border-radius: 0px 0px 12px 0px;	
+	-webkit-border-radius:0px 0px 12px 0px;	
+	border-radius:0px 0px 12px 0px;	
+}
+
+DIV.fp-tabela-classificacao-linha-lugar-descida {
+	background-color:#ff0000;
+}
+DIV.fp-tabela-classificacao-linha-lugar-liga-campeoes  {
+	background-color:#ffff00;
+}
+DIV.fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes  {
+	background-color:#888888;
+}
+DIV.fp-tabela-classificacao-linha-lugar-liga-europa  {
+	background-color:#ffaa33;
+}
+
+.fp-homepage-classificacao * > A {
+	display: block;
+	height: 100%;
+	width: 100%;
+	-moz-border-radius:8px ;	
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	o-border-radius: 8px;
+	-o-border-radius: 8px;
+	-opera-border-radius: 8px;
+	text-decoration:none;
+	color:black;
+}
+
+.fp-homepage-classificacao * > A:hover {
+	background-color:#84b3ea;
+}
+
+.fp-homepage-jornada {
+	margin:0px;
+	font-size:10px;
+	width:214px;
+	height:280px;
+}
+
+.fp-homepage-jornada TBODY TR TH {
+	font-weight:bold;
+	background-color:#D8F2F9;	
+	padding-top:1px;
+	padding-bottom:1px;
+}
+
+.fp-homepage-jornada TH, .fp-homepage-jornada TD {
+	padding:1px;
+}
+
+.fp-homepage-jornada TBODY TR:nth-child(odd) TD {
+	background-color:#D8F2F9;
+}
+
+.fp-homepage-jornada TBODY TR:nth-child(even) TD {
+	background-color:#DFE9F0;
+}
+
+.fp-homepage-jornada thead tr th {
+	background-color:white;
+	color:black;
+	padding:1px;
+}
+
+/* setting roundness on cells */
+
+.fp-homepage-jornada TBODY TR:first-child TD {
+	-moz-border-radius: 12px 12px 0px 0px;	
+	-webkit-border-radius:12px 12px 0px 0px ;	
+	border-radius:12px 12px 0px 0px ;	
+}
+
+.fp-homepage-jornada TBODY TR:last-child TD {
+	-moz-border-radius: 0px 0px 12px 12px;	
+	-webkit-border-radius: 0px 0px 12px 12px;	
+	border-radius: 0px 0px 12px 12px;	
+}
+
+.fp-homepage-jornada TBODY TR TD.fp-tabela-jornada-linha-lugar-descida {
+	background-color:#ff8082;
+}
+.fp-homepage-jornada TBODY TR TD.fp-tabela-jornada-linha-lugar-liga-campeoes{
+	background-color:#b5ecff;
+}
+.fp-homepage-jornada TBODY TR TD.fp-tabela-jornada-linha-lugar-eliminatoria-liga-campeoes {
+	background-color:#88bff3;
+}
+.fp-homepage-jornada TBODY TR TD.fp-tabela-jornada-linha-lugar-liga-europa {
+	background-color:#b5b2d9;
+}
+
+/* make all links in TABLESORTER to behave with a background */
+.fp-homepage-jornada * > A {
+	display: block;
+	height: 100%;
+	width: 100%;
+	-moz-border-radius:8px ;	
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	o-border-radius: 8px;
+	-o-border-radius: 8px;
+	-opera-border-radius: 8px;
+	text-decoration:none;
+	color:black;
+	padding:1px;
+}
+
+.fp-homepage-jornada * > A:hover {
+	background-color:#84b3ea;
+}
+
+.fp-homepage-blog {
+	width:280px;
+	float:left;
+	text-align:justify;
+	margin-left:5px;
+	padding-right:10px;
+	/*border-right:1px solid #aaa;*/
+}
+
+.fp-homepage-blue-strip {
+	width:900px;
+	height:306px;
+	display:inline-block;
+	background-color:#142c46;
+}
+
+.fp-homepage-front-pic {
+ float:left;
+ width:480px;
+ height:300px;
+ margin-left:0px;
+ margin-right:10px;
+ margin-top:3px;
+ position:relative;
+}
+
+.fp-homepage-front-pic-title {
+	color:white;
+	margin:5px;
+	font-size:20px;
+}
+
+.fp-homepage-front-pic-footer {
+	color:white;
+	margin:3px;
+	font-size:12px;
+}
+
+.fp-homepage-front-pic-footer A {
+	color:#bbb;
+	text-decoration:underline;
+}
+
+.fp-homepage-front-pic-top-black-strip {
+	width:480px;
+	background-image:url('../img/gradiente_preto_alfa_50.png');
+	position:absolute;
+	-moz-border-radius: 12px 12px 0px 0px;	
+	-webkit-border-radius:12px 12px 0px 0px ;
+	border-radius:12px 12px 0px 0px ;
+
+}	
+
+.fp-homepage-front-pic-credits {
+	font-size:10px;
+	text-align:right;
+	margin-right:10px;
+	position:absolute;
+	right:0;
+	bottom:0;
+}
+
+.fp-homepage-front-pic-bottom-black-strip {
+	width:480px;
+	background-image:url('../img/gradiente_preto_alfa_50.png');
+	position:absolute;
+	bottom:0px;
+		-moz-border-radius:0px 0px 12px 12px ;	
+	-webkit-border-radius:0px 0px 12px 12px;
+	border-radius:0px 0px 12px 12px;
+}	
+
+#fp-homepage-tab-tops {
+	min-height:200px;
+	width:590px;
+	display:inline-block;
+}

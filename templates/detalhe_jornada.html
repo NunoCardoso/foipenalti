@@ -1,0 +1,135 @@
+{% extends "main.html" %}
+{% block title %}{{jornada.jor_nome_completo}} da {{jornada.jor_competicao.cmp_nome_completo}} {{jornada.jor_competicao.cmp_epoca.epo_nome}}{% endblock %}
+{% block content %} 
+{% spaceless %}
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+{% if jornada_dados %} 
+
+<div class="fp-video-box fp-shadow fp-medium-radius" id="fp-fixed-video-screen-div" style="display:none;">
+	<a href="#" class="minimize-video" style="text-align:left;display:block;font-size:10px;height:10px;">[x] Esconder</A> 
+	<div id="fp-fixed-video-screen"></div>
+</DIV>
+
+<div>
+	<div class="fp-subtitulo" style="text-align:center;font-size:30px;margin:20px;">{{jornada.jor_nome_completo}} da {{jornada.jor_competicao.cmp_nome_completo}} <div class="epoca-container">{{jornada.jor_competicao.cmp_epoca.epo_nome}}</div></div> 
+	<div class="main-center">
+
+	<table id="fp-ficha-jogo" style="margin:auto; width:730px;margin: auto;
+table-layout: fixed;">
+	{% for data in jornada_dados.datas %}
+
+	<tr><td style="width:30px"></TD>
+		<td style="width:300px;"></TD>
+		<td style="width:100px;"></TD>
+		<td style="width:300px;"></TD>
+	</tr>
+	<tr><td colspan=4 style="text-align:center;font-size:18px;">{{data.data|pp_dayweek_day_month}}</td></tr>
+	<tr><td colspan=4 class="fp-hr"></td></tr>
+	<tr><td colspan=4 style="height:10px;"></td></tr>
+
+		{% for jogo in data.jogos %}
+		
+		<tr>
+			<td>{{jogo.jogo.jog_data|pp_hour}} </td>	
+			<TD>
+			<div style="text-align:right;font-size:24px;">
+			<div style="display:inline-block;height:40px;vertical-align:bottom;">
+			<a href="detalhe_clube?id={{jogo.jogo.jog_clube1.key.id}}"><img src="{{jogo.jogo.jog_clube1.clu_link_logo}}" style="height:100%;"></a>
+			</div>
+			<div style="float:right;margin-left:20px;line-height:40px;margin-right:20px;"><a href="detalhe_clube?id={{jogo.jogo.jog_clube1.key.id}}">
+				{{jogo.jogo.jog_clube1.clu_nome_curto}}</A>
+			</div>
+			</DIV>
+		</td>
+		<td style="font-size:36px;text-align:center;"><A href="/detalhe_jogo?id={{jogo.jogo.key.id}}">{{jogo.jogo.jog_golos_clube1|filternone}} - {{jogo.jogo.jog_golos_clube2|filternone}}</A></td>
+		
+		<td>
+			<div style="text-align:left;font-size:24px;">
+			<div style="float:left;margin-right:20px;line-height:40px;margin-left:20px;">
+				<a href="detalhe_clube?id={{jogo.jogo.jog_clube2.key.id}}">
+				{{jogo.jogo.jog_clube2.clu_nome_curto}}</A>
+			</div>
+			<div style="display:inline-block;height:40px;vertical-align:bottom;">
+			<a href="detalhe_clube?id={{jogo.jogo.jog_clube2.key.id}}"><img src="{{jogo.jogo.jog_clube2.clu_link_logo}}" style="height:100%;"></A>
+			</DIV>
+		</div>
+		</td>
+	</tr>
+		
+	<!-- tr jogadores -->
+	<tr>
+		<td></td>
+		<td style="text-align:right;vertical-align:top;">
+			<div style="display:inline-block;">
+
+			<!-- jogadores com golos do clube 1 -->
+			{% for jogador in jogo.jogadores_clube1 %}
+					
+				<div class="fp-ficha-jogo-jogador-div" style="min-width:300px;">
+					{% if jogador.golos %}
+					<img style="margin-right:5px;" src="img/golo.png">
+					({{jogador.golos|show_golos:jogador.tipos_golos}})
+					{% endif %}
+					<div class="fp-ficha-jogo-jogador-nome-esquerda" style="margin-right:20px">
+						<a href="detalhe_jogador?id={{jogador.jogador.key.id}}">
+							{{jogador.jogador.jgd_nome}}</A>
+					</div>
+				</div>		
+			{% endfor %}
+
+		</TD>
+		<TD style="text-align:center;">{% if jogo.jogo.jog_link_videos %}	
+					<A CLASS="fp-watch-video" HREF="#" 
+					VIDEO_HTML="{{jogo.jogo.jog_link_videos.0|urlencode}}" 
+					TARGET_DIV="fp-fixed-video-screen">
+					<img src="img/movie.png"></A>
+					{% endif %}
+				</TD>
+		<td style="vertical-align:top;text-align:left;">
+			<div style="display:inline-block;">
+		
+			<!-- jogadores com golos  do clube2 -->
+			{% for jogador in jogo.jogadores_clube2 %}
+					
+				<div class="fp-ficha-jogo-jogador-div" style="min-width:300px;">
+					<div class="fp-ficha-jogo-jogador-nome-direita"  style="margin-left:20px">
+						<a href="detalhe_jogador?id={{jogador.jogador.key.id}}">
+							{{jogador.jogador.jgd_nome}}</A>
+					</div>
+					{% if jogador.golos %}
+					<img style="margin-right:5px;" src="img/golo.png">
+					({{jogador.golos|show_golos:jogador.tipos_golos}})
+					{% endif %}
+				</div>		
+			{% endfor %}
+		</DIV>
+		</TD>
+	</TR>
+	
+	<tr><td colspan=4 style="height:20px;"></td></tr>
+		
+	{% endfor %}
+	{% endfor %}
+</TABLE>
+</DIV>
+</div>
+
+<div style="margin:10px;">
+{% if request.url|doesntstartswith:"http://localhost" %}
+<div id="disqus_thread"></div>
+<script type="text/javascript" src="http://disqus.com/forums/{{ settings.disqus }}/embed.js"></script>
+<noscript><a href="http://{{ settings.disqus }}.disqus.com/?url=ref">Ver comentários.</a></noscript>
+{% endif %}
+<div><a href="/agradecimentos">Fonte dos dados</a></div>
+</div>
+{% else %}
+Jornada inexistente.
+{% endif %}
+{% endspaceless %}
+{% endblock %}

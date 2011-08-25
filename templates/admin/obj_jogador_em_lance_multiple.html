@@ -1,0 +1,93 @@
+{# novos jel a mando de um lance #}
+{% if new_for_parent_id %}
+<form action="/admin/{{objname}}/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar vários jel existentes #}
+{% if multiple_edit %}
+<form action="/admin/{{objname}}/save_multiple" method="post">
+{% endif %}	
+
+{# novos jel sem estarem presos a nada #}
+{% if new_multiple %}
+<form action="/admin/{{objname}}/new_multiple" method="post">
+{% endif %}	
+
+<input type='hidden' id="prefix" name='prefix' value='jel'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novas JELs a serem associadas ao lance {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar JELs associadas ao lance {{obj}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+						
+	<table>
+		<tr>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="jel{{i}}_id" id="jel{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}	
+			<td style="margin:5px;">
+				<input type="checkbox" id="jel{{i}}_checkbox" name="jel{{i}}_checkbox">
+			</td>
+			
+			<td>
+				<div style="display:inline;">
+				{% if jogadores %}	
+					<select class="aware-change" size=1 name="jel{{i}}_jogador_id" id="jel{{i}}_comentador_id"/>
+				<option value="">--</option>
+				{% for jogador in jogadores %}
+				<option value="{{ jogador.key.id }}"{% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jel_jogador"|eq:jogador %}  SELECTED{% endif %}>{{ jogador.jgd_nome }}</option>
+			{% endfor %}
+					</select>
+					
+				{% else %}
+				<input class="aware-change nome_jogador_autocomplete" type="text" AUTOCOMPLETE="OFF" size="20" id="jel{{i}}_jogador" name="jel{{i}}_jogador" placeholder="Jogador" {% if multiple_edit and objs|has_element:i %}value='{{objs|get_element:i|attribute:"jel_jogador"}}'{% endif %}>
+					{% endif %}	
+				</div>
+			
+				{% if new_for_parent_id or multiple_edit %}
+				<input type="hidden" name="jel{{i}}_lance_id" id="jel{{i}}_lance_id" value="{{obj|get_id}}"/> 
+				{% else %}
+				<div style="display:inline;">
+					<input type="text" class="aware-change" name="jel{{i}}_lance" id="jel{{i}}_lance" size=40 placeholder="2011/2012:Liga:3:XXX:YYY:1" {% if multiple_edit and objs|has_element:i %}value='{{objs|get_element:i|attribute:"jel_lance"}}'{% endif %}/>
+				</div>
+				{% endif %}
+				
+				<div style="display:inline;">
+					<select class="aware-change" size=1 id="jel{{i}}_papel" name="jel{{i}}_papel">
+					{% for item in tipos_jels %}	
+					<option value="{{item.0}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jel_papel"|eq:item.0 %} SELECTED{% endif %}>{{item.1}}</option>
+					{% endfor %}
+				</select>
+				
+				</div>
+					
+		</td>
+	</tr>
+			
+	</table>
+			
+					</td>
+				</tr>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novos{% endif %} JEL {% if new_for_parent_id or multiple_edit %}associadas ao lance {{obj.lan_nome}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

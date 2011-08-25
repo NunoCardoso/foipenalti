@@ -1,0 +1,58 @@
+<form action="/admin/acumulador_epoca/new" method="post">
+	<table>
+	<tr>
+		<td><label for="acue_epoca">Época</label></td>
+		<td><input type="text" name="acue_epoca" id="acue_epoca" size=80 value="2011/2012"/></td>
+	</tr>
+	<tr>
+		<td><label for="acue_versao">Versão</label></td>
+		<td><input type="text" name="acue_versao" id="acue_versao" size=20 value="2"/></td>
+	</tr>
+	{% if edit %}
+	<tr>
+		<td>Conteúdos:</td>
+		<td>{{obj.acue_content}}</td>
+	</tr>
+	{% endif %}
+
+	<tr><td colspan=2><input type="checkbox" class="maintasker">Seleccionar  todas as tarefas</td></tr>
+		
+	<tr>
+		<td colspan=2>
+		<input type="checkbox" id="acue_basico_checkbox" name="acue_basico" checked> Básicos (árbitro, jogo, jogador, clube)
+		</td>
+	</tr><tr>	
+		<td colspan=2>
+		<input type="checkbox" id="acue_tabela_icc_checkbox" name="acue_tabela_icc" checked> Tabela ICC
+		</td>
+	</tr><tr>	
+		<td colspan=2>
+		<input type="checkbox" id="acue_icc_checkbox" name="acue_icc" checked> ICC&#0153;
+		</td>
+	</tr><tr>	
+		<td colspan=2>
+		<input type="checkbox" id="acue_top_arbitros_checkbox" name="acue_top_arbitros" checked> Top árbitros
+		</td>
+	</tr><tr>	
+		<td colspan=2>
+		<input type="checkbox" id="acue_top_jogos_checkbox" name="acue_top_jogos" checked> Top jogos
+		</td>
+	</tr><tr>	
+		<td colspan=2>
+		<input type="checkbox" id="acue_top_jogadores_checkbox" name="acue_top_jogadores" checked> Top jogadores
+		</td>
+	</tr><tr>	
+		<td colspan=2>
+		<input type="checkbox" id="acue_top_clubes_checkbox" name="acue_top_clubes" checked> Top clubes
+		</td>
+	</tr>
+
+	<tr>
+		<td colspan="2">Nota: o acumulador re-escreve sobre um acumulador da mesma época</td>
+	</tr>
+
+	<tr>
+		<td colspan="2"><input type="submit" value="Criar novo acumulador de época"/></td>
+	</tr>
+	</table>
+</form>

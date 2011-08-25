@@ -1,0 +1,39 @@
+# Flash
+flash
+
+# ultimos valores editados/apagados
+# nota: com new e edit, coloco objecto novo. Com delete, só refresco a data
+# VÃO SER INUTEIS #
+
+key:id, namespace: objname, "obj":it
+
+# monitorização de caches HTML / detalhe (XXX_ultima_alteracao), portanto: 
+(sem namespace)
+KEY: id, clube
+jogador
+jogo
+lance
+arbitro
+competicao
+jornada
+
+
+# acumuladores: 
+key = "acumulador-"{jor|cmp|epo} 
+namespace = "{"arbitro","icc","top-jogador", etc}
+
+# blog
+post:year.month.day.slug
+archive_list
+tag_list
+
+# procuras
+procurar_arbitro*
+procurar_lance*
+procurar_jogo*
+procurar_jogador*
+
+# caches HTML
+key:url, namespace="html"
+url é tipo handler_servico?id=XXXX[&competicao|epoca=XXXXX]
+

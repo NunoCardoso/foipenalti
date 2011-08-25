@@ -1,0 +1,124 @@
+{# novas competições a mando de uma época #}
+{% if new_for_parent_id %}
+<form action="/admin/competicao/new?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar uma competição existente #}
+{% if edit %}
+<form action="/admin/competicao/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# nova competição sem estar presa a época #}
+{% if new_single %}
+<form action="/admin/competicao/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar competição {{obj.cmp_nome}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td>Época</td>
+{% if new_for_parent_id %}
+		<td><B>{{obj.epo_nome}}</B></td>
+{% else %}
+		<td>
+			<select id="cmp_epoca_id" name="cmp_epoca_id" size=1>
+			{% for epoca in epocas %}
+				<option value="{{epoca.key.id}}" {% if edit and obj.cmp_epoca|eq:epoca %}SELECTED{% endif %}>{{epoca.epo_nome}}</option>
+			{% endfor %}
+			</select>
+		</td>
+{% endif %}	
+	</tr>
+
+	<tr>
+		<td><label for="cmp_nome_completo">Nome Completo</label></td>
+		<td><input type="text" name="cmp_nome_completo" id="cmp_nome_completo" 
+			placeholder="Liga Zon Sagres" size=40 {% if edit %}value="{{obj.cmp_nome_completo}}"{% endif %}/></td>
+	</tr>
+
+	<tr>
+		<td><label for="cmp_tipo">Tipo</label></td>
+		<td><select name="cmp_tipo" id="cmp_tipo" size=1/>
+			<option value="Liga" {% if edit %}{% ifequal obj.cmp_tipo 'Liga' %} SELECTED{% endifequal %}{% endif %}>Liga</option>
+			<option value="TacaPortugal" {% if edit %}{% ifequal obj.cmp_tipo 'TacaPortugal' %} SELECTED{% endifequal %}{% endif %}>Taça de Portugal</option>
+			<option value="SuperTaca" {% if edit %}{% ifequal obj.cmp_tipo 'SuperTaca' %} SELECTED{% endifequal %}{% endif %}>SuperTaça</option>
+			<option value="TacaLiga" {% if edit %}{% ifequal obj.cmp_tipo 'TacaLiga' %} SELECTED{% endifequal %}{% endif %}>Taça da Liga</option>
+			</select></td>
+	</tr>
+	<tr>
+		<td><label for="cmp_numero_jornadas">Número de jornadas</label></td>
+		<td><input type="number" name="cmp_numero_jornadas" id="cmp_numero_jornadas" autocomplete="off" min="0" step="1" size=5 {% if edit %}value="{{obj.cmp_numero_jornadas}}"{% endif %}/></td>
+	</tr>
+	<tr>
+		<td><label for="cmp_link_foto">Emblema (URL)</label></td>
+		<td><input type="text" name="cmp_link_foto" id="cmp_link_foto" size=80 {% if edit %}value="{{obj.cmp_link_foto}}"{% endif %}/></td>
+	</tr>
+	<tr>
+		<td><label for="cmp_link_zz">Link ZZ</label></td>
+		<td><input type="text" name="cmp_link_zz" id="cmp_link_zz" size=80 {% if edit %}value="{{obj.cmp_link_zz}}"{% endif %}/></td>
+	</tr>
+	<tr><td colspan=2>Lugares de promoção / despromoção</td></tr>
+
+
+	<tr>
+		<td><label for="cmp_lugares_liga_campeoes">Champions League</label></td>
+		<td>{% if edit %}
+			{% for lugar in obj.cmp_lugares_liga_campeoes %}
+			<input class="toDuplicate2" type="number" name="cmp_lugares_liga_campeoes" id="cmp_lugares_liga_campeoes" autocomplete="off" min="0" step="1" size=6 value="{{lugar}}"/>
+			
+			{% endfor %}
+			{% endif %}
+			<input class="toDuplicate2" type="number" name="cmp_lugares_liga_campeoes" id="cmp_lugares_liga_campeoes" autocomplete="off" min="0" step="1" size=6 value="{{lugar}}"/>
+			<a href="#" class='duplicate-input-link' what="toDuplicate2"><img src='img/plus.gif'></a>
+			<a href="#" class='remove-input-link' what='toDuplicate2'><img src='img/minus.gif'></a>
+		
+	</td></tr>
+
+	<tr>
+		<td><label for="cmp_lugares_eliminatorias_liga_campeoes">Elim. Champions League</label></td>
+		<td>
+			{% if edit %}
+			{% for lugar in obj.cmp_lugares_eliminatorias_liga_campeoes %}
+			<input class="toDuplicate3" type="number" name="cmp_lugares_eliminatorias_liga_campeoes" id="cmp_lugares_eliminatorias_liga_campeoes" autocomplete="off" min="0" step="1" size=6 value="{{lugar}}"/>
+			{% endfor %}
+			{% endif %}
+			<input class="toDuplicate3" type="number" name="cmp_lugares_eliminatorias_liga_campeoes" id="cmp_lugares_eliminatorias_liga_campeoes" autocomplete="off" min="0" step="1" size=6 value="{{lugar}}"/>
+			<a href="#" class='duplicate-input-link' what="toDuplicate3"><img src='img/plus.gif'></a>
+			<a href="#" class='remove-input-link' what='toDuplicate3'><img src='img/minus.gif'></a>
+		
+	</td></tr>
+
+	<tr>
+		<td><label for="cmp_lugares_liga_europa">Liga Europa</label></td>
+		<td>{% if edit %}
+			{% for lugar in obj.cmp_lugares_liga_europa %}
+			<input class="toDuplicate4" type="number" name="cmp_lugares_liga_europa" id="cmp_lugares_liga_europa" autocomplete="off" min="0" step="1" size=6 value="{{lugar}}"/>
+
+			{% endfor %}
+			{% endif %}
+			<input class="toDuplicate4" type="number" name="cmp_lugares_liga_europa" id="cmp_lugares_liga_europacmp_lugares_liga_europa" autocomplete="off" min="0" step="1" size=6 value="{{lugar}}"/>
+			<a href="#" class='duplicate-input-link' what="toDuplicate4"><img src='img/plus.gif'></a> 
+			<a href="#" class='remove-input-link' what='toDuplicate4'><img src='img/minus.gif'></a>
+	</td></tr>
+	<tr>
+		<td><label for="cmp_lugares_descida">Descida</label></td>
+		<td>
+		{% if edit %}
+			{% for lugar in obj.cmp_lugares_descida %}
+			<input class="toDuplicate1" type="number" name="cmp_lugares_descida" id="cmp_lugares_descida" autocomplete="off" min="0" step="1" size=6 value="{{lugar}}"/>
+		
+			{% endfor %}
+	{% endif %}
+			<input class="toDuplicate1" type="number" name="cmp_lugares_descida" id="cmp_lugares_descida" autocomplete="off" min="0" step="1" size=6 value="{{lugar}}"/>
+			<a href="#" class='duplicate-input-link' what="toDuplicate1"><img src='img/plus.gif'></a>
+			<a href="#" class='remove-input-link' what='toDuplicate1'><img src='img/minus.gif'></a>
+	</td></tr>	
+	<tr>
+		<td colspan="2" style="margin-top:10px;"><input style="width:300px;" type="submit" value="{% if edit %}Editar{% else %}Criar nova{% endif %} competição"/></td>
+	</tr>
+	</table>
+</form>

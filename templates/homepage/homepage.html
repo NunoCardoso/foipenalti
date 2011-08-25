@@ -1,0 +1,404 @@
+{% extends "main.html" %}
+{% block title %}Página principal{% endblock %}
+{% block content %} 
+{% spaceless %}
+{% autoescape off %}
+
+<DIV id="fp-homepage-top-content" class="fp-homepage-blue-strip">
+
+<!-- INICIO DE CARROSSEL DE TOP IMAGE --> 
+<!-- usar a classe carrossel-pic-title no DIV e no UL! -->
+	<SECTION class="carrossel-div carrossel-pic-title fp-carrossel-pic-title">
+		<ul id="carrossel-pic-title" class="carrossel-pic-title"> 
+			<li>
+				<DIV class="fp-medium-radius fp-homepage-front-pic"  style="background-image:url('img/homepage/20110821_sporting_beiramar.png');">
+					<DIV class="fp-homepage-front-pic-top-black-strip">
+								<DIV class="fp-homepage-front-pic-title">
+			Beira-Mar 0-0 Sporting. Árbitro de segunda categoria foi o melhor em campo!
+								</DIV>
+							</DIV>
+							<DIV class="fp-homepage-front-pic-bottom-black-strip">
+								<DIV class="fp-homepage-front-pic-footer">
+									<DIV class="fp-homepage-front-pic-credits">
+										Imagem: <A href="http://desporto.sapo.pt">SAPO Desporto</A>
+									</DIV>
+Carta da arbitragem já foi gasta. Não dá para esconder: o leão é um gatinho, mais uma vez. Veja a 
+			<a href="http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:2:BeiraMar:Sporting">ficha do jogo</A>
+			 e a decisão dos lances.
+								</DIV>
+							</DIV>
+						</DIV>
+					</li>
+					<li>
+						<DIV class="fp-medium-radius fp-homepage-front-pic"  style="background-image:url('img/homepage/20110819_porto_gilvicente.png');">
+							<DIV class="fp-homepage-front-pic-top-black-strip">
+								<DIV class="fp-homepage-front-pic-title">
+			F.C.Porto 3-1 Gil Vicente - Hulk já esmaga!
+								</DIV>
+							</DIV>
+							<DIV class="fp-homepage-front-pic-bottom-black-strip">
+								<DIV class="fp-homepage-front-pic-footer">
+									<DIV class="fp-homepage-front-pic-credits">
+										Imagem: <A href="http://desporto.sapo.pt">SAPO Desporto</A>
+									</DIV>
+Dois golos do incrível, outro de penalti. Árbitro Rui Silva com arbitragem difícil. Veja a 
+			<a href="http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:2:Porto:GilVicente">ficha do jogo</A>
+			 e a decisão dos lances.
+								</DIV>
+							</DIV>
+						</DIV>
+					</li>
+		
+		<li>
+			<DIV class="fp-medium-radius fp-homepage-front-pic"  style="background-image:url('img/homepage/20110820_benfica_feirense.png');">
+				<DIV class="fp-homepage-front-pic-top-black-strip">
+					<DIV class="fp-homepage-front-pic-title">
+			Benfica 3-1. Reforços mostram serviço!
+					</DIV>
+				</DIV>
+				<DIV class="fp-homepage-front-pic-bottom-black-strip">
+					<DIV class="fp-homepage-front-pic-footer">
+						<DIV class="fp-homepage-front-pic-credits">
+						Imagem: <A href="http://maisfutebol.iol.pt">MaisFutebol</A>
+						</DIV>
+Nolito volta a facturas, Bruno César arma-se em Maradona. Veja a  <a href="http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:2:Benfica:Feirense">ficha do jogo</A> e a decisão dos lances.
+					</DIV>
+				</DIV>
+			</DIV>
+		</li>
+
+		</ul>
+	</SECTION>	
+
+<!-- FIM DE CARROSEL DE IMAGEM, INICIO DE CARROSSEL DE CLASSIFICACAO -->
+	
+	<SECTION class="carrossel-div carrossel-classificacao fp-carrossel-classificacao">
+		<ul id="carrossel-classificacao" class="carrossel-classificacao"> 
+			<li>
+
+				<DIV class="fp-carrossel-classificacao-element">
+					<DIV class="fp-carrossel-classificacao-element-header">
+						<A href="/classificacao">Classificação real</A>
+					</div>
+					{{classificacao_real_html}}
+				</DIV>
+
+			</li>
+	 		<li>	
+				
+				<DIV class="fp-carrossel-classificacao-element">
+					<DIV class="fp-carrossel-classificacao-element-header">
+						<A href="/classificacao">Classificação virtual</A>
+					</div>
+					{{classificacao_virtual_html}}
+				</DIV>
+
+			</li>
+		</UL>
+	</SECTION>
+		
+<!-- FIM DE CARROSEL DE CLASSIFICACO, INICIO DE CARROSSEL DE JORNADA -->
+	
+	<SECTION class="carrossel-div carrossel-jornada fp-carrossel-jornada">
+		<ul id="carrossel-jornada" class="carrossel-jornada"> 
+			{% if jornada_anterior_html %}
+			<li>
+	
+				<DIV class="fp-carrossel-classificacao-element">
+					{{jornada_anterior_html}}
+				</DIV>
+
+			</li>
+			{% endif %}
+	 		<li>	
+	
+				<DIV class="fp-carrossel-classificacao-element">
+					{{jornada_corrente_html}}
+				</DIV>
+
+			</li>
+			{% if jornada_posterior_html %}
+	 		<li>	
+
+				<DIV class="fp-carrossel-classificacao-element">
+					{{jornada_posterior_html}}
+				</DIV>
+
+			</li>
+			{% endif %}
+		</UL>
+	</SECTION>
+</DIV>
+
+<!-- BOTTOM CONTENT -->
+
+<DIV id="fp-homepage-bottom-content" style="display:inline-block;">
+
+<!-- BOTTOM LEFT CONTENT -->
+
+	<SECTION class="fp-homepage-blog fp-homepage-box">
+		<header style="text-align:center;"><H3>Notícias do Blog</H3></header>
+		{{noticias_html}}
+	</SECTION>
+	
+	<!-- BOTTOM RIGHT CONTENT -->
+
+	<DIV id="fp-homepage-bottom-right-content" style="float:left; width:590px;">
+
+	<!-- CALENDAR -->
+
+	<SECTION id="fp-homepage-calendario"> 
+		
+		<SECTION class="carrossel-div carrossel-calendario fp-carrossel-calendario">
+			<ul id="carrossel-calendario" class="carrossel-calendario"> 
+				<li>
+	
+				<DIV id="fp-carrossel-calendario-last-month" style="margin-top:20px;"></DIV>
+					<script type="text/javascript">
+					// jogos divididos por ano, mês e dia.
+					var jogos = {{jogos_calendario|to_json}}
+					
+   				var cal_last = new Calendar({{last_month}}, {{last_year}}, jogos);
+					cal_last.generateHTML();
+					$("#fp-carrossel-calendario-last-month").html(cal_last.getHTML());
+					</script>
+				</li>
+				<li>
+					<DIV id="fp-carrossel-calendario-today-month" style="margin-top:20px;"></DIV>
+					<script type="text/javascript">
+   				var cal_today = new Calendar({{today_month}}, {{today_year}}, jogos);
+					cal_today.generateHTML();
+					$("#fp-carrossel-calendario-today-month").html(cal_today.getHTML());
+					</script>
+				</li>
+				<li>
+					<DIV id="fp-carrossel-calendario-next-month" style="margin-top:20px;"></DIV>
+					<script type="text/javascript">
+   				var cal_next = new Calendar({{next_month}}, {{next_year}}, jogos);
+					cal_next.generateHTML();
+					$("#fp-carrossel-calendario-next-month").html(cal_next.getHTML());
+					</script>
+				</li>
+			</ul>
+		</SECTION>
+	</SECTION>
+	
+	<SECTION id="fp-homepage-atalhos"> 
+		<div style="padding:10px;">
+		<P><B><A href="/detalhe_epoca?id={{epoca.key.id}}">Época {{epoca}}:</A></B></P> 
+		<P><A href="/detalhe_epoca?menu=detalhe_epoca_sumario">Sumário</A> |  
+			<A href="/detalhe_epoca?menu=detalhe_epoca_clubes">Clubes</A> |  
+			<A href="/detalhe_epoca?menu=detalhe_epoca_jogadores&menu=mais_golos">Melhores marcadores</A> |  
+			<A href="/detalhe_epoca?menu=detalhe_epoca_jogos">Jogos</A> | 
+			<A href="/detalhe_epoca?menu=detalhe_epoca_jogos&tab=calendario">Calendário</A> | 
+			<A href="/detalhe_epoca?menu=detalhe_epoca_indices&tab=grafico">Gráfico ICC&#0153;</A> | 
+			<A href="/detalhe_epoca?menu=detalhe_epoca_indices&tab=tabela">Tabela ICC&#0153;</A> | 
+			<A href="/detalhe_epoca?menu=detalhe_epoca_arbitros">Árbitros</A> 
+		</P>
+			
+		<P><B><A href="/detalhe_competicao?id={{competicao.key.id}}">{{competicao.cmp_nome_completo}} {{competicao.cmp_epoca.epo_nome}}:</A></B></P> 
+		<P><A href="/detalhe_competicao?menu=detalhe_competicao_sumario&tab=sumario">Sumário</A> |  
+			<A href="/detalhe_competicao?menu=detalhe_competicao_sumario&tab=classificacao">Classificação</A> |  
+			<A href="/detalhe_competicao?menu=detalhe_competicao_clubes">Clubes</A> |  
+			<A href="/detalhe_competicao?menu=detalhe_competicao_jogadores&menu=mais_golos">Melhores marcadores</A> |  
+			<A href="/detalhe_competicao?menu=detalhe_competicao_jogos">Jogos</A> | 
+			<A href="/detalhe_competicao?menu=detalhe_competicao_jogos&tab=jornadas">Jornadas</A> | 
+			<A href="/detalhe_competicao?menu=detalhe_competicao_jogos&tab=calendario">Calendário</A> | 
+			<A href="/detalhe_competicao?menu=detalhe_competicao_indices&tab=grafico">Gráfico ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?menu=detalhe_competicao_indices&tab=tabela">Tabela ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?menu=detalhe_competicao_arbitros">Árbitros</A>.  
+		</P>
+		
+		<P><B><A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal">Taça de Portugal {{epoca}}:</A></B></P> 
+		<P><A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_sumario&tab=sumario">Sumário</A> |  
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_sumario&tab=classificacao">Classificacao</A> |  
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_clubes">Clubes</A> |  
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_jogadores">Jogadores</A> |  
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_jogos">Jogos</A> | 
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_indices&tab=grafico">Gráfico ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_indices&tab=tabela">Tabela ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_arbitros">Árbitros</A>.  
+		</P>
+		
+		
+		<P><B><A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga">Taça da Liga {{epoca}}:</A></B></P> 
+		
+		<P><A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_sumario&tab=sumario">Sumário</A> |  
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_sumario&tab=classificacao">Classificacao</A> |			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_clubes">Clubes</A> |  
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_jogadores">Jogadores</A> |  
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_jogos">Jogos</A> | 
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_indices&tab=grafico">Gráfico ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_indices&tab=tabela">Tabela ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_arbitros">Árbitros</A>.  
+		</P>
+		</DIV>
+	</SECTION>
+	
+	<SECTION id="fp-homepage-tab-tops" style="margin-top:10px;height:240px;"> 
+		<DIV ID="main-submenu-tab">
+			<UL class="tabs">
+				<LI CLASS="active">
+					<A CLASS="main-submenu-tab-link" rel="mais_recentes" href="#" >Mais recentes</A></LI>
+				<LI>
+					<A CLASS="main-submenu-tab-link" rel="mais_vistos" href="#" >Mais vistos</A></LI>
+				<LI>
+					<A CLASS="main-submenu-tab-link" rel="pesquisa" href="#" >Pesquisa</A></LI>
+			<!--	<LI>
+					<A CLASS="main-submenu-tab-link" rel="perguntas_tipicas" href="#" >Perguntas típicas</A></LI>-->
+			</UL>
+			<!-- This is used so the contents don't appear to the right of the tabs -->
+		<DIV class="clear"></DIV>
+
+		<DIV class="main-tab-content fp-shadow" style="padding:10px;height:170px;border-left:2px solid #142c46; border-bottom:2px solid #142c46;border-bottom-left-radius:12px;position:absolute;">
+
+			<div class="tab_contents tab_contents_active" id="mais_recentes">
+				<div style="width:150px; float:left;margin-right:10px;">
+					<P>Jogos:</P>
+						{% for jogo in jogos_recentes %}	
+						<P class="marqueeable"><A HREF="/detalhe_jogo?id={{jogo.key.id}}">{{jogo|printjogo}}</A></P>
+						{% endfor %}
+				</DIV>
+				<div style="width:110px; float:left;margin-right:10px;">
+					<P>Jogadores:</P>
+						{% for jogador in jogadores_recentes %}	
+						<P class="marqueeable"><A HREF="/detalhe_jogador?id={{jogador.key.id}}">{{jogador}}</A></P>
+						{% endfor %}
+				</DIV>
+				<div style="width:110px; float:left;margin-right:10px;">
+					<P>Árbitros:</P>
+						{% for arbitro in arbitros_recentes %}	
+						<P class="marqueeable">
+						<A HREF="/detalhe_arbitro?id={{arbitro.key.id}}">{{arbitro.arb_nome}}</A></P>
+						{% endfor %}
+				</DIV>				
+				<div style="width:156px; float:left;margin-right:10px;">
+					<P>Lances:</P>
+						{% for lance in lances_recentes %}	
+						<P class="marqueeable">
+							<A HREF="/detalhe_lance?id={{lance.key.id}}">{{lance|printlance}}</A></P>
+						{% endfor %}
+				</DIV>
+			</div> 
+
+			<div class="tab_contents" id="mais_vistos">
+				<div style="width:110px; float:left;margin-right:10px;">
+					<P>Jogos:</P>
+						{% for jogo in jogos_populares %}	
+						<P class="marqueeable">
+							<A HREF="/detalhe_jogo?id={{jogo.key.id}}">{{jogo|printjogo}}</A></P>
+						{% endfor %}
+				</DIV>
+				<div style="width:100px; float:left;margin-right:10px;">
+					<P>Jogadores:</P>
+						{% for jogador in jogadores_populares %}	
+						<P class="marqueeable">
+							<A HREF="/detalhe_jogador?id={{jogador.key.id}}">{{jogador}}</A></P>
+						{% endfor %}
+				</DIV>
+				<div style="width:90px; float:left;margin-right:10px;">
+					<P>Clubes:</P>
+						{% for clube in clubes_populares %}	
+						<P class="marqueeable">
+							<A HREF="/detalhe_clube?id={{clube.key.id}}">{{clube.clu_nome_curto}}</A></P>
+						{% endfor %}
+				</DIV>
+				<div style="width:100px; float:left;margin-right:10px;">
+					<P>Árbitros:</P>
+						{% for arbitro in arbitros_populares %}	
+						<P class="marqueeable">
+							<A HREF="/detalhe_arbitro?id={{arbitro.key.id}}">{{arbitro.arb_nome}}</A></P>
+						{% endfor %}
+				</DIV>
+				<div style="width:120px; float:left;">
+					<P>Lances:</P>
+						{% for lance in lances_populares %}	
+						<P class="marqueeable">
+							<A HREF="/detalhe_lance?id={{lance.key.id}}">{{lance|printlance}}</A></P>
+						{% endfor %}
+				</DIV>
+			</div>
+			
+			
+			<div class="tab_contents" id="pesquisa">
+				
+				<div class="fp-medium-radius" style="background-color:#eee;border:1px solid #888;float:left;display:inline;margin:3px;padding:5px;">
+					<div><div style="width:100%;text-align:center;font-weight:bold;">Épocas</div>
+					<select size="1">{% for epoca in epocas %}<option value="{{epoca.key.id}}">{{epoca.epo_nome}}</option>{% endfor %}</select>
+						<a class="fast-detalhe-select" href="#" url="/detalhe_epoca?id=">Detalhe</a></div>
+					<div style="width:100%;text-align: right;font-size: 10px;"><a href="/procurar_epoca">Pesquisa avançada >></a></div>	
+				</div>
+
+				<div class="fp-medium-radius" style="background-color:#eee;border:1px solid #888;float:left;display:inline;margin:3px;padding:5px;">					
+				<div><div style="width:100%;text-align:center;font-weight:bold;">Competições</div>
+				<select size="1">{% for competicao in competicoes %}<option value="{{competicao.key.id}}">{{competicao.cmp_nome_completo}} {{competicao.cmp_epoca.epo_nome}}</option>{% endfor %}</select>
+						<a class="fast-detalhe-select" href="#" url="/detalhe_competicao?id=">Detalhe</a></div>
+					<div style="width:100%;text-align: right;font-size: 10px;"><a href="/procurar_competicao">Pesquisa avançada >></a></div>	
+				</div>
+
+				<div class="fp-medium-radius" style="background-color:#eee;border:1px solid #888;float:left;display:inline;margin:3px;padding:5px;">					
+					<div><div style="width:100%;text-align:center;font-weight:bold;">Clubes</div> <input type="text" class="nome_clube_autocomplete" size="20">
+						<a class="fast-detalhe-text" href="#" url="/detalhe_clube?clube=">Detalhe</a></div>
+					<div style="width:100%;text-align: right;font-size: 10px;"><a href="/procurar_clube">Pesquisa avançada >></a>	</div>
+				</div>
+
+				<div class="fp-medium-radius" style="background-color:#eee;border:1px solid #888;float:left;display:inline;margin:3px;padding:5px;">					
+					<div><div style="width:100%;text-align:center;font-weight:bold;">Jogadores</div> <input type="text" class="nome_jogador_autocomplete" size="20">
+						<a class="fast-detalhe-text" href="#" url="/detalhe_jogador?jogador=">Detalhe</a></div>
+					<div style="width:100%;text-align: right;font-size: 10px;"><a href="/procurar_jogador">Pesquisa avançada >></a></div>	
+				</div>
+
+				<div class="fp-medium-radius" style="background-color:#eee;border:1px solid #888;float:left;display:inline;margin:3px;padding:5px;">				
+					<div><div style="width:100%;text-align:center;font-weight:bold;">Árbitros</div> <input type="text" class="nome_arbitro_autocomplete" size="20">
+						<a class="fast-detalhe-text" href="#" url="/detalhe_arbitro?arbitro=">Detalhe</a></div>
+					<div style="width:100%;text-align: right;font-size: 10px;"><a href="/procurar_arbitro">Pesquisa avançada >></a></div>	
+				</div>
+
+			</div>
+<!--
+			<div class="tab_contents" id="perguntas_recentes">
+
+			</div>
+		-->
+		</div>	
+		</div>
+	</SECTION>
+	
+	<SECTION id="fp-homepage-snippets" style="margin-top:10px;float:left;"> 
+
+	</SECTION>
+	</DIV>
+</DIV>
+
+<DIV class="fp-hr"></DIV>
+
+<DIV style="width:100%;display:inline-block;text-align:center; margin-top:10px;font-size:16px;">Ei, não se esqueça de dar o seu <I>feedback</I> no botão do lado direito. :)</DIV>
+
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}}</DIV> 
+<script>
+$(document).ready(function() {
+		// Baloes
+	$('.fp-calendario-event').each(function() {
+		
+		var bg_body = $('body').css('background-color').replace(/rgb/,"rgba").replace(/\)$/,",0.8)")
+		var content = $('#'+ $(this).attr("title")).html()
+
+		$(this).bt(content,  
+			{trigger: 'click', positions: 'top', 
+			closeWhenOthersOpen: true,
+			offsetParent: $("#fp-homepage-calendario"),
+      	fill: bg_body,
+      	clickAnywhereToClose: true,
+      	strokeWidth: 3, strokeStyle: '#142c46',
+      	cssStyles: {display:'block'},
+      	shadow: true, shadowOffsetX: 5, shadowOffsetY: 5,
+      	shadowBlur: 8,  shadowColor: 'rgba(0,0,0,.6)', 
+			shadowOverlap: false,
+      	cornerRadius: 10
+		})
+	})
+	
+});
+</script>
+{% endautoescape %}
+{% endspaceless %}
+{% endblock %}

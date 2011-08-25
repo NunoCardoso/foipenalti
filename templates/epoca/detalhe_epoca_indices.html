@@ -1,0 +1,85 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="grafico" href="#">Gráfico ICC&#0153;</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="tabela" href="#">Tabela ICC&#0153;</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="grafico">
+			
+<!-- inicio grafico -->
+<div class="fp-subtitulo">ICC&#0153; para <div class="epoca-container">{{epoca.epo_nome}}</div></DIV>
+{{grafico}}
+
+<div style="margin:10px;text-align:left;">Estes são os valores do ICC&#0153; da época {{epoca.epo_nome}} (<A href="/faq#3.5">O que é o ICC&#0153?</A>). Os clubes com barras vermelhas são os que estão a obter mais benefícios dos erros dos árbitros, enquanto que os clubes com barras verdes são os que estão a ser mais prejudicados com os erros da arbitragem.</DIV>
+<div style="margin:10px;text-align:left;">Para mais detalhes sobre o ICC&#0153; de cada clube, clique no emblema do clube.</DIV>
+<div style="margin:10px;text-align:left;"><span style="font-size:16px;"><B>Importante: Os pesos da métrica ICC&#0153; ainda não estão afinados, ainda se encontram em fase experimental</B></span>. Além disso, convém relembrar que estes valores <A HREF="/termos">devem ser consumidos com moderação</a>. Para mais detalhes sobre o ICC de cada clube, clique no emblema do clube.</DIV>	
+
+<!-- fim grafico -->
+
+		</DIV>
+		<DIV class="tab_contents" id="tabela">
+<!-- inicio tabela -->
+		
+<div class="fp-subtitulo" style="text-align:center;margin:10px;">Tabela ICC&#0153; em {{epoca.epo_nome}}</DIV>
+
+<div>
+<table class='fp-table' style='width: 850px;'>
+	<thead>
+	<tr>
+		<th style="width:100px">Árbitro</th>
+		<th style="width:30px">ICC<BR>total</th>
+		<th style="width:30px">Nº<BR>jogos</th>
+		{% for clube in clubes_tabela_icc %}
+		<th style="font-size:7px;width:30px;vertical-align:top;"><img style="width:20px;" src="{{clube.clu_link_logo}}"><DIV><P class="marqueeable">{{clube.clu_nome_curto}}</P></DIV></th>
+		{% endfor %}
+	</tr>
+	</thead>
+	<tbody>
+{% for linha in tabela_icc %}
+	<tr style="vertical-align:top;">
+	<td style="vertical-align:middle;"><P class="marqueeable"><a href="detalhe_arbitro?id={{linha.arbitro.key.id}}">{{linha.arbitro.arb_nome}}</A></P></th>
+	<td style="text-align:center;">{{linha.icc}}</td>
+	<td style="text-align:center;">{{linha.jr}}</td>
+	{% for linha2 in linha.clus %}
+		{% if linha2.icc|gt:0 %}
+			<td style="font-size:12px;">{{linha2.icc}}<BR><img style="width:20px;height:20px;" src="img/thumbs_up.png"></td>
+		{% endif %}
+		{% if linha2.icc|lt:0 %}
+			<td style=" font-size:12px;">{{linha2.icc}}<BR><img style="width:20px;height:20px;" src="img/thumbs_down.png"></td>
+		{% endif %}
+		{% if linha2.icc|eq:0 %}
+			<td style="font-size:12px;">{{linha2.icc}}</td>
+		{% endif %}
+	{% endfor %}
+	</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<div style="margin-bottom:10px;">Esta matriz mostra os ICC&#0153; gerados pelos erros dos árbitros, discriminados por clube. A tabela está ordenada por ordem decrescente de ICC&#0153;, ou seja: os árbitros que cometem mais erros vão para o topo.</DIV>
+
+<div style="margin-bottom:10px;">Um polegar verde indicia que os erros do árbitro estão a beneficiar esta equipa, enquanto que um polegar vermelho significa que o clube está a ser prejudicado pelas arbitragens deste árbitro.</DIV>
+
+<!-- fim tabela -->
+		</DIV>
+	</DIV>
+</DIV>		
+		
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_epoca?id={{epoca.key.id}}&menu=detalhe_epoca_indices">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV>
+<script>$(document).ready(function() {
+$(".marqueeable").each(function() {addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+</script>
+{% endautoescape %}
+{% endspaceless %}

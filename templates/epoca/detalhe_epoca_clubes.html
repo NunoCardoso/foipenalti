@@ -1,0 +1,416 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="golos" href="#">Golos duvidosos</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="pontos" href="#">Pontos duvidosos</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="indisciplina" href="#">Mais indisciplina</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="golos">
+			
+<!-- inicio golos -->
+
+<div class="fp-subtitulo" style="text-align:center;margin:10px;">Lances de golo real ou iminente, mal ajuizados</div> 
+
+<div style="display:inline-block;text-align:center;">
+	<div style="float:left;margin:10px;">
+
+	<!-- 4 células com golos marcados/sofridos validados/invalidados --> 
+		<TABLE style="width:550px;align:center;">
+			<THEAD>
+				<TR>
+					<TH colspan=2 style="font-size:18px;">Lances de golos marcados ou iminentes*</TH>
+				</TR>
+				<TR>
+					<TH style="font-size:15px;">Mal validados (clubes beneficiados)</TH>
+					<TH style="font-size:15px;">Mal invalidados (clubes prejudicados)</TH>
+				</TR>
+			</THEAD>	
+			
+			<TBODY>
+				<TR>
+					<TD>
+					
+<DIV style="padding:10px;">
+<TABLE style="width:100%;" class='fp-table'>
+	<THEAD><TR><TH>Clube</TH><TH>Golos</TH></TR></THEAD>
+	<TBODY>
+	{% for clube in mais_golos_marcados_e_validados_com_erro_arbitro %}
+	{% if clube.clube %}
+	<TR><TD><p class="marqueeable">
+		<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+		<a href="/detalhe_clube?id={{clube.clube.key.id}}">
+			{{clube.clube.clu_nome_curto}}</P></A></TD>
+		<TD style="text-align:center;">{{clube.gol}}</TD></TR>
+	{% endif %}
+	{% endfor %}
+	</TBODY>
+</TABLE>
+</DIV>
+		   		</TD>
+					<TD>
+
+<DIV style="padding:10px;">					
+<TABLE style="width:100%;" class='fp-table'>
+	<THEAD><TR><TH>Clube</TH><TH>Golos</TH></TR></THEAD>
+	<TBODY>
+	{% for clube in mais_golos_marcados_e_invalidados_com_erro_arbitro %}
+	{% if clube.clube %}
+	<TR><TD><p class="marqueeable">
+		<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+		<a href="/detalhe_clube?id={{clube.clube.key.id}}">
+			{{clube.clube.clu_nome_curto}}</P></A></TD>
+		<TD style="text-align:center;">{{clube.gol}}</TD></TR>
+	{% endif %}
+	{% endfor %}
+	</TBODY>
+</TABLE>
+</DIV>
+					</TD>
+				</TR>
+			</TBODY>
+			<THEAD>
+				<TR>
+					<TH colspan=2 style="font-size:18px;margin-top:20px;">Lances de golos sofridos ou iminentes*</TH>
+				</TR>
+				<TR>
+					<TH style="font-size:15px;">Mal validados (clubes prejudicados)</TH>
+					<TH style="font-size:15px;">Mal invalidados (clubes beneficiados)</TH>
+				</TR>
+			</THEAD>	
+			<TBODY>
+				<TR>
+					<TD>
+		
+<div style="padding:10px;">
+	<TABLE style="width:100%;" class='fp-table'>
+	<THEAD><TR><TH>Clube</TH><TH>Golos</TH></TR></THEAD>
+	<TBODY>
+	{% for clube in mais_golos_sofridos_e_validados_com_erro_arbitro %}
+	{% if clube.clube %}
+	<TR><TD><p class="marqueeable">
+		<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+		<a href="/detalhe_clube?id={{clube.clube.key.id}}">
+			{{clube.clube.clu_nome_curto}}</P></A></TD>
+		<TD style="text-align:center;">{{clube.gol}}</TD></TR>
+	{% endif %}
+	{% endfor %}
+	</TBODY>
+	</TABLE>
+</DIV>
+		   		</TD>
+					<TD>
+				
+<div style="padding:10px;">					
+	<TABLE style="width:100%;" class='fp-table'>
+	<THEAD><TR><TH>Clube</TH><TH>Golos</TH></TR></THEAD>
+	<TBODY>
+	{% for clube in mais_golos_sofridos_e_invalidados_com_erro_arbitro %}
+	{% if clube.clube %}
+	<TR><TD><p class="marqueeable">
+		<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+		<a href="/detalhe_clube?id={{clube.clube.key.id}}">
+			{{clube.clube.clu_nome_curto}}</P></A></TD>
+	<TD style="text-align:center;">{{clube.gol}}</TD></TR>	
+	{% endif %}
+	{% endfor %}
+	</TBODY>
+	</TABLE>		
+</DIV>
+
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+	</DIV>
+	
+	<DIV style="float:left;margin:10px;">
+		
+		<DIV style="font-size:18px; margin-bottom:10px;">Saldo de golos</DIV>
+
+		<div class="fp-table-wrapper">
+			<div class="fp-table-gadgets" style="width:250px;">
+				<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="7" size="7" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20">20</option>
+         <option value="30">30</option>
+         <option value="40" selected="selected">40</option>
+       </select>
+    			</div>
+			</div>
+
+			<TABLE style="width:250px;align:center;" class='fp-table fp-table-pager fp-table-filter'>
+				<THEAD>
+					<TR>
+						<TH>Clube</TH>
+						<TH>Golos</TH>
+					</TR>
+				</THEAD>	
+				<TBODY>
+	
+				{% for clube in saldo_golos %}
+				{% if clube.clube %}
+					<TR>
+						<TD>
+							<p class="marqueeable">
+		<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+		<a href="/detalhe_clube?id={{clube.clube.key.id}}">{{clube.clube.clu_nome_curto}}</P>
+			</A>
+						</TD>
+						<TD style="text-align:center;">{{clube.gol}}</TD>
+					</TR>	
+				{% endif %}
+				{% endfor %}
+	
+				</TBODY>
+			</TABLE>		
+		</DIV>
+	</DIV>
+</DIV>	
+<div style="width:100%;display:block;">
+	<DIV style="text-align:left;margin:5px;">Golos a <span style="font-weight:bold;color:green;">verde</span> indicam que a a equipa foi prejudicada nesse número de lances de golo. Golos a <span style="font-weight:bold;color:red;">vermelho</span> indica que foi beneficiada nesse número de lances de golo.</DIV>
+	
+		<div style="margin:5px;text-align:left;">* Lances de golos <B>marcados ou sofridos</B> são lances onde a bola efectivamente entreou na baliza, e cuja análise dos comentadores é feita em respeito à legalidade ou não do golo. Lances de golo <B>iminente</B> são lances com grande probabilidade de dar golo, nomeadamente: 1) grandes penalidades e 2) foras-de-jogo de golo iminente. A análise dos comentadores é feita em respeito ao lance. <U>Estes lances são contados como se originassem golos em 100% dos casos.</U></div>
+</DIV>
+
+<!-- fim golos -->
+		</DIV>
+		<DIV class="tab_contents" id="pontos">
+			
+<!-- inicio pontos -->
+
+<div class="fp-subtitulo" style="margin:10px;">Pontos associados a erros de árbitro</div> 
+
+<div style="display:inline-block;text-align:center;"> 	
+	
+	<div style="float:left; margin:10px;">
+		
+		<TABLE style="width:580px;text-align:center;">
+			<TR style="height:30px;">
+				<TD style="font-size:18px;">ICC&#0153;</TD>
+				<TD style="font-size:18px;">Pontos ganhos</TD>
+			</TR>
+			<TR>
+				<TD rowspan="3" style="vertical-align:top;">
+				
+					<div class="fp-table-wrapper" style="margin-left:10px;margin-right:10px;">
+						<div class="fp-table-gadgets" style="width:100%;">
+
+							<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="7" size="7" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+							</div>
+							<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20">20</option>
+         <option value="30">30</option>
+         <option value="40" selected="selected">40</option>
+       </select>
+    						</div>
+						</div>
+	
+						<TABLE style="width:100%;" class='fp-table fp-table-pager fp-table-filter'>
+							<THEAD><TH>Clube</TH><TH>ICC&#0153;</TH></TR></THEAD>	
+							<TBODY>
+						{% for clube in mais_icc %}
+						{% if clube.clube %}
+						<TR><TD><p class="marqueeable">
+		<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+		<a href="/detalhe_clube?id={{clube.clube.key.id}}">
+			{{clube.clube.clu_nome_curto}}</A></P></TD>
+						<TD style="text-align:center;">{{clube.icc}}</TD></TR>
+						{% endif %}
+						{% endfor %}
+						</TBODY>
+						</TABLE>
+					</DIV>	
+				</TD>
+				<TD>
+				
+					<div style="padding:10px;">	
+						<TABLE style="width:100%;" class='fp-table'>
+						<THEAD><TH>Clube</TH><TH>Pontos</TH></TR></THEAD>	
+						<TBODY>
+						{% for clube in mais_pontos_ganhos_com_erro_arbitro %}
+						{% if  clube.clube %}
+						<TR><TD><p class="marqueeable">
+		<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+		<a href="/detalhe_clube?id={{clube.clube.key.id}}">
+			{{clube.clube.clu_nome_curto}}</A></P></TD>
+						<TD style="text-align:center;">{{clube.p}}</TD></TR>
+						{% endif %}
+						{% endfor %}
+						</TBODY>
+						</TABLE>
+					</DIV>			
+				</TD>
+			</TR>
+			<TR>
+				<TD style="font-size:18px;">Pontos perdidos</TD>
+			</TR>
+			<TR>
+				<TD>	
+				
+<div style="padding:10px;margin-top:16px;">	
+	<TABLE style="width:100%;" class='fp-table'>
+		<THEAD><TH>Clube</TH><TH>Pontos</TH></TR></THEAD>	
+		<TBODY>
+			{% for clube in mais_pontos_perdidos_com_erro_arbitro %}
+			{% if clube.clube %}
+		<TR><TD><p class="marqueeable">
+		<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+		<a href="/detalhe_clube?id={{clube.clube.key.id}}">
+			{{clube.clube.clu_nome_curto}}</A></P></TD>
+		<TD  style="text-align:center;">{{clube.p}}</TD></TR>
+			{% endif %}
+			{% endfor %}
+		</TBODY>
+	</TABLE>
+</DIV>
+
+				</TD>
+			</TR>
+		</TABLE>
+	</DIV>
+
+	<DIV style="float:left;margin:10px;">			
+		<DIV style="font-size:18px;">Saldo de pontos</DIV>
+		
+		<div class="fp-table-wrapper" style="margin-left:10px;margin-right:10px;">
+			<div class="fp-table-gadgets" style="width:100%;">
+				<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="7" size="7" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20">20</option>
+         <option value="30">30</option>
+         <option value="40" selected="selected">40</option>
+       </select>
+    			</div>
+			</div>
+	
+			<TABLE style="width:250px;align:center;" class='fp-table'>
+				<THEAD>
+					<TR>
+						<TH>Clube</TH>
+						<TH>Pontos</TH>
+					</TR>
+				</THEAD>	
+				<TBODY>
+	
+					{% for clube in saldo_pontos %}
+					{% if clube.clube %}
+					<TR><TD><p class="marqueeable">
+						<img class="fp-clube-logo-small" src="{{clube.clube.clu_link_logo}}">
+						<a href="/detalhe_clube?id={{clube.clube.key.id}}">
+						{{clube.clube.clu_nome_curto}}</A></P></TD>
+					<TD style="text-align:center;">{{clube.p}}</TD></TR>	
+					{% endif %}
+					{% endfor %}
+	
+				</TBODY>
+			</TABLE>		
+		</DIV>
+	</DIV>
+</DIV>
+
+<!-- fim pontos -->
+
+		</DIV>
+		<DIV class="tab_contents" id="indisciplina">
+			
+<!-- inicio indisciplina -->
+
+<div class="fp-subtitulo" style="margin:10px;">Clubes mais indisciplinados</div> 
+
+<div class="fp-table-wrapper">
+	<div class="fp-table-gadgets" style="width:400px;">
+		<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="30" size="30" type="text">
+			<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20">20</option>
+         <option value="30">30</option>
+         <option value="40" selected="selected">40</option>
+       </select>
+    	</div>
+	</div>
+
+	<TABLE style="width:400px;" class='fp-table fp-table-pager fp-table-filter'>
+		<THEAD><TH>Clube</TH><TH>Cartões</TH></TR></THEAD>	
+		<TBODY>
+			{% for clube in mais_indisciplinados %}
+			{% if clube.clube %}
+			<TR><TD><a href="/detalhe_clube?id={{clube.clube.key.id}}">{{clube.clube.clu_nome_curto}}</A></TD>
+				<TD>
+{% if clube.crt.ca|gt:0 %}{{clube.crt.ca}} &times; <img style="height:15px;" src="img/amarelo.png">{% endif %} 
+{% if clube.crt.cda|gt:0 %}{{clube.crt.cda}} &times; <img style="height:15px;" src="img/duploamarelo.png">{% endif %}
+{% if clube.crt.cv|gt:0 %}{{clube.crt.cv}} &times; <img style="height:15px;" src="img/vermelho.png">{% endif %}
+ 			</TD></TR>
+			{% endif %}
+			{% endfor %}
+	</TBODY>
+	</TABLE>
+</DIV>	
+
+<!-- fim indisciplina -->
+		</DIV>
+	</DIV>
+</DIV>
+
+
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_epoca?id={{epoca.key.id}}&menu=detalhe_epoca_clubes">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV>
+<script>$(document).ready(function() {$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}});
+$(".fp-table-pager").each(function() {	$(this).tablesorterPager({ container: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager"), positionFixed: false, size:$(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager .pagesize option:selected").val() });
+})
+$(".fp-table-filter").each(function() { $(this).tablesorterFilter({ filterContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-box"),
+ filterClearContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-clear"),filterCaseSensitive: false}); })
+$(".marqueeable").each(function() {addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})
+</script>
+{% endautoescape %}
+{% endspaceless %}

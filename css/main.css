@@ -1,0 +1,707 @@
+/* Takes care of main layout */
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,th,td{margin:0;padding:0}
+blockquote{padding:0;margin-left:15px;}
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,th,var{font-style:normal;font-weight:normal}
+ol,ul{margin:0px;}
+ol{list-style:none;text-indent:0px;}
+li{list-style:none;}
+caption{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-style:normal;font-weight:normal}
+body{font-size:13px;font-family:Georgia,serif;height:100%;} 
+select,input,textarea{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;}
+input{height: 18px;} 
+pre,code{font:115% monospace;font-size:100%}
+body {color: #000000;
+	background-color:#DFE9F0;
+	background-image: url("../img/background-gradient.png");
+	background-repeat: repeat-x;
+	padding:0}
+h1 {padding: 10px;font-size: 200%;}
+h2 {color: #000;font-size: 170%;padding: 10px 0;}
+h3 {color: #142c46;padding: 10px 0;font-size: 16px;font-weight: bold;text-shadow: 1px 1px #CCC;}
+a {color:#142c46;text-decoration:none;}
+a:hover {color:#0000aa;text-decoration:underline;}
+
+.epoca-container {
+	display: inline;
+}
+
+#main-ajax-content {
+	width:100%;
+	margin-top:20px;
+	min-height:100px;
+	text-align:center;
+	display:inline-block;
+}
+
+/********/
+/* Body */ 
+/********/
+
+/* the main content, targeted to be updated via AJAX by side menus, etc */
+#main-body {
+ background-color:#ffffff;
+ text-indent: 0px;	
+ height:auto; 
+ min-height:400px;
+ display:inline-block; /*mandatory */
+ width:900px;/* must be here, associated to inline-block */
+ padding-bottom:15px;
+ position:relative;/** important a position-relative, so that the google map aligns */
+}
+
+#main-body h1,h2,h3,h4 {
+ text-indent:0;
+}
+
+#main-body ul {
+ line-height:1.4;
+}
+
+#main-body ol {
+	list-style-type: decimal;
+	margin-left:20px;
+}
+
+#main-body ol li {
+	 text-indent:10px;
+	list-style-type: decimal;
+}
+
+/***********/
+/* buttons */
+/***********/
+a.main-button {
+    background: transparent url('../img/bg_button_a.png') no-repeat scroll top right;
+    color: #444;
+    display: inline-block;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+a.main-button span {
+    background: transparent url('../img/bg_button_span.png') no-repeat;
+    display: block;
+    color: #000;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+}
+
+a.main-button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+a.main-button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; /* push text down 1px */
+} 
+
+a.main-button-disabled {
+    background: transparent url('../img/bg_disabled_button_a.png') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+a.main-button-disabled span {
+    background: transparent url('../img/bg_disabled_button_span.png') no-repeat;
+    display: block;
+    color: #000;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+}
+
+a.main-button-disabled:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+a.main-button-disabled:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; /* push text down 1px */
+} 
+
+.main-center {
+	width:100%; 
+	text-align:center;
+}
+
+/*************/
+/* container */
+/*************/
+
+#main-container {
+ height:100%;
+ margin:auto;
+ padding:0px;
+ width:906px;/* desconta 3px de cada lado, da border */
+ display:block;
+ vertical-align:baseline;
+
+}
+
+/***********/
+/* content */
+/***********/
+
+#main-content {
+ background-color:white;
+ color:#000000;	
+ text-indent: 0px;	
+ height:auto;
+ position: relative;
+  min-height: 400px;
+
+}
+
+/***********/
+/* stuff - includes menu, body and footter, for a nice shadow wrap */
+/***********/
+
+#main-stuff {
+  border:3px solid #142c46;
+	box-shadow: 4px 4px 6px #888;
+	-moz-box-shadow: 4px 4px 6px #888;
+	-webkit-box-shadow: 4px 4px 6px #888;
+   -moz-border-radius:15px;     
+   -webkit-border-radius:15px; 
+	border-radius:15px;
+}
+
+/**********/
+/* footer */
+/**********/
+
+#main-footer1 {
+  height: 70px;
+  color: #FFFFFF;
+  vertical-align:baseline;
+  background-color: #142c46;
+  -moz-border-radius:0px 0px 10px 10px;     
+   -webkit-border-radius:0px 0px 10px 10px;  
+  border-radius:0px 0px 10px 10px;     
+}
+
+#main-footer2 {
+  height: 30px;
+  margin-top:20px;
+  line-height:30px;
+  background: #111111;
+  text-align:center;
+  vertical-align:baseline;
+  color:#FFFFFF;
+}
+
+.main-footer-container {
+	width:900px;
+	margin:auto;
+}
+
+.main-footer-subcontainer {
+	display:block;
+	float:left;
+	text-align:center;
+	margin-left:10px;
+	margin-top:10px;
+}
+
+.main-footer-subcontainer a {
+color:white
+
+}
+
+/******************/
+/* main form is for main input
+/* is between main-header-menu and main-body 
+/******************/
+#main-form {
+	margin-bottom:10px;
+}
+
+/********************/
+/* Header alignment */
+/*********************/
+#main-header {
+  height: 115px;	
+  padding-top:5px;
+}
+
+#main-header-right {
+ float:right;
+ text-align:right;
+}
+
+#main-header-heading {
+ display:inline;
+ margin-bottom:5px;
+ font-size:10px;
+}
+
+/***************/
+/* Header menu */
+/* the one inside the content, on the top */
+/***************/
+
+/** The header to fit collection options, nav pages */
+#main-header-menu {
+  min-height:20px; /* has to be, right-header is floating, so specify min height */	
+  margin-bottom:10px;
+  padding:0px;
+  border-bottom:1px solid black;
+}
+
+/** The floating right header menu */
+#main-header-menu-right {
+  position:absolute;
+  float:right;
+  text-align:right;
+  right:0;
+}
+
+/***************/
+/*** Logo ******/
+/***************/
+
+#main-logo {
+  align:left;
+}
+
+/*************/
+/* main menu */
+/*************/
+
+#main-menu {
+   -moz-border-radius:12px 10px 0px 0px;     
+   -webkit-border-radius:12px 10px 0px 0px; 
+   border-radius:12px 10px 0px 0px;     
+   height:35px;
+   position:relative;
+   width:900px; 
+   margin:auto;
+   z-index:99;
+   background-image:url(../img/navi_bg.png);
+   font-size:16px;
+   font-weight: bold;
+   color:#142c46;
+   text-indent:0;
+   list-style: none;
+}
+
+.main-menu-firstitem {
+   -moz-border-radius:12px 0px 0px 0px;     
+   -webkit-border-radius:12px 0px 0px 0px; 
+   border-radius:12px 10px 0px 0px;     
+}
+
+.main-menu-lastitem {
+   -moz-border-radius:0px 12px 0px 0px;     
+   -webkit-border-radius: 0px 12px 0px 0px; 
+   border-radius:0px 12px 0px 0px;     
+}
+
+#main-menu ul{
+	   margin-left:0px;
+}
+
+#main-menu ul li {
+   list-style: none;
+   display:block;
+   float:left;
+   line-height: 35px;
+	padding-left:10px;
+	padding-right:10px;
+  /*width:100px;*/
+ /*  margin:auto;*/
+   text-align:center;
+}
+
+.withmenu {
+  -moz-border-radius:12px 12px 0px 0px;     
+  -webkit-border-radius:12px 12px 0px 0px; 
+  border-radius:12px 12px 0px 0px;     
+}
+
+.withoutmenu {
+  -moz-border-radius:12px;     
+  -webkit-border-radius:12px; 
+  border-radius:12px;     
+}
+
+#main-menu ul li a:not(.inactive) {
+ text-decoration: none;
+ color: #142c46;
+ display:block;
+  -moz-border-radius:12px;     
+  -webkit-border-radius:12px; 
+  border-radius:12px;     
+}
+
+#main-menu ul li:hover {
+ 	background-color: #142c46; 
+   color: #effafc;
+}
+
+#main-menu ul li a:not(.inactive):hover {
+ 	background-color: #142c46; 
+   color: #effafc;
+}
+
+#main-menu ul div {
+  z-index:100;
+  background:#142c46; 
+  display:none;
+  margin-left:-10px; /* importante para compensar o padding 10px do li*/
+  position:absolute;
+  padding-left:10px;
+  padding-top:10px;
+  padding-bottom:10px;
+  padding-right:20px;
+  -moz-border-radius:0px 12px 12px 12px;     
+  -webkit-border-radius:0px 12px 12px 12px; 
+  border-radius:0px 12px 12px 12px;  
+	box-shadow: 6px 6px 8px #888;
+	-moz-box-shadow: 6px 6px 8px #888;
+	-webkit-box-shadow: 6px 6px 8px #888;
+}
+
+#main-menu ul li div ul li {
+   list-style: none;
+   display:block;
+   float:left;
+   clear:both;
+   text-align:left;
+   background-image: none;
+   line-height: 30px;
+   height: 30px;
+	color:  #afaaac;
+   width:95%; /* important to span all horizontal pace in the submenu */
+}
+
+#main-menu ul li div ul li a {
+ line-height: 30px;
+ padding:2px;
+ display:block;
+ margin-left:-10px;
+ text-decoration: none;
+ -moz-border-radius:4px;     
+ -webkit-border-radius:4px; 
+ border-radius:4px;     
+}
+
+#main-menu ul li div ul li a:not(.inactive) {
+ color: #effafc;
+}
+
+#main-menu ul li div ul li a.inactive {
+ color: #888888;
+}
+
+#main-menu ul li div ul li a:not(.inactive):hover {
+ color: #142c46; 
+ background-color:#effafc;
+}
+
+/* tem fixed width para que os números se encavalitem bem */
+#main-menu ul li div ul li a.fp-menu-jornada-link {
+	display: inline-block;
+	text-align: center;
+	width: 35px;
+}
+
+/* já não precisa de encavalitar */
+#main-menu ul li div ul li a:not(.inactive).fp-menu-jornada2-link {
+	display: inline-block;
+	text-align: center;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+#main-menu ul li div ul li a.fp-menu-jornada2-link.inactive {
+	display: inline-block;
+	text-align: center;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+a.inactive {
+	cursor:default;
+}
+
+/****************************************/
+/* Main submenu for radio-style buttons */
+/****************************************/
+
+#main-submenu {
+   border:3px solid #142c46;
+   -moz-border-radius:15px;     
+   -webkit-border-radius:15; 
+   border-radius:15px;     
+   position:relative;
+   margin:auto;
+   background-image:url(../img/navi_bg.png);
+   font-size:16px;
+   font-weight: bold;
+   color:#142c46;
+   text-indent:0;
+   list-style: none;
+   display:inline-block;
+	
+}
+
+#main-submenu ul{
+	   margin-left:0px;
+}
+
+#main-submenu ul li {
+   list-style: none;
+   display:block;
+   float:left;
+ 	color: #142c46;
+   line-height: 30px;
+   text-align:center;
+	height: 30px;
+}
+
+#main-submenu ul li a:not(.inactive) {
+	text-decoration: none;
+	padding-left:10px;
+	padding-right:10px;
+   display:block;
+}
+
+#main-submenu ul li:hover {
+ 	background-color: #142c46; 
+   color: #effafc;
+}
+
+#main-submenu ul li:hover a:not(.inactive) {
+   color: #effafc;
+}
+
+#main-submenu ul li.active {
+ 	background-color: #344c66; 
+}
+
+#main-submenu ul li.active a:not(.inactive) {
+   color: #effafc;
+}
+
+#main-submenu ul li a:not(.inactive):hover {
+ 	background-color: #142c46; 
+   color: #effafc;
+}
+
+.main-submenu-firstitem {
+   -moz-border-radius:12px 0px 0px 12px;     
+   -webkit-border-radius:12px 0px 0px 12px; 
+   border-radius:12px 0px 0px 12px;     
+}
+
+.main-submenu-firstitem a {
+   -moz-border-radius:12px 0px 0px 12px;     
+   -webkit-border-radius:12px 0px 0px 12px; 
+   border-radius:12px 0px 0px 12px;     
+}
+
+.main-submenu-lastitem {
+   -moz-border-radius:0px 12px 12px 0px;     
+   -webkit-border-radius: 0px 12px 12px 0px; 
+   border-radius:0px 12px 12px 0px;     
+}
+
+.main-submenu-lastitem a {
+   -moz-border-radius:0px 12px 12px 0px;     
+   -webkit-border-radius: 0px 12px 12px 0px; 
+   border-radius:0px 12px 12px 0px;     
+}
+
+/*************************/
+/* Main submenu for tabs */
+/*************************/
+
+#main-submenu-tab UL {
+   font-size:16px;
+   font-weight: bold;
+   color:#142c46;
+   text-indent:0;
+	width:100%;
+}
+
+#main-submenu-tab ul.tabs {
+	list-style: none;
+	border-bottom: 2px solid #142c46;
+	height: 30px;
+	line-height: 30px;
+	margin: 0px;
+	background-image:url('../img/navi_bg_reverse.png');
+}
+
+#main-submenu-tab ul.tabs li {
+   list-style: none;
+   display:block;
+   float:left;
+	color: #142c46;
+	background-color:#DFE9F0;
+/*	background-image:url('../img/navi_bg.png');*/
+   text-align:center;
+	border-left: 2px solid #142c46;
+	border-top: 2px solid #142c46;
+	border-right: 2px solid #142c46;
+	border-bottom: 2px solid #142c46;
+  -moz-border-radius:12px 12px 0px 0px;     
+   -webkit-border-radius:12px 12px 0px 0px; 
+   border-radius:12px 12px 0px 0px;     
+	margin-left: 5px;
+	height: 28px;
+	line-height: 28px;
+}
+
+#main-submenu-tab ul.tabs li a {
+	padding-left:10px;
+	padding-right:10px;
+	display: block;
+	text-decoration: none;
+	color:#142C46;
+}
+
+#main-submenu-tab ul.tabs li:hover {
+ 	background-color: #FFFFFF; 
+}
+
+#main-submenu-tab ul.tabs li.active {
+   color: #142c46;
+   background-color:#FFFFFF;
+	background-image:url('../img/navi_bg.png');
+   border-bottom: 2px solid #FFFFFF;
+}
+
+div.tab_contents_container {
+	border-top: 2px solid #142c46;
+	padding: 10px;
+}
+
+div.tab_contents {
+	display: none;
+}
+
+div.tab_contents_active {
+	display: block;
+}
+
+div.clear {
+   clear:both;
+}
+
+/* the status div place above */
+.waiting-div {
+  z-index:5;  
+  margin:auto; 
+  width:25%;
+	position:absolute;
+	left:0;
+	right:0;
+}
+
+.waiting-div-container {
+	width:100%;
+	text-align:center;
+	position:relative;
+}
+
+.waiting-div-message {
+}
+
+.waiting-div-close-button {
+	border: 1px solid #aaa;
+	font-size: 10px;
+	color: red;
+	background-color: white;
+   font-weight: bold;
+	margin-left:5px;
+	padding:0px 2px 0px 2px;
+	cursor:pointer;
+	overflow: hidden;
+	-moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+
+}
+
+.waiting-div-message-wait {
+  padding:10px; 
+  text-align:center;
+  background:#DFE9F0;
+  border:3px solid #142c46;
+}
+
+.waiting-error-message {
+	border:3px solid red; 
+  background:#FFAAAA;
+  padding:10px; 
+  text-align:center;
+ -moz-border-radius: 4px;
+ -webkit-border-radius: 4px;
+}
+
+.marqueeable {  
+	overflow:hidden; 
+	white-space:nowrap; 
+}
+
+.marqueeable-hide { 
+	text-overflow:ellipsis; 
+}
+
+/***********/
+/* Buttons */
+/***********/
+
+.stbuttontext {
+color:#ffffff;
+background: #000000;
+}
+
+.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+}
+
+UL.clear-ul { /* generic container (i.e. div) for floating buttons */
+  font-size:12px;font-family:Georgia,serif;height:100%;
+}
+/*** END OLD ***/
+
+a.disabled { 
+	color:black;
+	cursor:default;	
+	text-decoration:none; 
+}
+
+.flash-err-msg {
+	border:2px solid red;
+	background-color: #ffcccc;
+	font-size:14px;
+	margin:10px;
+	padding:10px;
+}
+
+.flash-ok-msg {
+	border:2px solid green;
+	background-color: #ccffcc;
+	font-size:14px;
+	margin:10px;
+	padding:10px;
+}

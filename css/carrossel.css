@@ -1,0 +1,349 @@
+
+.carrossel-pic-title .jcarousel-direction-rtl {
+	direction: rtl;
+}
+
+/* Define quantos items se podem ver */
+.carrossel-pic-title .jcarousel-container-horizontal {
+    width: 480px;
+}
+
+.carrossel-pic-title .jcarousel-clip-horizontal {
+    width:  480px;
+    height: 320px;
+}
+
+.carrossel-pic-title .jcarousel-item {
+    width: 480px;
+    height: 320px;
+}
+
+.carrossel-pic-title .jcarousel-item-horizontal {
+	margin:0px;
+}
+
+.carrossel-pic-title .jcarousel-direction-rtl .jcarousel-item-horizontal {
+	margin: 0px;
+}
+
+/**
+ *  Horizontal Buttons
+ */
+.carrossel-pic-title .jcarousel-next-horizontal {
+    position: absolute;
+    top: 120px;
+    right: -4px;
+    width: 35px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent url('../img/carrossel_botoes.png') no-repeat 0 0;
+    background-position: 0px -120px;
+}
+
+.carrossel-pic-title .jcarousel-next-horizontal:hover {
+    background-position: 0px -180px;
+}
+
+.carrossel-pic-title .jcarousel-next-horizontal:active {
+   /* background-position: -64px 0;*/
+}
+
+.carrossel-pic-title .jcarousel-next-disabled-horizontal,
+.carrossel-pic-title .jcarousel-next-disabled-horizontal:hover,
+.carrossel-pic-title .jcarousel-next-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0px -180px;
+}
+
+.carrossel-pic-title .jcarousel-prev-horizontal {
+    position: absolute;
+    top: 120px;
+    left: 0px;
+    width: 35px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent url('../img/carrossel_botoes.png') no-repeat 0 0;
+    background-position: 0px 0px;
+}
+
+.carrossel-pic-title .jcarousel-prev-horizontal:hover {
+    background-position: 0px -60px;
+}
+
+.carrossel-pic-title .jcarousel-prev-horizontal:active {
+    background-position: 0px -60px;
+}
+
+.carrossel-pic-title .jcarousel-prev-disabled-horizontal,
+.carrossel-pic-title .jcarousel-prev-disabled-horizontal:hover,
+.carrossel-pic-title .jcarousel-prev-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0px -60px;
+}
+
+
+.carrossel-classificacao {
+	float:left;
+	position:relative;
+}
+
+.carrossel-classificacao .jcarousel-direction-rtl {
+	direction: rtl;
+}
+
+/* Define quantos items se podem ver */
+.carrossel-classificacao .jcarousel-container-horizontal {
+    width: 200px;
+}
+
+.carrossel-classificacao .jcarousel-clip-horizontal {
+    width:  200px;
+    height: 310px;
+}
+
+.carrossel-classificacao .jcarousel-item {
+    width: 200px;
+    height: 310px;
+}
+
+.carrossel-classificacao .jcarousel-item-horizontal {
+	margin:0px;
+}
+
+.carrossel-classificacao .jcarousel-direction-rtl .jcarousel-item-horizontal {
+	margin: 0px;
+}
+
+/**
+ *  Horizontal Buttons
+ */
+.carrossel-classificacao .jcarousel-next-horizontal {
+    position: absolute;
+    top: 120px;
+    right: -4px;
+    width: 35px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent url('../img/carrossel_botoes.png') no-repeat 0 0;
+    background-position: 0px -120px;
+}
+
+
+.carrossel-classificacao .jcarousel-next-horizontal:hover {
+    background-position: 0px -180px;
+}
+
+.carrossel-classificacao .jcarousel-next-horizontal:active {
+   /* background-position: -64px 0;*/
+}
+
+.carrossel-classificacao .jcarousel-next-disabled-horizontal,
+.carrossel-classificacao .jcarousel-next-disabled-horizontal:hover,
+.carrossel-classificacao .jcarousel-next-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0px -180px;
+}
+
+.carrossel-classificacao .jcarousel-prev-horizontal {
+    position: absolute;
+    top: 120px;
+    left: 0px;
+    width: 35px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent url('../img/carrossel_botoes.png') no-repeat 0 0;
+    background-position: 0px 0px;
+}
+
+.carrossel-classificacao .jcarousel-prev-horizontal:hover {
+    background-position: 0px -60px;
+}
+
+.carrossel-classificacao .jcarousel-prev-horizontal:active {
+    background-position: 0px -60px;
+}
+
+.carrossel-classificacao .jcarousel-prev-disabled-horizontal,
+.carrossel-classificacao .jcarousel-prev-disabled-horizontal:hover,
+.carrossel-classificacao .jcarousel-prev-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0px -60px;
+}
+
+
+
+.carrossel-jornada {
+	float:left;
+	position:relative;
+}
+
+.carrossel-jornada .jcarousel-direction-rtl {
+	direction: rtl;
+}
+
+/* Define quantos items se podem ver */
+.carrossel-jornada .jcarousel-container-horizontal {
+    width: 214px;
+}
+
+.carrossel-jornada .jcarousel-clip-horizontal {
+    width:  214px;
+    height: 310px;
+}
+
+.carrossel-jornada .jcarousel-item {
+    width: 214px;
+    height: 310px;
+}
+
+.carrossel-jornada .jcarousel-item-horizontal {
+	margin:0px;
+}
+
+.carrossel-jornada .jcarousel-direction-rtl .jcarousel-item-horizontal {
+	margin: 0px;
+}
+
+/**
+ *  Horizontal Buttons
+ */
+.carrossel-jornada .jcarousel-next-horizontal {
+    position: absolute;
+    top: 120px;
+    right: -4px;
+    width: 35px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent url('../img/carrossel_botoes.png') no-repeat 0 0;
+    background-position: 0px -120px;
+}
+
+.carrossel-jornada .jcarousel-next-horizontal:hover {
+    background-position: 0px -180px;
+}
+
+.carrossel-jornada .jcarousel-next-horizontal:active {
+   /* background-position: -64px 0;*/
+}
+
+.carrossel-jornada .jcarousel-next-disabled-horizontal,
+.carrossel-jornada .jcarousel-next-disabled-horizontal:hover,
+.carrossel-jornada .jcarousel-next-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0px -180px;
+}
+
+.carrossel-jornada .jcarousel-prev-horizontal {
+    position: absolute;
+    top: 120px;
+    left: 0px;
+    width: 35px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent url('../img/carrossel_botoes.png') no-repeat 0 0;
+    background-position: 0px 0px;
+}
+
+.carrossel-jornada .jcarousel-prev-horizontal:hover {
+    background-position: 0px -60px;
+}
+
+.carrossel-jornada .jcarousel-prev-horizontal:active {
+    background-position: 0px -60px;
+}
+
+.carrossel-jornada .jcarousel-prev-disabled-horizontal,
+.carrossel-jornada .jcarousel-prev-disabled-horizontal:hover,
+.carrossel-jornada .jcarousel-prev-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0px -60px;
+}
+
+
+
+.carrossel-calendario {
+	float:left;
+	position:relative;
+}
+
+.carrossel-calendario .jcarousel-direction-rtl {
+	direction: rtl;
+}
+
+/* Define quantos items se podem ver */
+.carrossel-calendario .jcarousel-container-horizontal {
+    width: 260px;
+}
+
+.carrossel-calendario .jcarousel-clip-horizontal {
+    width:  260px;
+    height: 200px;
+}
+
+.carrossel-calendario .jcarousel-item {
+    width: 260px;
+    height: 200px;
+}
+
+.carrossel-calendario .jcarousel-item-horizontal {
+	margin:0px;
+}
+
+.carrossel-calendario .jcarousel-direction-rtl .jcarousel-item-horizontal {
+	margin: 0px;
+}
+
+/**
+ *  Horizontal Buttons
+ */
+.carrossel-calendario .jcarousel-next-horizontal {
+    position: absolute;
+    top: 75px;
+    right: -4px;
+    width: 35px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent url('../img/carrossel_botoes.png') no-repeat 0 0;
+    background-position: 0px -120px;
+}
+
+.carrossel-calendario .jcarousel-next-horizontal:hover {
+    background-position: 0px -180px;
+}
+
+.carrossel-calendario .jcarousel-next-horizontal:active {
+   /* background-position: -64px 0;*/
+}
+
+.carrossel-calendario .jcarousel-next-disabled-horizontal,
+.carrossel-calendario .jcarousel-next-disabled-horizontal:hover,
+.carrossel-calendario .jcarousel-next-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0px -180px;
+}
+
+.carrossel-calendario .jcarousel-prev-horizontal {
+    position: absolute;
+    top: 75px;
+    left: 0px;
+    width: 35px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent url('../img/carrossel_botoes.png') no-repeat 0 0;
+    background-position: 0px 0px;
+}
+
+.carrossel-calendario .jcarousel-prev-horizontal:hover {
+    background-position: 0px -60px;
+}
+
+.carrossel-calendario .jcarousel-prev-horizontal:active {
+    background-position: 0px -60px;
+}
+
+.carrossel-calendario .jcarousel-prev-disabled-horizontal,
+.carrossel-calendario .jcarousel-prev-disabled-horizontal:hover,
+.carrossel-calendario .jcarousel-prev-disabled-horizontal:active {
+    cursor: default;
+    background-position: 0px -60px;
+}

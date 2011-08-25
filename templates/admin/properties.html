@@ -1,0 +1,152 @@
+{% extends "admin_main.html" %}
+
+{% block title %}Detalhe de {{ objname }}{% endblock %}
+
+{% block content %} 
+<div class="headline">Detalhe de {{ objname }}</div>
+
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+
+<table>
+	
+	<form action="/admin/{{objname}}/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+	<input type='hidden' name='referer' value='{{ referer }}'>
+	<table>
+				<tr>
+					<th style="min-width:100px;"></th>
+					<th></th>
+				</tr>
+
+	{% for field in fields %}
+		{% for item in field.items %}
+
+		{# não permitir a edição de certos valores, que são inferidos #}
+
+		{% if item.1|isnotinlist:omit_properties %}
+			
+			{% if obj|attribute:item.1|islist  %}
+			
+				{% for item2 in obj|attribute:item.1 %}
+				<tr>
+					{% if item.1|isvideo %}
+					<td><label for="{{ item.1 }}">{{ item.0 }}</label></td>
+					<td><TEXTAREA name="{{ item.1 }}" id="{{ item.1 }}" cols=80>{{ item2 }}</TEXTAREA><a href="#" class='duplicateRow'><img src='img/plus.gif'> </a> </td>	
+					{% else %}
+					<td><label for="{{ item.1 }}">{{ item.0 }}</label></td>
+
+					<td><input type="text" name="{{ item.1 }}" id="{{ item.1 }}" value="{% if item2|isnotnone %}{{ item2|filternone }}{% endif %}" size=80/> 	<a href="#" class='duplicateRow'><img src='img/plus.gif'> </<a> </td>
+					{% endif %}	
+				</tr>
+				{% endfor %}
+				<tr>
+					<td><label for="{{ item.1 }}">{{ item.0 }}</label></td>
+					<td><input type="text" name="{{ item.1 }}" id="{{ item.1 }}" size=80/> 	<a href="#" class='duplicateRow'><img src='img/plus.gif'> </a> </td>
+				</tr>
+				
+			{% else %}
+				{% if item.1|iscomentario %}
+				<tr>
+				<td><label for="{{ item.1 }}">{{ item.0 }}</label></td>
+				<td><TEXTAREA name="{{ item.1 }}" id="{{ item.1 }}" cols=100>{{ obj|attribute:item.1|filternone }}</TEXTAREA></td>	
+				</tr>
+				{% else %}
+				<tr>
+					<td><label for="{{ item.1 }}">{{ item.0 }}</label></td>
+					<td><input type="text" name="{{ item.1 }}" id="{{ item.1 }}" value="{{ obj|attribute:item.1|filternone }}" size=80/></td>
+				</tr>
+				{% endif %}
+			{% endif %}
+		{% endif %}
+			
+		{% endfor %}
+		
+	{% endfor %}
+	<tr><td colspan=2>Tarefas:</td></tr>
+
+{# ####### #}	
+{# TAREFAS #}	
+{# ####### #}	
+	
+	<tr><td colspan=2>
+	
+	<TABLE class="task">
+		<tr><td colspan=2><input type="checkbox" class="maintasker"> seleccionar todas as tarefas</td></tr>
+		<TR>
+			<TD>
+				<input type="hidden" id="task_prefix" name="task_prefix" value="task_num_1">
+				<input type="checkbox" id="task_num_1_checkbox" name="task_num_1_checkbox">
+				  <label for="task_num_1_checkbox"> Activa</label>
+			</TD>
+			<TD>
+				<input type="hidden" id="task_num_1_url" name="task_num_1_url" 
+				 value="/acumulador_jornada/new">   
+				Tarefa para <B>/acumulador_jornada/new</B>?acuj_jornada=<input type="text" id="task_num_1_param" name="task_num_1_param" value="2011/2012:Liga:XXXXX" size=40>
+			</TD>
+		</TR>
+		<tr class="line">
+			<TD>
+				Em <input type="text" value="900" name="task_num_1_countdown" id="task_num_1_countdown" size=4> seg.
+			</TD>
+			<TD colspan=2 style="max-width:300px;border-bottom:1px solid black;">
+				Altera a página de acumulador de jornada. <B>Recomendado</B> 
+			</TD>	
+		</TR>
+	
+		<TR>
+			<TD>
+				<input type="hidden" id="task_prefix" name="task_prefix" value="task_num_2">
+				<input type="checkbox" id="task_num_2_checkbox" name="task_num_2_checkbox">
+				  <label for="task_num_2_checkbox"> Activa</label>
+			</TD>
+			<TD>
+				<input type="hidden" id="task_num_2_url" name="task_num_2_url" 
+				 value="/acumulador_competicao/new">   
+				Tarefa para <B>/acumulador_competicao/new</B>?acuc_competicao=<input type="text" id="task_num_2_param" name="task_num_2_param" value="2011/2012:Liga" size=40>
+			</TD>
+		</TR>
+		<tr class="line">
+			<TD>
+				Em <input type="text" value="1800" name="task_num_2_countdown" id="task_num_2_countdown" size=4> seg.
+			</TD>
+			<TD colspan=2 style="max-width:300px;border-bottom:1px solid black;">
+				Altera a página de acumulador de competicao. <B>Recomendado</B> 
+			</TD>	
+		</TR>
+		
+		<TR>
+			<TD>
+				<input type="hidden" id="task_prefix" name="task_prefix" value="task_num_3">
+				<input type="checkbox" id="task_num_3_checkbox" name="task_num_3_checkbox">
+				  <label for="task_num_3_checkbox"> Activa</label>
+			</TD>
+			<TD>
+				<input type="hidden" id="task_num_3_url" name="task_num_3_url" 
+				 value="/acumulador_epoca/new">   
+				Tarefa para <B>/acumulador_epoca/new</B>?acue_epoca=<input type="text" id="task_num_3_param" name="task_num_3_param" value="2011/2012" size=40>
+			</TD>
+		</TR>
+		<tr class="line">
+			<TD>
+				Em <input type="text" value="3600" name="task_num_3_countdown" id="task_num_3_countdown" size=4> seg.
+			</TD>
+			<TD colspan=2 style="max-width:300px;border-bottom:1px solid black;">
+				Altera a página de acumulador de época. <B>Recomendado</B> 
+			</TD>	
+		</TR>
+	</table>
+
+	<tr>
+		<td colspan="2"><input type="submit" value="Editar"/> ou <a href='javascript:history.back();'>cancelar</a></td>
+	</tr>
+	</table>
+</form>
+	
+</table>
+{% endblock %}

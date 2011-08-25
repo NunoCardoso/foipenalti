@@ -1,0 +1,302 @@
+{% autoescape off %}
+
+<table id="fp-ficha-jogo" style="margin:auto;">		
+	<tr>
+		<td colspan=2 class="fp-hr"></td>
+		<td></td>
+		<td colspan=2 class="fp-hr"></td>
+	</tr>
+		
+	<!-- tr jogadores -->
+	<tr>
+		<td colspan=2>
+			<div style="text-align:right; width:100%;">
+
+			<!-- /tr dos guarda-redes 1 -->
+		
+				<div class="fp-ficha-jogo-jogador-div">
+					<div style="display:inline-block;">
+					{% if jogo_dados.guarda_redes1.saida %}
+						<img style="margin-right:5px;" src="img/substituicao_saida.png">
+						({{jogo_dados.guarda_redes1.saida}}')
+					{% endif %}
+					{% if jogo_dados.guarda_redes1.vermelho %}
+						<img style="margin-right:5px;" src="img/vermelho.png">
+						({{jogo_dados.guarda_redes1.vermelho}}')
+					{% endif %}
+					{% if jogo_dados.guarda_redes1.duplo_amarelo %}
+						<img style="margin-right:5px;" src="img/duploamarelo.png">
+						({{jogo_dados.guarda_redes1.duplo_amarelo}}')
+					{% endif %}
+					{% if jogo_dados.guarda_redes1.amarelo %}
+						<img style="margin-right:5px;" src="img/amarelo.png">
+						({{jogo_dados.guarda_redes1.amarelo}}')
+					{% endif %}
+						{% if jogo_dados.guarda_redes1.golos|gt:0 %}
+						<img style="margin-right:5px;" src="img/golo.png">
+						({{jogo_dados.guarda_redes1.golos_minutos|show_golos:jogo_dados.guarda_redes1.golos_tipos}})
+						
+						{% if jogo_dados.guarda_redes1.golos_videos %}	
+							{% for video in jogo_dados.guarda_redes1.golos_videos %}
+							<A CLASS="fp-watch-video" HREF="#" 
+					VIDEO_HTML="{{video|urlencode}}" 
+					TARGET_DIV="fp-fixed-video-screen">
+					<img src="img/movie.png"></A>
+					 		{% endfor %}
+						{% endif %}
+					{% endif %}
+					</div>
+					<div class="fp-ficha-jogo-jogador-nome-esquerda">
+						<a href="detalhe_jogador?id={{jogo_dados.guarda_redes1.jogador.key.id}}">
+							{{jogo_dados.guarda_redes1.jogador.jgd_nome}}</A>
+					</div>
+					<div class="fp-ficha-jogo-jogador-numero">
+						{{jogo_dados.guarda_redes1.numero}}</div>
+				</div>		
+				
+			<!-- /tr jogadores 1 -->	
+				
+			{% for jogador in jogo_dados.jogadores_inicio1 %}
+				<div class="fp-ficha-jogo-jogador-div">
+					<div style="display:inline-block;">
+						{% if jogador.saida %}
+						<img style="margin-right:5px;" src="img/substituicao_saida.png">({{jogador.saida}}')
+						{% endif %}
+						{% if jogador.vermelho %}
+						<img style="margin-right:5px;" src="img/vermelho.png">({{jogador.vermelho}}')
+						{% endif %}
+						{% if jogador.duplo_amarelo %}
+						<img style="margin-right:5px;" src="img/duploamarelo.png">({{jogador.duplo_amarelo}}')
+						{% endif %}
+						{% if jogador.amarelo %}
+						<img style="margin-right:5px;" src="img/amarelo.png">({{jogador.amarelo}}')
+						{% endif %}
+						{% if jogador.golos|gt:0 %}
+						{% if jogador.golos_videos %}	
+							{% for video in jogador.golos_videos %}
+							<A CLASS="fp-watch-video" HREF="#" 
+					VIDEO_HTML="{{video|urlencode}}" 
+					TARGET_DIV="fp-fixed-video-screen">
+					<img src="img/movie.png"></A>
+					 		{% endfor %}
+						{% endif %}
+
+						<img style="margin-right:5px;" src="img/golo.png">({{jogador.golos_minutos|show_golos:jogador.golos_tipos}})
+						{% endif %}
+					</div>
+					<div class="fp-ficha-jogo-jogador-nome-esquerda">
+						<a href="detalhe_jogador?id={{jogador.jogador.key.id}}">{{jogador.jogador.jgd_nome}}</A>
+					</div>
+					<div class="fp-ficha-jogo-jogador-numero">{{jogador.numero}}</div>
+				</div>
+		{% endfor %}
+			</div>
+		</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>			
+		<td colspan=2>
+			<div style="text-align:left; width:100%;">
+
+			<!-- tr dos guarda-redes 2 -->
+		
+				<div class="fp-ficha-jogo-jogador-div">
+					<div style="display:inline-block;">
+						<div class="fp-ficha-jogo-jogador-numero">{{jogo_dados.guarda_redes2.numero}}</div>
+						<div class="fp-ficha-jogo-jogador-nome-direita">
+							<a href="detalhe_jogador?id={{guarda_redes2.jogador.key.id}}">{{jogo_dados.guarda_redes2.jogador.jgd_nome}}</A>
+						</div>
+					{% if jogo_dados.guarda_redes2.golos|gt:0 %}
+						<img style="margin-right:5px;" src="img/golo.png">
+						({{jogo_dados.guarda_redes2.golos_minutos|show_golos:jogador.jogo_dados.guarda_redes2.golos_tipos}})
+						
+						{% if jogo_dados.guarda_redes2.golos_videos %}	
+							{% for video in jogo_dados.guarda_redes2.golos_videos %}
+							<A CLASS="fp-watch-video" HREF="#" 
+					VIDEO_HTML="{{video|urlencode}}" 
+					TARGET_DIV="fp-fixed-video-screen">
+					<img src="img/movie.png"></A>
+					 		{% endfor %}
+						{% endif %}
+
+					{% endif %}
+					{% if jogo_dados.guarda_redes2.amarelo %}
+						<img style="margin-right:5px;" src="img/amarelo.png">
+						({{jogo_dados.guarda_redes2.amarelo}}')
+					{% endif %}
+					{% if jogo_dados.guarda_redes2.duplo_amarelo %}
+						<img style="margin-right:5px;" src="img/duploamarelo.png">
+						({{jogo_dados.guarda_redes2.duplo_amarelo}}')
+					{% endif %}
+					{% if jogo_dados.guarda_redes2.vermelho %}
+						<img style="margin-right:5px;" src="img/vermelho.png">
+						({{jogo_dados.guarda_redes2.vermelho}}')
+					{% endif %}
+					{% if jogo_dados.guarda_redes2.saida %}
+						<img style="margin-right:5px;" src="img/substituicao_saida.png">
+						({{jogo_dados.guarda_redes2.saida}}')
+					{% endif %}
+					</div>
+				</div>		
+
+			<!-- /tr jogadores 2-->
+			
+			{% for jogador in jogo_dados.jogadores_inicio2 %}
+				<div class="fp-ficha-jogo-jogador-div">
+					<div class="fp-ficha-jogo-jogador-numero">{{jogador.numero}}</div>
+					<div class="fp-ficha-jogo-jogador-nome-direita">
+						<a href="detalhe_jogador?id={{jogador.jogador.key.id}}">{{jogador.jogador.jgd_nome}}</A>
+					</div>
+					<div style="display:inline-block;">
+						{% if jogador.golos|gt:0 %}
+						<img style="margin-right:5px;" src="img/golo.png">({{jogador.golos_minutos|show_golos:jogador.golos_tipos}})
+						
+						{% if jogador.golos_videos %}	
+							{% for video in jogador.golos_videos %}
+							<A CLASS="fp-watch-video" HREF="#" 
+					VIDEO_HTML="{{video|urlencode}}" 
+					TARGET_DIV="fp-fixed-video-screen">
+					<img src="img/movie.png"></A>
+					 		{% endfor %}
+						{% endif %}
+
+						{% endif %}
+						{% if jogador.amarelo %}
+						<img style="margin-right:5px;" src="img/amarelo.png">({{jogador.amarelo}}')
+						{% endif %}
+						{% if jogador.duplo_amarelo %}
+						<img style="margin-right:5px;" src="img/duploamarelo.png">({{jogador.duplo_amarelo}}')
+						{% endif %}
+						{% if jogador.vermelho %}
+						<img style="margin-right:5px;" src="img/vermelho.png">({{jogador.vermelho}}')
+						{% endif %}
+						{% if jogador.saida %}
+						<img style="margin-right:5px;" src="img/substituicao_saida.png">({{jogador.saida}}')
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+			</div>
+		</td>
+	</tr>
+	
+	<!-- substitutos -->
+	
+	<tr>
+		<td colspan=5 style="height:3px;"></td>
+	</tr>
+	
+	<tr>
+		<td colspan=2 class="fp-hr"></td>
+		<td></td>
+		<td colspan=2 class="fp-hr"></td>
+	</tr>
+	
+	<tr>
+		<td colspan=5 style="height:3px;"></td>
+	</tr>
+	<tr>
+		<td colspan=2>
+			<div style="text-align:right; width:100%;">
+				{% for jogador in jogo_dados.jogadores_subst1 %}
+				<div class="fp-ficha-jogo-jogador-div">
+					<div style="display:inline-block;">
+						{% if jogador.entrada %}
+						<img style="margin-right:5px;" src="img/substituicao_entrada.png">({{jogador.entrada}}')
+						{% endif %}
+						{% if jogador.saida %}
+						<img style="margin-right:5px;" src="img/substituicao_saida.png">({{jogador.saida}}')
+						{% endif %}
+						
+						{% if jogador.vermelho %}
+						<img style="margin-right:5px;" src="img/vermelho.png">({{jogador.vermelho}}')
+						{% endif %}
+						{% if jogador.duplo_amarelo %}
+						<img style="margin-right:5px;" src="img/duploamarelo.png">({{jogador.duplo_amarelo}}')
+						{% endif %}
+						{% if jogador.amarelo %}
+						<img style="margin-right:5px;" src="img/amarelo.png">({{jogador.amarelo}}')
+						{% endif %}
+						
+						{% if jogador.golos|gt:0 %}
+						<img style="margin-right:5px;" src="img/golo.png">({{jogador.golos_minutos|show_golos:jogador.golos_tipos}})
+						
+						{% if jogador.golos_videos %}	
+							{% for video in jogador.golos_videos %}
+							<A CLASS="fp-watch-video" HREF="#" 
+					VIDEO_HTML="{{video|urlencode}}" 
+					TARGET_DIV="fp-fixed-video-screen">
+					<img src="img/movie.png"></A>
+					 		{% endfor %}
+						{% endif %}
+					{% endif %}
+					</div>
+					<div class="fp-ficha-jogo-jogador-nome-esquerda">
+						<a href="detalhe_jogador?id={{jogador.jogador.key.id}}">{{jogador.jogador.jgd_nome}}</a>
+					</div>
+					<div class="fp-ficha-jogo-jogador-numero">
+						{{jogador.numero}}
+					</div>
+				</div>		
+			{% endfor %}
+			</div>
+		</td>
+			
+		<td></td>			
+			
+		<td colspan=2>
+			<div style="text-align:left; width:100%;">
+				{% for jogador in jogo_dados.jogadores_subst2 %}
+				<div class="fp-ficha-jogo-jogador-div">
+					<div class="fp-ficha-jogo-jogador-numero">
+						{{jogador.numero}}
+					</div>
+					<div class="fp-ficha-jogo-jogador-nome-direita">
+						<a href="detalhe_jogador?id={{jogador.jogador.key.id}}">{{jogador.jogador.jgd_nome}}</a>
+					</div>
+					<div style="display:inline-block;">
+						{% if jogador.golos|gt:0 %}
+						<img style="margin-right:5px;" src="img/golo.png">({{jogador.golos_minutos|show_golos:jogador.golos_tipos}})
+						
+						{% if jogador.golos_videos %}	
+							{% for video in jogador.golos_videos %}
+							<A CLASS="fp-watch-video" HREF="#" 
+					VIDEO_HTML="{{video|urlencode}}" 
+					TARGET_DIV="fp-fixed-video-screen">
+					<img src="img/movie.png"></A>
+					 		{% endfor %}
+						{% endif %}
+						{% endif %}
+
+						{% if jogador.vermelho %}
+						<img style="margin-right:5px;" src="img/vermelho.png">({{jogador.vermelho}}')
+						{% endif %}
+						{% if jogador.duplo_amarelo %}
+						<img style="margin-right:5px;" src="img/duploamarelo.png">({{jogador.duplo_amarelo}}')
+						{% endif %}
+						{% if jogador.amarelo %}
+						<img style="margin-right:5px;" src="img/amarelo.png">({{jogador.amarelo}}')
+						{% endif %}
+
+						{% if jogador.entrada %}
+						<img style="margin-right:5px;" src="img/substituicao_entrada.png">({{jogador.entrada}}')
+						{% endif %}
+
+						{% if jogador.saida %}
+						<img style="margin-right:5px;" src="img/substituicao_saida.png">({{jogador.saida}}')
+						{% endif %}
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</td>
+	</tr>	
+		
+	<tr>
+		<td colspan=5 style="height:3px;"></td>
+	</tr>
+	<tr>
+		<td colspan=2 class="fp-hr"></td>
+		<td></td>
+		<td colspan=2 class="fp-hr"></td>
+	</tr>
+</table>	
+{% endautoescape %}

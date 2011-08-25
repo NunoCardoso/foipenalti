@@ -1,0 +1,155 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="jogos" href="#">Jogos</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="calendario" href="#">Calendário</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="jogos">
+
+<!-- início jogos -->
+<div class="fp-subtitulo" style="margin:10px;">Jogos do {{clube.clu_nome_curto}} em <div class="epoca-container">{{epoca.epo_nome}}</div></div> 
+
+<div class="fp-table-wrapper">
+	<div class="fp-table-gadgets" style="width:850px;">
+		<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="30" size="30" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20" selected="selected">20</option>
+         <option value="30">30</option>
+         <option value="40">40</option>
+       </select>
+    	</div>
+	</div>
+	
+	<table id="fp-clube-jogos" class='fp-table fp-table-pager fp-table-filter' style="width:850px;">
+		<THEAD>
+
+			<tr style="text-align:center;"><TH style="width:200px;">Jogo</TH><TH style="width:120px;">Data</TH><TH style="width:120px;">Competição</TH><TH style="width:100px;">Jornada</TH><TH style="width:20px;"></TH><TH style="width:40px;"></TH><TH class="{sorter: 'digit'}" style="width:60px;">ICC&#0153;</TH><TH style="width:190px;">Arbitragem</TH></tr>
+
+		</THEAD>
+		<TBODY>
+		{% for jogo in jogo_list %}	
+		<tr>
+		<TD><P class="marqueeable"><a href="/detalhe_jogo?id={{jogo.key.id}}">{{jogo|printjogo4clube:clube.key.id}}</A></P>
+		</TD>
+		<TD value="{{jogo.jog_data|pp_yearmonthday}}">
+			<P class="marqueeable">{{jogo.jog_data|pp_daymonthyear}}, {{jogo.jog_data|pp_hour}}</P>
+		</TD>	
+		<TD>
+			<P class="marqueeable"><a href="/detalhe_competicao?id={{jogo.jog_competicao.key.id}}">{{jogo.jog_competicao.cmp_nome_completo}}</a>
+		</P>
+		</TD>	
+		<td><P class="marqueeable"><a href="/detalhe_jornada?id={{jogo.jog_jornada.key.id}}">{{jogo.jog_jornada.jor_nome_completo}}</A></P></TD>
+	
+		{{jogo|print_row_ved:clube}}
+
+		<TD>{% if jogo.jog_link_videos %}	
+			<A CLASS="fp-watch-video" HREF="#" 
+			VIDEO_HTML="{{jogo.jog_link_videos.0|urlencode}}" 
+			TARGET_DIV="fp-fixed-video-screen">
+			<img src="img/movie.png"></A>
+		{% endif %}
+		</TD>
+		<TD value="{{jogo|generate_icc4clube:clube}}">{{jogo|print_icc4clube:clube}}</TD>
+
+		<TD style="font-size:10px;">
+			<P class="marqueeable">
+				<div id="veredicto_polegar" style="float:left; margin-right:10px;vertical-align:middle;">	
+					{% if jogo.jog_influencia_arbitro|eq:1 %}
+					<img src="img/thumbs_up.png" style="vertical-align:middle;height:15px;width:15px;">
+					{% endif %}
+					{% if jogo.jog_influencia_arbitro|eq:2 %}
+					<img src="img/thumbs_soso.png" style="vertical-align:middle;height:15px;width:15px;">					
+					{% endif %}
+					{% if jogo.jog_influencia_arbitro|eq:3 %}
+					<img src="img/thumbs_down.png" style="vertical-align:middle;height:15px;width:15px;">
+					{% endif %}
+					{% if jogo.jog_influencia_arbitro|eq:4 %}
+					<img src="img/thumbs_meh.png" style="vertical-align:middle;height:15px;width:15px;">
+				
+					{% endif %}					
+				</DIV>
+			<DIV>{{jogo.jog_influencia_arbitro|translate_ia}}</DIV>
+			</P>
+
+		</TD>
+		</tr>	
+		{% endfor %}
+	</tbody>
+	</table>	
+	<DIV style="text-align:left;margin:5px;">Nota:ICC&#0153; a <span style="font-weight:bold;color:green;">verde</span> indica que a a equipa foi prejudicada. ICC&#0153; a <span style="font-weight:bold;color:red;">vermelho</span> indica que foi beneficiada.</DIV>
+</DIV>	
+
+
+<!-- fim jogos -->
+		</DIV>
+		<DIV class="tab_contents" id="calendario">
+
+<!-- início calendário -->
+		
+			<div id="jogos-calendario-div" style="width:100%;display:inline-block;"></div>
+			<script>
+			var jogos = {{jogos_calendario|to_json}}
+			</script>
+			{% for calendario in calendario_epoca %}
+			
+				<script>
+					var cal = new Calendar({{calendario.mes}}, {{calendario.ano}}, jogos);
+					cal.generateHTML();
+					$("#jogos-calendario-div").append(
+						"<DIV style='width:200px; margin:10px;float:left;'>"+cal.getHTML()+'</DIV>');
+				</script>
+			{% endfor %}	
+		
+<!--fim calendario -->	
+		</DIV>
+	</DIV>
+</DIV>
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_clube?id={{clube.key.id}}&menu=detalhe_clube_jogos&epoca={{epoca.epo_nome}}">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV> 
+<script>$(document).ready(function() {$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}});
+$(".fp-table-pager").each(function() {	$(this).tablesorterPager({ container: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager"), positionFixed: false, size:$(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager .pagesize option:selected").val() });
+})
+$(".fp-table-filter").each(function() { $(this).tablesorterFilter({ filterContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-box"),
+ filterClearContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-clear"),filterCaseSensitive: false}); })
+$(".marqueeable").each(function() {addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+
+// Baloes
+	$('.fp-calendario-event').each(function() {
+		var bg_body = $('body').css('background-color').replace(/rgb/,"rgba").replace(/\)$/,",0.8)")
+		var content = $('#'+ $(this).attr("title")).html()
+		$(this).bt(content,  
+			{trigger: 'click', positions: 'top', 
+			closeWhenOthersOpen: true,
+      	fill: bg_body,
+      	clickAnywhereToClose: true,
+      	strokeWidth: 3, strokeStyle: '#142c46',
+      	cssStyles: {display:'block'},
+      	shadow: true, shadowOffsetX: 5, shadowOffsetY: 5,
+      	shadowBlur: 8,  shadowColor: 'rgba(0,0,0,.6)', 
+			shadowOverlap: false,
+      	cornerRadius: 10
+		})
+	})
+})</script>
+{% endautoescape %}
+{% endspaceless %}

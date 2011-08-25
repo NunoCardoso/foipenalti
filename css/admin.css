@@ -1,0 +1,205 @@
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,th,td{margin:0;padding:0}
+body{font-size:10px;font-family:sans-serif;height:100%;background:#EEE} 
+input{min-height:20px;}
+table{border-collapse:collapse;border-spacing:0}
+
+table.admin-table th {
+	background:#EFEFEF none repeat scroll 0 0;
+	border-top:1px solid #CCCCCC;
+	font-size:small;
+	padding-left:5px;
+	padding-right:4px;
+	padding-top:4px;
+	vertical-align:top;
+	text-align:left;
+}
+
+table.admin-table tr:nth-child(odd) {	
+	background-color: #e5ecf9;
+	font-size:small;
+}
+
+table.admin-table tr:nth-child(even) {	
+	background-color: #f5fcff;
+	font-size:small;
+}
+
+table.admin-table tr td {	
+	padding:3px;
+}
+
+.delete, .edit {
+	font-size: 10px;
+	vertical-align: top;
+}
+
+form.admin-form td {
+	font-size: smaller;
+}
+
+.flash-ok-msg {
+	border:1px solid green;
+	background: #ccffcc;
+	margin:10px;
+}
+
+/* para as tabs */
+a:active {
+	outline: none;
+}
+/* para as tabs */
+a:focus {
+	-moz-outline-style: none;
+}
+
+.admin-tabs {
+   font-size:16px;
+   font-weight: bold;
+   color:#142c46;
+   text-indent:0;
+	width:100%;
+}
+
+.admin-tabs ul.tabs {
+	list-style: none;
+	border-bottom: 2px solid #142c46;
+	height: 30px;
+	line-height: 30px;
+	margin: 0px;
+	padding-left: 10px;
+}
+
+.admin-tabs ul.tabs li {
+   list-style: none;
+   display:block;
+   float:left;
+	color: #142c46;
+	background-color:#E5ECF9;
+   text-align:center;
+	border-left: 2px solid #142c46;
+	border-top: 2px solid #142c46;
+	border-right: 2px solid #142c46;
+	border-bottom: 2px solid #142c46;
+
+  -moz-border-radius:12px 12px 0px 0px;     
+   -webkit-border-radius:12px 12px 0px 0px; 
+   border-radius:12px 12px 0px 0px;     
+	margin-right: 2px;
+	height: 28px;
+	line-height: 28px;
+}
+
+.admin-tabs ul.tabs li a {
+	padding-left:10px;
+	padding-right:10px;
+	display: block;
+	text-decoration: none;
+	color:#142C46;
+}
+
+.admin-tabs ul.tabs li:hover {
+ 	background-color: #FFFFFF; 
+}
+
+.admin-tabs ul.tabs li.active {
+   color: #142c46;
+   background-color:#FFFFFF;
+   border-bottom: 2px solid #FFFFFF;
+}
+
+.admin-tabs .main-tab-content{
+	background-color:white;
+	border-bottom:2px solid #142c46;
+}
+
+.admin-link-button {
+min-width: 15px;
+padding: 2px;
+display: inline-block;
+margin-left: 3px;
+margin-right: 3px;
+background-color: #bbb;
+padding-right: 5px;
+text-decoration:none;
+}
+
+.admin-link-button:hover {
+	background-color: #ddd;
+}
+
+.admin-link-button:active {
+	background-color: #fff;
+}
+
+div.tab_contents_container {
+	border-top: 2px solid #142c46;
+/*	border-top: none;*/
+	padding: 10px;
+}
+
+div.tab_contents {
+	display: none;
+	padding:10px;
+	overflow:auto;
+}
+
+div.tab_contents_active {
+	display: block;
+}
+
+div.clear {
+	clear: both;
+}
+
+.admin-table {
+	font-size:12px;
+}
+
+.admin-table TBODY TR:nth-child(odd) TD {
+	background-color:#D8F2F9;
+}
+
+.admin-table TBODY TR:nth-child(even) TD {
+	background-color:#C8E2E9;
+}
+
+/* this has to be the first one, so that headerSortUp and headerSortDown can override it */
+.admin-table thead tr .header {
+	background-image: url('../img/bg.gif');
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+	padding-right:17px;	
+}
+
+.admin-table thead tr th:hover {
+	background-color:#FFFFFF;
+}
+
+.admin-table thead tr .headerSortUp {
+	background-image: url('../img/asc.gif');
+}
+
+.admin-table thead tr .headerSortDown {
+	background-image: url('../img/desc.gif');
+}
+
+.admin-table thead tr .headerSortDown, .admin-table thead tr .headerSortUp {
+	background-color:#aaa;
+}
+
+.admin-little-shadow {
+	box-shadow: 2px 2px 2px #888;
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-box-shadow: 2px 2px 2px #888;
+}
+
+table.obj {
+	margin:10px;
+	border:1px solid #888;
+	-webkit-box-shadow: 4px 4px 4px #ccc;
+}
+
+table.obj TR TD {
+	padding:5px;
+}

@@ -1,0 +1,99 @@
+{% extends "main.html" %}
+{% block title %}{{competicao.cmp_nome_completo}} {{competicao.cmp_epoca.epo_nome}}{% endblock %}
+{% block content %} 
+{% spaceless %}
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+{% autoescape off %}
+{% if competicao %} 
+<div class="fp-video-box fp-shadow fp-medium-radius" id="fp-fixed-video-screen-div" style="display:none;">
+	<a href="#" class="minimize-video" style="text-align:left;display:block;font-size:10px;height:10px;">[x] Esconder</A> 
+	<div id="fp-fixed-video-screen"></div>
+</DIV>
+
+
+<div CLASS="waiting-div-container">
+	<DIV CLASS="waiting-div" style="display:none;">
+		<DIV CLASS="waiting-div-message fp-shadow fp-medium-radius"></div>
+	</DIV> 
+</div>
+
+<div style="height:60px;margin-left:30px;">
+		<img style="display:inline; height:60px;vertical-align:middle;margin-right:10px;" src="{{competicao.cmp_link_foto}}">
+<DIV style="display:inline; margin-top:10px;font-size:30px;">{{competicao.cmp_nome_completo}} <div class="epoca-container">{{competicao.cmp_epoca.epo_nome}}</div></DIV>
+</DIV>	
+
+
+<DIV style="width:100%;text-align:center;">
+<DIV ID="main-submenu" CLASS="fp-shadow">
+	<UL>
+		<LI CLASS="main-submenu-firstitem">
+			<A ID="detalhe_competicao_sumario" CLASS="submenu-link" href="#" 
+			TARGET_DIV="main-ajax-content" 
+			TARGET_SERVICE="detalhe_competicao_sumario"
+			TARGET_ID="{{competicao.key.id}}">Sumário</A></LI>
+		<LI>
+			<A ID="detalhe_competicao_clubes" CLASS="submenu-link" href="#" 
+			TARGET_DIV="main-ajax-content" 
+			TARGET_SERVICE="detalhe_competicao_clubes"
+			TARGET_ID="{{competicao.key.id}}">Clubes</A></LI>
+		<LI>
+			<A ID="detalhe_competicao_jogadores" CLASS="submenu-link" href="#" 
+			TARGET_DIV="main-ajax-content" 
+			TARGET_SERVICE="detalhe_competicao_jogadores"
+			TARGET_ID="{{competicao.key.id}}">Jogadores</A></LI>
+		<LI>
+			<A ID="detalhe_competicao_jogos" CLASS="submenu-link" href="#" 
+			TARGET_DIV="main-ajax-content" 
+			TARGET_SERVICE="detalhe_competicao_jogos"
+			TARGET_ID="{{competicao.key.id}}">Jogos</A></LI>	
+		<LI>
+			<A ID="detalhe_competicao_arbitros" CLASS="submenu-link" href="#" 
+			TARGET_DIV="main-ajax-content" 
+			TARGET_SERVICE="detalhe_competicao_arbitros"
+			TARGET_ID="{{competicao.key.id}}">Árbitros</A></LI>
+		<LI>
+			<A ID="detalhe_competicao_indices" CLASS="submenu-link" href="#" 
+			TARGET_DIV="main-ajax-content" 
+			TARGET_SERVICE="detalhe_competicao_indices"
+			TARGET_ID="{{competicao.key.id}}">Índices</A></LI>
+		<LI CLASS="main-submenu-lastitem">
+			<SELECT id="epoca" name="epoca" style="margin-right:10px;margin-left:10px;margin-top: 5px;">
+				<OPTION VALUE="2011/2012"{% if epoca.epo_nome|eq:"2011/2012" %} SELECTED{% endif %}>2011/2012</OPTION>
+				<OPTION VALUE="2010/2011"{% if epoca.epo_nome|eq:"2010/2011" %} SELECTED{% endif %}>2010/2011</OPTION>
+			</SELECT>
+		</LI>
+	</UL>
+</DIV>		
+</DIV>
+
+<DIV id="main-ajax-content"></div>
+
+<script>$(document).ready(function() {
+	var whereto = "detalhe_competicao_sumario"
+	querystring = window.location.search
+	service = querystring.match(/menu=([a-zA-Z0-9_]+)/) 
+	if (service != null)
+		whereto = service[1]
+	$("#"+whereto).trigger('click');
+})</script>
+
+<div style="margin:10px;">
+{% if request.url|doesntstartswith:"http://localhost" %}
+<div id="disqus_thread"></div>
+<script type="text/javascript" src="http://disqus.com/forums/{{ settings.disqus }}/embed.js"></script>
+<noscript><a href="http://{{ settings.disqus }}.disqus.com/?url=ref">Ver comentários.</a></noscript>
+{% endif %}
+<div><a href="/agradecimentos">Fonte dos dados</a></div>
+</div>
+{% else %}
+Competição inexistente.
+{% endif %}
+{% endautoescape %}
+{% endspaceless %}
+{% endblock %}

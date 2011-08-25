@@ -1,0 +1,25 @@
+<table class='fp-table' style="width:290px;margin-left:5px;font-size:12px;">
+	<thead>
+		<tr>
+		<th style="text-align:right">{{jornada.jor_nome_completo}}</TH>
+		<th style="width:50px;"></th>
+		<TH style="text-align:left">{{jornada.jor_data|date:"Y/m/d"}}</th>
+	</tr>
+</thead>
+<tbody>
+	{% for jogo in jornada.jor_jogos %}
+	<tr>
+		<td style="width:125px;text-align:right;">
+			<p class="marqueeable">
+				<a href="detalhe_clube?id={{jogo.jog_clube1.key.id}}">
+			{% if jogo.jog_golos_clube1|gt:jogo.jog_golos_clube2 %}<B>{% endif %}{{jogo.jog_clube1.clu_nome_curto}}{% if jogo.jog_golos_clube1|gt:jogo.jog_golos_clube2 %}</B>{% endif %}
+			</A></P></td>	
+		<td style="width:40px;text-align:center;"><a href="detalhe_jogo?id={{jogo.key.id}}">
+			{{jogo.jog_golos_clube1|filternone}} - {{jogo.jog_golos_clube2|filternone}}</A></td>	
+		<td style="width:125px;text-align:left;">
+			<P class="marqueeable"><a href="detalhe_clube?id={{jogo.jog_clube1.key.id}}&competicao={{competicao}}">
+		{% if jogo.jog_golos_clube2|gt:jogo.jog_golos_clube1 %}<B>{% endif %}{{jogo.jog_clube2.clu_nome_curto}}{% if jogo.jog_golos_clube2|gt:jogo.jog_golos_clube1 %}</B>{% endif %}</A></P></td>	
+	</tr>
+	{% endfor %}
+</tbody>
+</table>

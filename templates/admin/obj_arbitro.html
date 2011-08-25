@@ -1,0 +1,35 @@
+
+{# editar um clube existente #}
+{% if edit %}
+<form action="/admin/arbitro/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# novo clube #}
+{% if new_single %}
+<form action="/admin/arbitro/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar árbitro {{obj.arb_nome}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><label for="arb_nome">Nome</label></td>
+		<td><input type="text" name="arb_nome" id="arb_nome" size=40{%if edit %}  value="{{obj.arb_nome}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label for="arb_link_foto">Foto (link http)</label></td>
+		<td><input type="text" name="arb_link_foto" id="arb_link_foto" size=80{%if edit %} value="{{obj.arb_link_foto}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label for="arb_link_zz">Link ZZ</label></td>
+		<td><input type="text" name="arb_link_zz" id="arb_link_zz" size=80{%if edit %}  value="{{obj.arb_link_zz}}{% endif %}"/></td>
+	</tr>
+
+	<tr>
+		<td colspan="2"><input style="width:400px;" type="submit" value="{% if edit %}Editar{% else %}Criar novo{% endif %} árbitro"/></td>
+	</tr>
+	</table>
+</form>

@@ -1,0 +1,123 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="sumario" href="#">Sumário</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="sumario">
+			
+<!-- inicio stats -->
+
+<DIV class="fp-subtitulo" style="margin:10px;">Competições do {{clube.clu_nome_curto}} em <div class="epoca-container">{{epoca.epo_nome}}</div></div> 
+
+<div>
+	<table id="fp-detalhe-clube-competicoes" class='fp-table'>
+		<THEAD>
+			<tr style="text-align:center;"><TH>Competição</TH><TH>Posição</TH><TH>Jogos</TH><TH>Vit.</TH><TH>Emp.</TH><TH>Der.</TH><TH>G.M.</TH><TH>G.S.</TH><TH>Pontos</TH></tr>
+		</THEAD>
+		<TBODY>
+		{% for competicao in competicoes %}	
+		<tr>
+		<TD>
+			<a href="/detalhe_competicao?id={{competicao.competicao.key.id}}">{{competicao.competicao.cmp_nome_completo}}</a>
+		</TD>	
+		<TD>{{competicao.stats.psr}}</TD>
+		<TD>{{competicao.stats.jr}}</TD>
+		<TD>{{competicao.stats.vr}}</TD>
+		<TD>{{competicao.stats.er}}</TD>
+		<TD>{{competicao.stats.dr}}</TD>
+		<TD>{{competicao.stats.gmr}}</TD>
+		<TD>{{competicao.stats.gsr}}</TD>
+		<TD>{{competicao.stats.pr}}</TD>
+		</tr>	
+		{% endfor %}
+		
+		<tr style="font-weight:bold;border-top:1px solid black;">
+		<TD>Total</TD>	
+		<TD></TD>
+		<TD>{{total_competicoes.jr}}</TD>
+		<TD>{{total_competicoes.vr}}</TD>
+		<TD>{{total_competicoes.er}}</TD>
+		<TD>{{total_competicoes.dr}}</TD>
+		<TD>{{total_competicoes.gmr}}</TD>
+		<TD>{{total_competicoes.gsr}}</TD>
+		<TD></TD>
+		</tr>	
+	</tbody>
+	</table>	
+</div>
+
+<DIV style="width:100%;display:inline-block;">
+	
+	<DIV style="float:left;display:inline;padding:20px;width:400px;text-align:center;">	
+
+		<DIV class="fp-subtitulo" style="margin-bottom:10px;">Melhores marcadores</div> 
+
+		<TABLE id="fp-detalhe_clube-melhores-marcadores" class='fp-table' style="width:300px;">
+		<THEAD>
+			<tr style="text-align:center;"><TH>Jogador</TH><TH>Golos</TH></tr>
+		</THEAD>
+		<TBODY>		
+		{% for jogador in melhores_marcadores %}	
+			<TR>
+				<TD><a href="/detalhe_jogador?id={{jogador.jogador.key.id}}"><span style="width:16px;display:inline-block;">{{jogador.jogador.jgd_numero}}</span> {{jogador.jogador.jgd_nome}}</A></TD>
+				<TD style="text-align:center;">{{jogador.gol}} &times; <img style="height:15px;" src="img/golo.png">
+ 				</TD>	
+			</TR>
+		{% endfor %}	
+		
+		</TBODY>
+		</TABLE>
+		<div style="font-size:12px; margin:3px;color:gray;"><a href="#" onClick="javascript:$('#detalhe_clube_jogadores').trigger('click');return false;"> Mais informação >></a>
+		</div>  
+	</div>
+
+	<DIV style="float:left;display:inline;padding:20px;width:400px;text-align:center;">	
+
+		<DIV class="fp-subtitulo" style="margin-bottom:10px;">Mais indisciplinados</div> 
+
+		<TABLE id="fp-detalhe_clube-indisciplina" class='fp-table' style="width:300px;">
+		<THEAD>
+			<TR>
+				<TH style="text-align:center;">Jogador</TH>
+				<TH style="text-align:center;">Cartões</TH>
+			</TR>
+		</THEAD>
+		<TBODY>
+	{% for jogador in mais_indisciplinados %}
+			<TR>
+				<TD><a href="/detalhe_jogador?id={{jogador.jogador.key.id}}"><span style="width:16px;display:inline-block;">{{jogador.jogador.jgd_numero}}</span> {{jogador.jogador.jgd_nome}}</A></TD>
+				<TD  style="text-align:center;">
+{% if jogador.crt.ca|gt:0 %}{{jogador.crt.ca}} &times; <img style="height:15px;" src="img/amarelo.png">{% endif %} 
+{% if jogador.crt.cda|gt:0 %}{{jogador.crt.cda}} &times; <img style="height:15px;" src="img/duploamarelo.png">{% endif %}
+{% if jogador.crt.cv|gt:0 %}{{jogador.crt.cv}} &times; <img style="height:15px;" src="img/vermelho.png">{% endif %}
+ 				</TD>	
+			</TR>
+		{% endfor %}	
+		
+		</TBODY>
+		</TABLE>		
+		<div style="font-size:12px; margin:3px;color:gray;"><a href="#" onClick="javascript:$('#detalhe_clube_jogadores').trigger('click'); return false;"> Mais informação >></a>
+		</div>  
+	</div>
+</DIV>	
+
+<!--fim stats -->	
+		</DIV>
+	</DIV>
+</DIV>
+	
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="/detalhe_clube?id={{clube.key.id}}&menu=detalhe_clube_sumario&epoca={{epoca.epo_nome}}">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV> 
+<script>$(document).ready(function() {
+$(".marqueeable").each(function() {	addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})</script>
+{% endautoescape  %}
+{% endspaceless %}

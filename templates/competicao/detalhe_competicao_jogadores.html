@@ -1,0 +1,192 @@
+{% spaceless %}
+{% autoescape off %}
+<div class="fp-subtitulo" style="margin-bottom:10px;">Top de jogadores na {{competicao.cmp_nome_completo}} <div class="epoca-container">{{competicao.cmp_epoca.epo_nome}}</div></div> 
+
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="mais_golos" href="#">Melhores marcadores</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="mais_cartoes" href="#">Mais indisciplinados</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="mais_lances" href="#">Mais lances</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="mais_golos">
+			
+<!-- inicio golos -->
+
+<div class="fp-table-wrapper" style="margin-top:20px;">
+	<div class="fp-table-gadgets" style="width:400px;">
+		<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="30" size="30" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20" selected="selected">20</option>
+         <option value="30">30</option>
+         <option value="40">40</option>
+       </select>
+    	</div>
+	</div>
+		
+	<table id="fp-detalhe-competicao-melhores-marcadores" class='fp-table fp-table-pager fp-table-filter' style="width:400px;">
+	<THEAD>
+		<tr style="text-align:center;"><TH style="width:200px;">Jogador</TH><TH>Clube</TH><TH>Golos</TH></tr>
+	</THEAD>
+	<TBODY>		
+	{% for jogador in melhores_marcadores %}	
+		<TR>
+			<TD><P class="marqueeable">
+				<a href="/detalhe_jogador?id={{jogador.jogador.key.id}}">
+			<span class="fp-lista-numero-jogador">{{jogador.jogador.jgd_numero}}</span> {{jogador.jogador.jgd_nome}}</A></P></TD>
+			<TD><P class="marqueeable"><a href="/detalhe_clube?id={{jogador.jogador.jgd_clube_actual.key.id}}"><img style="height:16px;display:inline-block;" src='{{jogador.jogador.jgd_clube_actual.clu_link_logo}}'> {{jogador.jogador.jgd_clube_actual.clu_nome_curto}}</A></P></TD>
+			<TD style="text-align:center;">
+				<P class="marqueeable">{{jogador.gol}} &times; <img style="height:15px;" src="img/golo.png"></P>
+			</TD>	
+		</TR>
+	{% endfor %}
+	</TBODY>
+	</TABLE>	
+</div>
+
+<!-- fim golos -->
+		</DIV>
+		<DIV class="tab_contents" id="mais_cartoes">
+			
+<!-- inicio cartoies -->
+
+<div class="fp-table-wrapper" style="margin-top:20px;">
+	<div class="fp-table-gadgets" style="width:400px;">
+		<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="30" size="30" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20" selected="selected">20</option>
+         <option value="30">30</option>
+         <option value="40">40</option>
+       </select>
+    	</div>
+	</div>
+	
+	<TABLE id="fp-detalhe-competicao-indisciplina" class='fp-table fp-table-pager fp-table-filter' style="width:400px;">
+		<THEAD>
+			<TR style="text-align:center;">
+				<TH style="width:200px;">Jogador</TH><TH>Clube</TH><TH>Cartões</TH>
+			</TR>
+		</THEAD>
+		<TBODY>
+	{% for jogador in mais_indisciplinados %}
+			<TR>
+				<TD>
+					<P class="marqueeable">
+						<a href="/detalhe_jogador?id={{jogador.jogador.key.id}}">
+							<span class="fp-lista-numero-jogador">{{jogador.jogador.jgd_numero}}
+							</span>
+					 {{jogador.jogador.jgd_nome}}
+						</A>
+					</P>
+				</TD>
+				<TD>
+					<P class="marqueeable">
+						<a href="/detalhe_clube?id={{jogador.jogador.jgd_clube_actual.key.id}}"><img style="height:16px;display:inline-block;" src='{{jogador.jogador.jgd_clube_actual.clu_link_logo}}'> {{jogador.jogador.jgd_clube_actual.clu_nome_curto}}</A></P></TD>
+					<TD style="text-align:center;"><P class="marqueeable">
+{% if jogador.crt.ca|gt:0 %}{{jogador.crt.ca}} &times; <img style="height:15px;" src="img/amarelo.png">{% endif %} 
+{% if jogador.crt.cda|gt:0 %}{{jogador.crt.cda}} &times; <img style="height:15px;" src="img/duploamarelo.png">{% endif %}
+{% if jogador.crt.cv|gt:0 %}{{jogador.crt.cv}} &times; <img style="height:15px;" src="img/vermelho.png">{% endif %}
+ 				</P></TD>	
+			</TR>
+		{% endfor %}	
+		
+		</TBODY>
+	</TABLE>		
+</div>
+	
+<!-- fim cartoies -->
+		</DIV>
+		<DIV class="tab_contents" id="mais_lances">
+			
+<!-- inicio lances -->
+	
+<div class="fp-table-wrapper" style="margin-top:20px;">
+	<div class="fp-table-gadgets" style="width:400px;">
+		<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="30" size="30" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20" selected="selected">20</option>
+         <option value="30">30</option>
+         <option value="40">20</option>
+       </select>
+    	</div>
+	</div>
+		
+	<TABLE id="fp-detalhe-competicao-mais-lances" class='fp-table fp-table-pager fp-table-filter' style="width:400px;">
+		<THEAD>
+			<TR style="text-align:center;">
+				<TH style="width:200px;">Jogador</TH><TH>Clube</TH><TH>Nº Lances</TH>
+			</TR>
+		</THEAD>
+		<TBODY>
+	{% for jogador in mais_lances %}
+			<TR>
+				<TD><P class="marqueeable"><span class="fp-lista-numero-jogador">{{jogador.jogador.jgd_numero}}</span><a href="/detalhe_jogador?id={{jogador.jogador.key.id}}">{{jogador.jogador.jgd_nome}}</A></P></TD>
+				<TD>
+					<P class="marqueeable">
+						<a href="/detalhe_clube?id={{jogador.jogador.jgd_clube_actual.key.id}}"><img style="height:16px;display:inline-block;" src='{{jogador.jogador.jgd_clube_actual.clu_link_logo}}'> {{jogador.jogador.jgd_clube_actual.clu_nome_curto}}</A></P></TD>
+				<TD style="text-align:right;">{{jogador.num}}</TD>	
+			</TR>
+		{% endfor %}	
+		
+		</TBODY>
+	</TABLE>	
+</DIV>
+
+<!-- fim jogadores -->
+		</DIV>
+	</DIV>
+</DIV>
+	
+
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_competicao?id={{competicao.key.id}}&menu=detalhe_competicao_jogadores">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV>
+<script>$(document).ready(function() {$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}});
+$(".fp-table-pager").each(function() {	$(this).tablesorterPager({ container: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager"), positionFixed: false, size:$(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager .pagesize option:selected").val() });
+})
+$(".fp-table-filter").each(function() { $(this).tablesorterFilter({ filterContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-box"),
+ filterClearContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-clear"),filterCaseSensitive: false}); })
+$(".marqueeable").each(function() {addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})
+</script>
+{% endautoescape %}
+{% endspaceless %}

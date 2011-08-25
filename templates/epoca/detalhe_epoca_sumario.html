@@ -1,0 +1,125 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="sumario" href="#">Sumário</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="sumario">
+			
+<!-- inicio stats -->
+
+<div class="fp-subtitulo" style="margin:10px;">{% if epoca_corrente %}Líderes{% else %}Vencedores{% endif %} das competições de <div class="epoca-container">{{epoca.epo_nome}}</div></div> 
+
+<div>
+	<table id="fp-detalhe-epoca-competicoes" class='fp-table'>
+		<THEAD>
+			<tr style="text-align:center;"><TH>Competição</TH><TH>Clube</TH><TH>Pos.</TH><TH>Jogos</TH><TH>Vit.</TH><TH>Emp.</TH><TH>Der.</TH><TH>G.M.</TH><TH>G.S.</TH><TH>Pontos</TH></tr>
+		</THEAD>
+		<TBODY>
+		{% for item in competicoes %}	
+		<tr>
+		<TD>
+			<a href="/detalhe_competicao?id={{item.competicao.key.id}}">{{item.competicao.cmp_nome_completo}}</a>
+		</TD>	
+		<TD><img class="fp-clube-logo-small" src="{{item.clube.clu_link_logo}}">
+			<A HREF="detalhe_clube?clube={{item.clube.clu_nome}}">{{item.clube.clu_nome_curto}}</A></TD>
+		<td>{{item.dados.psr}}</TD>
+		<td>{{item.dados.jr}}</TD>
+		<td>{{item.dados.vr}}</TD>
+		<td>{{item.dados.er}}</TD>
+		<td>{{item.dados.dr}}</TD>
+		<td>{{item.dados.gmr}}</TD>
+		<td>{{item.dados.gsr}}</TD>
+		<td>{{item.dados.pr}}</TD>
+		</tr>	
+		{% endfor %}
+	</tbody>
+	</table>	
+</div>
+
+<div style="width:100%;display:block;">
+	
+	<div style="float:left;display:inline;padding:20px;width:400px;text-align:center;">	
+
+		<div class="fp-subtitulo" style="margin-bottom:10px;">Melhores marcadores</div> 
+
+		<table id="fp-detalhe_clube-melhores-marcadores" class='fp-table' style="width:400px;">
+		<THEAD>
+			<tr style="text-align:center;"><TH style="width:200px;">Jogador</TH><TH>Clube</TH><TH>Golos</TH></tr>
+		</THEAD>
+		<TBODY>		
+		{% for jogador in melhores_marcadores %}	
+			<TR>
+				<TD><P class="marqueeable">
+					<a href="/detalhe_jogador?id={{jogador.jogador.key.id}}">
+				<span class="fp-lista-numero-jogador">{{jogador.jogador.jgd_numero}}</span> {{jogador.jogador.jgd_nome}}</A></P></TD>
+				<TD><P class="marqueeable"><a href="/detalhe_clube?id={{jogador.jogador.jgd_clube_actual.key.id}}"><img class="fp-clube-logo-small" src='{{jogador.jogador.jgd_clube_actual.clu_link_logo}}'> {{jogador.jogador.jgd_clube_actual.clu_nome_curto}}</A></P></TD>
+				<TD style="text-align:center;">
+					<P class="marqueeable">{{jogador.gol}} &times; <img style="height:15px;" src="img/golo.png"></P>	</TD>	
+			</TR>
+		{% endfor %}	
+		
+		</TBODY>
+		</TABLE>	
+		<div style="font-size:12px; margin:3px;color:gray;"><a href="#" onClick="javascript:$('#detalhe_epoca_jogadores').trigger('click'); return false;"> Mais informação >></a></div>		
+
+	</div>
+
+	<div style="float:left;display:inline;padding:20px;width:400px;text-align:center;">	
+
+		<div class="fp-subtitulo" style="margin-bottom:10px;">Mais indisciplinados</div> 
+
+		<TABLE id="fp-detalhe_clube-indisciplina" class='fp-table' style="width:400px;">
+		<THEAD>
+			<TR style="text-align:center;">
+				<TH style="width:200px;">Jogador</TH><TH>Clube</TH><TH>Cartões</TH>
+			</TR>
+		</THEAD>
+		<TBODY>
+	{% for jogador in mais_indisciplinados %}
+			<TR>
+				<TD>
+					<P class="marqueeable">
+						<a href="/detalhe_jogador?id={{jogador.jogador.key.id}}">
+							<span class="fp-lista-numero-jogador">{{jogador.jogador.jgd_numero}}
+							</span>
+					 {{jogador.jogador.jgd_nome}}
+						</A>
+					</P>
+				</TD>
+				<TD>
+					<P class="marqueeable">
+						<a href="/detalhe_clube?id={{jogador.jogador.jgd_clube_actual.key.id}}"><img class="fp-clube-logo-small" src='{{jogador.jogador.jgd_clube_actual.clu_link_logo}}'> {{jogador.jogador.jgd_clube_actual.clu_nome_curto}}</A></P></TD>
+					<TD style="text-align:center;"><P class="marqueeable">
+{% if jogador.crt.ca|gt:0 %}{{jogador.crt.ca}} &times; <img style="height:15px;" src="img/amarelo.png">{% endif %} 
+{% if jogador.crt.cda|gt:0 %}{{jogador.crt.cda}} &times; <img style="height:15px;" src="img/duploamarelo.png">{% endif %}
+{% if jogador.crt.cv|gt:0 %}{{jogador.crt.cv}} &times; <img style="height:15px;" src="img/vermelho.png">{% endif %}
+ 				</P></TD>	
+			</TR>
+		{% endfor %}	
+		
+		</TBODY>
+		</TABLE>	
+		<div style="font-size:12px; margin:3px;color:gray;"><a href="#" onClick="javascript:$('#detalhe_epoca_jogadores').trigger('click'); return false;"> Mais informação >></a></div>	
+	</div>
+</DIV>	
+
+<!--fim stats -->	
+		</DIV>
+	</DIV>
+</DIV>
+	
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_clube?id={{clube.key.id}}&menu=detalhe_epoca_sumario&epoca={{epoca.epo_nome}}">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV> 
+<script>$(document).ready(function() {
+$(".marqueeable").each(function() {	addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})</script>
+{% endautoescape  %}
+{% endspaceless %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html">
+<html lang="pt">
+<head>
+<base href="http://{{settings.current_host}}/" />
+<META charset="utf-8" />
+<LINK rel="stylesheet" href="css/main.css" />	
+<LINK rel="stylesheet" href="css/admin.css" />	
+<LINK rel="stylesheet" href="css/anytime.css" />	
+<LINK rel="stylesheet" href="css/jquery.autocomplete.css"  />
+<LINK rel="stylesheet" href="css/thickbox.css"  media="screen, projection" />
+
+<script type="text/javascript" src="js/lib/jquery-1.5.min.js" ></script>
+<script type="text/javascript" src="js/lib/jquery-ui-1.8.2.custom.min.js" ></script>
+<script type="text/javascript" src="js/lib/thickbox-compressed.js" ></script>
+<script type="text/javascript" src="js/lib/jquery.tablesorter.min.js" ></script>
+<script type="text/javascript" src="js/lib/jquery.jcarousel.min.js" ></script>
+<script type="text/javascript" src="js/lib/jquery.anytime.min.js" ></script>
+<script type="text/javascript" src="js/lib/jquery.autocomplete.js" ></script>
+<script type="text/javascript" src="js/main.js" ></script>
+<script type="text/javascript" src="js/admin.js" ></script>
+<title>{% block title %}{% endblock %} | {{ settings.maintitle }}</title>
+</HEAD>
+
+<BODY>
+<DIV ID="admin-main-container">
+	<NAV ID="main-menu" style="width:auto;font-size:1.1em;">
+		<UL>
+			<LI class="withoutmenu"><A HREF="/admin/">Início</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/epoca/">Época</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/competicao/">Competição</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/jornada/">Jornada</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/jogo/">Jogo</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/lance/">Lance</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/clube/">Clube</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/jogador/">Jogador</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/arbitro/">Árbitro</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/comentador/">Comentador</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/fonte/">Fonte</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/clube_tem_jogador/">CTJ</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/clube_joga_competicao/">CJC</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/jogador_joga_jogo">JJJ</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/comentador_comenta_lance/">CCL</A></LI>
+			<LI class="withoutmenu"><A HREF="/admin/jogador_em_lance/">JEL</A></LI>
+		</UL>
+	</NAV>
+<div CLASS="waiting-div-container">
+	<DIV CLASS="waiting-div" style="display:none;left:45%;margin:auto;position:absolute;">
+		<DIV CLASS="waiting-div-message" style="background-color:#CCF"></div>
+	</DIV> 
+</div>
+  <DIV ID="admin-main-content">
+		<P>
+			<DIV ID='admin-main-body'>
+				<!--STARTCUTTINGPART-->
+	            {% block content %}{% endblock %}
+				<!--ENDCUTTINGPART-->
+			</DIV>
+		<P>
+	</DIV>
+</DIV>
+<script>
+$(document).ready(function() {
+	if ($("LI.active").empty()) $($("UL.tabs > LI > A").get(0)).trigger("click")
+})
+</script>
+</BODY>
+</HTML>

@@ -1,0 +1,90 @@
+{# novos ccl a mando de um lance #}
+{% if new_for_parent_id %}
+<form action="/admin/{{objname}}/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar vários ccl existentes #}
+{% if multiple_edit %}
+<form action="/admin/{{objname}}/save_multiple" method="post">
+{% endif %}	
+
+{# novos ccl sem estarem presos a nada #}
+{% if new_multiple %}
+<form action="/admin/{{objname}}/new_multiple" method="post">
+{% endif %}	
+
+<input type='hidden' id="prefix" name='prefix' value='ccl'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novas CCL a serem associadas ao lance {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar CCLs associadas ao lance {{obj}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+						
+	<table>
+		<tr>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="ccl{{i}}_id" id="ccl{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}	
+			<td style="margin:5px;">
+				<input type="checkbox" id="ccl{{i}}_checkbox" name="ccl{{i}}_checkbox">
+			</td>
+			
+			<td>
+				<div style="display:inline;">
+					<select class="aware-change" size=1 name="ccl{{i}}_comentador_id" id="ccl{{i}}_comentador_id"/>
+					<option value="">--</option>
+				{% for comentador in comentadores %}
+					<option value="{{ comentador.key.id }}"{% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"ccl_comentador"|eq:comentador %}  SELECTED{% else %}{% if forloop.counter0|eq:0 and comentador.com_nome|streq:"Jorge Coroado" %} SELETED{% endif %}{% if forloop.counter0|eq:1 and comentador.com_nome|streq:"Pedro Henriques" %} SELETED{% endif %}{% if forloop.counter0|eq:2 and comentador.com_nome|streq:"Paulo Paraty" %} SELETED{% endif %}{% endif %}>{{ comentador.com_nome }}</option>
+			{% endfor %}
+					</select>
+				</div>
+			
+				{% if new_for_parent_id or multiple_edit %}
+				<input type="hidden" name="ccl{{i}}_lance_id" id="ccl{{i}}_lance_id" value="{{obj|get_id}}"/> 
+				{% else %}
+				<div style="display:inline;">
+					<input type="text" class="aware-change" name="ccl{{i}}_lance" id="ccl{{i}}_lance" size=40 placeholder="2011/2012:Liga:3:XXX:YYY:1" {% if multiple_edit and objs|has_element:i %}value='{{objs|get_element:i|attribute:"ccl_lance"}}'{% endif %}/>
+				</div>
+				{% endif %}
+				
+				<div style="display:inline;">
+					<textarea style="width:300px;height:50px;" class="aware-change" name="ccl{{i}}_descricao" id="ccl{{i}}_descricao" placeholder="Descrição">{% if multiple_edit and objs|has_element:i %}{{objs|get_element:i|attribute:"ccl_descricao"}}{% endif %}</textarea>
+				</div>
+					
+				<div style="display:inline;">
+					<select class="aware-change" size=1 name="ccl{{i}}_decisao" id="ccl{{i}}_decisao"/>
+			 <option value="0" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"ccl_decisao"|eq:0 %} SELECTED{% endif %}>--</option>
+			 <option value="1" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"ccl_decisao"|eq:1 %} SELECTED{% endif %}>O árbitro esteve bem</option>
+			 <option value="2" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"ccl_decisao"|eq:2 %} SELECTED{% endif %}>O árbitro beneficiou a equipa da casa</option>
+			 <option value="3" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"ccl_decisao"|eq:3 %} SELECTED{% endif %}>O árbitro beneficiou a equipa visitante</option>
+			 <option value="4" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"ccl_decisao"|eq:4 %} SELECTED{% endif %}>Benefício da dúvida</option>
+			</select>
+			</td>
+		</tr>	
+	</table>
+			
+					</td>
+				</tr>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novos{% endif %} CCL {% if new_for_parent_id or multiple_edit %}associadas ao lance {{obj.lan_nome}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

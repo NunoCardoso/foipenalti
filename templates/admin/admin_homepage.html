@@ -1,0 +1,63 @@
+{% extends "admin_main.html" %}
+{% block title %}Admin{% endblock %}
+{% block content %} 
+{% spaceless %}
+<div style="width:100%;text-align:center;">
+<DIV id="console" style="margin:10px;float:right;width:300px;height:200px;background-color:#000;color:white;overflow:auto;"></DIV>
+</div>
+<H3>TaskQueues</H3>
+
+Refrescar 1 jornada, 1 competição, 1 época
+<table>
+	<tr>
+	<td>Jornada: <input type="text" name="jornada" id="jornada" size=30 placeholder="2011/2012:Liga:1" value="{{jornada}}"/><input type="text" name="versao" id="versao" size=5 placeholser="2" value="2"/> Em: <input type="text" name="countdown" id="countdown" size=5 placeholder="Seg." value="2"/>seg. <A href="#" class="refresh1j1c1e">Lançar tarefa</a></td>
+	</tr>
+</table>
+Refrescar toda uma época
+<table>
+	<tr>
+	<td>Época: <input type="text" name="epoca" id="epoca" size=20 placeholder="2011/2012"/><input type="text" name="versao" id="versao" size=5 placeholer="2" value="2"/> Em: <input type="text" name="countdown" id="countdown" size=5 placeholder="Seg." value="2"/>seg. <A href="#" class="refresh1e">Lançar tarefa</a></td>
+	</tr>
+</table>
+
+<H3>Caches</H3>
+
+<p><a href="/admin/clear-cach" target="_blank">Clear memcache</a></P>
+
+<H3>Blog</H3>
+
+<a href="/admin/post/create">New blog post</a>
+	
+
+
+<script>
+$(document).ready(function() {
+	$(".refresh1j1c1e").live("click", function(ev, ui) {
+		ev.preventDefault();
+		jornada = $(this).siblings("#jornada").val()
+		versao = $(this).siblings("#versao").val()
+		countdown = $(this).siblings("#countdown").val()
+		ajaxMainLoader({
+			"url":"/task/acumulador_task_manager?action=refresh1j1c1e&jornada="+
+			jornada+"&versao="+versao+"&countdown="+countdown, 
+			"target_div":$("#console") 
+			})
+		$("#console").append("<P>Tarefa refresh1j1c1e adicionada.</P>")	
+	})
+
+	$(".refresh1e").live("click", function(ev, ui) {
+		ev.preventDefault();
+		epoca = $(this).siblings("#epoca").val()
+		versao = $(this).siblings("#versao").val()
+		countdown = $(this).siblings("#countdown").val()
+		ajaxMainLoader({
+			"url":"/task/acumulador_task_manager?action=refresh1e&epoca="+
+			epoca+"&versao="+versao+"&countdown="+countdown, 
+			"target_div":$("#console") 
+			})
+		$("#console").append("<P>Tarefa refresh1e adicionada.</P>")	
+	})
+})
+</script>
+{% endspaceless %}
+{% endblock %}

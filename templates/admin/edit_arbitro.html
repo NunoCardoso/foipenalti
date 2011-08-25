@@ -1,0 +1,40 @@
+{% extends "admin_main.html" %}
+{% block title %}Editar árbitro{% endblock %}
+{% block content %} 
+{% spaceless %}
+{% autoescape off %}
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+<DIV CLASS="admin-tabs">
+	<UL CLASS="tabs">
+		<LI{% ifequal tab "edit" %} CLASS="active"{% endifequal %}>
+			<A CLASS="admin-tab-link" rel="edit" href="#" >Editar árbitro</A></LI>
+		<LI{% ifequal tab "list1" %} CLASS="active"{% endifequal %}>
+			<A CLASS="admin-tab-link" rel="list1" href="#" >Listar jogos</A></LI>
+		<LI{% ifequal tab "new1" %} CLASS="active"{% endifequal %}>
+			<A CLASS="admin-tab-link" rel="new1" href="#" >Associar jogos</A></LI>
+	</UL>
+	<!-- This is used so the contents don't appear to the right of the tabs -->
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents{% ifequal tab 'edit' %} tab_contents_active{% endifequal %}" id="edit">
+			{{edit}}
+		</DIV>
+		<DIV class="tab_contents{% ifequal tab 'list1' %} tab_contents_active{% endifequal %}" id="list1" url="/admin/jogo/list">
+			{{list1}}
+		</DIV>
+		<DIV class="tab_contents{% ifequal tab 'new1' %} tab_contents_active{% endifequal %}" id="new1">
+			{{new1}}
+		</DIV>
+
+	</DIV>
+</DIV>
+
+{% endautoescape %}
+{% endspaceless %}
+{% endblock %}

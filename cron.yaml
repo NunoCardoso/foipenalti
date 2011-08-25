@@ -1,0 +1,5 @@
+cron:
+- description: refresh homepage
+  url: /?cache=false
+  schedule: every day 03:00
+  timezone: Europe/Oslo

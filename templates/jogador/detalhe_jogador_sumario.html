@@ -1,0 +1,71 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="sumario" href="#">Sumário</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="sumario">
+
+<!-- sumario -->
+
+<div class="fp-subtitulo" style="margin-top:20px;">{{jogador.jgd_nome}} nas competições de {{epoca.epo_nome}}</div> 
+
+	<table id="fp-detalhe-jogador-competicoes" class='fp-table'>
+		<THEAD>
+			<tr style="text-align:center;"><TH>Competição</TH><TH>Clube</TH><TH>Jogos</TH><TH>Minutos</TH><TH>Golos</TH><TH>Cartões</TH></tr>
+		</THEAD>
+		<TBODY>
+		{% for item in dados %}	
+		<tr>
+		<TD>
+			<a href="/detalhe_competicao?id={{item.competicao.key.id}}">{{item.competicao.cmp_nome_completo}}</a>
+		</TD>	
+		<td>
+			<P class="marqueeable"><a href="/detalhe_clube?id={{item.clube}}"><img class="fp-clube-logo-small" src='{{item.clube.clu_link_logo}}'> {{item.clube.clu_nome_curto}}</A></P>
+		</TD>
+		<td style="text-align:right;">
+			{{item.jogos_realizados}}
+		</TD>
+		<td style="text-align:right;">
+			{{item.minutos_jogados}}
+		</TD>
+		<td style="text-align:right;">
+			{{item.golos_marcados}}
+		</TD>
+		<td value="{{item.indisciplina}}" style="text-align:right;">					
+				{% if item.indisciplina|gt:0 %}
+				{% if item.cartoes_amarelos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_amarelos }}x<img src="img/amarelo.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% if item.cartoes_duplo_amarelos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_duplo_amarelos }}x<img src="img/duploamarelo.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% if item.cartoes_vermelhos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_vermelhos }}x<img src="img/vermelho.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% endif %}
+		</TD>
+	
+		</tr>	
+		{% endfor %}
+	</tbody>
+	</table>	
+
+<!-- fim sumario -->
+		</DIV>
+	</DIV>
+</DIV>
+		
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_jogador?id={{jogador.key.id}}&menu=detalhe_jogador_sumario&epoca={{epoca.epo_nome}}">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV>
+<script>$(document).ready(function() {$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}}); $(".marqueeable").each(function() {	addMarquee(this)})
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})</script>
+{% endautoescape  %}
+{% endspaceless %}

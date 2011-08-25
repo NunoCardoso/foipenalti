@@ -1,0 +1,262 @@
+{% if new_for_parent_id %}
+<form action="/admin/lance/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% else %}
+{# não é preciso adicionar id de jogo... eu dou um id de cada lance, e basta não alterar o jogo #}
+
+{% if multiple_edit %}
+<form action="/admin/lance/save_multiple" method="post">
+{% else %}
+<form action="/admin/lance/new_multiple" method="post">
+{% endif %}
+{% endif %}
+
+<input type='hidden' id="prefix" name='prefix' value='lan'>
+<input type='hidden' name='number' value='{{howmany}}'>
+<input type='hidden' name='number_jels' value='3'>
+<input type='hidden' name='number_ccls' value='3'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novos lances a serem associadas ao jogo {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar lances associadas ao jogo {{obj}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+
+	<table>
+		<tr>
+			<td>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="lan{{i}}_id" id="lan{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}	
+			
+			<input type="checkbox" id="lan{{i}}_checkbox" name="lan{{i}}_checkbox">
+			
+			<div style="display:inline;">
+			{% if new_for_parent_id %}
+				<B>{{obj.jog_nome}}</B>
+			{% else %}
+			{% if multiple_edit and objs|has_element:i %}
+				<B>{{objs|get_element:i|attribute:"lan_jogo"}}</B>
+				<input type="hidden" name="lan{{i}}_jogo" id="lan{{i}}_jogo" value='{{objs|get_element:i|attribute:"lan_jogo"}}'/>
+			{% else %}
+			<input type="text" class="aware-change" name="lan{{i}}_jogo" id="lan{{i}}_jogo" size=20 placeholder="Jogo"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"lan_jogo"}}'{% endif %}/>
+			{% endif %}
+			{% endif %}
+			</div>
+			
+			<div style="display:inline;">
+				<input class="aware-change" type="number" min="0" step="1" name="lan{{i}}_numero" id="lan{{i}}_numero" placeholder="Nº" size=10{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"lan_numero"}}'{% endif %}/>
+			</div>	
+				
+			<div style="display:inline;">
+				<input class="aware-change" type="number" min="0" step="1" name="lan{{i}}_minuto" id="lan{{i}}_minuto" placeholder="min." size=10{% if multiple_edit and objs|has_element:i %}  value='{{objs|get_element:i|attribute:"lan_minuto"}}'{% endif %}/> 
+			</div>
+			</td>
+		</tr>
+		<tr>
+			<td>	
+			<div style="display:inline;">
+				<select size=1 class="aware-change" name="lan{{i}}_classe" id="lan{{i}}_classe">
+					<option value="">--</option>
+				{% for tipo in tipos_lances %}
+					<option value="{{ forloop.counter0 }}"{% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"lan_classe"|eq:forloop.counter0 %} SELECTED{% endif %}>{{ tipo }}</option>
+				{% endfor %} 
+				</select>
+			</div>
+			</td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr>
+			<td>
+			<TEXTAREA class="aware-change" name="lan{{i}}_descricao" id="lan{{i}}_descricao" placeholder="Descrição" style="width:350px;height:50px;">{% if multiple_edit and objs|has_element:i %}{{objs|get_element:i|attribute:"lan_descricao"}}{% endif %}</TEXTAREA>
+		</td><td>
+			
+			{% if multiple_edit and objs|has_element:i %}
+			{% for video in objs|get_element:i|attribute:"lan_link_videos" %}
+			<TEXTAREA style="width:300px;height:25px;" class="aware-change" name="lan{{i}}_link_videos" id="lan{{i}}_link_videos" placeholder="Vídeo lance"/>{{video}}</TEXTAREA>
+			{% endfor %}
+			{% endif %}
+			<TEXTAREA style="width:300px;height:25px;" class="aware-change" name="lan{{i}}_link_videos" id="lan{{i}}_link_videos" placeholder="Vídeo lance"/></TEXTAREA>
+			</td>
+		</tr>
+	</table>
+	
+<!-- JELS -->	
+
+	<table>
+		<tr>
+			<td>
+			JELs:
+			{% if multiple_edit and objs|has_element:i %}
+			{% for jel in objs|get_element:i|attribute:"lan_jogadores" %}
+				<table><tr><td>
+				<input type="hidden" name="lan{{i}}_jel_id" value="{{jel|get_id}}">
+					<div class="toDuplicate_lan{{i}}_jel_{{multiple_edit}} aware-change" style="display:inline;"> 
+						<input style="height:12px;" type="checkbox" id="lan{{i}}_jel_checkbox" name="lan{{i}}_jel_checkbox">
+
+						{% if jogadores %}
+						<select class="aware-change" size=1 id="lan{{i}}_jel_jogador_id" name="lan{{i}}_jel_jogador_id">
+						<option value="">--</option>
+						{% for jogador in jogadores %}
+						<option value="{{jogador.key.id}}" {% if jogador.jgd_nome|eq:jel.jel_jogador.jgd_nome %} SELECTED{% endif %}>{{jogador.jgd_nome}}</option>
+						{% endfor %}
+						</select>
+						{% else %}
+						<input class="aware-change nome_jogador_autocomplete" type="text" AUTOCOMPLETE="OFF" size="20" id="lan{{i}}_jel_jogador" name="lan{{i}}_jel_jogador" placeholder="Jogador" value='{{jel.jel_jogador}}'>
+						{% endif %}
+							
+						<select class="aware-change" size=1 id="lan{{i}}_jel_papel" name="lan{{i}}_jel_papel">
+						{% for item in tipos_jels %}	
+						<option value="{{item.0}}" {% if item.0|eq:jel.jel_papel %} SELECTED{% endif %}>{{item.1}}</option>
+						{% endfor %}
+						</select>
+
+					</div>
+				</td></tr></table>
+					{% endfor %}
+					{% endif %}
+				<table><tr><td>
+					<div class="toDuplicate_lan{{i}}_jel_{{multiple_edit}}" style="display:inline;"> 
+						<input style="height:12px;" type="checkbox" id="lan{{i}}_jel_checkbox" name="lan{{i}}_jel_checkbox">
+						{% if new_for_parent_id %}
+						<select class="aware-change" size=1 id="lan{{i}}_jel_jogador_id" name="lan{{i}}_jel_jogador_id">
+							<option value="">--</option>
+							{% for jogador in jogadores %}
+							<option value="{{jogador.key.id}}" {% if jogador.jgd_nome|eq:jel.jel_jogador.jgd_nome %} SELECTED{% endif %}>{{jogador.jgd_nome}}</option>
+							{% endfor %}
+						</select>
+						{% else %}
+						<input type="text" class="aware-change nome_jogador_autocomplete" AUTOCOMPLETE="OFF" size="20" id="lan{{i}}_jel_jogador" name="lan{{i}}_jel_jogador" placeholder="Jogador"> 
+						{% endif %}
+							
+						<select class="aware-change" size=1 id="lan{{i}}_jel_papel" name="lan{{i}}_jel_papel">
+						{% for item in tipos_jels %}	
+							<option value="{{item.0}}">{{item.1}}</option>
+						{% endfor %}
+						</select>
+					</div>
+				</td></tr></table>
+					
+					
+					<div style="display:inline;">
+						<a href="#" class='duplicate-input-link' what="toDuplicate_lan{{i}}_jel_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+						<a href="#" class='remove-input-link' what='toDuplicate_lan{{i}}_jel_{{multiple_edit}}'><img src='img/minus.gif'></a>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>	
+	
+<!-- inicio tabela comentadores -->
+
+	<table>
+		<tr>
+	{% if multiple_edit and objs|has_element:i %}
+	{% for ccl in objs|get_element:i|attribute:"lan_comentadores" %}
+			<td>
+			<div style="display:inline;">
+			<table>
+				<tr>
+					<TD>	
+						<div style="display:inline;"> 
+							<input style="display:inline; height:12px; width:12px;" type="checkbox" id="lan{{i}}_ccl{{forloop.counter0}}_checkbox" name="lan{{i}}_ccl{{forloop.counter0}}_checkbox">
+							<input type="hidden" name="lan{{i}}_ccl{{forloop.counter0}}_id" value="{{ccl|get_id}}">
+						</div>
+						<div style="display:inline;"> 
+							<select size=1 class="aware-change" name="lan{{i}}_ccl{{forloop.counter0}}_comentador" id="lan{{ lance }}_ccl{{forloop.counter0}}_comentador">
+							<option value="" DEFAULT>-- Comentadores --</option>
+							{% for comentador in comentadores %}
+							<option value="{{ comentador.key.id }}" {% if ccl.ccl_comentador.com_nome|eq:comentador.com_nome %}SELECTED{% endif %}>{{ comentador.com_nome }}</option>
+							{% endfor %}
+							</select>
+						</div>
+					</td></tr>
+					<tr><td>
+						<div style="display:inline;"> 
+						<select size=1 class="aware-change" name="lan{{i}}_ccl{{forloop.counter0}}_decisao" id="lan{{i}}_ccl{{forloop.counter0}}_decisao"/>
+						<option value="0"{% if ccl.ccl_decisao|eq:0 %} SELECTED{% endif %}>--</option>
+						<option value="1"{% if ccl.ccl_decisao|eq:1 %} SELECTED{% endif %}>O árbitro esteve bem</option>
+						<option value="2"{% if ccl.ccl_decisao|eq:2 %} SELECTED{% endif %}>O árbitro beneficiou a equipa da casa</option>
+						<option value="3"{% if ccl.ccl_decisao|eq:3 %} SELECTED{% endif %}>O árbitro beneficiou a equipa visitante</option>
+						<option value="4"{% if ccl.ccl_decisao|eq:4 %} SELECTED{% endif %}>Benefício da dúvida</option>
+						</select>
+						</div>
+					</td> </tr>
+					<tr> <td>
+						<div style="display:inline;">	
+							<TEXTAREA class="aware-change" name="lan{{i}}_ccl{{forloop.counter0}}_descricao" id="lan{{i}}_ccl{{forloop.counter0}}_descricao" placeholder="Descrição comentador" style="width:250px;height:100px;">{{ccl.ccl_descricao}}</TEXTAREA>
+						</div>
+					</td>
+				</tr>		
+			</table>
+			</div>
+		</td>	
+	{% endfor %}
+	{% else %}
+	{% for j in 3|get_range %}
+		<td>
+			<div style="display:inline;">
+			<table>
+				<tr>
+					<td>
+						<div style="display:inline;"> 
+							<input style="display:inline; height:12px; width:12px;" type="checkbox" id="lan{{i}}_ccl{{j}}_checkbox" name="lan{{i}}_ccl{{j}}_checkbox">
+						</div>
+						<div style="display:inline;"> 
+							<select size=1 class="aware-change" name="lan{{i }}_ccl{{j}}_comentador" id="lan{{ lance }}_ccl{{j}}_comentador">
+							<option value="" DEFAULT>-- Comentadores --</option>
+							{% for comentador in comentadores %}
+							<option value="{{ comentador.key.id }}">{{ comentador.com_nome }}</option>
+							{% endfor %}
+							</select>
+						</div>
+					</td> </tr>
+					<tr> <td>
+	
+						<div style="display:inline;"> 
+						<select size=1 class="aware-change" name="lan{{i}}_ccl{{j}}_decisao" id="lan{{i}}_ccl{{j}}_decisao"/>
+						<option value="0">--</option>
+						<option value="1">O árbitro esteve bem</option>
+						<option value="2">O árbitro beneficiou a equipa da casa</option>
+						<option value="3">O árbitro beneficiou a equipa visitante</option>
+						<option value="4">Benefício da dúvida</option>
+						</select>
+						</div>
+					</td></tr>
+					<tr>  <td>
+						<div style="display:inline;">	
+							<TEXTAREA class="aware-change" name="lan{{i}}_ccl{{j}}_descricao" id="lan{{i}}_ccl{{j}}_descricao" placeholder="Descrição comentador" style="width:250px;height:100px;"></TEXTAREA>
+						</div>
+					</td>
+				</tr>		
+			</table>
+			</div>
+		</td>		
+	{% endfor %}	
+	{% endif %}
+		</tr>
+	</table>
+				</td>
+			</tr>
+		</TABLE>
+		{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novos{% endif %} lances {% if new_for_parent_id or multiple_edit %}associadas ao jogo {{obj.jog_nome}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

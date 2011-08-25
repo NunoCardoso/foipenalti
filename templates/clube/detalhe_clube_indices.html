@@ -1,0 +1,166 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="detalhe_icc" href="#">Detalhe ICC&#0153;</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="detalhe_icc">
+
+<!-- início icc -->
+
+<div class="fp-subtitulo" style="margin:10px;">Detalhe do ICC&#0153; do <a href="/detalhe_clube?id={{clube.key.id}}">{{clube.clu_nome_curto}}</a> em <div class="epoca-container">{{epoca.epo_nome}}</div></div> 
+<div class="fp-table-wrapper">
+
+	<div style="text-align:left;font-size:12px;margin-bottom:10px;">Nota: só serão apresentados os lances onde o árbitro errou, e que efectivamente contam para o ICC&#0153;.</div>
+	
+	<div id="fp-detalhe-icc" style="margin-left:auto;margin-right:auto;width:850px;">
+		<table id="fp-detalhe-icc-table" style="table-layout:fixed;width:850px;font-size:12px">
+			<tr style="border-top:1px solid black;">
+				<th rowspan=2 style="text-align:center;width:350px;">Jogos / lances</th>
+				
+				<th colspan=4 style="width:400px;text-align:center;">Factores e pesos</th>
+				<th colspan=2 style="width:100px;text-align:center;">Somas</th>
+			</tr>
+			<tr>
+				<th style="width:250px;">Tipo<BR>de lance</th>	
+				<th style="width:40px;">Tempo<BR>de jogo</th>	
+				<th style="width:50px;">Resultado<BR>na altura</th>	
+				<th style="width:30px;">Risco<BR>do jogo</th>	
+				<th style="width:55px;color:red;">Benefício</th>
+				<th style="width:55px;color:green;">Prejuízo</th>
+			</tr>	
+
+			<tr><td colspan=7 style="padding:0px; height:1px; background-color:#888;"></td></tr>
+
+			{% for item in detalhe_icc_dados.jogos %} 
+				<!-- jogo header -->
+				<tr style="text-align:left;">
+				<td><P class="marqueeable">
+					<B><a href="/detalhe_jornada?id={{item.jogo.jog_jornada.key.id}}"> {{item.jogo.jog_jornada.jor_nome_completo}}</A></B>: <a href="/detalhe_jogo?id={{item.jogo.key.id}}">{{item.jogo|printjogo4clube:clube.key.id}}</a>
+				</P></td>
+				
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				</tr>
+
+				<!-- lance list -->
+				{% for lance in item.lances %}
+				<tr style="text-align:center;font-size:16px;">
+				<td style="text-align:left;font-size:12px;">
+					<B>Lance {{lance.num}}, aos {{lance.min}}'</B></TD>
+				<td>{{lance.p_cla}}</td>
+				<td>{{lance.p_tmp}}</td>
+				<td>{{lance.p_res}}</td>
+				<td>{{lance.p_ris}}</td>
+				<td rowspan=2>
+					{% if lance.clu1|eq:clube.key.id and lance.dn|eq:2 %}
+						<div style="float:right;font-size:14px;color:red;">{{lance.icc1}}</div>
+					{% endif %}
+					{% if lance.clu2|eq:clube.key.id and lance.dn|eq:3 %}
+						<div style="float:right;font-size:14px;color:red;">{{lance.icc2}}</div>
+					{% endif %}
+				</td>
+				<td rowspan=2>
+					{% if lance.clu1|eq:clube.key.id and lance.dn|eq:3 %}
+						<div style="float:right;font-size:14px;color:green;">{{lance.icc1}}</div>					
+					{% endif %}
+					{% if lance.clu2|eq:clube.key.id and lance.dn|eq:2 %}
+						<div style="float:right;font-size:14px;color:green;">{{lance.icc2}}</div>					
+					{% endif %}
+				</td>
+
+				</tr>
+				<tr style="text-align:center;color:gray;">
+				<td style="text-align:left;color:black;"><a href="detalhe_lance?id={{lance.id}}"><I>{{lance.descricao}}</I></a></td>
+				<td><p class="marqueeable"><I>{{lance.d_cla|translate_classe_lance}}</I></P></td>
+				<td><p class="marqueeable"><span class="color:#CCC;font-size:10px;">{{lance.d_tmp|translate_tempo_lance}}</span></P></td>
+				<td><p class="marqueeable"><span class="color:#CCC;font-size:10px;">{{lance.d_res}}</span></P></td>
+				<td><p class="marqueeable"><span class="color:#CCC;font-size:10px;">{{lance.d_ris|translate_risco_jogo}}</span></P></td>
+			
+				</tr>
+				{% endfor %}
+				
+				<!-- bonus -->
+				
+				{% if item.bonus %}
+				<tr style="text-align:left;">
+				<td rowspan=2><B><span style="color:red;">Agravamento:</span></B><BR>
+				O resultado podia ser: {{item.jogo.jog_clube1.clu_nome_curto}} {{item.bonus.rv}}  {{item.jogo.jog_clube2.clu_nome_curto}}</td>
+				
+				<td colspan=3 style="text-align:center;font-size:16px;">{{item.bonus.p_agr}}</td>
+				<td style="text-align:center;font-size:16px;">{{item.bonus.p_ris}}</td>
+
+				{% if item.bonus.dn|eq:1 %}
+				<td colspan=2><div style="float:right;font-size:14px;color:gray;">{{item.bonus.icc1}}</div></td>
+				{% endif %}
+				{% if item.bonus.clu1|eq:clube.key.id and item.bonus.dn|eq:2 %}
+				<td><div style="float:right;font-size:14px;color:red;">{{item.bonus.icc1}}</div>
+				</td><td></td>
+				{% endif %}
+				{% if item.bonus.clu2|eq:clube.key.id and item.bonus.dn|eq:3 %}
+				<td><div style="float:right;font-size:14px;color:red;">{{item.bonus.icc2}}</div>
+				</td><td></td>
+				{% endif %}
+
+				{% if item.bonus.clu1|eq:clube.key.id and item.bonus.dn|eq:3 %}
+				<td></td><td>
+				<div style="float:right;font-size:14px;color:green;">{{item.bonus.icc1}}</div></td>
+				{% endif %}
+				{% if item.bonus.clu2|eq:clube.key.id and item.bonus.dn|eq:2 %}
+				<td></td><td>
+				<div style="float:right;font-size:14px;color:green;">{{item.bonus.icc2}}</div></td>
+				{% endif %}
+				</tr>
+				
+				<tr style="text-align:center;color:gray;">
+				<td colspan=3><P class="marqueeable">{{item.bonus.d_agr|translate_classe_lance}}</P></td>
+				<td>{{item.bonus.d_ris|translate_risco_jogo}}<td>
+					
+				{% endif %}
+				
+				<tr><td colspan=7 style="padding:0px; height:1px; background-color:#888;"></td></tr>
+			{% endfor %}
+
+			<!-- sum-up -->
+			<tr>
+				<td colspan=7 style="text-align:right:">
+					{% if  detalhe_icc_dados.total_icc|ispositive %}
+					 <DIV style="float:right;font-size:24px;color:red;font-weight:bold;margin-left:15px;">{{ detalhe_icc_dados.total_icc }}</DIV>
+					{% else %}
+					 <DIV style="float:right; font-size:24px;color:green;font-weight:bold;margin-left:15px;">{{ detalhe_icc_dados.total_icc }}</DIV>
+					{% endif %}
+					<DIV style="float:right; font-size:24px;margin-left:15px;">=</DIV>
+					<DIV style="float:right; font-size:24px;color:green;margin-left:15px;">{{ detalhe_icc_dados.total_icc_prejuizo|absvalue }}</DIV>
+					<DIV style="float:right; font-size:24px;margin-left:15px;">-</DIV>
+					
+					<DIV style="float:right; font-size:24px;color:red;margin-left:15px;">{{ detalhe_icc_dados.total_icc_beneficio }}</DIV>
+					<DIV style="float:right; font-size:24px;"> <B>Total</B>: </DIV>
+					
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!-- fim icc -->
+		</DIV>
+	</DIV>
+</DIV>
+
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_clube?id={{clube.key.id}}&menu=detalhe_clube_indices&epoca={{epoca.epo_nome}}">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV> 
+<script>$(document).ready(function() {
+$(".marqueeable").each(function() {addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})</script>
+{% endautoescape %}
+{% endspaceless %}		

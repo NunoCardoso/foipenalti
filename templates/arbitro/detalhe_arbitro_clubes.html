@@ -1,0 +1,102 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="clubes" href="#">Clubes</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="clubes">
+			
+<!-- inicio golos -->
+
+<div class="fp-subtitulo" style="margin:10px;">Estatísticas de clubes em jogos arbitrados por {{arbitro.arb_nome}} em <div class="epoca-container">{{epoca.epo_nome}}</div></div> 
+
+<div class="fp-table-wrapper">
+	<div class="fp-table-gadgets" style="width:600px;">
+		<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="30" size="30" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20" selected="selected">20</option>
+         <option value="30">30</option>
+         <option value="40">40</option>
+       </select>
+    	</div>
+	</div>
+	
+	<table id="fp-arbitro-clubes" class='fp-table fp-table-pager fp-table-filter' style="width:600px;">
+		<THEAD>
+			<tr style="text-align:center;">
+				<TH style="width:150px;">Clube</TH>
+				<TH style="width:100px;">Jogos</TH>
+				<TH style="width:100px;">ICC&#0153;</TH>
+				<TH style="width:100px;">Cartões</TH>
+				</tr>
+		</THEAD>
+		<TBODY>
+		{% for item in clubes %}	
+		<tr>
+		<TD>
+			<P class="marqueeable">
+				<img class="fp-clube-logo-small" src="{{item.clube.clu_link_logo}}"> <a href="/detalhe_clube?id={{item.clube.key.id}}">{{item.clube.clu_nome_curto}}</a>
+			</P>
+		</TD>	
+		<td style="text-align:center;">
+			{{item.jogos_realizados}}
+		</TD>
+		<td style="text-align:center;">
+			<P class="marqueeable">{{item.icc}}</P>
+		</TD>
+		<td value="{{item.indisciplina}}"  style="text-align:center;">
+			<P class="marqueeable">
+					
+				{% if item.indisciplina|gt:0 %}
+				{% if item.cartoes_amarelos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_amarelos }}x<img src="img/amarelo.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% if item.cartoes_duplo_amarelos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_duplo_amarelos }}x<img src="img/duploamarelo.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% if item.cartoes_vermelhos %}
+				<DIV style="display:inline; margin-right:5px;">{{ item.cartoes_vermelhos }}x<img src="img/vermelho.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% endif %}
+			</P>
+			</TD>
+		</TD>
+		</tr>	
+		{% endfor %}
+	</tbody>
+	</table>	
+</DIV>
+<!-- FIM -->
+		</DIV>
+	</DIV>
+</DIV>
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_arbitro?id={{arbitro.key.id}}&menu=detalhe_arbitro_clubes&epoca={{epoca.epo_nome}}">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV> 
+	
+<script>$(document).ready(function() {$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}});
+$(".fp-table-pager").each(function() {	$(this).tablesorterPager({ container: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager"), positionFixed: false, size:$(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager .pagesize option:selected").val() });
+})
+$(".fp-table-filter").each(function() { $(this).tablesorterFilter({ filterContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-box"),
+ filterClearContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-clear"),filterCaseSensitive: false}); })
+$(".marqueeable").each(function() {addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})
+</script>
+{% endautoescape  %}
+{% endspaceless %}

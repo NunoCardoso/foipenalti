@@ -1,0 +1,178 @@
+{% if new_for_parent_id %}
+<form action="/admin/jogo/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% else %}
+{# não é preciso adicionar id de jornada... eu dou um id de cada jogo, e basta não alterar a jornada #}
+{% if multiple_edit %}
+<form action="/admin/jogo/save_multiple" method="post">
+{% else %}
+<form action="/admin/jogo/new_multiple" method="post">
+{% endif %}
+{% endif %}
+
+<input type='hidden' id="prefix" name='prefix' value='jog'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novos jogos a serem associadas à jornada {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar jogos associadas à jornada {{obj}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="jog{{i}}_id" id="jog{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}			
+<table>
+	<tr>
+		<td style="margin:5px;">
+			<input type="checkbox" id="jog{{i}}_checkbox" name="jog{{i}}_checkbox">
+		</td>
+			
+		<td>
+		{% if new_for_parent_id %}
+			<B>{{obj.jor_nome}}</B>
+		{% else %}
+		{% if multiple_edit and objs|has_element:i %}
+			<B>{{objs|get_element:i|attribute:"jog_jornada"}}</B>
+			<input type="hidden" name="jog{{i}}_jornada" id="jog{{i}}_jornada" value='{{objs|get_element:i|attribute:"jog_jornada"}}'/>
+		{% else %}
+		<input type="text" class="aware-change" name="jog{{i}}_jornada" id="jog{{i}}_jornada" size=10 placeholder="Jornada"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jog_jornada"}}'{% endif %}/>
+		{% endif %}
+		{% endif %}
+		</td>
+			
+		<td><input class="datepicker-datetime aware-change" type="text" name="jog{{i}}_data" id="jog{{i}}_data_{{multiple_edit}}" size=20 placeholder="1970/01/01 00:00" {% if multiple_edit and objs|has_element:i %}value='{{objs|get_element:i|attribute:"jog_data"|pp_year_month_day_hour_minute}}'{% endif %}/></td>
+			
+		<td>Árbitro: 
+			<select class="aware-change" size=1 name="jog{{i}}_arbitro_id" id="jog{{i}}_arbitro_id"/>
+			<option value="">--</option>
+			{% for arbitro in arbitros %}
+				<option value="{{arbitro.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jog_arbitro"|eq:arbitro %} SELECTED{% endif %}>{{arbitro.arb_nome}}</option>
+			{% endfor %}
+			</select>	
+		</td>
+	</tr>
+</table>
+				</td></tr>
+				<tr><td>
+<table>
+	<tr>
+	   <td>Clube/golos:
+		<div style="display:inline;">
+			<select size=1 class="aware-change" name="jog{{i}}_clube1_id" id="jog{{i}}_clube1_id"/>
+			
+			{% for clube in clubes %}
+			<option value="{{clube.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jog_clube1"|eq:clube %} SELECTED{% endif %}>{{clube.clu_nome_curto}}</option>
+			{% endfor %}
+			</select>	
+		</div>
+
+		<div style="display:inline;">
+			<input class="aware-change" type="number" min="0" step="1" name="jog{{i}}_golos_clube1" id="jog_golos_clube1" size=4{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jog_golos_clube1"}}'{% endif %}/>
+			 - 
+			<input class="aware-change" type="number" min="0" step="1" name="jog{{i}}_golos_clube2" id="jog_golos_clube2" size=4{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jog_golos_clube2"}}'{% endif %}/>
+		</div>
+			
+		<div style="display:inline;">
+			<select size=1 class="aware-change" name="jog{{i}}_clube2_id" id="jog{{i}}_clube2_id"/>
+			
+			{% for clube in clubes %}
+			<option value="{{clube.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jog_clube2"|eq:clube %} SELECTED{% endif %}>{{clube.clu_nome_curto}}</option>
+			{% endfor %}
+			</select>
+		</div>
+		
+		<div style="display:inline;">
+		Tácticas:
+		<select size=1 name="jog{{i}}_tactica_clube1" id="jog{{i}}_tactica_clube1"/>
+			<option value="">--</option>
+			{% for tactica in tacticas %}
+			<option value="{{tactica}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jog_tactica_clube1"|eq:tactica %}SELECTED{% endif %}>{{tactica}}</option>
+			{% endfor %}
+		</select> - 
+
+		<select size=1 name="jog{{i}}_tactica_clube2" id="jog{{i}}_tactica_clube2"/>
+			<option value="">--</option>
+			{% for tactica in tacticas %}
+			<option value="{{tactica}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jog_tactica_clube2"|eq:tactica %}SELECTED{% endif %}>{{tactica}}</option>
+			{% endfor %}
+		</select>
+		</div>
+		</td>
+	</tr>
+</table>
+				</td></tr>
+				<tr><td>
+<table>
+	<tr>
+	   <td>Sites:
+		<table style="width:200px;">
+			{% if multiple_edit and objs|has_element:i %}
+			{% for link in objs|get_element:i|attribute:"jog_link_sites" %}
+			<tr class='toDuplicate{{i}}_1_{{multiple_edit}}'>
+				<td>
+				<input type="text" class="aware-change" name="jog{{i}}_link_sites" id="jog{{i}}_link_sites" size=20 value="{{link}}" placeholder="Link sites"/> 
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_1_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_1_{{multiple_edit}}'><img src='img/minus.gif'></a>
+				</td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+			<tr class='toDuplicate{{i}}_1_{{multiple_edit}}'>
+				<td>
+				<input type="text" class="aware-change" name="jog{{i}}_link_sites" id="jog{{i}}_link_sites" size=20 placeholder="Link sites"/> 
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_1_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_1_{{multiple_edit}}'><img src='img/minus.gif'></a>
+				</td>
+			</tr>
+		</table>
+		</td>
+		<td>Videos:
+		<table style="width:200px;">
+			{% if multiple_edit and objs|has_element:i %}
+			{% for video in objs|get_element:i|attribute:"jog_link_videos" %}
+			<tr class='toDuplicate{{i}}_2_{{multiple_edit}}'>
+				<td>
+				<textarea class="aware-change" name="jog{{i}}_link_videos" id="jog{{i}}_link_videos" style="width:100px;height:20px;" placeholder="Video"/>{{video}}</textarea> 
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_2_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_2_{{multiple_edit}}'><img src='img/minus.gif'></a>
+				</td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+			<tr class='toDuplicate{{i}}_2_{{multiple_edit}}'>
+				<td>
+				<textarea class="aware-change" name="jog{{i}}_link_videos" id="jog{{i}}_link_videos" style="width:100px;height:20px;" placeholder="Video"/></textarea> 
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_2_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_2_{{multiple_edit}}'><img src='img/minus.gif'></a>
+				</td>
+			</tr>
+		</table>
+		</td>
+		<td>
+			<textarea name="jog{{i}}_comentario" id="jog{{i}}_comentario" style="width:400px; height:50px;" placeholder="Comentários" class="aware-change"/>{% if multiple_edit and objs|has_element:i %}{{objs|get_element:i|attribute:"jog_comentario"}}{% endif %}</textarea>
+		</td>
+	</tr>	
+</table>
+
+					</td>
+				</tr>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novos{% endif %} jogos {% if new_for_parent_id or multiple_edit %}associadas à jornada {{obj.jor_nome}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

@@ -1,0 +1,28 @@
+{% autoescape off %}
+<div class="fp-carrossel-jornada-element-header"><a href="/detalhe_jornada?id={{jornada.key.id}}">  {{jornada.jor_nome_completo}} - {{jornada.jor_data|date:"Y/m/d"}}</A></div>
+<table class='fp-homepage-jornada'>
+
+<tbody>
+	{% for data in jornada_dados.datas %}
+	<tr><td style="background-color:white;text-align:center;">{{data.data|pp_dayweek_day_month}}</td></tr>	
+	{% for jogo in data.jogos %}
+	<tr>
+		<td style="background-color:#DFE9F0;">
+		<div style="text-align:left;float:left;width:20px;font-size:9px;">{{jogo.jogo.jog_data|pp_hour}}</DIV>
+		<DIV style="float:left;width:87px;font-size:11px;text-align:right">
+			<P class="marqueeable">
+				<a href="detalhe_clube?clube={{jogo.jog_clube1.clu_nome}}">
+	{{jogo.jogo.jog_clube1.clu_nome_curto}}</A></P></DIV>	
+	<DIV style="float:left;width:30px;text-align:center;"><a href="detalhe_jogo?id={{jogo.jogo.key.id}}">
+	{{jogo.jogo.jog_golos_clube1|filternone}} - {{jogo.jogo.jog_golos_clube2|filternone}}</A></DIV>	
+	<DIV style="float:left;width:75px;font-size:11px;">
+		<P class="marqueeable">
+			<a href="detalhe_clube?clube={{jogo.jogo.jog_clube1.clu_nome}}&competicao={{competicao}}">
+	{{jogo.jogo.jog_clube2.clu_nome_curto}}</A></P></DIV>	
+	</td>
+</tr>
+	{% endfor %}
+	{% endfor %}
+</tbody>
+</table>
+{% endautoescape %}

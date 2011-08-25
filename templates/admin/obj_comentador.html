@@ -1,0 +1,48 @@
+{# novo comentador associado a uma fonte #}
+{% if new_for_parent_id %}
+<form action="/admin/comentador/new?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar um comentador existente #}
+{% if edit %}
+<form action="/admin/comentador/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# novo comentador sem estar preso a fonte #}
+{% if new_single %}
+<form action="/admin/comentador/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar comentador {{obj.com_nome}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><label>Fonte</label></td>
+		<td>
+			{% if new_for_parent_id %}
+			<B>{{obj.fon_nome}}</B>
+			{% else %}
+			<input type="text" name="com_fonte" id="com_fonte" size=40{% if edit %} value="{{obj.com_fonte.fon_nome}}"{% endif %}/></td>
+			{% endif %}
+	</tr>
+
+	<tr>
+		<td><label>Nome</label></td>
+		<td><input type="text" name="com_nome" id="com_nome" size=40{% if edit %} value="{{obj.com_nome}}"{% endif %}/></td>
+	</tr>
+	<tr>
+		<td><label>Foto (link http)</label></td>
+		<td><input type="text" name="com_link_foto" id="com_link_foto" size=80{% if edit %} value="{{obj.com_link_foto}}"{% endif %}/></td>
+	</tr>
+	<tr>
+		<td><label>Link</label></td>
+		<td><input type="text" name="com_link" id="com_link" size=80{% if edit %} value="{{obj.com_link}}"{% endif %}/></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input style="width:400px;" type="submit" value="{% if edit %}Editar{% else %}Criar novo{% endif %} comentador"/></td>
+	</tr>
+	</table>
+</form>

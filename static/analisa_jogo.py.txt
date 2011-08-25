@@ -1,0 +1,1306 @@
+# -*- coding: utf-8 -*-
+
+import logging
+import re
+import config 
+from classes import * #Lance
+
+translator = {
+	"factor_resultado_alterado_e_pontos_redistribuidos": "Factor de resultado final alterado e com pontos redistribuídos",
+	"factor_resultado_alterado_e_pontos_mantidos": "Factor de resultado final alterado mas os pontos ficam na mesma",
+	"factor_golo_validado": "Factor de golo irregular mas validado",
+	"factor_golo_invalidado": "Factor de golo legal mas invalidado",
+	"factor_penalti_marcado_e_concretizado": "Factor de penalti inexistente assinalado e concretizado", 
+	"factor_penalti_marcado_e_nao_concretizado": "Factor de penalti inexistente assinalado mas não concretizado", 
+	"factor_penalti_nao_marcado": "Factor de penalti existente mas não assinalado", 
+	"factor_fora_de_jogo_marcado_que_daria_em_golo": "Factor de fora-de-jogo assinalado indevidamente que é um golo iminente", 
+	"factor_fora_de_jogo_marcado_que_nao_daria_em_golo": "Factor de fora-de-jogo assinalado indevidamente que não é situação de golo iminente", 
+	"factor_fora_de_jogo_nao_marcado_e_concretizado": "Factor de fora-de-jogo existente, mas não assinalado e que resulta em golo", 
+	"factor_fora_de_jogo_nao_marcado_e_nao_concretizado": "Factor de fora-de-jogo existente, mas não assinalado e que não resulta em golo", 
+	"factor_vermelho_nao_mostrado": "Factor de cartão vermelho que ficou por mostrar", 
+	"factor_vermelho_mostrado":"Factor de cartão vermelho mostrado injustamente", 
+	"factor_amarelo_nao_mostrado": "Factor de cartão amarelo que ficou por mostrar", 
+	"factor_amarelo_mostrado":"Factor de cartão amarelo mostrado injustamente", 
+	"factor_falta_perigosa_marcada_e_concretizada":"Factor de falta em zona perigosa assinalada que não existiu, e que resulta em golo",
+	"factor_falta_perigosa_marcada_e_nao_concretizada ":"Factor de falta em zona perigosa assinalada que não existiu, e que não resulta em golo",
+	"factor_falta_perigosa_nao_marcada":"Factor de falta em zona perigosa existente que ficou por assinalar"
+}
+	
+factor_resultado_alterado_e_pontos_redistribuidos = 1.0 # é um bónus!
+factor_resultado_alterado_e_pontos_mantidos = 0.5 # é um bonus!
+factor_golo_validado = 1.0
+factor_golo_invalidado = 1.0
+factor_penalti_marcado_e_concretizado = 0.9
+factor_penalti_marcado_e_nao_concretizado = 0.9
+factor_penalti_nao_marcado = 0.9
+factor_fora_de_jogo_marcado_que_daria_em_golo = 0.75
+factor_fora_de_jogo_marcado_que_nao_daria_em_golo = 0.5
+factor_fora_de_jogo_nao_marcado_e_concretizado = 0.75
+factor_fora_de_jogo_nao_marcado_e_nao_concretizado = 0.75
+factor_vermelho_nao_mostrado = 0.5
+factor_vermelho_mostrado = 0.5
+factor_falta_perigosa_marcada_e_concretizada = 0.4
+factor_falta_perigosa_marcada_e_nao_concretizada = 0.4
+factor_falta_perigosa_nao_marcada = 0.4
+factor_amarelo_nao_mostrado = 0.3
+factor_amarelo_mostrado = 0.3
+
+def pontosClube1(golos1, golos2):
+	if golos1 > golos2:
+		return 3 
+	if golos1 == golos2:
+		return 1 
+	return 0
+	
+def pontosClube2(golos1, golos2):
+	if golos1 < golos2:
+		return 3 
+	if golos1 == golos2:
+		return 1 
+	return 0
+	
+def decide_lance(lance):
+	num_decisao = {}
+	decisao = None
+			
+	for comentarios in lance.lan_comentadores: 
+		if comentarios.ccl_decisao is not None:
+			# descisões parciais 3 passam a 0
+			decisao_parcial = comentarios.ccl_decisao
+			if decisao_parcial == 3:
+				decisao_parcial = 0
+						
+			if num_decisao.has_key(decisao_parcial):
+				num_decisao[decisao_parcial] += 1
+			else:
+				num_decisao[decisao_parcial] = 1
+			
+	# ordenar e obter o que está no topo
+	sort = sorted(num_decisao, cmp=lambda x,y: cmp(num_decisao[x], num_decisao[y]), reverse = True)
+	if sort:
+		decisao = sort[0]
+	else:
+		decisao = 0
+	return decisao
+					
+def analisa(jogo):
+		
+		stats = {
+		 "icc_clube1":0.0, "icc_clube2":0.0, 
+		  # icc_golos1 e icc_golos2 dá os golos virtuais 
+		  # a utilidade de icc_golos1 e icc_golos2 é, por enquanto, só para se poder 
+		  # no final decidir para que clube é que houve real benefício no final.  
+		 "icc_golos1":0, "icc_golos2":0,
+		
+		 "golos_originais_equipa_casa":jogo.jog_golos_clube1,
+		 "golos_originais_equipa_visitante":jogo.jog_golos_clube2,
+		 "golos_virtuais_equipa_casa":jogo.jog_golos_clube1,
+		 "golos_virtuais_equipa_visitante":jogo.jog_golos_clube2,
+		
+		 "pontos_originais_equipa_casa":pontosClube1(jogo.jog_golos_clube1, jogo.jog_golos_clube2),
+		 "pontos_originais_equipa_visitante":pontosClube2(jogo.jog_golos_clube1, jogo.jog_golos_clube2),
+		 "pontos_virtuais_equipa_casa":pontosClube1(jogo.jog_golos_clube1, jogo.jog_golos_clube2),
+		 "pontos_virtuais_equipa_visitante":pontosClube2(jogo.jog_golos_clube1, jogo.jog_golos_clube2),
+		
+		 "influencia_arbitro":"O árbitro não teve influência no resultado.",
+		 "lances":[],# para cada lance, {"lance":lance, "factor":factor, "peso":peso}
+		 "bonus":[]# para cada bonus, {"factor":factor, "peso":peso}
+		}
+		
+		# isto é tudo para situações em que o árbitro está errado		
+		for lance in jogo.jog_lances:
+			x = None
+			
+			# calcular a decisão com base nos comentadores
+			# as decisões são quatro números: 
+			# 0 - o árbitro esteve bem
+			# 1 - o árbitro beneficiou a equipa da casa
+			# 2 - o árbitro beneficiou a equipa visitante
+			# 3 - dá-se o benefício do árbitro (tem o mesmo efeito que 0)
+
+			decisao = decide_lance(lance)
+			
+			#logging.info("DECISAO: "+str(decisao))
+			# arbitro esteve bem, nada a fazer
+			if decisao == 0:
+				
+				stats['lances'].append({
+				 "lance":lance, 
+				 "decisao_numero":decisao,
+				 "tipo":Lance.translation[lance.lan_tipo],
+				 "casa_ou_visitante":"casa",
+				 "factor":None,
+				 "peso":0, 
+				 "clube":jogo.jog_clube1, 
+				 "decisao":"bem"
+				})
+				stats['lances'].append({
+				 "lance":lance, 
+				 "decisao_numero":decisao,
+				 "casa_ou_visitante":"visitante",
+				 "tipo":Lance.translation[lance.lan_tipo],
+				 "factor":None,
+				 "peso": 0, 
+				 "clube":jogo.jog_clube2, 
+				 "decisao":"bem"})
+				
+				# equipa da casa beneficia:
+				# as correcções resultam em subtrair golos à equipa da casa, 
+				# ou a somar golos à equipa visitante
+				
+			elif decisao == 1: 
+						
+				# 1.1
+				if lance.lan_tipo == 'amarelo_mostrado_a_jogador_da_equipa_da_casa':
+					# não faz sentido. 
+					x
+					
+				elif lance.lan_tipo == 'vermelho_mostrado_a_jogador_da_equipa_da_casa':
+					# não faz sentido. 
+					x
+					
+				elif lance.lan_tipo == 'falta_perigosa_assinalada_e_convertida_a_atacante_da_equipa_da_casa':
+					# se equipa da casa beneficia, não devia ter sido marcado golo!
+					stats['golos_virtuais_equipa_casa'] -= 1
+					stats['icc_golos1'] += 1
+					
+					stats['icc_clube1'] += factor_falta_perigosa_marcada_e_concretizada
+					stats['icc_clube2'] -= factor_falta_perigosa_marcada_e_concretizada
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_falta_perigosa_marcada_e_concretizada'],
+					 "peso":factor_falta_perigosa_marcada_e_concretizada, 
+					 "clube":jogo.jog_clube1, 
+					 "decisao":"beneficiada", 
+					 "compensacao_golos":-1})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_falta_perigosa_marcada_e_concretizada'],
+					 "peso": -1 * factor_falta_perigosa_marcada_e_concretizada, 
+					 "clube":jogo.jog_clube2, 
+					 "decisao":"prejudicada"})
+					
+				elif lance.lan_tipo == 'falta_perigosa_assinalada_e_nao_convertida_a_atacante_da_equipa_da_casa':
+					stats['icc_clube1'] += factor_falta_perigosa_marcada_e_nao_concretizada
+					stats['icc_clube2'] -= factor_falta_perigosa_marcada_e_nao_concretizada
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_falta_perigosa_marcada_e_concretizada'],
+					 "peso":factor_falta_perigosa_marcada_e_nao_concretizada, 
+					 "clube":jogo.jog_clube1, 
+					 "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_falta_perigosa_marcada_e_concretizada'],
+					 "peso": -1 * factor_falta_perigosa_marcada_e_nao_concretizada, 
+					 "clube":jogo.jog_clube2, 
+					 "decisao":"prejudicada"})
+					
+				elif lance.lan_tipo == 'fora_de_jogo_assinalado_a_atacante_da_equipa_da_casa_que_podia_dar_em_golo':
+					# não faz sentido
+					x
+				
+				elif lance.lan_tipo == 'fora_de_jogo_assinalado_a_atacante_da_equipa_da_casa_que_nao_podia_dar_em_golo':
+					# não faz sentido
+					x				
+					
+				elif lance.lan_tipo == 'penalti_assinalado_e_convertido_a_atacante_da_equipa_da_casa':
+					# se equipa da casa beneficia, não devia ter sido marcado golo!
+					stats['golos_virtuais_equipa_casa'] -= 1
+					stats['icc_golos1'] += 1
+					stats['icc_clube1'] += factor_penalti_marcado_e_concretizado
+					stats['icc_clube2'] -= factor_penalti_marcado_e_concretizado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_penalti_marcado_e_concretizado'],
+					 "peso":factor_penalti_marcado_e_concretizado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada", "compensacao_golos":-1})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_penalti_marcado_e_concretizado'],
+					 "peso": -1 * factor_penalti_marcado_e_concretizado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+
+				elif lance.lan_tipo == 'penalti_assinalado_e_nao_convertido_a_atacante_da_equipa_da_casa':
+					# beneficiaram do penalti, mas como não deu em golo, ficou na mesna
+					stats['icc_clube1'] += factor_penalti_marcado_e_nao_concretizado
+					stats['icc_clube2'] -= factor_penalti_marcado_e_nao_concretizado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_penalti_marcado_e_nao_concretizado'],
+					 "peso":factor_penalti_marcado_e_nao_concretizado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_penalti_marcado_e_nao_concretizado'],
+					 "peso": -1 * factor_penalti_marcado_e_nao_concretizado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+
+				elif lance.lan_tipo == 'golo_marcado_pela_equipa_da_casa':
+					# golo validado mas ilegal
+					stats['golos_virtuais_equipa_casa'] -= 1
+					stats['icc_golos1'] += 1
+					stats['icc_clube1'] += factor_golo_validado
+					stats['icc_clube2'] -= factor_golo_validado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_golo_validado'],
+					 "peso":factor_golo_validado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada", "compensacao_golos":-1})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_golo_validado'],
+					 "peso": -1 * factor_golo_validado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+					
+				# 1.2
+				elif lance.lan_tipo == 'amarelo_nao_mostrado_a_jogador_da_equipa_da_casa':
+					stats['icc_clube1'] += factor_amarelo_nao_mostrado
+					stats['icc_clube2'] -= factor_amarelo_nao_mostrado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_amarelo_nao_mostrado'],
+					 "peso":factor_amarelo_nao_mostrado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_amarelo_nao_mostrado'],
+					 "peso": -1 * factor_amarelo_nao_mostrado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+					
+				elif lance.lan_tipo == 'vermelho_nao_mostrado_a_jogador_da_equipa_da_casa':
+					stats['icc_clube1'] += factor_vermelho_nao_mostrado
+					stats['icc_clube2'] -= factor_vermelho_nao_mostrado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_vermelho_nao_mostrado'],
+					 "peso":factor_vermelho_nao_mostrado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_vermelho_nao_mostrado'],
+					 "peso": -1 * factor_vermelho_nao_mostrado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+					
+				elif lance.lan_tipo == 'falta_perigosa_nao_assinalada_a_atacante_da_equipa_da_casa':
+					# não faz sentido
+					x
+				elif lance.lan_tipo == 'fora_de_jogo_nao_assinalado_e_convertido_a_atacante_da_equipa_da_casa':
+					# devia ser fora de jogo, mas não foi assinalado - equipa da casa beneficiou
+					stats['golos_virtuais_equipa_casa'] -= 1	
+					stats['icc_golos1'] += 1
+					stats['icc_clube1'] += factor_fora_de_jogo_nao_marcado_e_concretizado
+					stats['icc_clube2'] -= factor_fora_de_jogo_nao_marcado_e_concretizado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"casa",
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "factor":translator['factor_fora_de_jogo_nao_marcado_e_concretizado'],
+					 "peso":factor_fora_de_jogo_nao_marcado_e_concretizado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada", "compensacao_golos":-1})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_fora_de_jogo_nao_marcado_e_concretizado'],
+					 "peso": -1 * factor_fora_de_jogo_nao_marcado_e_concretizado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+
+				elif lance.lan_tipo == 'fora_de_jogo_nao_assinalado_e_nao_convertido_a_atacante_da_equipa_da_casa':
+					# beneficiaram de um fora de jogo que devia ter sido assinalado mas não foi, mas não marcaram
+					stats['icc_clube1'] += factor_fora_de_jogo_nao_marcado_e_nao_concretizado
+					stats['icc_clube2'] -= factor_fora_de_jogo_nao_marcado_e_nao_concretizado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_fora_de_jogo_nao_marcado_e_nao_concretizado'],
+					 "peso":factor_fora_de_jogo_nao_marcado_e_nao_concretizado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_fora_de_jogo_nao_marcado_e_nao_concretizado'],
+					 "peso": -1 * factor_fora_de_jogo_nao_marcado_e_nao_concretizado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+					
+				elif lance.lan_tipo == 'penalti_nao_assinalado_a_atacante_da_equipa_da_casa':
+					# não faz sentido
+					x
+				elif lance.lan_tipo == 'golo_nao_marcado_pela_equipa_da_casa':
+					# golo invalidado pela equipa da casa mas equipa da casa beneficiada não existe...
+					# não faz sentido
+					x
+				
+				#1.3
+				elif lance.lan_tipo == 	'amarelo_mostrado_a_jogador_da_equipa_visitante':
+					stats['icc_clube1'] += factor_amarelo_mostrado
+					stats['icc_clube2'] -= factor_amarelo_mostrado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_amarelo_mostrado'],
+					 "peso":factor_amarelo_mostrado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_amarelo_mostrado'],
+					 "peso": -1 * factor_amarelo_mostrado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+					
+				elif lance.lan_tipo == 	'vermelho_mostrado_a_jogador_da_equipa_visitante':
+					stats['icc_clube1'] += factor_vermelho_mostrado
+					stats['icc_clube2'] -= factor_vermelho_mostrado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_vermelho_mostrado'],
+					 "peso":factor_vermelho_mostrado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"visitante",
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "factor":translator['factor_vermelho_mostrado'],
+					 "peso": -1 * factor_vermelho_mostrado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+					
+				elif lance.lan_tipo == 'falta_perigosa_assinalada_e_convertida_a_atacante_da_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+				elif lance.lan_tipo == 'falta_perigosa_assinalada_e_nao_convertida_a_atacante_da_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+
+				elif lance.lan_tipo == 'fora_de_jogo_assinalado_a_atacante_da_equipa_visitante_que_podia_dar_em_golo':
+					# Como a equipa da casa beneficia, a equipa visitante devia ter marcado
+					stats['golos_virtuais_equipa_visitante'] += 1	
+					stats['icc_golos2'] -= 1
+					stats['icc_clube1'] += factor_fora_de_jogo_marcado_que_daria_em_golo
+					stats['icc_clube2'] -= factor_fora_de_jogo_marcado_que_daria_em_golo
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"casa",
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "factor":translator['factor_fora_de_jogo_marcado_que_daria_em_golo'],
+					 "peso":factor_fora_de_jogo_marcado_que_daria_em_golo, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_fora_de_jogo_marcado_que_daria_em_golo'],
+					 "peso": -1 * factor_fora_de_jogo_marcado_que_daria_em_golo, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada", "compensacao_golos":-1})
+
+				elif lance.lan_tipo == 'fora_de_jogo_assinalado_a_atacante_da_equipa_visitante_que_nao_podia_dar_em_golo':
+					# Como a equipa da casa beneficia, a equipa visitante devia ter marcado
+					stats['icc_clube1'] += factor_fora_de_jogo_marcado_que_nao_daria_em_golo
+					stats['icc_clube2'] -= factor_fora_de_jogo_marcado_que_nao_daria_em_golo
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"casa",
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "factor":translator['factor_fora_de_jogo_marcado_que_nao_daria_em_golo'],
+					 "peso":factor_fora_de_jogo_marcado_que_nao_daria_em_golo, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_fora_de_jogo_marcado_que_nao_daria_em_golo'],
+					 "peso": -1 * factor_fora_de_jogo_marcado_que_nao_daria_em_golo, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+					
+					
+				elif lance.lan_tipo == 'penalti_assinalado_e_convertido_a_atacante_da_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+					
+				elif lance.lan_tipo == 'penalti_assinalado_e_nao_convertido_a_atacante_da_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+					
+				elif lance.lan_tipo == 'golo_marcado_pela_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+				
+				
+				#1.4
+				elif lance.lan_tipo == 'amarelo_nao_mostrado_a_jogador_da_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+					
+				elif lance.lan_tipo == 'vermelho_nao_mostrado_a_jogador_da_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+					
+				elif lance.lan_tipo == 'falta_perigosa_nao_assinalada_a_atacante_da_equipa_visitante':
+					# podia ser meio-golo... 
+					stats['icc_clube1'] += factor_falta_perigosa_nao_marcada
+					stats['icc_clube2'] -= factor_falta_perigosa_nao_marcada
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_falta_perigosa_nao_marcada'],
+					 "peso":factor_falta_perigosa_nao_marcada, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_falta_perigosa_nao_marcada'],
+					 "peso": -1 * factor_falta_perigosa_nao_marcada, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada"})
+					
+				elif lance.lan_tipo == 'fora_de_jogo_nao_assinalado_e_convertido_a_atacante_da_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+				elif lance.lan_tipo == 'fora_de_jogo_nao_assinalado_e_nao_convertido_a_atacante_da_equipa_visitante':
+					# não faz sentido... isso não é beneficiar a equipa da casa
+					x
+				elif lance.lan_tipo == 'penalti_nao_assinalado_a_atacante_da_equipa_visitante':
+					# devia ter sido assinalado. Há aqui um golo.
+					stats['golos_virtuais_equipa_visitante'] += 1
+					stats['icc_golos2'] -= 1
+					stats['icc_clube1'] += factor_penalti_nao_marcado
+					stats['icc_clube2'] -= factor_penalti_nao_marcado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_penalti_nao_marcado'],
+					 "peso":factor_penalti_nao_marcado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_penalti_nao_marcado'],
+					 "peso": -1 * factor_penalti_nao_marcado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada", "compensacao_golos":-1})
+						
+				elif lance.lan_tipo == 'golo_nao_marcado_pela_equipa_visitante':
+					# golo invalidado à equipa visitante, mas mal. Equipa da casa  benefica. Vamos compensar.
+					stats['golos_virtuais_equipa_visitante'] += 1	
+					stats['icc_golos2'] -= 1
+					stats['icc_clube1'] += factor_golo_invalidado
+					stats['icc_clube2'] -= factor_golo_invalidado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor":translator['factor_golo_invalidado'],
+					 "peso":factor_golo_invalidado, 
+					 "clube":jogo.jog_clube1, "decisao":"beneficiada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor":translator['factor_golo_invalidado'],
+					 "peso": -1 * factor_golo_invalidado, 
+					 "clube":jogo.jog_clube2, "decisao":"prejudicada", "compensacao_golos":-1})
+					
+					
+			# equipa visitante beneficia
+			elif decisao == 2: 
+			
+				#2.1 = inverso 1.3
+				if lance.lan_tipo == 'amarelo_mostrado_a_jogador_da_equipa_da_casa':
+					stats['icc_clube1'] -= factor_amarelo_mostrado
+					stats['icc_clube2'] += factor_amarelo_mostrado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"casa",
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "factor": translator['factor_amarelo_mostrado'],
+					 "peso": -1 * factor_amarelo_mostrado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_amarelo_mostrado'],
+					 "peso": factor_amarelo_mostrado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+
+				elif lance.lan_tipo == 'vermelho_mostrado_a_jogador_da_equipa_da_casa':
+					stats['icc_clube1'] -= factor_vermelho_mostrado
+					stats['icc_clube2'] += factor_vermelho_mostrado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_vermelho_mostrado'],
+					 "peso": -1 * factor_vermelho_mostrado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_vermelho_mostrado'],
+					 "peso": factor_vermelho_mostrado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+
+				elif lance.lan_tipo == 'falta_perigosa_assinalada_e_convertida_a_atacante_da_equipa_da_casa':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+					
+				elif lance.lan_tipo == 'falta_perigosa_assinalada_e_nao_convertida_a_atacante_da_equipa_da_casa':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+
+					
+				elif lance.lan_tipo == 'fora_de_jogo_assinalado_a_atacante_da_equipa_da_casa_que_podia_dar_em_golo':
+					# equipa visitante beneficia... mas a equipa da casa podia ter marcado.
+					stats['golos_virtuais_equipa_casa'] += 1								
+					stats['icc_golos1'] -= 1
+					stats['icc_clube1'] -= factor_fora_de_jogo_marcado_que_daria_em_golo
+					stats['icc_clube2'] += factor_fora_de_jogo_marcado_que_daria_em_golo
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_fora_de_jogo_marcado_que_daria_em_golo'],
+					 "peso": -1 * factor_fora_de_jogo_marcado_que_daria_em_golo, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada", "compensacao_golos":1})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_fora_de_jogo_marcado_que_daria_em_golo'],
+					 "peso": factor_fora_de_jogo_marcado_que_daria_em_golo, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+
+				elif lance.lan_tipo == 'fora_de_jogo_assinalado_a_atacante_da_equipa_da_casa_que_nao_podia_dar_em_golo':
+					# Como a equipa da casa beneficia, a equipa visitante devia ter marcado
+					stats['icc_clube1'] += factor_fora_de_jogo_marcado_que_nao_daria_em_golo
+					stats['icc_clube2'] -= factor_fora_de_jogo_marcado_que_nao_daria_em_golo
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_fora_de_jogo_marcado_que_nao_daria_em_golo'],
+					 "peso": -1 * factor_fora_de_jogo_marcado_que_nao_daria_em_golo, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_fora_de_jogo_marcado_que_nao_daria_em_golo'],
+					 "peso": factor_fora_de_jogo_marcado_que_nao_daria_em_golo, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+					
+					
+				elif lance.lan_tipo == 'penalti_assinalado_e_convertido_a_atacante_da_equipa_da_casa':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+				elif lance.lan_tipo == 'penalti_assinalado_e_nao_convertido_a_atacante_da_equipa_da_casa':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+				elif lance.lan_tipo == 'golo_marcado_pela_equipa_da_casa':					
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+			
+				#2.2 = inverso 1.4
+				elif lance.lan_tipo == 'amarelo_nao_mostrado_a_jogador_da_equipa_da_casa':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+					
+				elif lance.lan_tipo == 'vermelho_nao_mostrado_a_jogador_da_equipa_da_casa':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+					
+				elif lance.lan_tipo == 'falta_perigosa_nao_assinalada_a_atacante_da_equipa_da_casa':
+					# podia ser meio-golo... mas por enquanto, não vou contar.
+					stats['icc_clube1'] -= factor_falta_perigosa_nao_marcada
+					stats['icc_clube2'] += factor_falta_perigosa_nao_marcada
+					stats['lances'].append({
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "decisao_numero":decisao,
+					 "lance":lance, 
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_falta_perigosa_nao_marcada'],
+					 "peso": -1 * factor_falta_perigosa_nao_marcada, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_falta_perigosa_nao_marcada'],
+					 "peso": factor_falta_perigosa_nao_marcada, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+					
+				elif lance.lan_tipo == 'fora_de_jogo_nao_assinalado_e_convertido_a_atacante_da_equipa_da_casa':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+					
+				elif lance.lan_tipo == 'fora_de_jogo_nao_assinalado_e_nao_convertido_a_atacante_da_equipa_da_casa':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+					
+				elif lance.lan_tipo == 'penalti_nao_assinalado_a_atacante_da_equipa_da_casa':
+					# devia ter sido assinalado. Há aqui um golo.
+					stats['golos_virtuais_equipa_casa'] += 1	
+					stats['icc_golos1'] -= 1
+					stats['icc_clube1'] -= factor_penalti_nao_marcado
+					stats['icc_clube2'] += factor_penalti_nao_marcado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_penalti_nao_marcado'],
+					 "peso": -1 * factor_penalti_nao_marcado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada", "compensacao_golos":1})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_penalti_nao_marcado'],
+					 "peso": factor_penalti_nao_marcado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+					
+				elif lance.lan_tipo == 'golo_nao_marcado_pela_equipa_da_casa':
+					# golo invalidado à equipa da casa, mas mal. Equipa visitante benefica. Vamos compensar.
+					stats['golos_virtuais_equipa_casa'] += 1	
+					stats['icc_golos1'] -= 1
+					stats['icc_clube1'] -= factor_golo_invalidado
+					stats['icc_clube2'] += factor_golo_invalidado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_golo_invalidado'],
+					 "peso": -1 * factor_golo_invalidado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada", "compensacao_golos":1})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "casa_ou_visitante":"visitante",
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "factor": translator['factor_golo_invalidado'],
+					 "peso": factor_golo_invalidado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+
+				#2.3 = inverso 1.1
+				elif lance.lan_tipo == 	'amarelo_mostrado_a_jogador_da_equipa_visitante':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+				elif lance.lan_tipo == 	'vermelho_mostrado_a_jogador_da_equipa_visitante':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+				elif lance.lan_tipo == 'falta_perigosa_assinalada_e_convertida_a_atacante_da_equipa_visitante':
+					# se equipa visitante beneficia, não devia ter sido marcado golo!
+					stats['golos_virtuais_equipa_visitante'] -= 1
+					stats['icc_golos2'] += 1
+					stats['icc_clube1'] -= factor_falta_perigosa_marcada_e_concretizada
+					stats['icc_clube2'] += factor_falta_perigosa_marcada_e_concretizada
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_falta_perigosa_marcada_e_concretizada'],
+					 "peso": -1 * factor_falta_perigosa_marcada_e_concretizada, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_falta_perigosa_marcada_e_concretizada'],
+					 "peso": factor_falta_perigosa_marcada_e_concretizada, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada", "compensacao_golos":-1})
+
+				elif lance.lan_tipo == 'falta_perigosa_assinalada_e_nao_convertida_a_atacante_da_equipa_visitante':
+					stats['icc_clube1'] -= factor_falta_perigosa_marcada_e_nao_concretizada
+					stats['icc_clube2'] += factor_falta_perigosa_marcada_e_nao_concretizada
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_falta_perigosa_marcada_e_nao_concretizada'],
+					 "peso": -1 * factor_falta_perigosa_marcada_e_nao_concretizada, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_falta_perigosa_marcada_e_nao_concretizada'],
+					 "peso": factor_falta_perigosa_marcada_e_nao_concretizada, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+
+				elif lance.lan_tipo == 'fora_de_jogo_assinalado_a_atacante_da_equipa_visitante':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+				elif lance.lan_tipo == 'penalti_assinalado_e_convertido_a_atacante_da_equipa_visitante':
+					# se equipa visitante beneficia, não devia ter sido marcado golo!
+					stats['golos_virtuais_equipa_visitante'] -= 1
+					stats['icc_golos2'] += 1
+					stats['icc_clube1'] -= factor_penalti_marcado_e_concretizado
+					stats['icc_clube2'] += factor_penalti_marcado_e_concretizado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_penalti_marcado_e_concretizado'],
+					 "peso": -1 * factor_penalti_marcado_e_concretizado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_penalti_marcado_e_concretizado'],
+					 "peso": factor_penalti_marcado_e_concretizado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada", "compensacao_golos":-1})
+					
+				elif lance.lan_tipo == 'penalti_assinalado_e_nao_convertido_a_atacante_da_equipa_visitante':
+					# beneficiaram do penalti, mas como não deu em golo, ficou na mesna
+					stats['icc_clube1'] -= factor_penalti_marcado_e_nao_concretizado
+					stats['icc_clube2'] += factor_penalti_marcado_e_nao_concretizado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_penalti_marcado_e_nao_concretizado'],
+					 "peso": -1 * factor_penalti_marcado_e_nao_concretizado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_penalti_marcado_e_nao_concretizado'],
+					 "peso": factor_penalti_marcado_e_nao_concretizado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+
+				elif lance.lan_tipo == 'golo_marcado_pela_equipa_visitante':
+					# se equipa visitante beneficia, é porque o golo devia ter sido ilegal!
+					stats['golos_virtuais_equipa_visitante'] -= 1
+					stats['icc_golos2'] += 1
+					stats['icc_clube1'] -= factor_golo_validado
+					stats['icc_clube2'] += factor_golo_validado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_golo_validado'],
+					 "peso": -1 * factor_golo_validado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_golo_validado'],
+					 "peso": factor_golo_validado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada", "compensacao_golos":-1})
+					
+				#2.4 = inverso 1.2
+				elif lance.lan_tipo == 'amarelo_nao_mostrado_a_jogador_da_equipa_visitante':
+					stats['icc_clube1'] -= factor_amarelo_nao_mostrado
+					stats['icc_clube2'] += factor_amarelo_nao_mostrado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_amarelo_nao_mostrado'],
+					 "peso": -1 * factor_amarelo_nao_mostrado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_amarelo_nao_mostrado'],
+					 "peso": factor_amarelo_nao_mostrado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+					
+				elif lance.lan_tipo == 'vermelho_nao_mostrado_a_jogador_da_equipa_visitante':
+					stats['icc_clube1'] -= factor_vermelho_nao_mostrado
+					stats['icc_clube2'] += factor_vermelho_nao_mostrado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_vermelho_nao_mostrado'],
+					 "peso": -1 * factor_vermelho_nao_mostrado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_vermelho_nao_mostrado'],
+					 "peso": factor_vermelho_nao_mostrado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+
+				elif lance.lan_tipo == 'falta_perigosa_nao_assinalada_a_atacante_da_equipa_visitante':
+					x
+				elif lance.lan_tipo == 'fora_de_jogo_nao_assinalado_e_convertido_a_atacante_da_equipa_visitante':
+					# devia ser fora de jogo, mas não foi assinalado - equipa visitante beneficiou
+					stats['golos_virtuais_equipa_visitante'] -= 1	
+					stats['icc_golos2'] += 1
+					stats['icc_clube1'] += factor_fora_de_jogo_nao_marcado_e_concretizado
+					stats['icc_clube2'] -= factor_fora_de_jogo_nao_marcado_e_concretizado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_fora_de_jogo_nao_marcado_e_concretizado'],
+					 "peso": -1 * factor_fora_de_jogo_nao_marcado_e_concretizado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_fora_de_jogo_nao_marcado_e_concretizado'],
+					 "peso": factor_fora_de_jogo_nao_marcado_e_concretizado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada", "compensacao_golos":-1})
+
+				elif lance.lan_tipo == 'fora_de_jogo_nao_assinalado_e_nao_convertido_a_atacante_da_equipa_visitante':
+					# beneficiaram de um fora de jogo que devia ter sido assinalado mas não foi, mas não marcaram
+					stats['icc_clube1'] += factor_fora_de_jogo_nao_marcado_e_nao_concretizado
+					stats['icc_clube2'] -= factor_fora_de_jogo_nao_marcado_e_nao_concretizado
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"casa",
+					 "factor": translator['factor_fora_de_jogo_nao_marcado_e_nao_concretizado'],
+					 "peso": -1 * factor_fora_de_jogo_nao_marcado_e_nao_concretizado, 
+					 "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					stats['lances'].append({
+					 "lance":lance, 
+					 "decisao_numero":decisao,
+					 "tipo":Lance.translation[lance.lan_tipo],
+					 "casa_ou_visitante":"visitante",
+					 "factor": translator['factor_fora_de_jogo_nao_marcado_e_nao_concretizado'],
+					 "peso": factor_fora_de_jogo_nao_marcado_e_nao_concretizado, 
+					 "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+					
+				elif lance.lan_tipo == 'penalti_nao_assinalado_a_atacante_da_equipa_visitante':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+				elif lance.lan_tipo == 'golo_nao_marcado_pela_equipa_visitante':
+					# não faz sentido, isso não é beneficiar a equipa visitante
+					x
+		
+######################		
+		
+		# pode ser: 
+		# O árbitro não teve influência no resultado, 
+		# O árbitro teve influência no resultado, mas não nos pontos
+		# O árbitro teve influência no resultado e nos pontos
+				
+		# Quando há roubalheira (ou seja, golos mudam...)
+		if stats['golos_virtuais_equipa_casa'] != stats['golos_originais_equipa_casa'] or \
+			stats['golos_originais_equipa_visitante'] != stats['golos_virtuais_equipa_visitante']:
+			
+			# vitória original da equipa da casa:
+			if stats['golos_originais_equipa_casa'] > stats['golos_originais_equipa_visitante']:
+				
+				stats["pontos_virtuais_equipa_casa"] = \
+					pontosClube1(stats["golos_virtuais_equipa_casa"], stats["golos_virtuais_equipa_visitante"])
+				stats["pontos_virtuais_equipa_visitante"] = \
+					pontosClube2(stats["golos_virtuais_equipa_casa"], stats["golos_virtuais_equipa_visitante"])
+					
+				# se se mantém a vitória da equipa da casa
+				if stats['golos_virtuais_equipa_casa'] > stats['golos_virtuais_equipa_visitante']:
+					
+					stats['influencia_arbitro'] = "O árbitro teve influência no resultado, mas não nos pontos."
+					# mas por uma diferença maior:
+					if (stats['golos_originais_equipa_casa'] - stats['golos_originais_equipa_visitante']) < \
+						(stats['golos_virtuais_equipa_casa'] - stats['golos_virtuais_equipa_visitante']):
+						
+						# equipa da casa foi beneficiada
+						if stats['icc_golos1'] > stats['icc_golos2']:
+							
+							stats['icc_clube1'] += factor_resultado_alterado_e_pontos_mantidos
+							stats['icc_clube2'] -= factor_resultado_alterado_e_pontos_mantidos
+							stats['bonus'].append({
+								"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube1, "decisao":"beneficiada"})
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube2, "decisao":"prejudicada"})
+						# equipa da casa foi prejudicada
+						else: 
+							stats['icc_clube1'] -= factor_resultado_alterado_e_pontos_mantidos
+							stats['icc_clube2'] += factor_resultado_alterado_e_pontos_mantidos
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+
+					# mas por uma diferença  menor: 
+					elif (stats['golos_originais_equipa_casa'] - stats['golos_originais_equipa_visitante']) > \
+						(stats['golos_virtuais_equipa_casa'] - stats['golos_virtuais_equipa_visitante']):
+						
+						# equipa da casa foi beneficiada
+						if stats['icc_golos1'] > stats['icc_golos2']:
+							
+							stats['icc_clube1'] += factor_resultado_alterado_e_pontos_mantidos
+							stats['icc_clube2'] -= factor_resultado_alterado_e_pontos_mantidos
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube1, "decisao":"beneficiada"})
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube2, "decisao":"prejudicada"})
+
+						# equipa da casa foi prejudicada
+						else:
+							stats['icc_clube1'] -= factor_resultado_alterado_e_pontos_mantidos
+							stats['icc_clube2'] += factor_resultado_alterado_e_pontos_mantidos
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+
+				# passou de vitória a um empate ou uma derrota - quem foi beneficiado?
+				else:
+					stats['influencia_arbitro'] = "O árbitro teve influência no resultado e nos pontos"
+					
+					# equipa da casa foi beneficiada
+					if stats['icc_golos1'] > stats['icc_golos2']:
+						
+						stats['icc_clube1'] += factor_resultado_alterado_e_pontos_redistribuidos
+						stats['icc_clube2'] -= factor_resultado_alterado_e_pontos_redistribuidos
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							 "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube1, "decisao":"beneficiada"})
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							  "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube2, "decisao":"prejudicada"})
+							
+					# equipa da casa foi prejudicada
+					else:
+						
+						stats['icc_clube1'] -= factor_resultado_alterado_e_pontos_redistribuidos
+						stats['icc_clube2'] += factor_resultado_alterado_e_pontos_redistribuidos
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+			
+			# derrota original da equipa da casa:
+			elif stats['golos_originais_equipa_casa'] < stats['golos_originais_equipa_visitante']:
+
+				stats["pontos_virtuais_equipa_casa"] = \
+					pontosClube1(stats["golos_virtuais_equipa_casa"], stats["golos_virtuais_equipa_visitante"])
+				stats["pontos_virtuais_equipa_visitante"] = \
+					pontosClube2(stats["golos_virtuais_equipa_casa"], stats["golos_virtuais_equipa_visitante"])
+
+				# se se mantém a derrota da equipa da casa
+				if stats['golos_virtuais_equipa_casa'] < stats['golos_virtuais_equipa_visitante']:
+
+					stats['influencia_arbitro'] = "O árbitro teve influência no resultado, mas não nos pontos."
+					
+					# mas por uma diferença maior: 
+					if (stats['golos_originais_equipa_visitante'] - stats['golos_originais_equipa_casa'] ) < \
+						(stats['golos_virtuais_equipa_visitante'] - stats['golos_virtuais_equipa_casa']):
+						
+						# equipa da casa beneficiada
+						
+						if stats['icc_golos1'] > stats['icc_golos2']:
+							
+							stats['icc_clube1'] += factor_resultado_alterado_e_pontos_mantidos
+							stats['icc_clube2'] -= factor_resultado_alterado_e_pontos_mantidos
+							stats['bonus'].append({
+								"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube1, "decisao":"beneficiada"})
+							stats['bonus'].append({
+								"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube2, "decisao":"prejudicada"})
+							
+						# equipa da casa prejudicada
+						else:
+							
+							stats['icc_clube1'] -= factor_resultado_alterado_e_pontos_mantidos
+							stats['icc_clube2'] += factor_resultado_alterado_e_pontos_mantidos
+							stats['bonus'].append({
+								"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+							stats['bonus'].append({
+								"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+					# mas por uma diferença menor: 
+
+					elif (stats['golos_originais_equipa_visitante'] - stats['golos_originais_equipa_casa'] ) > \
+					 	(stats['golos_virtuais_equipa_visitante'] - stats['golos_virtuais_equipa_casa']):
+
+						if stats['icc_golos1'] > stats['icc_golos2']:
+						
+						# equipa da casa beneficada 
+							stats['icc_clube1'] += factor_resultado_alterado_e_pontos_mantidos
+							stats['icc_clube2'] -= factor_resultado_alterado_e_pontos_mantidos
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube1, "decisao":"beneficiada"})
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube2, "decisao":"prejudicada"})
+							
+						# equipa da casa prejudicada
+						else:
+
+							stats['icc_clube1'] -= factor_resultado_alterado_e_pontos_mantidos
+							stats['icc_clube2'] += factor_resultado_alterado_e_pontos_mantidos
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+							stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_mantidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_mantidos, 
+							  "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+				
+				# passou de derrota a um empate ou uma vitória - a equipa da casa é que é beneficiada:
+				else:
+					
+					stats['influencia_arbitro'] = "O árbitro teve influência no resultado e nos pontos."
+					
+					# equipa da casa foi (?) beneficiada
+					if stats['icc_golos1'] > stats['icc_golos2']:
+						
+						stats['icc_clube1'] += factor_resultado_alterado_e_pontos_redistribuidos
+						stats['icc_clube2'] -= factor_resultado_alterado_e_pontos_redistribuidos
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							 "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube1, "decisao":"beneficiada"})
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							  "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube2, "decisao":"prejudicada"})
+							
+					# equipa da casa foi prejudicada
+					else:
+						
+						stats['icc_clube1'] -= factor_resultado_alterado_e_pontos_redistribuidos
+						stats['icc_clube2'] += factor_resultado_alterado_e_pontos_redistribuidos
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+							
+			# empate original
+			elif stats['golos_originais_equipa_casa'] == stats['golos_originais_equipa_visitante']:
+				stats['influencia_arbitro']  = "O árbitro teve influência no resultado, mas não nos pontos."
+				
+				stats["pontos_virtuais_equipa_casa"] = \
+					pontosClube1(stats["golos_virtuais_equipa_casa"], stats["golos_virtuais_equipa_visitante"])
+				stats["pontos_virtuais_equipa_visitante"] = \
+					pontosClube2(stats["golos_virtuais_equipa_casa"], stats["golos_virtuais_equipa_visitante"])
+					
+				# se se converte numa vitória da equipa da casa: 
+				if stats['golos_virtuais_equipa_casa'] > stats['golos_virtuais_equipa_visitante']:
+					stats['influencia_arbitro'] = "O árbitro teve influência no resultado e nos pontos."
+					
+					# equipa da casa foi beneficiada.
+					if stats['icc_golos1'] > stats['icc_golos2']:
+					
+						stats['icc_clube1'] += factor_resultado_alterado_e_pontos_redistribuidos
+						stats['icc_clube2'] -= factor_resultado_alterado_e_pontos_redistribuidos
+				
+						stats['bonus'].append({
+					 		 "casa_ou_visitante":"casa",
+							 "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube1, "decisao":"beneficiada"})
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							  "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube2, "decisao":"prejudicada"})
+					# equipa da casa foi prejudicada
+					
+					else: 
+						stats['icc_clube1'] -= factor_resultado_alterado_e_pontos_redistribuidos
+						stats['icc_clube2'] += factor_resultado_alterado_e_pontos_redistribuidos
+				
+						stats['bonus'].append({
+					 		 "casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+						stats['bonus'].append({
+								"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+						
+				# se se converte numa derrota da equipa da casa	
+				elif stats['golos_virtuais_equipa_casa'] < stats['golos_virtuais_equipa_visitante']:
+					stats['influencia_arbitro'] = "O árbitro teve influência no resultado e nos pontos"
+
+					# equipa da casa foi beneficiada
+					if stats['icc_golos1'] > stats['icc_golos2']:
+						
+						stats['icc_clube1'] += factor_resultado_alterado_e_pontos_redistribuidos
+						stats['icc_clube2'] -= factor_resultado_alterado_e_pontos_redistribuidos
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							 "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube1, "decisao":"beneficiada"})
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							  "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube2, "decisao":"prejudicada"})
+
+					# equipa da casa foi prejudicada
+					else:
+						
+						stats['icc_clube1'] -= factor_resultado_alterado_e_pontos_redistribuidos
+						stats['icc_clube2'] += factor_resultado_alterado_e_pontos_redistribuidos
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"visitante",
+							 "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso":  factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube2, "decisao":"beneficiada"})
+						stats['bonus'].append({
+					 			"casa_ou_visitante":"casa",
+							  "factor": translator['factor_resultado_alterado_e_pontos_redistribuidos'],
+							  "peso": -1 * factor_resultado_alterado_e_pontos_redistribuidos, 
+							  "clube": jogo.jog_clube1, "decisao":"prejudicada"})
+
+		return stats

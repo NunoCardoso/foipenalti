@@ -1,0 +1,252 @@
+{# novos jjj a mando de um jogo #}
+{% if new_for_parent_id %}
+<form action="/admin/{{objname}}/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar vários jjj existentes #}
+{% if multiple_edit %}
+<form action="/admin/{{objname}}/save_multiple" method="post">
+{% endif %}	
+
+{# novos jjj sem estarem presos a nada #}
+{% if new_multiple %}
+<form action="/admin/{{objname}}/new_multiple" method="post">
+{% endif %}	
+
+<input type='hidden' id="prefix" name='prefix' value='jjj'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novos JJJs a serem associadas ao jogo {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar JJJs associadas ao jogo {{obj}}</DIV>
+{% endif %}
+
+<table>
+		
+	<!-- clube 1-->
+	{% for i in 14|get_range %}
+	{% set this_i = forloop.counter0 %}
+	<tr>
+		<td>
+
+<table style="min-width:800px;">
+	<tr>
+		<td>
+		{% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %}
+			<input type="hidden" name="jjj{{i}}_id" id="jjj{{i}}_id" value="{{jjj_clube1|get_element:forloop.counter0|get_id}}"/> 
+		{% endif %}	
+		{% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %}
+			<input type="hidden" name="jjj{{i}}_jogo_id" id="jjj{{i}}_jogo_id" value='{{jjj_clube1|get_element:forloop.counter0|attribute:"jjj_jogo"|get_id}}'/>
+		{% endif %}
+			<input type="checkbox" id="jjj{{i}}_checkbox" name="jjj{{i}}_checkbox">
+		</td>
+
+		<td style="min-width:150px;">
+			<a href="#" class="toogleDisplay">[x]</a>
+			
+			<div style="display:inline;">
+			<select size=1 class="aware-change" name="jjj{{i}}_jogador_id" id="jjj{{i}}_jogador_id">
+			<option value="" DEFAULT>--</option>
+			{% for jogad in jogadores_clube1 %}
+				<option value="{{jogad.key.id}}" {% if multiple_edit and jjj_clube1|has_element:this_i and jjj_clube1|get_element:this_i|attribute:"jjj_jogador"|attribute:"jgd_nome"|eq:jogad.jgd_nome %} SELECTED{% endif %}>{{ jogad.jgd_nome }}</option>
+			{% endfor %}
+			</select>
+			</div>
+		
+			<div style="display:none;">
+			<input class="aware-change nome_jogador_autocomplete" type="text" AUTOCOMPLETE="OFF" size="20" id="jjj{{i}}_jogador" name="jjj{{i}}_jogador" placeholder="Jogador" {% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %} value='{{jjj_clube1|get_element:forloop.counter0|attribute:"jjj_jogador"}}'{% endif %}>
+			</div>	
+		</td>
+			
+		<td>
+			<select size=1 class="aware-change" name="jjj{{i}}_clube_id" id="jjj{{i}}_clube_id">
+				
+			<option value="{{obj.jog_clube1.key.id}}" SELECTED>{{obj.jog_clube1.clu_nome_curto}}</option>
+			<option value="{{obj.jog_clube2.key.id}}">{{obj.jog_clube2.clu_nome_curto}}</option>
+			</select>
+		</td>	
+		
+		<td>
+			<select size=1 class="aware-change" name="jjj{{i}}_posicao" id="jjj{{i}}_posicao">
+			<option value="" DEFAULT>--</option>
+			{% for posicao in posicoes %}
+				<option value="{{posicao.0}}" {% if multiple_edit and jjj_clube1|has_element:this_i and jjj_clube1|get_element:this_i|attribute:"jjj_posicao"|trim|eq:posicao.0 %} SELECTED{% endif %}>{{posicao.0}}</option>
+			{% endfor %}
+			</select>
+		</td>
+				
+		<td>
+			<input type="text" class="aware-change" name="jjj{{i}}_amarelo_minuto" id="jjj{{i}}_amarelo_minuto" style="background-color:#ff8;" size=3 placeholder="Am"{% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %} value='{{jjj_clube1|get_element:forloop.counter0|attribute:"jjj_amarelo_minuto"|filternone}}'{% endif %}/>
+		</TD><TD>
+			<input type="text" class="aware-change" name="jjj{{i}}_duplo_amarelo_minuto" id="jjj{{i}}_duplo_amarelo_minuto" style="background-color:#fa8;" size=3 placeholder="DA"{% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %} value='{{jjj_clube1|get_element:forloop.counter0|attribute:"jjj_duplo_amarelo_minuto"|filternone}}'{% endif %}/>
+		</td><td>
+			<input type="text" class="aware-change" name="jjj{{i}}_vermelho_minuto" id="jjj{{i}}_vermelho_minuto" style="background-color:#f88;" size=3 placeholder="Ver" {% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %} value='{{jjj_clube1|get_element:forloop.counter0|attribute:"jjj_vermelho_minuto"|filternone}}'{% endif %}/>
+		</td><td>
+			<input type="text" class="aware-change" name="jjj{{i}}_substituicao_entrada" id="jjj{{i}}_substituicao_entrada" style="background-color:#8f8;" size=3 placeholder="Ent"{% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %} value='{{jjj_clube1|get_element:forloop.counter0|attribute:"jjj_substituicao_entrada"|filternone}}'{% endif %}/>
+		</td><td>
+			<input type="text" class="aware-change" name="jjj{{i}}_substituicao_saida" id="jjj{{i}}_substituicao_saida" style="background-color:#f88;" size=3 placeholder="Sai" {% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %} value='{{jjj_clube1|get_element:forloop.counter0|attribute:"jjj_substituicao_saida"|filternone}}'{% endif %}/>
+		</td><td>
+			{% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %}
+			{% for minuto in jjj_clube1|get_element:forloop.counter0|attribute:"jjj_golos_minutos" %}
+			<input type="text" class="aware-change toDuplicate{{i}}_1_{{multiple_edit}}" name="jjj{{i}}_golos_minutos" id="jjj{{i}}_golos_minutos" size=3 placeholder="Gol" value="{{minuto}}"/>
+			{% endfor %}
+			{% endif %}
+			<input type="text" class="aware-change toDuplicate{{i}}_1_{{multiple_edit}}" name="jjj{{i}}_golos_minutos" id="jjj{{i}}_golos_minutos" size=3 placeholder="Gol"/>
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_1_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_1_{{multiple_edit}}'><img src='img/minus.gif'></a>
+		</td><td>
+			{% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %}
+			{% for tipo in jjj_clube1|get_element:forloop.counter0|attribute:"jjj_golos_tipos" %}
+			<select name="jjj{{i}}_golos_tipos" class="aware-change toDuplicate{{i}}_2_{{multiple_edit}}" id="jjj{{i}}_golos_tipos" size=1/>
+			<option value="" {% if tipo|eq:"" %}SELECTED{% endif %}>--</option>
+			<option value="g.p." {% if tipo|eq:"g.p." %}SELECTED{% endif %}>g.p.</option>
+			<option value="p.b." {% if tipo|eq:"p.b." %}SELECTED{% endif %}>p.b.</option>
+			</select>	
+			{% endfor %}
+			{% endif %}
+			
+			<select name="jjj{{i}}_golos_tipos" class="aware-change toDuplicate{{i}}_2_{{multiple_edit}}" id="jjj{{i}}_golos_tipos" size=1/>
+			<option value="" >--</option>
+			<option value="g.p.">g.p.</option>
+			<option value="p.b.">p.b.</option>
+			</select>
+			
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_2_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_2_{{multiple_edit}}'><img src='img/minus.gif'></a>
+			</td><td>
+
+			{% if multiple_edit and jjj_clube1|has_element:forloop.counter0 %}
+			{% for video in jjj_clube1|get_element:forloop.counter0|attribute:"jjj_golos_link_videos" %}
+			<textarea name="jjj{{i}}_golos_link_videos" class="aware-change toDuplicate{{i}}_3_{{multiple_edit}}" id="jjj{{i}}_golos_link_videos" style="width:50px;height:20px;" placeholder="Video"/>{{video}}</textarea>
+			{% endfor %}
+			{% endif %}
+			<textarea name="jjj{{i}}_golos_link_videos" class="aware-change toDuplicate{{i}}_3_{{multiple_edit}}" id="jjj{{i}}_golos_link_videos" style="width:50px;height:20px;" placeholder="Video"/></textarea>
+			
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_3_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_3_{{multiple_edit}}'><img src='img/minus.gif'></a>
+		</td>
+	</tr>
+</table>
+
+		</td>
+	</tr>
+{% endfor %}
+
+<tr><td>&nbsp;</td></tr>
+
+	<!-- clube 2-->
+	{% for i in 14|get_range_from:28 %}
+	{% set this_i = forloop.counter0 %}
+	<tr>
+		<td>
+
+<table style="min-width:800px;">
+	<tr>
+		<td>
+		{% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %}
+			<input type="hidden" name="jjj{{i}}_id" id="jjj{{i}}_id" 
+			value="{{jjj_clube2|get_element:forloop.counter0|get_id}}"/> 
+		{% endif %}	
+		{% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %}
+			<input type="hidden" name="jjj{{i}}_jogo_id" id="jjj{{i}}_jogo_id"
+			value='{{jjj_clube2|get_element:forloop.counter0|attribute:"jjj_jogo"|get_id}}'/>
+		{% endif %}
+			<input type="checkbox" id="jjj{{i}}_checkbox" name="jjj{{i}}_checkbox">
+		</td>
+
+		<td style="min-width:150px;">
+			<a href="#" class="toogleDisplay">[x]</a>
+			
+			<div style="display:inline;">
+			<select size=1 class="aware-change" name="jjj{{i}}_jogador_id" id="jjj{{i}}_jogador_id">
+			<option value="" DEFAULT>--</option>
+			{% for jogad in jogadores_clube2 %}				
+				<option value="{{jogad.key.id}}" {% if multiple_edit and jjj_clube2|has_element:this_i and jjj_clube2|get_element:this_i|attribute:"jjj_jogador"|attribute:"jgd_nome"|eq:jogad.jgd_nome %} SELECTED{% endif %}>{{ jogad.jgd_nome }}</option>
+			{% endfor %}
+			</select>
+			</div>
+		
+			<div style="display:none;">
+			<input class="aware-change nome_jogador_autocomplete" type="text" AUTOCOMPLETE="OFF" size="20" id="jjj{{i}}_jogador" name="jjj{{i}}_jogador" placeholder="Jogador" {% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %} value='{{jjj_clube2|get_element:forloop.counter0|attribute:"jjj_jogador"}}'{% endif %}>
+			</div>	
+		</td>
+			
+		<td>
+			<select size=1 class="aware-change" name="jjj{{i}}_clube_id" id="jjj{{i}}_clube_id">
+			<option value="{{obj.jog_clube1.key.id}}">{{obj.jog_clube1.clu_nome_curto}}</option>
+			<option value="{{obj.jog_clube2.key.id}}" SELECTED>{{obj.jog_clube2.clu_nome_curto}}</option>
+			</select>
+		</td>	
+		
+		<td>
+			<select size=1 class="aware-change" name="jjj{{i}}_posicao" id="jjj{{i}}_posicao">
+			<option value="" DEFAULT>--</option>
+			{% for posicao in posicoes %}
+				<option value="{{posicao.0}}" {% if multiple_edit and jjj_clube2|has_element:this_i and jjj_clube2|get_element:this_i|attribute:"jjj_posicao"|trim|eq:posicao.0 %} SELECTED{% endif %}>{{posicao.0}}</option>
+			{% endfor %}
+			</select>
+		</td>
+				
+		<td>
+			<input type="text" class="aware-change" name="jjj{{i}}_amarelo_minuto" id="jjj{{i}}_amarelo_minuto" style="background-color:#ff8;" size=3 placeholder="Am"{% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %} value='{{jjj_clube2|get_element:forloop.counter0|attribute:"jjj_amarelo_minuto"|filternone}}'{% endif %}/>
+		</TD><TD>
+			<input type="text" class="aware-change" name="jjj{{i}}_duplo_amarelo_minuto" id="jjj{{i}}_duplo_amarelo_minuto" style="background-color:#fa8;" size=3 placeholder="DA"{% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %} value='{{jjj_clube2|get_element:forloop.counter0|attribute:"jjj_duplo_amarelo_minuto"|filternone}}'{% endif %}/>
+		</td><td>
+			<input type="text" class="aware-change" name="jjj{{i}}_vermelho_minuto" id="jjj{{i}}_vermelho_minuto" style="background-color:#f88;" size=3 placeholder="Ver" {% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %} value='{{jjj_clube2|get_element:forloop.counter0|attribute:"jjj_vermelho_minuto"|filternone}}'{% endif %}/>
+		</td><td>
+			<input type="text" class="aware-change" name="jjj{{i}}_substituicao_entrada" id="jjj{{i}}_substituicao_entrada" style="background-color:#8f8;" size=3 placeholder="Ent"{% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %} value='{{jjj_clube2|get_element:forloop.counter0|attribute:"jjj_substituicao_entrada"|filternone}}'{% endif %}/>
+		</td><td>
+			<input type="text" class="aware-change" name="jjj{{i}}_substituicao_saida" id="jjj{{i}}_substituicao_saida" style="background-color:#f88;" size=3 placeholder="Sai" {% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %} value='{{jjj_clube2|get_element:forloop.counter0|attribute:"jjj_substituicao_saida"|filternone}}'{% endif %}/>
+		</td><td>
+			{% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %}
+			{% for minuto in jjj_clube2|get_element:forloop.counter0|attribute:"jjj_golos_minutos" %}
+			<input type="text" class="aware-change toDuplicate{{i}}_1_{{multiple_edit}}" name="jjj{{i}}_golos_minutos" id="jjj{{i}}_golos_minutos" size=3 placeholder="Gol" value="{{minuto}}"/>
+			{% endfor %}
+			{% endif %}
+			<input type="text" class="aware-change toDuplicate{{i}}_1_{{multiple_edit}}" name="jjj{{i}}_golos_minutos" id="jjj{{i}}_golos_minutos" size=3 placeholder="Gol"/>
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_1_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_1_{{multiple_edit}}'><img src='img/minus.gif'></a>
+		</td><td>
+			{% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %}
+			{% for tipo in jjj_clube2|get_element:forloop.counter0|attribute:"jjj_golos_tipos" %}
+			<select name="jjj{{i}}_golos_tipos" class="aware-change toDuplicate{{i}}_2_{{multiple_edit}}" id="jjj{{i}}_golos_tipos" size=1/>
+			<option value="" {% if tipo|eq:"" %}SELECTED{% endif %}>--</option>
+			<option value="g.p." {% if tipo|eq:"g.p." %}SELECTED{% endif %}>g.p.</option>
+			<option value="p.b." {% if tipo|eq:"p.b." %}SELECTED{% endif %}>p.b.</option>
+			</select>	
+			{% endfor %}
+			{% endif %}
+			
+			<select name="jjj{{i}}_golos_tipos" class="aware-change toDuplicate{{i}}_2_{{multiple_edit}}" id="jjj{{i}}_golos_tipos" size=1/>
+			<option value="" >--</option>
+			<option value="g.p.">g.p.</option>
+			<option value="p.b.">p.b.</option>
+			</select>
+			
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_2_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_2_{{multiple_edit}}'><img src='img/minus.gif'></a>
+			</td><td>
+
+			{% if multiple_edit and jjj_clube2|has_element:forloop.counter0 %}
+			{% for video in jjj_clube2|get_element:forloop.counter0|attribute:"jjj_golos_link_videos" %}
+			<textarea name="jjj{{i}}_golos_link_videos" class="aware-change toDuplicate{{i}}_3_{{multiple_edit}}" id="jjj{{i}}_golos_link_videos" style="width:50px;height:20px;" placeholder="Video"/>{{video}}</textarea>
+			{% endfor %}
+			{% endif %}
+			<textarea name="jjj{{i}}_golos_link_videos" class="aware-change toDuplicate{{i}}_3_{{multiple_edit}}" id="jjj{{i}}_golos_link_videos" style="width:50px;height:20px;" placeholder="Video"/></textarea>
+			
+				<a href="#" class='duplicate-input-link' what="toDuplicate{{i}}_3_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate{{i}}_3_{{multiple_edit}}'><img src='img/minus.gif'></a>
+		</td>
+	</tr>
+</table>
+
+		</td>
+	</tr>
+{% endfor %}
+	
+	<tr><td><input style="width:400px;" type="submit" value="Associar jogadores a jogo {{obj}}"/>
+	</td></tr>
+	</table>	
+</form>

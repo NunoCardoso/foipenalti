@@ -1,0 +1,293 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="classificacao" href="#">Classificação</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="sumario" href="#">Sumário</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="classificacao">
+			
+		<!-- inicio sumario -->
+
+<div class="fp-subtitulo" style="margin:10px;">Classificação geral da {{competicao.cmp_nome_completo}} <div class="epoca-container">{{competicao.cmp_epoca.epo_nome}}</div></div>
+<div style="text-align: center;display:inline-block;">
+	<div style="float:left; margin-right:15px;">
+		<div style="width:100%; text-align:center; padding:10px;font-size:16px;">A classificação "real"...</div>
+		<div style="width:100%; text-align:center;">
+			<TABLE id="fp_classificacao" CLASS="fp-table" style="margin:auto;font-size:12px;text-align:center;width:400px;">
+				<THEAD>
+					<TR>
+						<TH{% if competicao.cmp_tipo|neq:"Liga" %} style="width:50px;"{% endif %}>P</TH>
+						<TH style="width:150px;">Clube</TH>
+						<TH>J</TH>
+						<TH>V</TH>
+						<TH>E</TH>
+						<TH>D</TH>
+						<TH>GM</TH>
+						<TH>GS</TH>
+						{% if competicao.cmp_tipo|eq:"Liga" %}<TH>P</TH>{% endif %}
+					</TR>
+				</THEAD>
+			<TBODY>
+				{% for linha in classificacao_real %}
+		<TR>
+			<TD value="{{linha.psr}}">
+			{% if linha.psr|isinintegerlist:competicao.cmp_lugares_descida %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-descida fp-medium-radius">
+			{% else %}
+				{% if linha.psr|isinintegerlist:competicao.cmp_lugares_liga_campeoes %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius">
+				{% else %}
+					{% if linha.psr|isinintegerlist:competicao.cmp_lugares_eliminatorias_liga_campeoes %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius">
+					{% else %}
+						{% if linha.psr|isinintegerlist:competicao.cmp_lugares_liga_europa %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius">
+						{% else %}
+						<DIV>
+						{% endif %}	
+					{% endif %}	
+				{% endif %}	
+			{% endif %}	
+		<p class="marqueeable">{{linha.psr}}{% if competicao.cmp_tipo|eq:"Liga" %}º{% endif %}</P>
+			</DIV>
+		</TD>
+		<TD value="{{linha.clube.clu_nome_curto}}" style="text-align:left;">
+			<P class="marqueeable"><img src="{{linha.clube.clu_link_logo}}" style="height:14px;margin-right:3px;">
+			<A HREF="detalhe_clube?id={{linha.clube.key.id}}">{{linha.clube.clu_nome_curto}}</A></P></TD>
+		<TD>{{linha.jr}}</TD>
+		<TD>{{linha.vr}}</TD>
+		<TD>{{linha.er}}</TD>
+		<TD>{{linha.dr}}</TD>
+		<TD>{{linha.gmr}}</TD>
+		<TD>{{linha.gsr}}</TD>
+		{% if competicao.cmp_tipo|eq:"Liga" %}<TD <B>{{linha.pr}}</B></TD>{% endif %}
+		</TR>
+		{% endfor %}	
+	</TBODY>
+			</TABLE>
+		</div>
+	</div>
+
+	<div style="float:left; margin-right:15px;">
+		<div style="width:100%; text-align:center; padding:10px;font-size:16px;">A classificação "virtual"...</div>
+		<div style="width:100%; text-align:center;">
+			<TABLE id="fp_classificacao" CLASS="fp-table" style="margin:auto;font-size:12px;text-align:center;width:400px;">
+	<THEAD>
+		<TR>
+			<TH{% if competicao.cmp_tipo|neq:"Liga" %} style="width:50px;"{% endif %}>P</TH>
+			<TH></TH><TH style="width:130px;">Clube</TH><TH>J</TH><TH>V</TH>
+			<TH>E</TH><TH>D</TH><TH>GM</TH><TH>GS</TH>
+			{% if competicao.cmp_tipo|eq:"Liga" %}<TH  style="width:50px;">P</TH>{% endif %}
+		</TR>
+	</THEAD>
+	<TBODY>
+		{% for linha in classificacao_virtual %}
+		<TR><TD value="{{linha.psv}}">
+					{% if linha.psv|isinintegerlist:competicao.cmp_lugares_descida %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-descida fp-medium-radius">
+			{% else %}
+				{% if linha.psv|isinintegerlist:competicao.cmp_lugares_liga_campeoes %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius">
+				{% else %}
+					{% if linha.psv|isinintegerlist:competicao.cmp_lugares_eliminatorias_liga_campeoes %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius">
+					{% else %}
+						{% if linha.psv|isinintegerlist:competicao.cmp_lugares_liga_europa %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius">
+						{% else %}
+						<DIV>
+						{% endif %}	
+					{% endif %}	
+				{% endif %}	
+			{% endif %}
+			<P class="marqueeable">
+			{{linha.psv}}{% if competicao.cmp_tipo|eq:"Liga" %}º{% endif %}
+			</P></DIV>
+			</TD>
+</DIV></TD>
+		<td>
+		{% if linha.psv|lt:linha.psr %}	
+			<span style="font-weight:bold;color:green;">&uarr;</span>
+		{% endif %}	
+		{% if linha.psv|gt:linha.psr %}	
+			<span style="font-weight:bold;color:red;">&darr;</span>
+		{% endif %}	
+		</td>
+		<TD value="{{linha.clube.clu_nome_curto}}" style="text-align:left;">
+			<P class="marqueeable"><img src="{{linha.clube.clu_link_logo}}" style="height:14px;margin-right:3px;">
+			<A HREF="detalhe_clube?id={{linha.clube.key.id}}">{{linha.clube.clu_nome_curto}}</A></P></TD>
+		<TD>{{linha.jr}}</TD>
+		<TD {% if linha.vv|lt:linha.vr %}
+		   style="background-color:#FF9999"
+		{% else %}{% if linha.vv|gt:linha.vr %}
+			style="background-color:#99FF99"
+		{% endif %}{% endif %}>{{linha.vv}}</TD>
+		<TD {% if linha.ev|neq:linha.er %}
+		   style="background-color:#9999FF"
+		{% endif %}>{{linha.ev}}</TD>
+		<TD {% if linha.dv|lt:linha.dr %}
+		   style="background-color:#99FF99"
+		{% else %}{% if linha.dv|gt:linha.dr %}
+			style="background-color:#FF9999"
+		{% endif %}{% endif %}>{{linha.dv}}</TD>
+		<TD {% if linha.gmv|lt:linha.gmr %}
+		   style="background-color:#FF9999"
+		{% else %}{% if linha.gmv|gt:linha.gmr %}
+			style="background-color:#99FF99"
+		{% endif %}{% endif %}>{{linha.gmv}}</TD>
+		<TD {% if linha.gsv|lt:linha.gsr %}
+		   style="background-color:#99FF99"
+		{% else %}{% if linha.gsv|gt:linha.gsr %}
+			style="background-color:#FF9999"
+		{% endif %}{% endif %}>{{linha.gsv}}</TD>
+		{% if competicao.cmp_tipo|eq:"Liga" %}
+		<TD 
+		{% if linha.pv|lt:linha.pr %}
+		   style="background-color:#FF9999"
+		{% else %}{% if linha.pv|gt:linha.pr %}
+			style="background-color:#99FF99"
+		{% endif %}{% endif %}><B>{{linha.pv}}</B>
+		{% if linha.pv|neq:linha.pr %}
+		  <span style="font-size:10px;">({{linha.pv|diff:linha.pr }})</span>
+		{% endif %}
+		
+		</TD>
+		{% endif %}
+		</TR>
+		{% endfor %}	
+	</TBODY>
+			</TABLE>
+		</div>
+	</div>	
+</div>
+
+<div style="text-align:center;margin:40px;">
+	<table class='fp-table'>
+		<tbody>
+			<tr style="height:30px;">
+
+	<td style="width:30px;">
+		<DIV class="fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius">&nbsp;</DIV></td>
+	<td>Acesso directo à Liga dos Campeões</td>
+	<td style="width:30px;">
+		<DIV class="fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius">&nbsp;</DIV></td>
+	<td>Eliminatórias da Liga dos Campeões</td>
+	<td style="width:30px;">
+		<DIV class="fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius">&nbsp;</DIV></td>
+	<td>Acesso à Liga Europa</td>
+	<td style="width:30px;">
+		<DIV class="fp-tabela-classificacao-linha-lugar-descida fp-medium-radius">&nbsp;</DIV></td>
+	<td>Lugar de descida</td>
+
+		</tr>
+		<tr>
+
+	<td style="width:30px;"><span style="font-weight:bold;color:green;">&uarr;</span><span style="font-weight:bold;color:red;">&darr;</span> </td>
+	<td>Posição sobe/desce ao compensar os prejuízos/benefícios</td> 
+	<td style="width:30px;background-color:#FF9999">&nbsp;</td>
+	<td>Valor diferente, equipa beneficiada</td>
+	<td style="width:30px;background-color:#99FF99">&nbsp;</td>
+	<td>Valor diferente, equipa prejudicada</td>
+	<td style="width:30px;background-color:#9999FF">&nbsp;</td>
+	<td>Valor diferente, equipa sem prejuízo / benefício</td>
+		</tbody>
+	</table>
+</div>
+
+		<!-- fim sumario -->
+		
+		</DIV>
+		<DIV class="tab_contents" id="sumario">
+			
+		<!-- inicio stats -->
+
+<div style="width:100%;display:block;">
+	
+	<div style="float:left;display:inline;padding:20px;width:400px;text-align:center;">	
+
+		<div class="fp-subtitulo" style="margin-bottom:10px;">Melhores marcadores</div> 
+
+		<table id="fp-detalhe_clube-melhores-marcadores" class='fp-table' style="width:400px;">
+		<THEAD>
+			<tr style="text-align:center;"><TH style="width:200px;">Jogador</TH><TH>Clube</TH><TH>Golos</TH></tr>
+		</THEAD>
+		<TBODY>		
+		{% for jogador in melhores_marcadores %}	
+			<TR>
+				<TD><P class="marqueeable">
+					<a href="/detalhe_jogador?id={{jogador.jogador.key.id}}">
+				<span class="fp-lista-numero-jogador">{{jogador.jogador.jgd_numero}}</span> {{jogador.jogador.jgd_nome}}</A></P></TD>
+				<TD><P class="marqueeable"><a href="/detalhe_clube?id={{jogador.jogador.jgd_clube_actual.key.id}}"><img class="fp-clube-logo-small" src='{{jogador.jogador.jgd_clube_actual.clu_link_logo}}'> {{jogador.jogador.jgd_clube_actual.clu_nome_curto}}</A></P></TD>
+				<TD style="text-align:center;">
+					<P class="marqueeable">{{jogador.gol}} &times; <img style="height:15px;" src="img/golo.png"></P>	</TD>	
+			</TR>
+		{% endfor %}	
+		
+		</TBODY>
+		</TABLE>	
+		<div style="font-size:12px; margin:3px;color:gray;"><a href="#" onClick="javascript:$('#detalhe_competicao_jogadores').trigger('click'); return false;"> Mais informação >></a></div>		
+
+	</div>
+
+	<div style="float:left;display:inline;padding:20px;width:400px;text-align:center;">	
+
+		<div class="fp-subtitulo" style="margin-bottom:10px;">Mais indisciplinados</div> 
+
+		<TABLE id="fp-detalhe_clube-indisciplina" class='fp-table' style="width:400px;">
+		<THEAD>
+			<TR style="text-align:center;">
+				<TH style="width:200px;">Jogador</TH><TH>Clube</TH><TH>Cartões</TH>
+			</TR>
+		</THEAD>
+		<TBODY>
+	{% for jogador in mais_indisciplinados %}
+			<TR>
+				<TD>
+					<P class="marqueeable">
+						<a href="/detalhe_jogador?id={{jogador.jogador.key.id}}">
+							<span class="fp-lista-numero-jogador">{{jogador.jogador.jgd_numero}}
+							</span>
+					 {{jogador.jogador.jgd_nome}}
+						</A>
+					</P>
+				</TD>
+				<TD>
+					<P class="marqueeable">
+						<a href="/detalhe_clube?id={{jogador.jogador.jgd_clube_actual.key.id}}"><img class="fp-clube-logo-small" src='{{jogador.jogador.jgd_clube_actual.clu_link_logo}}'> {{jogador.jogador.jgd_clube_actual.clu_nome_curto}}</A></P></TD>
+					<TD style="text-align:center;"><P class="marqueeable">
+{% if jogador.crt.ca|gt:0 %}{{jogador.crt.ca}} &times; <img style="height:15px;" src="img/amarelo.png">{% endif %} 
+{% if jogador.crt.cda|gt:0 %}{{jogador.crt.cda}} &times; <img style="height:15px;" src="img/duploamarelo.png">{% endif %}
+{% if jogador.crt.cv|gt:0 %}{{jogador.crt.cv}} &times; <img style="height:15px;" src="img/vermelho.png">{% endif %}
+ 				</P></TD>	
+			</TR>
+		{% endfor %}	
+		
+		</TBODY>
+		</TABLE>	
+		<div style="font-size:12px; margin:3px;color:gray;"><a href="#" onClick="javascript:$('#detalhe_competicao_jogadores').trigger('click'); return false;"> Mais informação >></a></div>	
+	</div>
+</DIV>	
+
+<!--fim sumario  -->	
+		</DIV>
+	</DIV>
+</DIV>
+	
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_competicao?id={{competicao.key.id}}&menu=detalhe_competicao_sumario">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV> 
+<script>$(document).ready(function() {
+$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}});
+$(".marqueeable").each(function() {	addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})</script>
+{% endautoescape %}
+{% endspaceless %}

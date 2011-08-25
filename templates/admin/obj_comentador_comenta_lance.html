@@ -1,0 +1,54 @@
+
+{# novos ccl a mando de um lance #}
+{% if new_for_parent_id %}
+<form action="/admin/{{objname}}/new?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar um ccl existente #}
+{% if edit %}
+<form action="/admin/{{objname}}/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{% if new_single %}
+<form action="/admin/{{objname}}/new" method="post">
+{% endif %}	
+
+	<table>	
+	
+		<tr>	
+			<td>Comentador: 
+			
+			<select size=1 name="ccl_comentador_id" id="ccl_comentador_id">
+			<option value="">--</option>
+			{% for comentador in comentadores %}
+				<option value="{{ comentador.key.id }}"{% if edit and obj.ccl_comentador|eq:comentador %} SELECTED{% endif %}>{{ comentador.com_nome }}</option>
+			{% endfor %}
+			</select>
+			</td>
+		</tr>	
+
+		<tr>
+		<td>Lance: </td>
+		<td><input type="text" name="ccl_lance" id="ccl_lance" size=60 placeholder="2011/2012:Liga:3:XXX:YYY:1" {% if edit %}value='{{obj.ccl_lance.lan_nome}}'{% endif %}/></td>
+	</tr>
+
+	<tr>
+		<td  colspan=2><textarea cols=160 rows=3 name="ccl_descricao" id="ccl_descricao" placeholder="Descrição"></textarea></td>
+	</tr>
+	<tr>
+		<td><label for="ccl_decisao">Decisão</label></td>
+		<td><select size=1 name="ccl_decisao" id="ccl_decisao"/>
+			 <option value="0" {% if edit and obj.ccl_decisao|eq:0 %} SELECTED{% endif %}>--</option>
+			 <option value="1" {% if edit and obj.ccl_decisao|eq:1 %} SELECTED{% endif %}>O árbitro esteve bem</option>
+			 <option value="2" {% if edit and obj.ccl_decisao|eq:2 %} SELECTED{% endif %}>O árbitro beneficiou a equipa da casa</option>
+			 <option value="3" {% if edit and obj.ccl_decisao|eq:3 %} SELECTED{% endif %}>O árbitro beneficiou a equipa visitante</option>
+			 <option value="4" {% if edit and obj.ccl_decisao|eq:4 %} SELECTED{% endif %}>Benefício da dúvida</option>
+			</select></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2"><input type="submit" value="Associar Comentário a Lance"/></td>
+	</tr>
+	</table>
+</form>

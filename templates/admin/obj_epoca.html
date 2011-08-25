@@ -1,0 +1,43 @@
+{% if edit %}
+<form action="/admin/epoca/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}
+
+{% if new_single %}
+<form action="/admin/epoca/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar época {{obj.epo_nome}}</DIV>
+{% endif %}
+
+<table>
+	{% if edit %}
+	<tr>
+		<td>Número de visitas:</td>
+		<td>{{obj.epo_numero_visitas}}</td>
+	</tr>
+	<tr>
+		<td>Última alteração:</td>
+		<td>{{obj.epo_ultima_alteracao|pp_year_month_day_hour_minute}}</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<td><label for="epo_nome">Nome</label></td>
+		<td><input type="text" name="epo_nome" id="epo_nome" placeholder="201X/201X" size=20 {% if edit %}value="{{obj.epo_nome}}"{% endif %}/></td>
+	</tr>
+	<tr>
+		<td><label for="epo_data_inicio">Data de início</label></td>
+		<td><input class="datepicker-date" type="text" name="epo_data_inicio" id="epo_data_inicio" size=20 {% if edit %}value="{{obj.epo_data_inicio|pp_year_month_day}}"{% endif %}/></td>
+
+	</tr>
+	<tr>
+		<td><label for="epo_data_fim">Data de fim</label></td>
+		<td><input class="datepicker-date" type="text" name="epo_data_fim" id="epo_data_fim"/ size=20 {% if edit %}value="{{obj.epo_data_fim|pp_year_month_day}}"{% endif %}/></td>
+	</tr>
+
+	<tr>
+		<td colspan="2" style="margin-top:10px;"><input style="width:300px;" type="submit" value="{% if edit %}Editar{% else %}Criar nova{% endif %} época"/></td>
+	</tr>
+	</table>
+</form>

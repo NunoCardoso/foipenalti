@@ -1,0 +1,105 @@
+{% spaceless %}
+{% autoescape off %}
+<DIV id="main-submenu-tab">
+	<UL CLASS="tabs">
+		<LI CLASS="active">
+			<A CLASS="main-submenu-tab-link" rel="plantel" href="#">Plantel</A>
+		</LI>
+	</UL>	
+	<DIV class="clear"></DIV>
+	<DIV class="main-tab-content">
+		<DIV class="tab_contents tab_contents_active" id="plantel">
+			
+<!-- inicio jogadores -->
+
+<div class="fp-subtitulo" style="margin:10px;">Jogadores do {{clube.clu_nome_curto}} em <div class="epoca-container">{{epoca.epo_nome}}</div></div> 
+<div class="fp-table-wrapper">
+	<div class="fp-table-gadgets" style="width:600px;">
+		<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+		Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="30" size="30" type="text">
+		<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+		</div>
+		<div class="fp-table-tablesorter-pager" style="float:right;">
+		<img src="img/first.png" class="first"/>
+      <img src="img/prev.png" class="prev"/>
+      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+      <img src="img/next.png" class="next"/>
+      <img src="img/last.png" class="last"/>
+      <select class="pagesize">
+      <option value="10">10</option>
+ 			<option value="20">20</option>
+         <option value="30">30</option>
+         <option value="40" selected="selected">40</option>
+       </select>
+    	</div>
+	</div>
+	
+	<table id="fp-clube-jogadores" class='fp-table fp-table-pager fp-table-filter' style="width:600px;">
+		<THEAD>
+			<tr style="text-align:center;">
+				<TH style="width:30px;">Nº</TH><TH style="width:150px;">Nome</TH><TH style="width:70px;">Posição</TH><TH style="width:50px;">Jogos</TH><TH style="width:50px;">Minutos</TH><TH style="width:50px;">Golos</TH><TH style="width:100px;">Cartões</TH>
+			</tr>
+		</THEAD>
+		<TBODY>
+			{% for jogador in jogadores %}
+			<tr>
+			<TD style="text-align:right;" value="{{jogador.numero}}">
+				{{jogador.numero}}
+			</TD>
+			<TD style="text-align:left;" value="{{jogador.jogador.jgd_nome}}">
+				<P class="marqueeable"><a href="detalhe_jogador?id={{jogador.jogador.key.id}}">{{jogador.jogador.jgd_nome}}</P></a>
+			</TD>
+			<TD style="text-align:right;" value="{{jogador.posicao}}">
+				<P class="marqueeable">{{jogador.posicao|array_join:", "}}</A>
+			</TD>
+			<TD style="text-align:right;" value="{{jogador.jogos_realizados}}">
+				{{jogador.jogos_realizados}}
+			</TD>
+			<TD style="text-align:right;" value="{{jogador.minutos_jogados}}">
+				{{jogador.minutos_jogados}}
+			</TD>
+			<TD style="text-align:right;" value="{{jogador.golos_marcados}}">	
+			{{jogador.golos_marcados}}
+			</TD>
+			
+			<td style="text-align:right;" value="{{jogador.indisciplina}}">					
+				{% if jogador.indisciplina|gt:0 %}
+				{% if jogador.cartoes_amarelos %}
+				<DIV style="display:inline; margin-right:5px;">{{ jogador.cartoes_amarelos }}&times;<img src="img/amarelo.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% if jogador.cartoes_duplo_amarelos %}
+				<DIV style="display:inline; margin-right:5px;">{{ jogador.cartoes_duplo_amarelos }}&times;<img src="img/duploamarelo.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% if jogador.cartoes_vermelhos %}
+				<DIV style="display:inline; margin-right:5px;">{{ jogador.cartoes_vermelhos }}&times;<img src="img/vermelho.png" style="height:12px;"></DIV> 
+				{% endif %}	
+				{% endif %}
+			</TD>
+		</TR>
+		{% endfor %}
+	</TBODY>
+</TABLE>
+</DIV>
+
+<!-- fim jogadores -->
+		</DIV>
+	</DIV>
+</DIV>
+	
+<DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_clube?id={{clube.key.id}}&menu=detalhe_clube_jogadores&epoca={{epoca.epo_nome}}">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV> 
+	
+
+<script>$(document).ready(function() {$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}});
+$(".fp-table-pager").each(function() {	$(this).tablesorterPager({ container: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager"), positionFixed: false, size:$(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager .pagesize option:selected").val() });
+})
+$(".fp-table-filter").each(function() { $(this).tablesorterFilter({ filterContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-box"),
+ filterClearContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-clear"),filterCaseSensitive: false}); })
+$(".marqueeable").each(function() {addMarquee(this)}) 
+tab = get_tab(); tablink = null;
+if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
+if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
+tablink.trigger("click")
+})
+</script>
+{% endautoescape  %}
+{% endspaceless %}

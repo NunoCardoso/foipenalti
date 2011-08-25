@@ -1,0 +1,200 @@
+{% extends "main.html" %}
+{% block title %}Perguntas já respondidas{% endblock %}
+{% block content %} 
+{% spaceless %}
+<DIV style="margin:10px;">
+<H1>Perguntas já respondidas</H1>
+
+<blockquote>
+	<UL>
+		<LI><A HREF='faq#1'>O que é o 'Foi penalti'?</a></LI>
+		<LI><A HREF='faq#2'>O zerozero.pt não tem uma coisa semelhante?</a></LI>
+		<LI><A HREF='faq#3'>Quem decide que o lance for penálti ou não?</a></LI>
+		<LI><A href="/faq#3.5">O que é o ICC&#0153; e o ICA&#0153;? Como são calculados os seus valores?</a></LI>
+		<LI><A href="/faq#3.6">Como é que eu sei que o ICC&#0153 está a ser em calculado?</a></LI>
+		<LI><A HREF='faq#4'>Mas nem todos os penaltis dão em golo...</a></LI>
+		<LI><A HREF='faq#4.2'>Epá, falta o lance X entre o clube Y e o clube Z! Isto está tudo viciado...</a></LI>
+		<LI><A HREF='faq#4.5'>E as competições a eliminar...?</a></LI>
+		<LI><A HREF='faq#5.5'>Mmmm issto cheira-me mal, não deve ser isento...</a></LI>
+		<LI><A HREF='faq#6'>O sistema existe?</a></LI>
+		<LI><A HREF='faq#7'>Pá, era porreiro se fizesses uma página onde se vê X com Y a fazer Z...</a></LI>
+		<LI><A HREF='faq#2.5'>Epá, o site é leeeeeeento e sempre a gerar erros!</a></LI>
+		<LI><A HREF='faq#9'>Gostei. Até gostava de contribuir com mais dados, outras ideias, etc...</a></LI>			
+	</UL>
+</blockquote>
+		
+		
+<a name="1"></a>
+	<H3>O que é o 'Foi Penalti'?</H3>
+<blockquote>	
+	<P>O 'Foi Penalti' é um sítio que recalcula os resultados dos jogos de futebol das competições nacionais, com o objectivo de medir o impacto das decisões dos árbitros na verdade desportiva. Com base nas análises posteriores <I>isentas</I> dos lances dos jogos feitas por ex-árbitros de futebol, geram-se resultados virtuais segundo a filosofia de <I>worst-case scenario</I>, ou seja, que os erros devem ser compensados com o pior cenário possível. Em resumo, o 'Foi Penalti' repõe os resultados dos clubes, caso os árbitros fossem (cof cof) perfeitos. </P>
+	
+	<P>O 'Foi penalti' também organiza várias informações sobre o desempenho dos clubes, jogadores e árbitros nas competições nacionais, pelo que torna bem nais fácil a consulta de várias estatísticas, como cartões amarelos recebidos / mostrados pelos intervenientes, golos marcados, minutos jogados, etc. O sítio possui várias tabelas e gráficos que facilitam a interpretação da evolução do desempenho de clubes, jogadores e árbitros.</P>
+	
+</blockquote>
+	
+<a name="2" /></a>
+	<H3>O zerozero.pt não tem uma coisa semelhante?</H3>
+<blockquote>
+	<P>Sim, o <a href="http://www.zerozero.pt/tt.php">Casos da Jornada</a>. No entanto, a secção do zerozero.pt possui algumas falhas:</P>
+<blockquote>	
+		<ul>
+		<li style="list-style:lower-roman inside">O zerozero.pt baseia-se na comunidade para a sugestão e avaliação dos lances, o que o torna vulnerável à "clubite", e consequentemente, não garante a isenção das análises. A abordagem do 'Foi Penalti' baseia-se no julgamento dos lances feito por ex-árbirtos na  secção 'Tribunal O Jogo' do jornal <a href="http://www.ojogo.pt">O Jogo</a>, o que garante isenção clubística nos dados.</li>
+		<li style="list-style:lower-roman inside">O 'Foi Penalti' usa uma métrica que tem em consideração mais factores do jogo, como o risco do jogo, severidade dos lances, tempo restante e impacto do lance no resultado parcial e total. Adicionalmente, as decisões dos lances são propagadas para melhor calcular o resultado final. Por exemplo, um jogador que devia ter sido expulso, mas não foi, e que marcou um golo a seguir, em termos virtuais não poderia marcar esse golo pois estaria fora de campo. 
+	</li>
+</ul>
+</blockquote>		
+
+</blockquote>
+
+<a name="3" /></a>
+	<H3>Quem decide que o lance for penálti ou não?</H3>
+<blockquote>O jornal <a href="http://www.ojogo.pt">O Jogo</a> tem uma secção muito interessante, chamada 'Tribunal de O Jogo', onde três ex-árbitros internacionais analisam os lances <I>post-mortem</I>. A decisão dos lances é a média da decisão dos ex-árbitros, que como são em número ímpar, garante sempre um julgamento final para cada lance. Por enquanto, esta é a única fonte usada, porque é a única fonte que dá garantias de isenção.
+</blockquote>
+
+<a name="3.5"></a>
+<H3>O que é o ICC&#0153; e o ICA&#0153;? Como são calculados os seus valores?</H3>
+<P>O ICC&#0153;, ou <I>Índice de carregamento ao colo</I>, é um índice que <B>qualifica</B> os erros dos árbitros, ou seja, em relação ao seu benefício/prejuízo para os clubes. O ICA&#0153;, ou <I>Índice de cegueira do árbitro</I>, é um índice que <B>quantifica</B> os erros dos árbitros, ou seja, em relação ao desempenho dos árbitros. Em resumo, o ICC&#0153; mede a isenção dos árbitros, o ICA&#0153; mede a capacidade técnica do árbitro (se é bom ou mau árbitro, independentemente se é isento ou não). </P>
+	
+<P>O cálculo do ICC&#0153; e do ICA&#0153; baseiam-se no mesmo algoritmo de cálculo do peso de cada lance; a diferença etá na forma como os pesos são somados e acumulados. Os lances são classificados de acordo com quatro factores: 
+	<OL>
+	<LI>o tipo de lance (penalti por assinalar, vermelho mostrado, etc)
+	<LI>o risco do jogo
+	<LI>o tempo decorrido
+	<LI>o impacto no resultado parcial.
+	<OL>
+</P>
+
+<H5>1. Tipo de lance</H5>
+
+<P>Os pesos para os tipos de lance são:</P>
+<UL>
+	<LI>Factor de golo irregular mas validado: 1.0
+	<LI>Factor de golo legal mas invalidado: 1.0
+	<LI>Factor de penalti inexistente assinalado e concretizado: 0.9
+	<LI>Factor de penalti inexistente assinalado mas não concretizado: 0.9
+	<LI>Factor de penalti existente mas não assinalado: 0.9
+	<LI>Factor de fora-de-jogo assinalado indevidamente que é um golo iminente: 0.75
+	<LI>Factor de fora-de-jogo assinalado indevidamente que não é situação de golo iminente: 0.75
+	<LI>Factor de fora-de-jogo existente, mas não assinalado e que resulta em golo: 0.75
+	<LI>Factor de fora-de-jogo existente, mas não assinalado e que não resulta em golo: 0.75
+	<LI>Factor de cartão vermelho que ficou por mostrar: 0.5
+	<LI>Factor de cartão vermelho mostrado injustamente: 0.5
+	<LI>Factor de cartão amarelo que ficou por mostrar: 0.4
+	<LI>Factor de cartão amarelo mostrado injustamente: 0.4 
+	<LI>Factor de falta em zona perigosa assinalada que não existiu, e que resulta em golo: 0.3
+	<LI>Factor de falta em zona perigosa assinalada que não existiu, e que não resulta em golo: 0.3
+	<LI>Factor de falta em zona perigosa existente que ficou por assinalar: 0.3
+</UL>	
+</P>
+	
+<P>No final, pode-se atribuir um <I>agravamento</I> se o resultado virtual for diferente:</P>
+<UL>
+	<LI>Factor de resultado final alterado e com pontos redistribuídos: 1.0
+	<LI>Factor de resultado final alterado mas os pontos ficam na mesma: 0.5
+</UL>
+
+<H5>2. Risco de jogo</H5>
+
+<P>O risco de jogo mede a importância do jogo, consoante o <I>ranking</I> das equipas em questão. 
+Durante os jogos da primeira volta, considera-se que os 4 primeiros classificados da liga da época passada são clubes grandes, e os restantes clubes médios. Durante os jogos da segunda volta, consideram-se os 4 primeiros classificados da liga actual.</P>
+
+<P>Os pesos para os tipos de lance são:</P>
+<UL>
+   <LI>Jogo entre dois clubes grandes: Risco Alto (1.5)
+   <LI>Jogo entre um clube grande e um clube médio: Risco Médio (1.0)
+   <LI>jogo entre clubes médios: Risco Baixo (0.5)
+</UL>
+<P> Em termos práticos, um jogo de médio risco não tem influência, enquanto um jogo de alto risco aumenta em 50% o peso dos valores de ICC&#0153; e ICA&#0153;.</P> 
+
+<H5>3. Tempo decorrido</H5>
+
+<P>O tempo decorrido atribui um peso ao lance, de acordo com o minuto em que decorreu. No caso de cartões amarelos e vermelhos, quanto mais cedo são mostrados, maior é o seu impacto; no caso dos restantes tipos de lances passa-se o posto, quanto mais tarde ocorrem, maior é o seu impacto. A razão é o seguinte: um jogador que vê indevidamente um cartão amarelo aos 2 minutos de jogo, tem bem mais impacto do que ver o amarelo aos 88'. Ao invês, um penalti mal assinalado aos 2 minutos tem menos impacto que um mal assinalado em tempo de descontos.</P>
+
+<P>Os pesos para o tempo decorrido são:</P>
+<UL>
+   <LI>0-15 minutos: 0.4 (1.4 para cartões)
+   <LI>16-30 minutos: 0.6 (1.2 para cartões)
+   <LI>31-45 minutos: 0.8 (1.0 para cartões)
+   <LI>46-60 minutos: 1.0 (0.8 para cartões)
+   <LI>61-75 minutos: 1.2 (0.6 para cartões)
+   <LI>76-9* minutos: 1.4 (0.4 para cartões)
+</UL>
+<P> Em termos práticos, um jogo de médio risco não tem influência, enquanto um jogo de alto risco aumenta em 50% o peso dos valores de ICC&#0153; e ICA&#0153;.</P> 
+
+<H5>4. Impacto no resultado parcial.</H5>
+
+<P>Um penalti assinalado, quando o resultado é de 5-0 tem outro impacto quando o resultado está a 0-0. Como tal, este factor mede o impacto que o lance tem no resultado, quando o lance ocorreu.</P>
+
+<P>Os pesos para o impacto no resultado parcial são:</P>
+<UL>
+   <LI>O resultado altera-se e com mudança de líder (muda de empate para vitória, por exemplo): 1.3
+   <LI>O resultado altera-se mas mantém-se o líder (aumenta a vantagem de 1 para 2 golos, ou reduz a vantagem de 2 para 1 golo): 0.8
+	<LI>O resultado altera-se mas mantém-se o líder (aumenta a vantagem de 2 para 3 golos, ou reduz a vantagem de 3 para 2 golos): 0.6
+   <LI>O resultado altera-se mas mantém-se o líder (aumenta a vantagem para mais 3 golos, ou reduz a vantagem para mais de 2 golos): 0.4
+   <LI>O resultado mantém-se: 1.0
+ </UL>
+
+<a name="3.6"></a>
+<H3>Como é que eu sei que o ICC&#0153; está a ser em calculado?</H3>
+<blockquote>	
+	<P>No cálculo do detalhe do ICC&#0153; para cada clube, os resultados parciais são apresentados juntamente com o detalhe de cada lance, e todos os pesos são devidamente apresentados antes de calcular um ICC&#0153; ou ICA&#0153; final. A fórmula é simplesmente a multiplicação dos pesos todos. Pode sempre fazer as contas e confirmar o resultado final. </P>
+</blockquote>
+
+<a name="4" /></a>	
+	<H3>Mas nem todos os penaltis dão em golo...</H3>
+<blockquote>
+	<P>Claro, e nem as expulsões têm influência directa no resultado, nem todos os fora-de-jogo possuem o mesmo nível de importância. No entanto, se adoptar um regime severo onde assumo sempre o pior cenário possível, e no final do campeonato os erros não possuem influência na verdade desportiva, então pode-se aceitar a hipótese com alto grau de confiança de que as arbitragens não influenciam as classificações finais, mesmo num cenário onde alguns penalties podem ser falhados.</P>
+	
+<P>Tal como está preparado agora, o algoritmo de cálculo de ICC&#0153; e ICA&#0153; adicionam ou retiram golos virtuais para lances que envolvam a marcação de grandes penalidades, lances de golos marcados, ou lances de fora-de-jogo de golo iminente. </P>
+</blockquote>
+
+<a name="4.2" /></a>	
+<H3>Epá, falta o lance X entre o clube Y e o clube Z! Isto está tudo viciado...</H3>
+<blockquote>
+<P>Não sejas assim... vá, procura no YouTube, <a href="http://www.TugaGolo.com"> ou <a href="http://videos.sapo.pt">vídeos SAPO</A> um vídeo com o lance que falta, e manda-me um mail para <a href="mailto:foipenalti@foipenalti.com">foipenalti@foipenalti.com</A> com detalhes sobre:</P>
+<UL>
+<LI>O jogo em questão - clubes, jornada, vídeos do jogo
+<LI>O lance - minuto, protagonistas, em que minuto do vídeo se vê, e já agora, alguma citação a algum comentário feito por algum comentador em jornais portugueses.		
+</UL>	
+<P>Caso o tal lance seja efectivamente relevante, e a sua análise ser clara o suficiente para garantir a isenção da sua avaliação,  será adicionado. E obrigado pela ajuda.</P>
+</blockquote>
+	
+<a name="4.5" /></a>	
+	<H3>E as competições a eliminar?</H3>
+<blockquote>
+	<P>As classificações existem, agora o processo de calcular o benefício/prejuízo quando os jogos são a eliminar é bem mais complicado... e como tal, fica para uma futura versão.</P>	
+</blockquote>
+
+<a name="5.5" /></a>		
+	<H3>Mmmm issto cheira-me mal, não deve ser isento...</H3>
+<blockquote>
+	<P>Claro. Compro um domínio e pago do meu bolso, perco horas e horas do meu tempo livre a programar e a depurar dezenas e dezenas de scripts, mais horas a planear a organização dos dados, a recolher informação de centenas de jogadores, jogos, lances, árbitros, clubes, comentadores, vídeos, e análises, mais horas a monitorizar e a optimizar o site, tudo isto só para disfarçar o facto de este sítio ser uma derradeira arma secreta do clube X para justificar a vitória ou derrota no campeonato!</P>
+	<P>Faz um favor à tua cabeça, não a insultes mais...</P>
+</blockquote>
+
+<a name="6" /></a>			
+	<H3>O sistema existe?</H3>
+<blockquote>Claro que existe. <a href="http://www.ojogo.pt/jogo_sistema.asp">E é bem cómico.</a> :)
+</blockquote>
+
+<a name="7" /></a>			
+	<H3>Pá, era porreiro se fizesses uma página onde se vê X com Y a fazer Z...</H3>
+<blockquote>Estás a ver ali, no lado direito, um rectângulo a dizer "feedback"? Clica nele e usa a interface dada pelo <a href="http://uservoice.com">UserVoice</A> para sugerir páginas com quadros, tabelas e outras estatísticas para "monitorizar" o "sistema". Por exemplo, páginas com ranking de árbitros que erram mais, páginas de parelhas erros de árbitros / clubes beneficiados, páginas com os melhores / piores comentadores (ou seja, os que alinham mais na média ou não), clubes com mais expulsões perdoadas, etc. Não me lembro delas todas, mas podes sugerir, que eu meto na pilha de tarefas. 
+</blockquote>
+
+
+<a name="2.5" /></a>
+	<H3>Epá, o site é leeeeeeento e sempre a gerar erros!</H3>
+<blockquote>
+	<P>O site é feito em <a href="http://appengine.google.com">Google App Engine</A>, e os dados estão guardados na BigTable do Google. Há muitas páginas no "Foi penalti" que envolvem a análise de dezenas de jogos e jogadores, e para horas de ponta, é provável que a geração da página exceda os 30 segundos.</P>
+	<P>Ah, e o logotipo tem lá marcado "beta", ou seja, a página ainda está em franca modificação e está longe de ser uma <I>release</I> estável.</P>
+</blockquote>
+
+<a name="9" /></a>			
+	<H3>Gostei. Até gostava de contribuir com mais dados, outras ideias, etc...</H3>
+<blockquote> Envia mail para <a href="mailto:foipenalti@foipenalti.com">foipenalti@foipenalti.com</a>. Venha de lá essas ideias. 
+</blockquote>	
+</DIV>
+{% endspaceless %}
+{% endblock %}

@@ -1,0 +1,147 @@
+{% if new_for_parent_id %}
+<form action="/admin/competicao/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% else %}
+{# não é preciso adicionar id de época... eu dou um id de cada competição, e basta não alterar a época #}
+{% if multiple_edit %}
+<form action="/admin/competicao/save_multiple" method="post">
+{% else %}
+<form action="/admin/competicao/new_multiple" method="post">
+{% endif %}
+{% endif %}
+
+<input type='hidden' id="prefix" name='prefix' value='cmp'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novas competições a serem associadas à época {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar competições associadas a uma época</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+						
+	<table>
+		<tr>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="cmp{{i}}_id" id="cmp{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}	
+			<td style="margin:5px;">
+				<input type="checkbox" id="cmp{{i}}_checkbox" name="cmp{{i}}_checkbox">
+			</td>
+			<td>
+				<input type="text" class="aware-change" name="cmp{{i}}_nome_completo" id="cmp{{i}}_nome_completo" size=20 placeholder="Nome completo"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"cmp_nome_completo"}}'{% endif %}/>
+			</td>
+
+			<td>
+			{% if new_for_parent_id %}
+				<B>{{obj.epo_nome}}</B>
+			{% else %}
+			{% if multiple_edit and objs|has_element:i %}
+				<B>{{objs|get_element:i|attribute:"cmp_epoca"}}</B>
+				<input type="hidden" name="cmp{{i}}_epoca_id" id="cmp{{i}}_epoca_id" value='{{objs|get_element:i|attribute:"cmp_epoca"|get_id}}'/>
+			{% else %}
+			<select class="aware-change" id="cmp{{i}}_epoca_id" name="cmp{{i}}_epoca_id" size=1>
+			{% for epoca in epocas %}
+				<option value="{{epoca.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"cmp_epoca"|eq:epoca %}SELECTED{% endif %}>{{epoca.epo_nome}}</option>
+			{% endfor %}
+			</select>
+			
+			{% endif %}
+			{% endif %}
+			</td>
+			
+			<td>
+				<select class="aware-change" name="cmp{{i}}_tipo" id="cmp{{i}}_tipo" size=1/>
+			<option value="Liga" {% if multiple_edit and objs|has_element:i and  objs|get_element:i|attribute:"cmp_tipo"|eq:"Liga" %} SELECTED{% endif %}>Liga</option>
+			<option value="TacaPortugal" {% if multiple_edit and objs|has_element:i and  objs|get_element:i|attribute:"cmp_tipo"|eq:"TacaPortugal" %} SELECTED{% endif %}>Taça de Portugal</option>
+			<option value="SuperTaca" {% if multiple_edit and objs|has_element:i and  objs|get_element:i|attribute:"cmp_tipo"|eq:"SuperTaca" %} SELECTED{% endif %}>SuperTaça</option>
+			<option value="TacaLiga" {% if multiple_edit and objs|has_element:i and  objs|get_element:i|attribute:"cmp_tipo"|eq:"TacaLiga" %} SELECTED{% endif %}>Taça da Liga</option>
+				</select>
+			
+			</td>
+			<td><input type="text" class="aware-change" name="cmp{{i}}_numero_jornadas" id="cmp{{i}}_numero_jornadas" size=6 placeholder="Nº Jor"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"cmp_numero_jornadas"}}'{% endif %}/></td>
+			<td><input type="text" class="aware-change" name="cmp{{i}}_link_foto" id="cmp{{i}}_link_foto" size=30 placeholder="Link Foto"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"cmp_link_foto"}}'{% endif %}/></td>
+			<td><input type="text" class="aware-change" name="cmp{{i}}_link_zz" id="cmp{{i}}_link_zz" size=30 placeholder="Link ZZ"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"cmp_link_zz"}}'{% endif %}/>
+			</td>
+		</tr>
+	</table>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+	<table>
+		<tr>
+			<td>Lugares:</td>
+			<td>Liga Campeões:</td>
+			<td>
+				
+				{% if multiple_edit and objs|has_element:i %}
+				{% for lugar in objs|get_element:i|attribute:"cmp_lugares_liga_campeoes" %}
+					<input type="number" class="aware-change  toDuplicate1_cmp{{i}}_{{multiple_edit}}" name="cmp{{i}}_lugares_liga_campeoes" id="cmp{{i}}_lugares_liga_campeoes" min="0" step="1" size=4 value="{{lugar}}"/>
+				{% endfor %}
+				{% endif %}
+				<input type="number" class="aware-change  toDuplicate1_cmp{{i}}_{{multiple_edit}}" name="cmp{{i}}_lugares_liga_campeoes" id="cmp{{i}}_lugares_liga_campeoes" min="0" step="1" size=4/>
+				<a href="#" class='duplicate-input-link' what="toDuplicate1_cmp{{i}}_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate1_cmp{{i}}_{{multiple_edit}}'><img src='img/minus.gif'></a>
+			</td>
+			
+			<td>Elim. Liga Campeões:</td>
+			<td>
+				{% if multiple_edit and objs|has_element:i %}
+				{% for lugar in objs|get_element:i|attribute:"cmp_lugares_eliminatorias_liga_campeoes" %}
+				<input type="number" class="aware-change toDuplicate2_cmp{{i}}_{{multiple_edit}} " name="cmp{{i}}_lugares_eliminatorias_liga_campeoes" id="cmp{{i}}_lugares_eliminatorias_liga_campeoes" min="0" step="1" size=4 value="{{lugar}}"/>
+				{% endfor %}
+				{% endif %}
+				<input type="number" class="aware-change toDuplicate2_cmp{{i}}_{{multiple_edit}}" name="cmp{{i}}_lugares_eliminatorias_liga_campeoes" id="cmp{{i}}_lugares_eliminatorias_liga_campeoes" min="0" step="1" size=4/>
+
+				<a href="#" class='duplicate-input-link' what="toDuplicate2_cmp{{i}}_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate2_cmp{{i}}_{{multiple_edit}}'><img src='img/minus.gif'></a>
+			</td>
+			
+			<td>Liga Europa:</td>
+			<td>
+				{% if multiple_edit and objs|has_element:i %}
+				{% for lugar in objs|get_element:i|attribute:"cmp_lugares_liga_europa" %}
+<input type="number" class="aware-change toDuplicate3_cmp{{i}}_{{multiple_edit}}" name="cmp{{i}}_lugares_liga_europa" id="cmp{{i}}_lugares_liga_europa" min="0" step="1" size=4 value="{{lugar}}"/>
+				{% endfor %}
+				{% endif %}
+				
+				<input type="number" class="aware-change toDuplicate3_cmp{{i}}_{{multiple_edit}}" name="cmp{{i}}_lugares_liga_europa" id="cmp{{i}}_lugares_liga_europa" min="0" step="1" size=4/>
+				<a href="#" class='duplicate-input-link' what="toDuplicate3_cmp{{i}}_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate3_cmp{{i}}_{{multiple_edit}}'><img src='img/minus.gif'></a>
+			</td>
+			<td>Descida:</td>
+			<td>
+				{% if multiple_edit and objs|has_element:i %}
+				{% for lugar in objs|get_element:i|attribute:"cmp_lugares_descida" %}
+<input type="number" class="aware-change toDuplicate4_cmp{{i}}_{{multiple_edit}}" name="cmp{{i}}_lugares_descida" id="cmp{{i}}_lugares_descida" min="0" step="1" size=4 value="{{lugar}}"/>
+				{% endfor %}
+				{% endif %}
+				
+				<input type="number" class="aware-change toDuplicate4_cmp{{i}}_{{multiple_edit}}" name="cmp{{i}}_lugares_descida" id="cmp{{i}}_lugares_descida" min="0" step="1" size=4/>
+				<a href="#" class='duplicate-input-link' what="toDuplicate4_cmp{{i}}_{{multiple_edit}}"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate4_cmp{{i}}_{{multiple_edit}}'><img src='img/minus.gif'></a>
+			</td>
+		</tr>
+	</table>
+					</td>
+				</tr>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novas{% endif %} competições {% if new_for_parent_id or multiple_edit %}associadas à época {{obj.epo_nome}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

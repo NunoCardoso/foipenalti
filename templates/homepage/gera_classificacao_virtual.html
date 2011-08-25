@@ -1,0 +1,70 @@
+{% autoescape off %}
+<TABLE id="fp-homepage-classificacao" CLASS="fp-homepage-classificacao">
+	<THEAD>
+		<TR>
+			<TH style="width:15px;">P</TH>
+			<TH style="width:90px;">Clube</TH>
+			<TH style="width:10px;">J</TH>
+			<TH style="width:10px;">V</TH>
+			<TH style="width:10px;">E</TH>
+			<TH style="width:10px;">D</TH>
+			<TH style="width:35px;">GM/S</TH>
+			<TH style="width:20px;">P</TH>
+		</TR>
+	</THEAD>
+	<TBODY>
+		{% for linha in classificacao_virtual %}
+		<TR>
+			<TD style="text-align:center;">
+				{% if linha.psv|isinintegerlist:competicao.cmp_lugares_descida %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-descida fp-medium-radius">
+			{% else %}
+				{% if linha.psv|isinintegerlist:competicao.cmp_lugares_liga_campeoes %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius">
+				{% else %}
+					{% if linha.psv|isinintegerlist:competicao.cmp_lugares_eliminatorias_liga_campeoes %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius">
+					{% else %}
+						{% if linha.psv|isinintegerlist:competicao.cmp_lugares_liga_europa %}
+		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius">
+						{% else %}
+						<DIV>
+						{% endif %}	
+					{% endif %}	
+				{% endif %}	
+			{% endif %}	
+		{{linha.psv}}</DIV></TD>
+		<TD style="text-align:left;"><A HREF="detalhe_clube?id={{linha.clu.key.id}}">{{linha.clube.clu_nome_curto}}</A></TD>
+		<TD>{{linha.jr}}</TD>
+		<TD {% if linha.vv|lt:linha.vr %}
+		   style="background-color:#FF9999"
+		{% else %}{% if linha.vv|gt:linha.vr %}
+			style="background-color:#99FF99"
+		{% endif %}{% endif %}>{{linha.vv}}</TD>
+		<TD {% if linha.ev|neq:linha.er %}
+		   style="background-color:#9999FF"
+		{% endif %}>{{linha.ev}}</TD>
+		<TD {% if linha.dv|lt:linha.dr %}
+		   style="background-color:#99FF99"
+		{% else %}{% if linha.dv|gt:linha.dr %}
+			style="background-color:#FF9999"
+		{% endif %}{% endif %}>{{linha.dv}}</TD>
+		<TD>
+		<DIV style="padding:1px;display:inline;{% if linha.gmv|lt:linha.gmr %}background-color:#FF9999{% else %}
+		{% if linha.gmv|gt:linha.gmr %}background-color:#99FF99{% endif %}{% endif %}">{{linha.gmv}}</DIV> -
+		<DIV style="padding:1px;display:inline;{% if linha.gsv|lt:linha.gsr %}background-color:#99FF99{% else %}
+		{% if linha.gsv|gt:linha.gsr %}background-color:#FF9999{% endif %}{% endif %}">{{linha.gsv}}</DIV></TD>
+		{% if competicao.cmp_tipo|eq:"Liga" %}
+		<TD 
+		{% if linha.pv|lt:linha.pr %}
+		   style="background-color:#FF9999"
+		{% else %}{% if linha.pv|gt:linha.pr %}
+			style="background-color:#99FF99"
+		{% endif %}{% endif %}><B>{{linha.pv}}</B>
+		</TD>
+		{% endif %}
+		</TR>
+		{% endfor %}	
+	</TBODY>
+</TABLE>
+{% endautoescape %}

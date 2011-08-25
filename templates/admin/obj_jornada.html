@@ -1,0 +1,64 @@
+{# novas jornadas a mando de uma competição #}
+{% if new_for_parent_id %}
+<form action="/admin/jornada/new?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar uma jornada existente #}
+{% if edit %}
+<form action="/admin/jornada/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# nova jornada sem estar presa a competição #}
+{% if new_single %}
+<form action="/admin/jornada/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar jornada {{obj.jor_nome}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td>Competição</td>
+		<td>
+		{% if new_for_parent_id %}
+		<B>{{obj.cmp_nome}}</B>
+		{% else %}
+		<select size=1 name="jor_competicao_id" id="jor_competicao_id"/>
+				<option value="">--</option>
+				{% for competicao in competicoes %}
+				<option value="{{competicao.key.id}}" {% if edit and obj.jor_competicao|eq:competicao %} SELECTED{% endif %}>{{competicao.cmp_nome}}</option>
+				{% endfor %}
+				</select>
+		{% endif %}	
+		</td>
+	</tr>
+
+	<tr>
+		<td><label for="jor_nome_completo">Nome completo</label></td>
+		<td><input type="text" name="jor_nome_completo" id="jor_nome_completo" size=30 placeholder="34ª jornada,1/32 avos,Final" {% if edit %}value="{{obj.jor_nome_completo}}"{% endif %}/></td>
+	
+		<td><label for="jor_nome_curto">Nome curto</label></td>
+		<td><input type="text" name="jor_nome_curto" id="jor_nome_curto" size=20 placeholder="34,Taca32,2f3j,final" {% if edit %}value="{{obj.jor_nome_curto}}"{% endif %}/></td>
+	</tr>
+
+	<tr>
+		<td><label for="jor_data">Data</label></td>
+		<td><input class="datepicker-date" type="text" name="jor_data" id="jor_data_single" size=30 placeholder="1970/01/01" {% if edit %}value="{{obj.jor_data|pp_year_month_day}}"{% endif %}/></td>
+	
+		<td><label for="jor_ordem">Ordem (nº)</label></td>
+		<td><input type="number" name="jor_ordem" id="jor_ordem" min="0" step="1" size=20 {% if edit %}value="{{obj.jor_ordem}}"{% endif %}/></td>
+	</tr>
+	<tr>
+		<td><label for="jor_link_zz">Link ZZ</label></td>
+		<td colspan=3><input type="text" name="jor_link_zz" id="jor_link_zz" size=60 {% if edit %}value="{{obj.jor_link_zz}}"{% endif %}/></td>
+	</tr>
+
+		<tr>
+		<td colspan="4" style="margin-top:10px;"><input style="width:300px;" type="submit" value="{% if edit %}Editar{% else %}Criar nova{% endif %} jornada"/></td>
+	</tr>
+	</table>
+</form>
+
+</script>

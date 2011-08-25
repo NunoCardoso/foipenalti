@@ -1,0 +1,81 @@
+
+<div style="width:100%;display:inline-block;font-size:14px;">
+		<div style="float:left; width:20px;font-size:20px;margin-right:10px"><a href="/detalhe_lance?id={{lance.lance.key.id}}">#{{ lance.lance.lan_numero }}</A></div>
+		<div style="float:left; width:100px;"><a href="/detalhe_lance?id={{lance.lance.key.id}}">
+			{% ifequal  lance.lance.lan_minuto 0 %}
+			Sem minuto
+			{% else %}
+			Minuto <span style="font-size:20px;">{{ lance.lance.lan_minuto }}'</span>
+			{% endifequal %}
+			</a></div>
+			<div style="float:left; margin-right:20px;">
+			{% if lance.lance.lan_link_videos %}	
+				{% for video in lance.lance.lan_link_videos %}
+							<A CLASS="fp-watch-video" HREF="#" 
+					VIDEO_HTML="{{video|urlencode}}" 
+					TARGET_DIV="fp-fixed-video-screen">
+					<img src="img/movie.png"></A>
+					 		{% endfor %}
+						{% endif %}
+			</div>			
+			
+			
+		<div style="float:left; width:200px; margin-right:20px;margin-left:10px;">{{ lance.tipo }}</div>
+		<div style="float:left; width:300px;font-size:16px;font-style:italic;">&#8220{{lance.lance.lan_descricao}}&#8221</div>
+		{% if lance.protagonistas %}
+		<div>
+			{% for protagonista in lance.protagonistas %}
+				<div style="height:50px;float:left;">
+				<a href="detalhe_jogador?id={{protagonista.jel_jogador.key.id}}"><img style="height: 100%;" src="{{protagonista.jel_jogador.jgd_link_foto}}" alt="{{protagonista.jel_jogador.jgd_nome}}"></A></div>
+			{% endfor %}	
+		</div>	
+	{% endif %}
+	</div>
+	
+	<div style="width:100%;display:inline-block;margin-bottom:30px;">
+		{% for comentario in lance.comentarios %}
+		<div style="float:left; width:290px;">
+			<div>
+				<blockquote class="rectangle-speech-border">
+				<P>&#8220{{comentario.ccl_descricao}}&#8221</P>
+			</blockquote>
+			</div>
+			<div id="detalhes_comentador"> 
+				<div style="height:60px;margin-right:10px;float:left;">
+					{% if comentario.ccl_comentador.com_link_foto %}
+					<img style="height: 100%;" src="{{comentario.ccl_comentador.com_link_foto}}">
+					{% else %}
+						<img style="height: 100%;" src="img/unknown.gif">
+						{% endif %}
+				</DIV>
+				<div style="float:left;">
+					<div>&nbsp;</div>
+					<div style="margin-top:20px;">{{comentario.ccl_comentador.com_nome}}</div>
+					<div>Fonte: <a href="{{comentario.ccl_comentador.com_fonte.fon_link}}">{{comentario.ccl_comentador.com_fonte.fon_nome}}</A></div>
+				</div>
+				<div>
+					<div style="padding-left:190px;">Decisão: 
+						{% ifequal comentario.ccl_decisao 1 %}
+						<img src="img/thumbs_up.png" style="vertical-align:bottom;">
+						{% else %}
+							{% ifequal comentario.ccl_decisao 4 %}
+							<img src="img/thumbs_meh.png" style="vertical-align:bottom;">
+							{% else %}
+							<img src="img/thumbs_down.png" style="vertical-align:bottoms;">
+							{% endifequal %}
+						{% endifequal %}
+					</div>
+					<div style="padding-left:190px;">
+						{% ifequal comentario.ccl_decisao 1 %}O árbitro esteve bem.{% endifequal %}
+						{% ifequal comentario.ccl_decisao 2 %}Benefício: {{lance.lance.lan_jogo.jog_clube1.clu_nome_curto}}
+						{% endifequal %}
+						{% ifequal comentario.ccl_decisao 3 %}Benefício: {{lance.lance.lan_jogo.jog_clube2.clu_nome_curto}}
+						{% endifequal %}
+						{% ifequal comentario.ccl_decisao 4 %}Benefício da dúvida
+						{% endifequal %}
+					</div>	
+				</div>	
+			</div>
+		</div>	
+	{% endfor %}
+	</div>

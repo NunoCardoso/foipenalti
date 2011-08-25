@@ -1,0 +1,70 @@
+
+blockquote {margin:1em 0;}
+blockquote p {margin:0; font-size:1.1em;}
+
+.rectangle-speech-border {
+	position:relative; 
+	padding:10px; 
+	margin:10px;
+	border:3px solid #142c46;
+	text-align:center; 
+	color:#333;
+	background:#DFE9F0; 
+
+	/* css3 */
+	-moz-border-radius:20px;
+	-webkit-border-radius:20px;
+	border-radius:20px;
+}
+
+/* creates larger curve */
+.rectangle-speech-border:before {
+	content:"\00a0"; 
+	position:absolute; 
+	z-index:5; 
+	bottom:-34px; 
+	left:50px; 
+	width:50px; 
+	height:28px;
+	border-style:solid; 
+	border-width:0 3px 3px 0; 
+	border-color:#142c46;
+	background:#DFE9F0; 
+
+	/* css3 */
+	-moz-border-radius-bottomright:80px 50px;
+	-webkit-border-bottom-right-radius:80px 50px;
+	border-bottom-right-radius:80px 50px;
+}
+
+/* creates smaller curve */
+.rectangle-speech-border:after {
+   content:"\00a0"; 
+	position:absolute; 
+	z-index:5; 
+	bottom:-34px; 
+	left:50px; 
+	width:20px; 
+	height:28px; 
+	border-style:solid; 
+	border-width:0 3px 3px 0; 
+	border-color:#142c46;
+	background:#fff; 
+
+	/* css3 */
+	-moz-border-radius-bottomright:40px 50px; 
+	-webkit-border-bottom-right-radius:40px 50px; 
+	border-bottom-right-radius:40px 50px; 
+}
+
+/* creates a white rectangle to cover part of the oval border*/
+.rectangle-speech-border>:first-child:after {
+	content:"\00a0"; 
+	position:absolute; 
+	z-index:1; 
+	bottom:-10px; 
+	left:73px; 
+	width:27px; 
+	height:15px; 
+	background:#DFE9F0; 
+}

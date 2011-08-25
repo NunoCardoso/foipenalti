@@ -1,0 +1,41 @@
+{% extends "blog.html" %}
+{% block title %}{% if page_title %}{{ page_title }}{% else %}Index{% endif %}{% endblock %}
+
+{% block blogcontent %}
+{% autoescape off %}
+    {% if page_description %}
+        <hgroup>
+			<h2 class="page-description">{{ page_description }}</h2>
+		</hgroup>
+    {% endif %}
+    {% if posts %}
+        {% for post in posts %}
+        <article class="post">
+            <time class="date" datetime="{{post.pub_date|pp_year_month_day}}" pubdate>{{ post.pub_date|pp_dayweek_day_month_year }}</time>
+            <header class="title">
+					<hgroup>
+						<div>
+						<a href="{{ post.get_absolute_url }}">{{ post.title }}</a></div>
+            		<div class="tags">Etiquetas:{% for tag in post.tags %} <a href="/blog/tag/{{ tag }}">{{ tag }}</a>{% endfor %}</div>
+					</hgroup>
+				</header>
+            <div class="body">{{ post.body_html }}</div>
+        </article>
+        {% endfor %}
+    {% else %}
+        <hgroup>
+        	<h2>Sem postas.</h2>
+        </hgroup>
+    {% endif %}
+    {% if prev_offset or next_offset %}
+        <nav class="span-16 last append-bottom">
+            {% if prev_offset %}
+            <a href="?offset={{ prev_offset }}">Postas anteriores</a>
+            {% endif %}
+            {% if next_offset %}
+            <a href="?offset={{ next_offset }}">Mais postas</a>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% endautoescape %}
+{% endblock %}

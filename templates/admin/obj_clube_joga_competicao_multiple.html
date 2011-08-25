@@ -1,0 +1,86 @@
+{# novos cjc a mando de um clube/competicao #}
+{% if new_for_parent_id %}
+<form action="/admin/{{objname}}/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar vários cjc existentes #}
+{% if multiple_edit %}
+<form action="/admin/{{objname}}/save_multiple" method="post">
+{% endif %}	
+
+{# novos cjc sem estarem presos a nada #}
+{% if new_multiple %}
+<form action="/admin/{{objname}}/new_multiple" method="post">
+{% endif %}	
+
+<input type='hidden' id="prefix" name='prefix' value='cjc'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novas CJCs a serem associadas à competição {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar CJCs associadas à competição {{obj}}</DIV>
+{% endif %}
+
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+						
+	<table>
+		<tr>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="cjc{{i}}_id" id="cjc{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}	
+			<td style="margin:5px;">
+				<input type="checkbox" id="cjc{{i}}_checkbox" name="cjc{{i}}_checkbox">
+			</td>
+			
+			<td>
+				<div style="display:inline;">
+					<select class="aware-change" size=1 name="cjc{{i}}_clube_id" id="cjc{{i}}_clube_id"/>
+				<option value="">--</option>
+				{% for clube in clubes %}
+				<option value="{{clube.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"cjc_clube"|eq:clube %} SELECTED{% endif %}>{{clube.clu_nome_curto}}</option>
+				{% endfor %}
+					</select>
+				</div>
+			
+				{% if new_for_parent_id and this_id|eq:"cmp_id" %}
+				{% else %}
+				<div style="display:inline;">
+					<select class="aware-change"  size=1 name="cjc{{i}}_competicao_id" id="cjc{{i}}_competicao_id"/>
+				<option value="">--</option>
+				{% for competicao in competicoes %}
+				<option value="{{competicao.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"cjc_competicao"|eq:competicao %} SELECTED{% endif %}>{{competicao.cmp_nome}}</option>
+				{% endfor %}
+				</select>
+				</div>
+				{% endif %}
+				
+				<div style="display:inline;">
+				<input class="aware-change" type="number" min="0" step="1" name="cjc{{i}}_classificacao_anterior" id="cjc{{i}}_classificacao_anterior" size=4 placeholder="0" {% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"cjc_classificacao_anterior"}}'{% endif %}/>
+				</div>
+			</td>
+		</tr>
+	</table>
+			
+					</td>
+				</tr>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novos{% endif %} CJC {% if new_for_parent_id or multiple_edit %}associadas à competição {{obj.cmp_nome}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>

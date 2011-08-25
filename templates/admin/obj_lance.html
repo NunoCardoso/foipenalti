@@ -1,0 +1,97 @@
+{# novos lances a mando de um jogo #}
+{% if new_for_parent_id %}
+<form action="/admin/lance/new?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar um lance existente #}
+{% if edit %}
+<form action="/admin/lance/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# novo lance sem estar preso a jogo #}
+{% if new_single %}
+<form action="/admin/lance/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar lance {{obj.lan_nome}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td>
+			<table>
+				<tr>
+					<td>
+						<div style="display:inline;">
+							{% if new_for_parent_id %}<B>{{obj.lan_jogo.jog_nome}}</B>
+							{% else %}
+							<input type="text" name="lan_jogo" id="lan_jogo" size=40 placeholder="201X/201X:Liga:30:FCP:SLB"{% if edit %} value="{{obj.lan_jogo.jog_nome}}"{% endif %}>
+							{% endif %}	
+						</div>
+						<div style="display:inline;">	<input type="number" name="lan_numero" id="lan_numero" size=6 placeholder="Nº" min="0" step="1" {% if edit %} value="{{obj.lan_numero}}"{% endif %}/> </div>
+						<div style="display:inline;">	<input type="number" name="lan_minuto" id="lan_minuto" size=6 placeholder="min" min="0" step="1" {% if edit %} value="{{obj.lan_minuto}}"{% endif %}/> </div>
+					</td>
+				</tr>
+				<tr>		
+					<td>
+						<div style="display:inline;">
+							<select size=1 name="lan_classe" id="lan_classe">
+								{% for tipo in tipos_lances %}
+								<option value="{{ forloop.counter0 }}" {% if edit and obj.lan_classe|eq:forloop.counter0 %} SELECTED{% endif %}>{{ tipo }}</option>
+								{% endfor %} 
+							</select>
+						</div>
+					</td>
+				</tr>
+				<tr>		
+					<td>
+						<div style="display:inline;">
+							<TEXTAREA name="lan_descricao" id="lan_descricao" placeholder="Descrição" style="width:400px; height:50px;">{% if edit %}{{obj.lan_descricao}}{% endif %}</TEXTAREA>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						{% if edit %}
+						{% for link in obj.lan_link_sites %}
+						<div class="toDuplicate1" style="display:inline;">	
+							<input type="text" name="lan_link_sites" id="lan_link_sites" size=40 placeholder="Link" value="{{link}}"/> 
+						</div>
+						{% endfor %}
+						{% endif %}
+						<div class="toDuplicate1" style="display:inline;">	
+							<input type="text" name="lan_link_sites" id="lan_link_sites" size=40 placeholder="Link"/> 
+						</div>
+						<div style="display:inline;">	
+							<a href="#" class='duplicate-input-link' what="toDuplicate1"><img src='img/plus.gif'></a> 
+							<a href="#" class='remove-input-link' what='toDuplicate1'><img src='img/minus.gif'></a>
+						</div>
+					</td>
+				<tr>
+				<tr>
+					<td>
+						{% if edit %}
+						{% for video in obj.lan_link_videos %}
+						<div class="toDuplicate2" style="display:inline;">	
+							<input type="text" name="lan_link_videos" id="lan_link_videos" size=40 value="{{video}}"  placeholder="Video"/> 
+						</div>
+						{% endfor %}
+						{% endif %}
+						<div class="toDuplicate2" style="display:inline;">	
+							<input type="text" name="lan_link_videos" id="lan_link_videos" size=40  placeholder="Video"/> 
+						</div>
+						<div style="display:inline;">	
+							<a href="#" class='duplicate-input-link' what="toDuplicate2"><img src='img/plus.gif'></a> 
+							<a href="#" class='remove-input-link' what='toDuplicate2'><img src='img/minus.gif'></a>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</td>		
+	<tr>
+		<td><input style="width:400px;" type="submit" value="{% if edit %}Editar{% else %}Criar novo{% endif %} lance"/></td>
+	</tr>
+	</table>
+</form>

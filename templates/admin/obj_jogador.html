@@ -1,0 +1,67 @@
+{# novo jogador a mando de um clube #}
+{% if new_for_parent_id %}
+<form action="/admin/jogador/new?{{ this_id }}={{ obj.key.id }}" method="post">
+{% endif %}
+
+{# editar um jogador existente #}
+{% if edit %}
+<form action="/admin/jogador/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# novo jogador #}
+{% if new_single %}
+<form action="/admin/jogador/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar jogador {{obj.jgd_nome}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><label>Nome</label></td>
+		<td><input type="text" name="jgd_nome" id="jgd_nome" size=40{%if edit %}  value="{{obj.jgd_nome}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label>Nome completo</label></td>
+		<td><input type="text" name="jgd_nome_completo" id="jgd_nome_completo" size=80{%if edit %}  value="{{obj.jgd_nome_completo}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td>Clube actual: </td>
+		<td><select size=1 name="jgd_clube_actual_id" id="jgd_clube_actual_id"/>
+				{% for clube in clubes %}
+				<option value="{{clube.key.id}}" {% if edit and obj.jgd_clube_actual|eq:clube %} SELECTED{% endif %}>{{clube.clu_nome_curto}}</option>
+				{% endfor %}
+				</select>	
+		</td>
+	</tr>
+	<tr>
+		<td><label>Número actual</label></td>
+		<td><input type="number" min="1" step="1" name="jgd_numero" id="jgd_numero" size=10{%if edit %}  value="{{obj.jgd_numero}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label>Posição</label></td>
+		<td>
+			<select class="toDuplicate" id="jgd_posicao" name="jgd_posicao" size=4 multiple>
+			{% for posicao in posicoes %}
+				<option value="{{posicao.0}}" {% if edit %}{% if posicao.0|isinlist:obj.jgd_posicao %} SELECTED{% endif %}{% endif %}>{{posicao.1}}</option>
+			{% endfor %}
+			</select>
+		</td>	
+	</tr>
+
+	<tr>
+		<td><label>Foto (link http)</label></td>
+		<td><input type="text" name="jgd_link_foto" id="jgd_link_foto" size=60{%if edit %} value="{{obj.jgd_link_foto}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label>Link ZZ</label></td>
+		<td><input type="text" name="jgd_link_zz" id="jgd_link_zz" size=60{%if edit %} value="{{obj.jgd_link_zz}}{% endif %}"/></td>
+	</tr>
+
+	<tr>
+		<td colspan="2"><input style="width:300px;" type="submit" value="{% if edit %}Editar{% else %}Criar novo{% endif %} jogador"/></td>
+	</tr>
+	</table>
+</form>

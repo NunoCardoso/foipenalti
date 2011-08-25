@@ -1,0 +1,515 @@
+indexes:
+
+## ORDEM:
+## EPOCA, COMPETICAO, JORNADA, JOGO, JOGADOR
+## CLUBE, JOGADOR, ARBITRO, COMENTADOR, FONTE
+## CTJ, CJC, JJJ, CCL, JEL, ACUMULADOR, BLOG
+
+#####################################
+## 1) ESTES SÃO SÓ PARA O BULKLOAD ##
+#####################################
+
+- kind: Epoca
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Competicao
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Jornada
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Lance
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Clube
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Jogador
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Arbitro
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Comentador
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: Fonte
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: ClubeJogaCompeticao
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: JogadorJogaJogo
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: ClubeTemJogador
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: ComentadorComentaLance
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: JogadorEmLance
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: AcumuladorJornada
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: AcumuladorCompeticao
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: AcumuladorEpoca
+  properties:
+  - name: __key__
+    direction: desc
+
+# Total: 18
+
+#############################
+## 2) RECENTES / POPULARES ##
+#############################
+
+- kind: Epoca
+  properties:
+  - name: __key__
+  - name: epo_numero_visitas
+    direction: desc
+  - name: epo_ultima_alteracao
+    direction: desc
+
+- kind: Competicao
+  properties:
+  - name: __key__
+  - name: cmp_numero_visitas
+    direction: desc
+  - name: cmp_ultima_alteracao
+    direction: desc
+
+- kind: Jornada
+  properties:
+  - name: __key__
+  - name: jor_numero_visitas
+    direction: desc
+  - name: jor_ultima_alteracao
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: __key__
+  - name: jog_numero_visitas
+    direction: desc
+  - name: jog_ultima_alteracao
+    direction: desc
+
+
+- kind: Clube
+  properties:
+  - name: __key__
+  - name: clu_numero_visitas
+    direction: desc
+  - name: clu_ultima_alteracao
+    direction: desc
+
+- kind: Jogador
+  properties:
+  - name: jgd_numero_visitas
+    direction: desc
+  - name: jgd_ultima_alteracao
+    direction: desc
+
+- kind: Arbitro
+  properties:
+  - name: __key__
+  - name: arb_numero_visitas
+    direction: desc
+  - name: arb_ultima_alteracao
+    direction: desc
+
+- kind: Lance
+  properties:
+  - name: __key__
+  - name: lan_numero_visitas
+    direction: desc
+  - name: lan_ultima_alteracao
+    direction: desc
+
+- kind: Comentador
+  properties:
+  - name: __key__
+  - name: com_numero_visitas
+    direction: desc
+  - name: com_ultima_alteracao
+    direction: desc
+
+- kind: Fonte
+  properties:
+  - name: __key__
+  - name: fon_numero_visitas
+    direction: desc
+  - name: fon_ultima_alteracao
+    direction: desc
+
+# total: 10
+
+#########################
+## 2) Para ADMIN stuff ##
+#########################
+
+# para edit época
+- kind: Competicao 
+  properties: 
+  - name: cmp_epoca 
+  - name: cmp_ultima_alteracao 
+    direction: desc
+ 
+# para admin, procurar jornadas por competição
+- kind: Jornada
+  properties:
+  - name: jor_competicao
+  - name: jor_ultima_alteracao
+    direction: desc
+
+# para admin, procurar jornadas por nome
+- kind: Jornada 
+  properties: 
+  - name: jor_nome 
+  - name: jor_ultima_alteracao 
+    direction: desc
+
+# para admin, para procurar por clube actual
+- kind: Jogador
+  properties:
+  - name: jgd_clube_actual
+  - name: jgd_ultima_alteracao
+    direction: desc
+
+# para admin, para procurar por nome
+- kind: Jogador
+  properties:
+  - name: jgd_nome
+  - name: jgd_ultima_alteracao
+    direction: desc
+
+# para admin, para procurar por nome completo
+- kind: Jogador
+  properties:
+  - name: jgd_nome_completo
+  - name: jgd_ultima_alteracao
+    direction: desc
+
+#############################
+## 3) Para No search stuff ##
+#############################
+
+# para a homepage
+- kind: Jornada
+  properties:
+  - name: jor_competicao
+  - name: jor_data
+    direction: desc
+
+# para a homepage
+- kind: Jornada
+  properties:
+  - name: jor_competicao
+  - name: jor_data
+
+# detalhe_clube_lances
+- kind: Lance
+  properties:
+  - name: lan_clubes
+  - name: lan_epoca
+  - name: lan_data
+
+# detalhe_clube_jogos
+- kind: Jogo
+  properties:
+  - name: jog_clubes
+  - name: jog_epoca
+  - name: jog_data
+
+# usado no detalhe_arbitro_jogos
+- kind: Jogo
+  properties:
+  - name: jog_arbitro
+  - name: jog_epoca
+  - name: jog_data
+    direction: desc
+
+# para detalhe_competicao_jornadas
+- kind: Jornada
+  properties:
+  - name: jor_competicao
+  - name: jor_ordem
+
+# necessário para o detalhe_clube_jogadores
+- kind: Jogador
+  properties:
+  - name: jgd_clube_actual
+  - name: jgd_nome
+
+# para detalhe_clube_indices
+- kind: Lance
+  properties:
+  - name: lan_clubes
+  - name: lan_epoca
+  - name: lan_data
+  - name: lan_nome
+
+- kind: Jornada
+  properties:
+  - name: jor_nome
+  - name: jor_numero
+
+
+- kind: Jogo
+  properties:
+  - name: __key__
+  - name: jog_data
+
+- kind: Jogo
+  properties:
+  - name: __key__
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_epoca
+  - name: jog_data
+
+- kind: Jogo
+  properties:
+  - name: jog_epoca
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_competicao
+  - name: jog_data
+
+- kind: Jogo
+  properties:
+  - name: jog_competicao
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_jornada
+  - name: jog_data
+
+- kind: Jogo
+  properties:
+  - name: jog_jornada
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_clube1
+  - name: jog_jornada
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_clube2
+  - name: jog_jornada
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_clube1
+  - name: jog_data
+
+# usado no /jogo/list, à procura de jogos
+- kind: Jogo
+  properties:
+  - name: jog_jornada
+  - name: jog_ultima_alteracao
+    direction: desc
+
+# usado no /jogo/list, à procura de jogos
+- kind: Jogo
+  properties:
+  - name: jog_clube1
+  - name: jog_ultima_alteracao
+    direction: desc 
+
+# usado no /jogo/list, à procura de jogos
+- kind: Jogo
+  properties:
+  - name: jog_clube2
+  - name: jog_ultima_alteracao
+    direction: desc
+
+# usado para a pesquisa 
+- kind: Jogo
+  properties:
+  - name: jog_clube1
+  - name: jog_competicao
+  - name: jog_data
+    direction: desc
+
+# usado para a pesquisa 
+- kind: Jogo
+  properties:
+  - name: jog_clube2
+  - name: jog_competicao
+  - name: jog_data
+    direction: desc
+
+# usado para a pesquisa 
+- kind: Jogo
+  properties:
+  - name: jog_clube1
+  - name: jog_clube2
+  - name: jog_data
+    direction: desc
+
+# usado para a pesquisa 
+- kind: Jogo
+  properties:
+  - name: jog_arbitro
+  - name: jog_data
+    direction: desc
+
+# usado para a pesquisa 
+- kind: Jogo
+  properties:
+  - name: jog_clube1
+  - name: jog_clube2
+  - name: jog_competicao
+  - name: jog_data
+    direction: desc
+
+# usado para a pesquisa, por alguém 
+- kind: Jogo
+  properties:
+  - name: jog_clube1
+  - name: jog_clube2
+  - name: jog_competicao
+  - name: jog_golos_clube1
+  - name: jog_golos_clube2
+  - name: jog_data
+    direction: desc
+
+
+- kind: Jogo
+  properties:
+  - name: jog_clube1
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_clube2
+  - name: jog_data
+ 
+- kind: Jogo
+  properties:
+  - name: jog_clube2
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_golos_clube1
+  - name: jog_data
+
+- kind: Jogo
+  properties:
+  - name: jog_golos_clube1
+  - name: jog_data
+    direction: desc
+
+- kind: Jogo
+  properties:
+  - name: jog_golos_clube2
+  - name: jog_data
+
+- kind: Jogo
+  properties:
+  - name: jog_golos_clube2
+  - name: jog_data
+    direction: desc
+
+
+- kind: Lance
+  properties:
+  - name: lan_jogo
+  - name: lan_numero
+
+- kind: Lance
+  properties:
+  - name: lan_jogo
+  - name: lan_numero_visitas
+    direction: desc
+
+# admin, para poder ver lances para um jogo
+- kind: Lance
+  properties:
+  - name: lan_jogo
+  - name: lan_ultima_alteracao
+    direction: desc
+
+
+- kind: ClubeTemJogador
+  properties:
+  - name: ctj_clube
+  - name: ctj_epocas
+  - name: ctj_numero
+
+#################################
+## 4) ESTES SÃO SÓ PARA O BLOG ##
+#################################
+
+- kind: Post
+  properties:
+  - name: slug
+  - name: pub_date
+
+- kind: Post
+  properties:
+  - name: tags
+  - name: pub_date
+    direction: desc

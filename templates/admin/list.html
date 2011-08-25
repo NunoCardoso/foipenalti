@@ -1,0 +1,125 @@
+{% autoescape off %}
+{# usa-se para o flash de deletes, que usa ajax #}
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+
+<DIV>
+	
+<!-- pesquisa -->
+<form style="height:20px;">
+	<select size="1" id="filter_field" name="filter_field">
+	{% for field in fields %}
+		{% for item in field.items %}
+			<option value="{{ item.1 }}" 
+			{% if filter_needle %}{% ifequal filter_field item.1 %} SELECTED{% endifequal %}{% endif %}>{{ item.0 }}</option>
+		{% endfor %}	
+	{% endfor %}	
+	</select>	
+	<input type="text" id="filter_needle" name="filter_needle" size="80" {% if filter_needle %}value="{{filter_needle}}"{% endif %}>
+	<input type="button" basepath="{{basepath}}" class="admin-table-filter-button" value="Filtrar">
+</form>
+
+<!-- tabela --> 
+
+<table class='admin-table'>	
+	<THEAD>
+	<tr>
+		<th></th>
+		<th></th>
+		<th>id</th>
+		{% for field in fields %}
+			{% for item in field.items %}
+				{% if item.1|isnotinlist:omit %}
+					<!-- força comentário a ser curto -->
+					{% if item.1|matches:"comentario" %}
+					<th style="width:300px;">{{ item.0 }}</th>
+					{% else %}
+					<th>{{ item.0 }}</th>
+					{% endif %}
+				{% endif %}
+			{% endfor %}	
+		{% endfor %}
+	</tr>
+	</THEAD>
+	<TBODY>
+{% for obj in objs %}
+	<tr> 
+		<td><a class="edit admin-link-button admin-little-shadow" href='/admin/{{ objname }}/edit?id={{obj.key.id}}'>Editar</a></td>
+		<td><a class="delete admin-link-button admin-little-shadow" href='#' url='/admin/{{ objname }}/delete?id={{obj.key.id}}'>Apagar</a></td>
+
+		<td>{{ obj.key.id }}</td>
+		{% for field in fields %}
+			{% for item in field.items %}
+				{% if item.1|isnotinlist:omit %}
+
+				<td style="overflow:hidden;">
+				{% if obj|attribute:item.1|startswith:"http" %} 
+					{{ obj|attribute:item.1|urlizetrunc:20 }}
+				{% else %}
+					<!-- is list -->
+					{% if obj|attribute:item.1|islist %}
+						<!-- list of clubes -->
+						{% if item.1|matches:"jog_clubes" %}
+							{{ obj|attribute:item.1|print_jog_clubes}}
+						{% else %}
+						{% if item.1|matches:"_epocas" %}
+							{{ obj|attribute:item.1|print_epocas_keys}}
+						{% else %}
+							{{ obj|attribute:item.1|truncatehtmllist:20}}
+						{% endif %}
+						{% endif %}
+					{% else %}
+						{% if item.1|matches:"comentario" %}
+							{{ obj|attribute:item.1|truncatewords:7}}
+						{% else %}{% if item.1|matches:"ultima_alteracao" %}
+							{{ obj|attribute:item.1|pp_year_month_day_hour_minute}}
+						{% else %}{% if item.1|matches:"jog_influencia_arbitro" %}
+							{{ obj|attribute:item.1|translate_ia}}
+						{% else %}{% if item.1|matches:"lan_influencia_arbitro" %}
+							{{ obj|attribute:item.1|translate_ia}}
+						{% else %}{% if item.1|matches:"jog_julgamento_arbitro" %}
+							{{ obj|attribute:item.1|translate_ja}}
+						{% else %}{% if item.1|matches:"lan_julgamento_arbitro" %}
+							{{ obj|attribute:item.1|translate_ja}}
+						{% else %}{% if item.1|matches:"lan_causa" %}
+							{{ obj|attribute:item.1|translate_causa}}
+						{% else %}{% if item.1|matches:"lan_apitado" %}
+							{{ obj|attribute:item.1|translate_apitado}}
+						{% else %}{% if item.1|matches:"lan_consequencia" %}
+							{{ obj|attribute:item.1|translate_consequencia}}
+						{% else %}{% if item.1|matches:"lan_classe" %}
+							{{ obj|attribute:item.1|translate_classe}}
+						{% else %}
+							{{ obj|attribute:item.1|filternone}}
+						{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+						{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
+					{% endif %}
+				{% endif %}
+			</td>
+			{% endif %}
+			{% endfor %}
+		{% endfor %}
+	</tr>
+{% endfor %}
+	</TBODY> 
+
+	<TFOOT>
+ 	<tr>
+		<th colspan="100">
+			<div style='width:100%;text-align:center;'>Total: {{number}}. - 
+    			{% for page in pager %}
+				{% if page_index and page_index|streq:page.0 %}{{page.0}}{% else %}<A class="admin-list-pager-link admin-link-button admin-little-shadow" href="{{page.1}}">{{page.0}}</a>{% endif %}
+				{% endfor %}
+			</div>	
+		</th> 
+	</tr>
+	</TFOOT>
+</table>
+
+</DIV>
+{% endautoescape %}

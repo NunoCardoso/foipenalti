@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+{% block title %}Blogue{% endblock %}
+{% block content %} 
+{% autoescape off %}
+    <div class="container" style="margin-left:10px;">
+        <header id="header" class="span-23 last">
+            <hgroup>
+					<a href="/" class="logo">{{ settings.title }}</a>
+				</hgroup>
+        </header>
+        <section id="content" class="span-16" style="float:left;">
+            {% block blogcontent %}{% endblock %}
+        </section>
+        <aside class="span-6 last">
+            {% if archive_list %}
+            <div id="archive-list" class="hack-lists">
+                <h3>Arquivos</h3>
+                <ul>
+                    {% for month in archive_list reversed %}
+                    <li><a href="{{ month.url }}">{{ month.date|date:"F Y" }}</a> ({{ month.count }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% if tag_list %}
+            <div id="tag-list" class="hack-lists">
+                <h3>Etiquetas</h3>
+                <ul>
+                    {% for tag in tag_list %}
+                    <li><a href="{{ tag.url }}">{{ tag.tag }}</a> ({{ tag.count }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </aside>
+    </div>
+{% endautoescape %}
+{% endblock %}

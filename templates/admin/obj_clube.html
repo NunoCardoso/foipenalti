@@ -1,0 +1,42 @@
+
+{# editar um clube existente #}
+{% if edit %}
+<form action="/admin/clube/save" method="post">
+	<input type='hidden' name='id' value='{{ obj.key.id }}'>
+{% endif %}	
+
+{# novo clube #}
+{% if new_single %}
+<form action="/admin/clube/new" method="post">
+{% endif %}	
+
+{% if edit %}
+<DIV style="margin:10px;">Editar clube {{obj.clu_nome}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><label for="clu_nome">Nome</label></td>
+		<td><input type="text" name="clu_nome" id="clu_nome"/ size=10 placeholder="Porto"{%if edit %} value="{{obj.clu_nome}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label for="clu_nome_curto">Nome curto</label></td>
+		<td><input type="text" name="clu_nome_curto" id="clu_nome_curto" size=20 placeholder="F.C.Porto"{%if edit %} value="{{obj.clu_nome_curto}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label for="clu_nome_completo">Nome completo</label></td>
+		<td><input type="text" name="clu_nome_completo" id="clu_nome_completo" size=80 placeholder="Futebol Clube do Porto"{%if edit %} value="{{obj.clu_nome_completo}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label for="clu_link_logo">Emblema (http link) </label></td>
+		<td><input type="text" name="clu_link_logo" id="clu_link_logo"/ size=80{%if edit %}   value="{{obj.clu_link_logo}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td><label for="clu_link_zz">Link ZZ</label></td>
+		<td><input type="text" name="clu_link_zz" id="clu_link_zz"/ size=80{%if edit %} value="{{obj.clu_link_zz}}{% endif %}"/></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input style="width:300px;" type="submit" value="{% if edit %}Editar{% else %}Criar novo{% endif %} clube"/></td>
+	</tr>
+</table>
+</form>

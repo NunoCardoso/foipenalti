@@ -1,0 +1,84 @@
+{% extends "main.html" %}
+{% block title %}Procurar época{% endblock %}
+{% block content %} 
+{% spaceless %}
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg fp-shadow fp-medium-radius">{{ flash }}</div>
+	{% endif %}
+{% endif %}
+
+<H2 style="margin-left:10px;">Procurar época</H2>
+
+<div class="fp-search-form-box fp-shadow fp-medium-radius">
+	<form action="" method="get">
+		<UL class="fp-search-form-box-list">
+			<LI>Quero procurar a época <select size=1 name="epo">
+				<option value="">qualquer</option>
+				{% for epoca in epocas %}
+					<option value="{{ epoca.key.id }}" {% if epo_nome and epoca.key.id|matcheslong:epo_nome  %}SELECTED{% endif %}>{{ epoca.epo_nome}}</option>
+				{% endfor %} 
+			</select>.
+			</LI>
+			<LI>Quero ver <select size=1 name="nr">
+			<option {% ifequal num_resultados 15 %}SELECTED{% endifequal %}>15</option>
+			<option {% ifequal num_resultados 30 %}SELECTED{% endifequal %}>30</option>
+			<option {% ifequal num_resultados 45 %}SELECTED{% endifequal %}>45</option>
+			</select> resultados de cada vez. 
+				<div style="margin-top:10px;display:block;"><input type="submit" class="fp-search-button" value="Procurar épocas"></div>
+			</LI>
+		</UL>
+	</form>
+</div>
+{% if results %}
+
+<div class="fp-pager-div">
+	<div style="position:absolute;margin-left:10px;">Foram encontrados {{results_total}} época(s).</div> 
+	{% if results_page_links|array_len_ne:1 %}
+	<div class="fp-pager">
+    {% for page in results_page_links %}
+		<A href="{{page.1}}">{{page.0}}</a>
+	 {% endfor %}
+	</div>	
+	{% endif %}
+</div>
+<script type="text/javascript">
+	var results = {{results|to_json}}
+</script>
+
+<DIV ID="main-submenu" CLASS="fp-shadow" style="border:1px solid black;margin-left:10px;">
+	<UL>
+		<LI CLASS="main-submenu-firstitem active">
+			<A onClick="javascript:print_results(results, 'procurar_epoca','slides',$('.fp-results-page-div'))" CLASS="submenu-link" href="#">&#10063;</A></LI>
+		<LI>
+		<LI CLASS="main-submenu-lastitem">
+			<A onClick="javascript:print_results(results, 'procurar_epoca','table',$('.fp-results-page-div'))" CLASS="submenu-link" href="#">&#9776;</A></LI>
+		<LI>
+	</UL>
+</DIV>
+<div class="clear"></div>
+	
+<div class="fp-results-page-div"></div>
+
+<div class="fp-pager-div">
+	{% if results_page_links|array_len_ne:1 %}
+	<div class="fp-pager">
+	   {% for page in results_page_links %}
+		<A href="{{page.1}}">{{page.0}}</a>
+	 {% endfor %}
+	</div>	
+	{% endif %}
+</div>	
+	
+{% else %}
+	{% if num_resultados %}Sem resultados.{% endif %}
+{% endif %}
+<script>
+$(document).ready(function() {
+	print_results(results, 'procurar_epoca',"slides", $(".fp-results-page-div"))
+})
+</script>
+{% endspaceless %}
+{% endblock %}
