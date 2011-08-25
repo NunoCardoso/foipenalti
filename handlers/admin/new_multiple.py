@@ -278,7 +278,8 @@ class NewMultiple(MyHandler):
 					clube_casa = None
 					clube_fora = None
 					arbitro = None
-					
+					clubes = []
+ 
 					if jornada_id:
 						jornada = jornada_id
 					else:
@@ -344,7 +345,13 @@ class NewMultiple(MyHandler):
 							if link_video != "":
 								list_link_videos.append(db.Text(link_video))
 			
-					obj = Jogo(
+				
+					if clube_casa:
+						clubes.append(clube_casa.key())
+					if clube_fora:
+						clubes.append(clube_fora.key())
+
+				obj = Jogo(
 					jog_numero_visitas = 0,
 					jog_ultima_alteracao = date,
 					jog_nome = jornada.jor_nome+":"+clube_casa.clu_nome+":"+clube_fora.clu_nome,
@@ -354,6 +361,7 @@ class NewMultiple(MyHandler):
 					jog_data = data,
 					jog_clube1 = clube_casa,
 					jog_clube2 = clube_fora,
+					jog_clubes = clubes,
 					jog_tactica_clube1 = self.request.get(prefix+str(index)+'_tactica_clube1'),
 					jog_tactica_clube2 = self.request.get(prefix+str(index)+'_tactica_clube2'),
 					jog_golos_clube1 = int(self.request.get(prefix+str(index)+'_golos_clube1')) if \

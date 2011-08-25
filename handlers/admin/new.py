@@ -294,6 +294,12 @@ class New(MyHandler):
 						self.request.get('jog_data') else None
 # obj jogo 
 			
+			clubes = [] 
+			if clube_casa:
+				clubes.append(clube_casa.key())
+			if clube_fora:
+				clubes.append(clube_fora.key())
+
 			obj = Jogo(
 					jog_numero_visitas = 0,
 					jog_ultima_alteracao = date,
@@ -304,6 +310,7 @@ class New(MyHandler):
 					jog_data = data,
 					jog_clube1 = clube_casa,
 					jog_clube2 = clube_fora,
+					jog_clubes = clubes,
 					jog_tactica_clube1 = self.request.get('jog_tactica_clube1'),
 					jog_tactica_clube2 = self.request.get('jog_tactica_clube2'),
 					jog_arbitro = arbitro if arbitro else None, 

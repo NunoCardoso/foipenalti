@@ -355,6 +355,12 @@ class SaveMultiple(MyHandler):
 							if link_video != "":
 								list_link_videos.append(db.Text(link_video))
 
+					clubes = []
+					if clube_casa:
+						clubes.append(clube_casa.key())
+					if clube_fora:
+						clubes.append(clube_fora.key())
+
 
 					obj.jog_ultima_alteracao = date
 					obj.jog_nome = jornada.jor_nome+":"+clube_casa.clu_nome+":"+clube_fora.clu_nome
@@ -364,6 +370,7 @@ class SaveMultiple(MyHandler):
 					obj.jog_data = data
 					obj.jog_clube1 = clube_casa
 					obj.jog_clube2 = clube_fora
+					obj.jog_clubes = clubes
 					obj.jog_tactica_clube1 = self.request.get(prefix+str(index)+'_tactica_clube1')
 					obj.jog_tactica_clube2 = self.request.get(prefix+str(index)+'_tactica_clube2')
 					obj.jog_arbitro = arbitro if arbitro else None
