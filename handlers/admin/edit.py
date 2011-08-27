@@ -24,11 +24,13 @@ class Edit(MyHandler):
 	def get(self, objname):
 		
 		id = int(self.request.get('id'))
+		sid = self.request.get('sid')
 		tab = self.request.get('tab')
 		
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 		
 		# há que forçar o encoding do & também
 		raw_referer = "/admin/"+objname+"/"

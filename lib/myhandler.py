@@ -12,6 +12,7 @@ import traceback
 import urllib
 
 import listas
+import mymemcache
 
 from exception import BadParameterException
 from google.appengine.api import datastore
@@ -95,12 +96,13 @@ class MyHandler(webapp.RequestHandler):
 	
 	def handle_exception(self, exception, debug_mode):
 
-		pagina_anterior = os.environ['HTTP_REFERER'] if os.environ.has_key('HTTP_REFERER') else 'javascript:history.back()'
+		pagina_anterior = os.environ['HTTP_REFERER'] if os.environ.has_key('HTTP_REFERER') else self.request.url
 		
 #		para páginas admin, colocar erro no flash
 		if self.request.path.startswith("/admin/"):
-				memcache.set("flash","Erro:" + "".join(traceback.format_exc()))
-				return self.redirect(pagina_anterior)
+			new_sid = mymemcache.generate_sid()
+			memcache.set(new_sid, "Erro:" + "".join(traceback.format_exc()), namespace="flash")
+			return self.redirect(add_sid_to_url(pagina_anterior, new_sid))
 			
 		# para páginas públicas, mostrar erro.		
 		renderPage = None

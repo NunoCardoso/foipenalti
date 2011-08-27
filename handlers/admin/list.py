@@ -67,12 +67,14 @@ class List(MyHandler):
 		
 		filter_field = self.request.get("filter_field")
 		filter_needle = self.request.get("filter_needle")
+		sid = self.request.get('sid')
 		url = self.request.url
 
 		# para quando se apaga registos...
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 
 		# generate pager
 		try:

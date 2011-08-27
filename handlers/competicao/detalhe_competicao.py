@@ -7,6 +7,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from google.appengine.api import memcache
 from lib.mycachehandler import MyCacheHandler
 
@@ -19,7 +20,8 @@ class DetalheCompeticao(MyCacheHandler):
 	#memcache values
 	dados = None
 	html = None
-
+	sid = None
+	
 	# get vars
 	epoca = None
 	competicao = None
@@ -28,6 +30,14 @@ class DetalheCompeticao(MyCacheHandler):
 	
 	def get(self):
 		self.decontaminate_vars()
+		if not self.competicao: 	
+			error = u"Erro: Não há competição com os parâmetros dados."
+			logging.error(error)
+			new_sid = mymemcache.generate_sid()
+			memcache.set(new_sid, error, namespace="flash")
+			self.redirect(add_sid_to_url(self.referer, new_sid))
+			return
+		
 		self.checkCacheFreshen()
 		self.requestHandler()
 		self.competicao.cmp_numero_visitas += 1
@@ -55,9 +65,10 @@ class DetalheCompeticao(MyCacheHandler):
 		return {}
 
 	def renderHTML(self):
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if self.sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
         
 		html = self.render_subdir('competicao','detalhe_competicao.html', {
 			"competicao": self.competicao,
@@ -79,6 +90,8 @@ class DetalheCompeticao(MyCacheHandler):
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
+
+		self.sid = self.request.get("sid")
 
 		if self.request.get("competicao"): 
 			q = self.request.get("competicao")

@@ -10,6 +10,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from externals.paging import *
 from lib.myhandler import MyHandler
 from lib import listas
@@ -32,6 +33,7 @@ class ProcurarJogo(MyHandler):
 		jog_golos_clube2 = self.request.get("gol2")
 		jog_jogador = self.request.get("jgd")
 		cache = self.request.get("cache")
+		sid = self.request.get("sid")
 		
 		# preciso de lista de epocas, lista de competições, lista de clubes, lista de árbitros
 		
@@ -206,12 +208,12 @@ class ProcurarJogo(MyHandler):
 					"click":count
 					})
 
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
-						
+		if sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
+
 		self.render_to_output('procurar_jogo.html', {
-			## feedback of get variables
 	#		"jog_epoca": jog_epoca,
 			"jog_competicao": jog_competicao,
 	#		"jog_jornada_numero": jog_jornada_numero,

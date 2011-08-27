@@ -9,6 +9,7 @@ import logging
 import re
 import config 
 import sys
+import lib.mymemcache
 
 from classes import *
 from externals.paging import *
@@ -27,6 +28,7 @@ class NewMultiple(MyHandler):
 		prefix = self.request.get("prefix")
 		# número de parâmetros
 		number = int(self.request.get("number"))
+		new_sid = mymemcache.generate_sid()
 	
 		flash_messages = []
 		date = datetime.datetime.now()
@@ -42,8 +44,8 @@ class NewMultiple(MyHandler):
 		if objname == "epoca": 
 	
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set("flash","<BR>".join(flash_messages))
-			self.redirect(referer)
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return
 
 ##############
@@ -76,8 +78,8 @@ class NewMultiple(MyHandler):
 					if not epoca:
 						error = u"Erro: Não encontrei época %s!" % self.request.get(prefix+str(index)+'_epoca')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 					
 					lugares_liga_campeoes = []
@@ -172,9 +174,8 @@ class NewMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total adicionados: %s" %str(objs_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 ###########
 # JORNADA #
 ###########
@@ -205,8 +206,8 @@ class NewMultiple(MyHandler):
 					if not competicao:
 						error = u"Erro: Não encontrei competicao com id %s!" % self.request.get(prefix+str(index)+'_competicao_id')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 
 					data = datetime.datetime.strptime(
@@ -254,9 +255,8 @@ class NewMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" %str(objs_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-			
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))			
 ########
 # JOGO #
 ########
@@ -288,8 +288,8 @@ class NewMultiple(MyHandler):
 					if not jornada:
 						error = u"Erro: Não encontrei jornada %s!" % self.request.get(prefix+str(index)+'_jornada')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 
 					data = datetime.datetime.strptime(
@@ -302,8 +302,8 @@ class NewMultiple(MyHandler):
 						error = u"Erro: Não encontrei clube de casa com id %s!" % \
 						self.request.get(prefix+str(index)+'_clube1_id')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)   
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 				
 					try:
@@ -311,8 +311,8 @@ class NewMultiple(MyHandler):
 					except:
 						error = u"Erro: Não encontrei clube visitante com nome %s!" % self.request.get(prefix+str(index)+'_clube2_id')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)   
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 			
 						# arbitro pode vir já com id, por exemplo na página edit de um árbitro pode-ser criar um jogo
@@ -428,9 +428,8 @@ class NewMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" %str(objs_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-			
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))			
 #########
 # LANCE #
 #########
@@ -475,8 +474,8 @@ class NewMultiple(MyHandler):
 					if not jogo:
 						error = u"Erro: Não encontrei jogo %s!" % self.request.get(prefix+str(index)+'lan_jogo')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 					
 					# ler variáveis de lance
@@ -658,9 +657,8 @@ class NewMultiple(MyHandler):
 			flash_messages.append(u"Total de lances adicionados: %s" % str(objs_adicionados))
 			flash_messages.append(u"Total de comentador_comenta_lances adicionados: %s" % str(ccls_adicionados))
 			flash_messages.append(u"Total de jogador_em_lances adicionados: %s" % str(jels_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-  			return self.redirect(referer)
-			
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))			
 #########
 # CLUBE #
 #########
@@ -668,8 +666,8 @@ class NewMultiple(MyHandler):
 		elif objname == "clube":
 
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set("flash","<BR>".join(flash_messages))
-			self.redirect(referer)
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return
 
 ###########
@@ -678,8 +676,8 @@ class NewMultiple(MyHandler):
 
 		elif objname == "jogador": 
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set("flash","<BR>".join(flash_messages))
-			self.redirect(referer)
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return
 
 
@@ -690,8 +688,8 @@ class NewMultiple(MyHandler):
 		elif objname == "arbitro":
 
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set("flash","<BR>".join(flash_messages))
-			self.redirect(referer)
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return
 
 ##############
@@ -701,8 +699,8 @@ class NewMultiple(MyHandler):
 		elif objname == "comentador":
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set("flash","<BR>".join(flash_messages))
-			self.redirect(referer)
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return
 
 #########
@@ -712,8 +710,8 @@ class NewMultiple(MyHandler):
 		elif objname == "fonte":
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set("flash","<BR>".join(flash_messages))
-			self.redirect(referer)
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return
 
 #####################
@@ -745,8 +743,8 @@ class NewMultiple(MyHandler):
 					if not jogador:
 						error = u"Erro: Não encontrei jogador %s!" % self.request.get(prefix+str(index)+'_jogador')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 					
 					try:
@@ -754,8 +752,8 @@ class NewMultiple(MyHandler):
 					except: 
 						error = u"Erro: Não encontrei clube com id %s!" % self.request.get(prefix+str(index)+'_clube_id')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)   
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 
 					epocas = []
@@ -809,9 +807,10 @@ class NewMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" %str(objs_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-				
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
+			return 
+							
 #########################
 # CLUBE_JOGA_COMPETICAO #
 #########################
@@ -842,8 +841,8 @@ class NewMultiple(MyHandler):
 					if not competicao:
 						error = u"Erro: Não encontrei competicao com id %s!" % self.request.get(prefix+str(index)+'_competicao_id')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 					
 					try:
@@ -854,8 +853,8 @@ class NewMultiple(MyHandler):
 					if not clube: 
 						error = u"Erro: Não encontrei clube com id %s!" % self.request.get(prefix+str(index)+'_clube_id')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)   
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 
 						
@@ -900,9 +899,9 @@ class NewMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" %str(objs_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
+			return
 #####################
 # JOGADOR_JOGA_JOGO #
 #####################
@@ -926,8 +925,8 @@ class NewMultiple(MyHandler):
 			if not jogo:
 				error = u"Erro: Não encontrei jogo %s!" % self.request.get('lan_jogo')
 				logging.error(error)
-				memcache.set("flash",error)
-				self.redirect(referer)
+				memcache.set(new_sid, error, namespace="flash")
+				self.redirect(add_sid_to_url(referer, new_sid))
 				return
 
 			jogo.jog_ultima_alteracao = date
@@ -952,8 +951,8 @@ class NewMultiple(MyHandler):
 						error = u"Erro: Não encontrei jogador com nome %s ou id %s!" % (self.request.get(prefix+str(index)+'_jogador'),
 	self.request.get(prefix+str(index)+'_jogador_id'))					
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)   
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 
 					try:
@@ -961,8 +960,8 @@ class NewMultiple(MyHandler):
 					except:
 						error = u"Erro: Não encontrei clube com id %s!" % self.request.get(prefix+str(index)+'_clube_id')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)   
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 
 						
@@ -1060,9 +1059,10 @@ class NewMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" %str(objs_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-				
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
+			return
+			
 ############################
 # COMENTADOR_COMENTA_LANCE #
 ############################			
@@ -1093,16 +1093,16 @@ class NewMultiple(MyHandler):
 					if not lance:
 						error = u"Erro: Não encontrei lance %s!" % self.request.get(prefix+str(index)+'_lance')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 					
 					comentador = Comentador.get_by_id(int(self.request.get(prefix+str(index)+'_comentador_id')))
 					if not comentador: 
 						error = u"Erro: Não encontrei comentador com id %s!" % self.request.get(prefix+str(index)+'_comentador_id')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)   
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 						
 					obj = ComentadorComentaLance(
@@ -1138,9 +1138,10 @@ class NewMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" %str(objs_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
+			return
+			
 ####################
 # JOGADOR_EM_LANCE #
 ####################
@@ -1173,8 +1174,8 @@ class NewMultiple(MyHandler):
 					if not lance:
 						error = u"Erro: Não encontrei lance %s!" % self.request.get(prefix+str(index)+'_lance')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 					
 					try:
@@ -1185,8 +1186,8 @@ class NewMultiple(MyHandler):
 					if not jogador: 
 						error = u"Erro: Não encontrei jogador com nome %s!" % self.request.get(prefix+str(index)+'_jogador')
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)   
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 
 					# agora que está tudo sanitanizado, toca a inserir
@@ -1229,9 +1230,10 @@ class NewMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" %str(objs_adicionados))
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
+			return
+			
 ######################
 # ACUMULADOR JORNADA #
 ######################
@@ -1251,8 +1253,8 @@ class NewMultiple(MyHandler):
 					if not jornada:
 						error = u"Erro: Não encontrei jornada %s!" % jor_nome 
 						logging.error(error)
-						memcache.set("flash",error)
-						self.redirect(referer)
+						memcache.set(new_sid, error, namespace="flash")
+						self.redirect(add_sid_to_url(referer, new_sid))
 						return
 			
 					stats = acumulador_jornada.gera(jornada)
@@ -1281,9 +1283,10 @@ class NewMultiple(MyHandler):
 
 					flash_messages.append(u"%s %s: %s" % (obj.kind(), "adicionado", obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set("flash","<BR>".join(flash_messages))
-			return self.redirect(referer)
-
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
+			return
+			
 #########################
 # ACUMULADOR COMPETICAO #
 #########################
@@ -1291,8 +1294,8 @@ class NewMultiple(MyHandler):
 		elif objname == "acumulador_competicao": 
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set("flash","<BR>".join(flash_messages))
-			self.redirect(referer)
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return
 
 ####################
@@ -1302,6 +1305,6 @@ class NewMultiple(MyHandler):
 		elif objname == "acumulador_epoca": 
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set("flash","<BR>".join(flash_messages))
-			self.redirect(referer)
+			memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return

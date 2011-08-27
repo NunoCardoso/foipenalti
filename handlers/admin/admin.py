@@ -18,10 +18,12 @@ class Admin(MyHandler):
 	def get(self):
 		
 		jornada = Jornada.all().order('-jor_ultima_alteracao').get()
+		sid = self.request.get('sid')
 		
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 					
 		self.render_subdir_to_output("admin", 'admin_homepage.html', {
 			"jornada":jornada,

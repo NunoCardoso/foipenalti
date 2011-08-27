@@ -7,6 +7,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from google.appengine.api import memcache
 from lib.mycachehandler import MyCacheHandler
 
@@ -19,6 +20,7 @@ class DetalheEpoca(MyCacheHandler):
 	#memcache values
 	dados = None
 	html = None
+	sid = None
 
 	# get vars
 	epoca = None
@@ -27,6 +29,14 @@ class DetalheEpoca(MyCacheHandler):
 	
 	def get(self):
 		self.decontaminate_vars()
+		if not self.epoca: 	
+			error = u"Erro: Não há época com os parâmetros dados."
+			logging.error(error)
+			new_sid = mymemcache.generate_sid()
+			memcache.set(new_sid, error, namespace="flash")
+			self.redirect(add_sid_to_url(self.referer, new_sid))
+			return
+
 		self.checkCacheFreshen()
 		self.requestHandler()
 		self.epoca.epo_numero_visitas += 1
@@ -54,11 +64,15 @@ class DetalheEpoca(MyCacheHandler):
 		return {}
 
 	def renderHTML(self):
-		#logging.info("renderHTML")
+		if self.sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 		
 		html = self.render_subdir('epoca','detalhe_epoca.html', {
 			"epoca": self.epoca,
-			"data":datetime.datetime.now()
+			"data":datetime.datetime.now(),
+			"flash":flash_message
 		})
 		return html
 		
@@ -68,6 +82,8 @@ class DetalheEpoca(MyCacheHandler):
 			self.referer = os.environ['HTTP_REFERER']
 		else:
 			self.referer = "/procurar_epoca"
+
+		self.sid = self.request.get("sid")
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False

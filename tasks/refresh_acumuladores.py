@@ -13,6 +13,7 @@ from lib import acumulador_jornada
 from lib import acumulador_competicao
 from lib import acumulador_epoca
 from lib.myhandler import MyHandler
+import from mymemcache
 
 class Refresh(MyHandler):
 	
@@ -41,7 +42,6 @@ class Refresh(MyHandler):
 			except:
 				error = u"Erro: Não encontrei jornada %s!" % self.request.get('jornada')
 				logging.error(error)
-				memcache.set("flash",error)
 				return
 				
 			stats_jornada = acumulador_jornada.gera(jornada)
@@ -144,7 +144,6 @@ class Refresh(MyHandler):
 			except:
 				error = u"Erro: Não encontrei época %s!" % self.request.get('epoca')
 				logging.error(error)
-				memcache.set("flash",error)
 				return
 				
 			for competicao in epoca.epo_competicoes:

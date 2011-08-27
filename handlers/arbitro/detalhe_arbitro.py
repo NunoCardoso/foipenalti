@@ -7,6 +7,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from google.appengine.api import memcache
 from lib.mycachehandler import MyCacheHandler
 
@@ -19,6 +20,7 @@ class DetalheArbitro(MyCacheHandler):
 	#memcache values
 	dados = None
 	html = None
+	sid = None
 
 	# get vars
 	epoca = None
@@ -31,8 +33,9 @@ class DetalheArbitro(MyCacheHandler):
 		if not self.arbitro:
 			error = u"Erro: Não encontrei árbitro com os parâmetros dados. Use a pesquisa para o encontrar, por favor."
 			logging.error(error)
-			memcache.set("flash", error)
-			self.redirect(self.referer)
+			new_sid = mymemcache.generate_sid()
+			memcache.set(new_sid, error, namespace="flash")
+			self.redirect(add_sid_to_url(referer, new_sid))
 			return
 		self.checkCacheFreshen()
 		self.requestHandler()
@@ -60,10 +63,10 @@ class DetalheArbitro(MyCacheHandler):
 		}
 
 	def renderHTML(self):
-		#logging.info("renderHTML")
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if self.sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 		
 		html = self.render_subdir('arbitro','detalhe_arbitro.html', {
 			"arbitro": self.arbitro,
@@ -81,6 +84,8 @@ class DetalheArbitro(MyCacheHandler):
 			self.referer = os.environ['HTTP_REFERER']
 		else:
 			self.referer = "/procurar_arbitro"
+		
+		self.sid = self.request.get("sid")
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False

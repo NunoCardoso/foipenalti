@@ -26,10 +26,12 @@ class RedirectHome(MyHandler):
 class Home(MyHandler):
 		
 	def get(self, objname):
-				
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		
+		sid = self.request.get('sid')
+		if sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 
 		# gera a lista de entradas para este obj_name
 		# objs, objname, filter_field, filter_needle, url, page_index, limit

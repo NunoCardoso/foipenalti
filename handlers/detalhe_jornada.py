@@ -7,6 +7,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from google.appengine.api import memcache
 from lib.mycachehandler import MyCacheHandler
 
@@ -19,6 +20,7 @@ class DetalheJornada(MyCacheHandler):
 	#memcache values
 	dados = None
 	html = None
+	sid = None
 
 	# get vars
 	jornada = None
@@ -30,8 +32,9 @@ class DetalheJornada(MyCacheHandler):
 		if not self.jornada:
 			error = u"Erro: Essa jornada ainda não está disponível."
 			logging.error(error)
-			memcache.set("flash",error)
-			self.redirect(self.referer)
+			new_sid = mymemcache.generate_sid()
+			memcache.set(new_sid, error, namespace="flash")
+			self.redirect(add_sid_to_url(self.referer, new_sid))
 			return
 
 		self.checkCacheFreshen()
@@ -106,9 +109,10 @@ class DetalheJornada(MyCacheHandler):
 		return {"jornada":jornada_dados}
 		
 	def renderHTML(self):
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if self.sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 				
 		html = self.render('detalhe_jornada.html', {
 			## feedback of get variables
@@ -131,6 +135,8 @@ class DetalheJornada(MyCacheHandler):
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
+
+		self.sid = self.request.get("sid")
 		
 		if self.request.get("id"):
 			try:

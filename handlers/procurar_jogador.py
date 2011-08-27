@@ -10,6 +10,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from externals.paging import *
 from lib.myhandler import MyHandler
 from lib import listas
@@ -26,6 +27,7 @@ class ProcurarJogador(MyHandler):
 		jgd_epoca = self.request.get("epo")
 		jgd_numero = self.request.get("num")
 		cache = self.request.get("cache")
+		sid = self.request.get("sid")
 		
 		try:
 			page_index = int(self.request.get("pg","1"))
@@ -147,9 +149,10 @@ class ProcurarJogador(MyHandler):
 					"click":count
 					})
 
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 
 		self.render_to_output('procurar_jogador.html', {
 			## feedback of get variables

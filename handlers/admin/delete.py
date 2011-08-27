@@ -11,10 +11,12 @@ import logging
 import re
 import config 
 import urllib
+import lib.mymemcache
 
 from classes import *
 from externals.paging import *
 from lib.myhandler import MyHandler
+
 
 class Delete(MyHandler):
 	
@@ -173,9 +175,12 @@ class Delete(MyHandler):
 			obj = AcumuladorEpoca.get_by_id(id)
 
 		if obj:
-			flash_message.append(u"%s %s apagada." % (obj.kind(), obj.__str__().decode("utf-8","replace")))
+			flash_message.append(
+				u"%s %s apagada." % (obj.kind(), obj.__str__().decode("utf-8","replace"))
+				)
 			memcache.delete(str(obj.key().id()), namespace=objname)
 			obj.delete()
-	
-		memcache.set("flash","<BR>".join(flash_message))
-		self.redirect(referer)
+			
+		new_sid = mymemcache.generate_sid()
+		memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
+		self.redirect(add_sid_to_url(referer, new_sid))

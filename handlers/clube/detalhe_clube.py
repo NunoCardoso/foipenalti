@@ -7,6 +7,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from google.appengine.api import memcache
 from lib.mycachehandler import MyCacheHandler
 
@@ -19,7 +20,8 @@ class DetalheClube(MyCacheHandler):
 	#memcache values
 	dados = None
 	html = None
-
+	sid = None
+	
 	# get vars
 	epoca = None
 	clube = None
@@ -31,8 +33,9 @@ class DetalheClube(MyCacheHandler):
 		if not self.clube:
 			error = u"Erro: Não há clube com os parâmetros dados."
 			logging.error(error)
-			memcache.set("flash",error)
-			self.redirect(self.referer)
+			new_sid = mymemcache.generate_sid()
+			memcache.set(new_sid, error, namespace="flash")
+			self.redirect(add_sid_to_url(self.referer, new_sid))
 			return
 
 		self.checkCacheFreshen()
@@ -61,9 +64,10 @@ class DetalheClube(MyCacheHandler):
 		}
 
 	def renderHTML(self):
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if self.sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 		
 		html = self.render_subdir('clube','detalhe_clube.html', {
 			"clube": self.clube,
@@ -84,6 +88,8 @@ class DetalheClube(MyCacheHandler):
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
+
+		self.sid = self.request.get("sid")
 
 		# clube pode ser passado com parâmetro clube, id ou q
 		if self.request.get("clube"):

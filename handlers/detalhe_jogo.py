@@ -7,6 +7,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from lib.mycachehandler import MyCacheHandler
 from google.appengine.api import memcache
 
@@ -19,6 +20,7 @@ class DetalheJogo(MyCacheHandler):
 	#memcache values
 	dados = None
 	html = None
+	sid = None
 
 	# get vars
 	jogo = None
@@ -30,8 +32,9 @@ class DetalheJogo(MyCacheHandler):
 		if not self.jogo:
 			error = u"Erro: Não há jogo com id %s" % jog_id
 			logging.error(error)
-			memcache.set("flash",error)
-			self.redirect(self.referer)
+			new_sid = mymemcache.generate_sid()
+			memcache.set(new_sid, error, namespace="flash")
+			self.redirect(add_sid_to_url(self.referer, new_sid))
 			return
 			
 		self.checkCacheFreshen()
@@ -154,9 +157,10 @@ class DetalheJogo(MyCacheHandler):
 		return {"jogos":jogo_dados, "lances":lances}
 
 	def renderHTML(self):
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if self.sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 		
 		ficha_de_jogo_html = self.render_subdir("gera","gera_ficha_de_jogo.html", {
 			"jogo": self.jogo,
@@ -199,6 +203,8 @@ class DetalheJogo(MyCacheHandler):
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
+
+		self.sid = self.request.get("sid")
 
 		try:
 			jog_id = int(self.request.get("id"))

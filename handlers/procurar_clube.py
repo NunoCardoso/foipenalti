@@ -10,6 +10,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from externals.paging import *
 from lib.myhandler import MyHandler
 from lib import listas
@@ -20,6 +21,8 @@ class ProcurarClube(MyHandler):
 
 		jogos = None		
 		num_resultados = self.request.get("nr")
+		sid = self.request.get("sid")
+
 		# critérios
 		clube_id = self.request.get("clu")
 		cache = self.request.get("cache")
@@ -127,9 +130,10 @@ class ProcurarClube(MyHandler):
 					"click":count
 					})
 
-		flash_message = memcache.get("flash")
-		if flash_message:
-			memcache.delete("flash")
+		if sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 			
 		self.render_to_output('procurar_clube.html', {
 			"clu_nome": clube_id,

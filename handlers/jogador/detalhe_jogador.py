@@ -7,6 +7,7 @@ import re
 import config 
 
 from classes import *
+import lib.mymemcache
 from lib.mycachehandler import MyCacheHandler
 from google.appengine.api import memcache
 
@@ -19,6 +20,7 @@ class DetalheJogador(MyCacheHandler):
 	#memcache values
 	dados = None
 	html = None
+	sid = None
 
 	# get vars
 	epoca = None
@@ -31,8 +33,8 @@ class DetalheJogador(MyCacheHandler):
 		if not self.jogador:
 			error = u"Erro: Não há jogador com os parâmetros dados. Use a pesquisa para o encontrar, por favor."
 			logging.error(error)
-			memcache.set("flash", error)
-			self.redirect(self.referer)
+			memcache.set(new_sid, error, namespace="flash")
+			self.redirect(add_sid_to_url(self.referer, new_sid))
 			return
 
 		self.checkCacheFreshen()
@@ -61,12 +63,16 @@ class DetalheJogador(MyCacheHandler):
 		}
 
 	def renderHTML(self):
-		#logging.info("renderHTML")
+		if self.sid:
+			flash_message = memcache.get(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 		
 		html = self.render_subdir('jogador','detalhe_jogador.html', {
 			"jogador": self.jogador,
 			"epoca":self.epoca,
-			"data":datetime.datetime.now()
+			"data":datetime.datetime.now(),
+			"flash":flash_message
 		})
 		return html
 		
@@ -81,6 +87,8 @@ class DetalheJogador(MyCacheHandler):
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
+
+		self.sid = self.request.get("sid")
 
 		jgd_id = self.request.get("id")
 		try: 
