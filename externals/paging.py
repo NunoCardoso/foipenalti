@@ -124,12 +124,13 @@ class PagedQuery(object):
                 #find out if we are dealing with another facade object
                 if query.__dict__.has_key('_query'): query_to_check = query._query
                 else: query_to_check  = query
-                                                                
+                
+		
                 if isinstance(query_to_check, db.Query): self._query_type = 'Query'
                 elif isinstance(query_to_check, db.GqlQuery): self._query_type = 'GqlQuery'
+                elif isinstance(query_to_check, Query): self._query_type = 'Query'
                 else: raise TypeError('Query type not supported: '\
                          + type(query).__name__)
-                
                 self._check_page_size(page_size)
                         
         def fetch_page(self, page_number=1, clear=False):

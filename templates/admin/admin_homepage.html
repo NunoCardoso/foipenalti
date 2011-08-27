@@ -3,6 +3,13 @@
 {% block content %} 
 {% spaceless %}
 <div style="width:100%;text-align:center;">
+{% if flash %}
+	{% if flash|startswith:"Err" %}
+    <div class="flash-err-msg">{{ flash }}</div>
+   {% else %}
+	 <div class="flash-ok-msg">{{ flash }}</div>
+	{% endif %}
+{% endif %}
 <DIV id="console" style="margin:10px;float:right;width:300px;height:200px;background-color:#000;color:white;overflow:auto;"></DIV>
 </div>
 <H3>TaskQueues</H3>

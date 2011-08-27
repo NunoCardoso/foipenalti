@@ -19,7 +19,12 @@ class Admin(MyHandler):
 		
 		jornada = Jornada.all().order('-jor_ultima_alteracao').get()
 		
+		flash_message = memcache.get("flash")
+		if flash_message:
+			memcache.delete("flash")
+					
 		self.render_subdir_to_output("admin", 'admin_homepage.html', {
-			"jornada":jornada
+			"jornada":jornada,
+			'flash': flash_message
 		})
 	

@@ -50,10 +50,9 @@ def gera(jornada):
 				jogo.jog_clube_beneficiado = jogo.jog_clube1.key()
 				jogo.jog_clube_prejudicado = jogo.jog_clube2.key()
 			
-		jogo.jog_clubes = [jogo.jog_clube1.key(),jogo.jog_clube2.key()]
+		if not jogo.jog_clubes or jogo.jog_clubes == []:  
+			jogo.jog_clubes = [jogo.jog_clube1.key(),jogo.jog_clube2.key()]
 		jogo.put()
-#		logging.info(jogo.key().id())
-#		logging.info(jogo.jog_icc)	
 		
 		for lance in jogo.jog_lances:
 			lan_id = lance.key().id()

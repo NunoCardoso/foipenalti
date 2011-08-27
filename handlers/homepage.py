@@ -122,6 +122,9 @@ class HomePage(MyCacheHandler):
 		
 # CRIAR CARROSSEL CLASSIFICAÇÃO
 		acu_class_real = classes.getAcumuladorCompeticao(self.competicao, config.VERSAO_ACUMULADOR,"classificacao_real")
+		cl_real = None
+		cl_virtual = None
+		
 		if acu_class_real:
 			cl_real = acu_class_real.acuc_content["classificacao_real"]
 		

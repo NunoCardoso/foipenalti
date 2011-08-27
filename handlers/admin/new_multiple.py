@@ -351,7 +351,7 @@ class NewMultiple(MyHandler):
 					if clube_fora:
 						clubes.append(clube_fora.key())
 
-				obj = Jogo(
+					obj = Jogo(
 					jog_numero_visitas = 0,
 					jog_ultima_alteracao = date,
 					jog_nome = jornada.jor_nome+":"+clube_casa.clu_nome+":"+clube_fora.clu_nome,
