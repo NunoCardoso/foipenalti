@@ -132,8 +132,8 @@ class ProcurarCompeticao(MyHandler):
 
 		if sid:
 			flash_message = memcache.get(sid, namespace="flash")
-				if flash_message:
-					memcache.delete(sid, namespace="flash")
+			if flash_message:
+				memcache.delete(sid, namespace="flash")
 						
 		self.render_to_output('procurar_competicao.html', {
 			"cmp_nome": competicao_id,

@@ -75,7 +75,8 @@ class DetalheEpocaIndices(DetalheEpoca):
 		tabela_icc = self.acumulador_tabela_icc.acue_content["tabela_icc"]
 		for idx, val in enumerate(tabela_icc):
 			if tabela_icc[idx].has_key("arb"):
-				tabela_icc[idx]["arbitro"] = hash_arbitros[tabela_icc[idx]["arb"]]
+				if hash_arbitros.has_key(tabela_icc[idx]["arb"]):
+					tabela_icc[idx]["arbitro"] = hash_arbitros[tabela_icc[idx]["arb"]]
 			if tabela_icc[idx].has_key("clus"):
 				for idx2, va2 in enumerate(tabela_icc[idx]["clus"]):
 					tabela_icc[idx]["clus"][idx2]["clube"] = hash_clubes[tabela_icc[idx]["clus"][idx2]["clu"]]

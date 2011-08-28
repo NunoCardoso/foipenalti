@@ -13,7 +13,7 @@ from lib import acumulador_jornada
 from lib import acumulador_competicao
 from lib import acumulador_epoca
 from lib.myhandler import MyHandler
-import from mymemcache
+import lib.mymemcache
 
 class Refresh(MyHandler):
 	
