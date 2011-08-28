@@ -34,8 +34,8 @@ class DetalheCompeticao(MyCacheHandler):
 			error = u"Erro: Não há competição com os parâmetros dados."
 			logging.error(error)
 			new_sid = mymemcache.generate_sid()
-			memcache.set(new_sid, error, namespace="flash")
-			self.redirect(add_sid_to_url(self.referer, new_sid))
+			memcache.set(str(new_sid), error, namespace="flash")
+			self.redirect(mymemcache.add_sid_to_url(self.referer, new_sid))
 			return
 		
 		self.checkCacheFreshen()
@@ -65,8 +65,9 @@ class DetalheCompeticao(MyCacheHandler):
 		return {}
 
 	def renderHTML(self):
+		flash_message = None
 		if self.sid:
-			flash_message = memcache.get(sid, namespace="flash")
+			flash_message = memcache.get(str(sid), namespace="flash")
 			if flash_message:
 				memcache.delete(sid, namespace="flash")
         

@@ -182,5 +182,5 @@ class Delete(MyHandler):
 			obj.delete()
 			
 		new_sid = mymemcache.generate_sid()
-		memcache.set(new_sid, "<BR>".join(flash_message), namespace="flash")
-		self.redirect(add_sid_to_url(referer, new_sid))
+		memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+		self.redirect(mymemcache.add_sid_to_url(referer, new_sid))

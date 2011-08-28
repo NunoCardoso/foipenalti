@@ -101,8 +101,8 @@ class MyHandler(webapp.RequestHandler):
 #		para páginas admin, colocar erro no flash
 		if self.request.path.startswith("/admin/"):
 			new_sid = mymemcache.generate_sid()
-			memcache.set(new_sid, "Erro:" + "".join(traceback.format_exc()), namespace="flash")
-			return self.redirect(add_sid_to_url(pagina_anterior, new_sid))
+			memcache.set(str(new_sid), "Erro:" + "".join(traceback.format_exc()), namespace="flash")
+			return self.redirect(mymemcache.add_sid_to_url(pagina_anterior, new_sid))
 			
 		# para páginas públicas, mostrar erro.		
 		renderPage = None

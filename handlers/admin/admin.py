@@ -21,7 +21,7 @@ class Admin(MyHandler):
 		sid = self.request.get('sid')
 		
 		if sid:
-			flash_message = memcache.get(sid, namespace="flash")
+			flash_message = memcache.get(str(sid), namespace="flash")
 			if flash_message:
 				memcache.delete(sid, namespace="flash")
 					

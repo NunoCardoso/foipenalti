@@ -26,7 +26,7 @@ def add_sid_to_url(url, sid):
 	
 	query = urlparse(url)[4]
 	if not query:
-		url = url + "?sid="+sid
+		url = url + "?sid="+str(sid)
 	else:
-		url = url + "&sid="+sid
+		url = url + "&sid="+str(sid)
 	return url
