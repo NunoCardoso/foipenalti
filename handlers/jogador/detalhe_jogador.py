@@ -7,7 +7,7 @@ import re
 import config 
 
 from classes import *
-import lib.mymemcache
+from lib import mymemcache
 from lib.mycachehandler import MyCacheHandler
 from google.appengine.api import memcache
 

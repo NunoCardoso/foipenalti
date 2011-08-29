@@ -11,7 +11,7 @@ import urllib
 from classes import *
 from externals.paging import *
 
-import lib.mymemcache
+from lib import mymemcache
 from lib.myhandler import MyHandler
 
 class SaveMultiple(MyHandler):
@@ -41,7 +41,7 @@ class SaveMultiple(MyHandler):
 		if objname == "epoca": 
 	
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % objname)
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -172,7 +172,7 @@ class SaveMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 
 ###########
@@ -260,7 +260,7 @@ class SaveMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 ########
@@ -437,7 +437,7 @@ class SaveMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 			
@@ -684,7 +684,7 @@ class SaveMultiple(MyHandler):
 			flash_messages.append(u"Total lances editados: %s" % str(objs_adicionados))
 			flash_messages.append(u"Total de comentador_comenta_lances editados: %s" % str(ccls_adicionados))
 			flash_messages.append(u"Total de jogador_em_lances editados: %s" % str(jels_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -695,7 +695,7 @@ class SaveMultiple(MyHandler):
 		elif objname == "clube":
 
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -705,7 +705,7 @@ class SaveMultiple(MyHandler):
 
 		elif objname == "jogador": 
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -716,7 +716,7 @@ class SaveMultiple(MyHandler):
 		elif objname == "arbitro":
 
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -727,7 +727,7 @@ class SaveMultiple(MyHandler):
 		elif objname == "comentador":
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -738,7 +738,7 @@ class SaveMultiple(MyHandler):
 		elif objname == "fonte":
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -846,7 +846,7 @@ class SaveMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 				
@@ -949,7 +949,7 @@ class SaveMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -1119,7 +1119,7 @@ class SaveMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 				
@@ -1214,7 +1214,7 @@ class SaveMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 			
@@ -1315,7 +1315,7 @@ class SaveMultiple(MyHandler):
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 			
@@ -1326,7 +1326,7 @@ class SaveMultiple(MyHandler):
 		elif objname == "acumulador_jornada": 
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -1337,7 +1337,7 @@ class SaveMultiple(MyHandler):
 		elif objname == "acumulador_competicao": 
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -1348,6 +1348,6 @@ class SaveMultiple(MyHandler):
 		elif objname == "acumulador_epoca": 
 			
 			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return

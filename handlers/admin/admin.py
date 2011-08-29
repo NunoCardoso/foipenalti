@@ -19,6 +19,7 @@ class Admin(MyHandler):
 		
 		jornada = Jornada.all().order('-jor_ultima_alteracao').get()
 		sid = self.request.get('sid')
+		flash_message = None
 		
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")

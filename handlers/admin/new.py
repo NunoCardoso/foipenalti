@@ -11,7 +11,6 @@ import logging
 import re
 import config 
 import sys
-import lib.mymemcache
 
 from classes import *
 from externals.paging import *
@@ -19,6 +18,7 @@ from lib.myhandler import MyHandler
 from lib import acumulador_jornada
 from lib import acumulador_competicao
 from lib import acumulador_epoca
+from lib import mymemcache
 
 class New(MyHandler):
 	
@@ -29,8 +29,6 @@ class New(MyHandler):
 		flash_messages = []
 		date = datetime.datetime.now()
 		new_sid = mymemcache.generate_sid()
-		memcache.set(str(new_sid), error, namespace="flash")
-		self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 
 #########
 # EPOCA #
@@ -54,7 +52,7 @@ class New(MyHandler):
 			time=86400)
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 				
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 
 ##############
@@ -164,7 +162,7 @@ class New(MyHandler):
 			time=86400)
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			
 ###########
@@ -224,7 +222,7 @@ class New(MyHandler):
 
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -355,7 +353,7 @@ class New(MyHandler):
 			memcache.set_multi(memcache_objs, time=86400)
 			
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -455,7 +453,7 @@ class New(MyHandler):
 			memcache.set_multi(memcache_objs, time=86400)
 
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -480,7 +478,7 @@ class New(MyHandler):
 				
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -575,7 +573,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionado." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 			flash_messages.append(u"%s %s adicionado." % (ctj_obj.kind(), ctj_obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -598,7 +596,7 @@ class New(MyHandler):
 			memcache.set_multi({str(obj.key().id()):obj}, time=86400)
 				
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -632,7 +630,7 @@ class New(MyHandler):
 			obj.put()
 			memcache.set_multi({str(obj.key().id()):obj}, time=86400)
 			flash_messages.append(u"%s %s adicionado." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 			
@@ -652,7 +650,7 @@ class New(MyHandler):
 			memcache.set_multi({str(obj.key().id()):obj}, time=86400)
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return 
 			
@@ -735,7 +733,7 @@ class New(MyHandler):
 			memcache.set_multi({str(clube.key().id()):clube, str(jogador.key().id()):jogador}, time=86400)
 				
 			flash_messages.append(u"%s %s adicionado." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 				
@@ -803,7 +801,7 @@ class New(MyHandler):
 				
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -952,7 +950,7 @@ class New(MyHandler):
 		
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return				
 
@@ -1043,7 +1041,7 @@ class New(MyHandler):
 
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -1110,7 +1108,7 @@ class New(MyHandler):
 				
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -1164,7 +1162,7 @@ class New(MyHandler):
 			
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -1270,7 +1268,7 @@ class New(MyHandler):
 					flash_messages.append(u"%s, namespace %s adicionado" % (competicao, "icc") ) 
 
 			
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 
@@ -1364,7 +1362,7 @@ class New(MyHandler):
 				addToAcumuladorEpoca("icc", versao, epoca, stats, date)
 				flash_messages.append(u"%s, namespace %s adicionado" % (obj.kind(), "icc") ) 
 
-			memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 			return
 	

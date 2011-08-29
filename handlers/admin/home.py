@@ -28,6 +28,7 @@ class Home(MyHandler):
 	def get(self, objname):
 		
 		sid = self.request.get('sid')
+		flash_message = None
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")
 			if flash_message:

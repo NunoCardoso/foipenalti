@@ -10,7 +10,7 @@ import re
 import config 
 
 from classes import *
-import lib.mymemcache 
+from lib import mymemcache 
 from externals.paging import *
 from lib.myhandler import MyHandler
 from lib import listas

@@ -11,7 +11,7 @@ import logging
 import re
 import config 
 import urllib
-import lib.mymemcache
+from lib import mymemcache
 
 from classes import *
 from externals.paging import *
@@ -27,7 +27,7 @@ class Delete(MyHandler):
 		referer = urllib.unquote_plus(self.request.get('referrer'))   
 		if not referer:
 			referer = os.environ['HTTP_REFERER'] 
-		flash_message = []
+		flash_messages = []
 
 #############
 ### CLUBE ###
@@ -37,12 +37,12 @@ class Delete(MyHandler):
 			obj = Clube.get_by_id(id)
 
 			for ctj in obj.clu_jogadores:
-				flash_message.append(u"%s %s apagada." % (ctj.kind(), ctj.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s %s apagada." % (ctj.kind(), ctj.__str__().decode("utf-8","replace")))
 				memcache.delete(str(ctj.key().id()), namespace="clube_tem_jogador")
 				ctj.delete()
 
 			for cjc in obj.clu_competicoes:
-				flash_message.append(u"%s %s apagada." % (cjc.kind(), cjc.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s %s apagada." % (cjc.kind(), cjc.__str__().decode("utf-8","replace")))
 				memcache.delete(str(cjc.key().id()), namespace="clube_joga_competicao")
 				cjc.delete()
 
@@ -61,12 +61,12 @@ class Delete(MyHandler):
 			obj = Jogo.get_by_id(id)
 
 			for lance in obj.jog_lances:
-				flash_message.append(u"%s %s apagada." % (lance.kind(), lance.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s %s apagada." % (lance.kind(), lance.__str__().decode("utf-8","replace")))
 				memcache.delete(str(lance.key().id()), namespace="lance")
 				lance.delete()
 			
 			for jjj in obj.jog_jogadores:
-				flash_message.append(u"%s %s apagada," % (jjj.kind(), jjj.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s %s apagada," % (jjj.kind(), jjj.__str__().decode("utf-8","replace")))
 				memcache.delete(str(jjj.key().id()), namespace="jogador_joga_jogo")
 				jjj.delete()
 					
@@ -84,7 +84,7 @@ class Delete(MyHandler):
 		elif objname == "comentador":
 			obj = Comentador.get_by_id(id)
 			for ccl in obj.com_lances:
-				flash_message.append(u"%s %s apagada." % (ccl.kind(), ccl.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s %s apagada." % (ccl.kind(), ccl.__str__().decode("utf-8","replace")))
 				memcache.delete(str(ccl.key().id()), namespace="comentador_comenta_lance")
 				ccl.delete()
 			
@@ -103,7 +103,7 @@ class Delete(MyHandler):
 			obj = Jornada.get_by_id(id)
 
 			for jogo in obj.jor_jogos:
-				flash_message.append(u"%s %s apagada." % (jogo.kind(), jogo.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s %s apagada." % (jogo.kind(), jogo.__str__().decode("utf-8","replace")))
 				memcache.delete(str(jogo.key().id()), namespace="jogo")
 				jogo.delete()
 
@@ -115,12 +115,12 @@ class Delete(MyHandler):
 			obj = Lance.get_by_id(id)
 
 			for jel in obj.lan_jogadores:
-				flash_message.append(u"%s apagada." % jel.kind()) #, jel.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s apagada." % jel.kind()) #, jel.__str__().decode("utf-8","replace")))
 				memcache.delete(str(jel.key().id()), namespace="jogador_em_lance")
 				jel.delete()
 				
 			for ccl in obj.lan_comentadores:
-				flash_message.append(u"%s apagada." % ccl.kind()) #, ccl.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s apagada." % ccl.kind()) #, ccl.__str__().decode("utf-8","replace")))
 				memcache.delete(str(ccl.key().id()), namespace="comentador_comenta_lance")
 				ccl.delete()
 
@@ -132,12 +132,12 @@ class Delete(MyHandler):
 			obj = Jogador.get_by_id(id)
 
 			for jjj in obj.jgd_jogos:
-				flash_message.append(u"%s %s apagada." % (jjj.kind(), jjj.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s %s apagada." % (jjj.kind(), jjj.__str__().decode("utf-8","replace")))
 				memcache.delete(str(jjj.key().id()), namespace="jogador_joga_jogo")
 				jjj.delete()
 				
 			for jel in obj.jgd_lances:
-				flash_message.append(u"%s %s apagada." % (jel.kind(), jel.__str__().decode("utf-8","replace")))
+				flash_messages.append(u"%s %s apagada." % (jel.kind(), jel.__str__().decode("utf-8","replace")))
 				memcache.delete(str(jel.key().id()), namespace="jogador_em_lance")
 				jel.delete()
 
@@ -175,12 +175,12 @@ class Delete(MyHandler):
 			obj = AcumuladorEpoca.get_by_id(id)
 
 		if obj:
-			flash_message.append(
+			flash_messages.append(
 				u"%s %s apagada." % (obj.kind(), obj.__str__().decode("utf-8","replace"))
 				)
 			memcache.delete(str(obj.key().id()), namespace=objname)
 			obj.delete()
 			
 		new_sid = mymemcache.generate_sid()
-		memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+		memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 		self.redirect(mymemcache.add_sid_to_url(referer, new_sid))

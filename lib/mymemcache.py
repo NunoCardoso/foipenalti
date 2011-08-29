@@ -3,7 +3,7 @@ from google.appengine.api import memcache
 import logging
 import urlparse
 import time
-import cgi
+import re
 
 from urlparse import *
 
@@ -28,5 +28,6 @@ def add_sid_to_url(url, sid):
 	if not query:
 		url = url + "?sid="+str(sid)
 	else:
+		url = re.sub(r'sid=\d+',"", url )
 		url = url + "&sid="+str(sid)
 	return url

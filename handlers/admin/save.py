@@ -9,7 +9,7 @@ import config
 import urllib
 from classes import *
 
-import lib.mymemcache
+from lib import mymemcache
 from lib.myhandler import MyHandler
 
 class Save(MyHandler):
@@ -853,6 +853,6 @@ class Save(MyHandler):
 		memcache.set_multi(memcache_objs, time=86400)
 		
 		flash_messages.append(u"%s %s editada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
-		memcache.set(str(new_sid), "<BR>".join(flash_message), namespace="flash")
+		memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 		return self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
 

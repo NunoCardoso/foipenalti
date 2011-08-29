@@ -26,6 +26,7 @@ class Edit(MyHandler):
 		id = int(self.request.get('id'))
 		sid = self.request.get('sid')
 		tab = self.request.get('tab')
+		flash_message = None
 		
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")
