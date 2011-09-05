@@ -71,10 +71,11 @@ class List(MyHandler):
 		url = self.request.url
 
 		# para quando se apaga registos...
+		flash_message = None
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")
 			if flash_message:
-				memcache.delete(sid, namespace="flash")
+				memcache.delete(str(sid), namespace="flash")
 
 		# generate pager
 		try:
@@ -167,7 +168,7 @@ class List(MyHandler):
 
 		omit = []
 		myPagedQuery = None
-
+		fields = None
 		
 		if objname == "epoca":
 			if objs == None:
@@ -687,6 +688,7 @@ class List(MyHandler):
 		# ok, now let's page results
 		
 		myResults = None
+		page_navigation_links = None
 		
 		if myPagedQuery:
 			

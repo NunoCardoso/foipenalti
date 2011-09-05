@@ -31,7 +31,7 @@ class Edit(MyHandler):
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")
 			if flash_message:
-				memcache.delete(sid, namespace="flash")
+				memcache.delete(str(sid), namespace="flash")
 		
 		# há que forçar o encoding do & também
 		raw_referer = "/admin/"+objname+"/"

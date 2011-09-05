@@ -80,7 +80,9 @@ class DetalheJogo(MyCacheHandler):
 		#logging.info(jjj_jogador)
 			jogador = jjj_jogador.jjj_jogador
 			clube = jjj_jogador.jjj_clube
-			ctj = ClubeTemJogador.all().filter("ctj_clube =", clube).filter("ctj_jogador = ", jogador).get()
+			ctj = ClubeTemJogador.all().filter("ctj_jogador = ", jogador)
+				.filter("ctj_clube = ", clube)
+				.filter("ctj_epocas = ", self.jogo.jog_epoca.key()).get()
 			numero = None
 			try:
 				numero = ctj.ctj_numero
@@ -158,15 +160,15 @@ class DetalheJogo(MyCacheHandler):
 
 	def renderHTML(self):
 		flash_message = None
-		if self.sid:
-			flash_message = memcache.get(str(sid), namespace="flash")
+		if self.sid is not None:
+			flash_message = memcache.get(str(self.sid), namespace="flash")
 			if flash_message:
-				memcache.delete(sid, namespace="flash")
-		
+				memcache.delete(str(self.sid), namespace="flash")
+	
+		logging.info(self.jogo)
 		ficha_de_jogo_html = self.render_subdir("gera","gera_ficha_de_jogo.html", {
 			"jogo": self.jogo,
-			"jogo_dados": self.dados["jogos"],
-			"flash":flash_message
+			"jogo_dados": self.dados["jogos"]
 		})
 			
 		sumario_actuacao_arbitro_html = self.render_subdir("gera","gera_sumario_actuacao_arbitro.html", {
@@ -186,7 +188,8 @@ class DetalheJogo(MyCacheHandler):
 			"jogo_dados": self.dados["jogos"],
 			"lances_html":lances_html,
 			"ficha_de_jogo_html":ficha_de_jogo_html,
-			"sumario_actuacao_arbitro_html":sumario_actuacao_arbitro_html
+			"sumario_actuacao_arbitro_html":sumario_actuacao_arbitro_html,
+			"flash":flash_message
 		})
 		
 		return html

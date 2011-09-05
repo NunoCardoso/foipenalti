@@ -59,11 +59,13 @@ class DetalheEpocaClubes(DetalheEpoca):
 		liga = self.epoca.epo_competicoes.filter("cmp_tipo = ","Liga").get()
 
 		ac = classes.getAcumuladorCompeticao(liga, config.VERSAO_ACUMULADOR, "clube")
+		clus = {}		
+		
 		if ac:
 			clubes_liga_ids = ac.acuc_content["clube"].keys()
 		
 			clubes = Clube.get_by_id(clubes_liga_ids)
-			clus = {}
+
 			for clube in clubes: 
 				clus[clube.key().id()] = clube
 		

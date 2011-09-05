@@ -208,10 +208,11 @@ class ProcurarJogo(MyHandler):
 					"click":count
 					})
 
+		flash_message = None
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")
 			if flash_message:
-				memcache.delete(sid, namespace="flash")
+				memcache.delete(str(sid), namespace="flash")
 
 		self.render_to_output('procurar_jogo.html', {
 	#		"jog_epoca": jog_epoca,

@@ -128,11 +128,12 @@ class ProcurarEpoca(MyHandler):
 					"id":epoca.key().id(),
 					"click":count
 					})
-
+		
+		flash_message = None
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")
 			if flash_message:
-				memcache.delete(sid, namespace="flash")
+				memcache.delete(str(sid), namespace="flash")
 						
 		self.render_to_output('procurar_epoca.html', {
 			"epo_nome": epoca_id,

@@ -65,9 +65,9 @@ class DetalheJogador(MyCacheHandler):
 	def renderHTML(self):
 		flash_message = None
 		if self.sid:
-			flash_message = memcache.get(str(sid), namespace="flash")
+			flash_message = memcache.get(str(self.sid), namespace="flash")
 			if flash_message:
-				memcache.delete(sid, namespace="flash")
+				memcache.delete(str(self.sid), namespace="flash")
 		
 		html = self.render_subdir('jogador','detalhe_jogador.html', {
 			"jogador": self.jogador,

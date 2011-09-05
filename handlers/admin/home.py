@@ -32,7 +32,7 @@ class Home(MyHandler):
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")
 			if flash_message:
-				memcache.delete(sid, namespace="flash")
+				memcache.delete(str(sid), namespace="flash")
 
 		# gera a lista de entradas para este obj_name
 		# objs, objname, filter_field, filter_needle, url, page_index, limit
