@@ -6,6 +6,7 @@ function print_results(results, from_, format, target_div) {
 	if (format == "table") {
 		return print_results_table(results, from_, target_div)
 	}
+	$(".marqueeable").each(function() {	addMarquee(this)})  
 }
 
 function print_results_table(results, from_, target_div) {
@@ -57,7 +58,6 @@ function print_results_table(results, from_, target_div) {
 	$(".fp-table-sorter").tablesorter({textExtraction: function(node) {
     if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}
 	}})
-	$(".marqueeable").each(function() {	addMarquee(this)})  
 }
 
 function print_results_slides(results, from_, target_div) {
@@ -86,6 +86,7 @@ function print_results_slides(results, from_, target_div) {
 		}
 	}
 	target_div.html(html)
+	$(".marqueeable").each(function() {addMarquee(this)})
 }
 
 function print_table_person(header, from_, obj) {
@@ -159,8 +160,8 @@ function print_table_lance(header, from_, obj) {
 	url2 = '&to=detalhe_'+header["obj"]+'&click='+obj["click"]+'&id='+obj["id"]
 	html = '<TR><TD><A href="'+url+url2+'">'+obj['nome']+'</A></TD>'
 
-	html += '<TR><TD>'+obj['tipo']+'</A></TD>'
-	html += '<TR><TD>'+obj['protagonistas']+'</A></TD>'
+	html += '<TD>'+obj['tipo']+'</A></TD>'
+	html += '<TD>'+obj['protagonistas']+'</A></TD>'
 
 	url2_5 = '&to=detalhe_jogo&click='+obj["click"]+'&id='+obj["jogo_id"]
 	html += '<TD><A href="'+url+url2_5+'">'+obj['jogo']+'</A></TD>'
@@ -297,9 +298,9 @@ function print_slide_lance(header, from_, obj) {
 	html += '<div CLASS="fp-search-result-element-box-img fp-medium-radius">'
 	html += '<img src="'+obj['logo1']+'"><img src="'+obj['logo2']+'"></div>'
 	html += '</div><div class="fp-search-result-element-box-description">'
-	html += '<div class="fp-search-result-element-box-description-element">'+obj['nome']+'</DIV>'
-	html += '<div class="fp-search-result-element-box-description-element">'+obj['tipo']+'</DIV>'
-	html += '<div class="fp-search-result-element-box-description-element">protagonistas:'+obj['protagonistas']+'</DIV>'
+	html += '<div class="fp-search-result-element-box-description-element"><P class="marqueeable">'+obj['nome']+'</P></DIV>'
+	html += '<div class="fp-search-result-element-box-description-element"><P class="marqueeable">'+obj['tipo']+'</P></DIV>'
+	html += '<div class="fp-search-result-element-box-description-element"><P class="marqueeable">protagonistas:'+obj['protagonistas']+'</P></DIV>'
 	html += '</div></A></DIV>'
 	return html
 }

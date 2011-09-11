@@ -159,7 +159,7 @@ class ProcurarLance(MyHandler):
 		
 			resultados = {
 			"header":{
-				"obj":"arbitro",
+				"obj":"lance",
 				"panel":"pesquisa",
 				"total":results_total,
 				"nr":num_resultados

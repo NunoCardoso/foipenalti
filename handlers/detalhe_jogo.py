@@ -80,9 +80,7 @@ class DetalheJogo(MyCacheHandler):
 		#logging.info(jjj_jogador)
 			jogador = jjj_jogador.jjj_jogador
 			clube = jjj_jogador.jjj_clube
-			ctj = ClubeTemJogador.all().filter("ctj_jogador = ", jogador)
-				.filter("ctj_clube = ", clube)
-				.filter("ctj_epocas = ", self.jogo.jog_epoca.key()).get()
+			ctj = ClubeTemJogador.all().filter("ctj_jogador = ", jogador).filter("ctj_clube = ", clube).filter("ctj_epocas = ", self.jogo.jog_epoca.key()).get()
 			numero = None
 			try:
 				numero = ctj.ctj_numero
@@ -165,7 +163,6 @@ class DetalheJogo(MyCacheHandler):
 			if flash_message:
 				memcache.delete(str(self.sid), namespace="flash")
 	
-		logging.info(self.jogo)
 		ficha_de_jogo_html = self.render_subdir("gera","gera_ficha_de_jogo.html", {
 			"jogo": self.jogo,
 			"jogo_dados": self.dados["jogos"]

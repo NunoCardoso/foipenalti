@@ -134,4 +134,4 @@ class ClearCacheHandler(MyHandler):
 
     def get(self):
         memcache.flush_all()
-		self.redirect("/")
+        self.redirect("/")
