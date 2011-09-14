@@ -83,7 +83,7 @@ class List(MyHandler):
 		except ValueError:
 			page_index = 1
 			
-		limit = 15
+		limit = 16
 
 		id = None
 		referrer = self.request.get("referrer")
