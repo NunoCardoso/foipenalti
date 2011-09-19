@@ -1,0 +1,85 @@
+{% if new_for_parent_id %}
+<form action="/admin/jogador/new_multiple?{{ this_id }}={{ obj.key.id }}" method="post">
+{% else %}
+{% if multiple_edit %}
+<form action="/admin/jogador/save_multiple" method="post">
+{% else %}
+<form action="/admin/jogador/new_multiple" method="post">
+{% endif %}
+{% endif %}
+
+<input type='hidden' id="prefix" name='prefix' value='jgd'>
+<input type='hidden' name='number' value='{{howmany}}'>
+
+{% if new_for_parent_id %}
+<DIV style="margin:10px;">Novos jogadores a serem associadas a clube {{obj}}</DIV>
+{% endif %}
+{% if multiple_edit %}
+<DIV style="margin:10px;">Editar jogadores associadas a clube {{obj}}</DIV>
+{% endif %}
+
+<table>
+	<tr>
+		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
+	</tr>
+	<tr>
+		<td>
+			{% for i in howmany|get_range %}
+			<table class="obj">
+				<TR>
+					<TD>
+						
+	<table>
+		<tr>
+			{% if multiple_edit and objs|has_element:i %}
+			<input type="hidden" name="jgd{{i}}_id" id="jgd{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
+			{% endif %}	
+			<td style="margin:5px;">
+				<input type="checkbox" id="jgd{{i}}_checkbox" name="jgd{{i}}_checkbox">
+			</td>
+			<td>
+				<input type="text" class="aware-change" name="jgd{{i}}_nome" id="jgd{{i}}_nome" size=20 placeholder="Nome"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jgd_nome"}}'{% endif %}/></td>
+				
+			<td>
+				<input type="text" class="aware-change" name="jgd{{i}}_nome_completo" id="jgd{{i}}_nome_completo" size=30 placeholder="Nome Completo"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jgd_nome_completo"}}'{% endif %}/>
+			</td>
+			<td>
+				<select class="aware-change" size=1 name="jgd{{i}}_clube_actual_id" id="jgd{{i}}_clube_actual_id"/>
+						{% for clube in clubes %}
+						<option value="{{clube.key.id}}" {% if multiple_edit and objs|has_element:i and  objs|get_element:i|attribute:"jgd_clube_actual"|eq:clube %} SELECTED{% endif %}>{{clube.clu_nome_curto}}</option>
+						{% endfor %}
+				</select>
+			</td>	
+					
+			<td>
+				<input type="number" min="1" step="1" class="aware-change" name="jgd{{i}}_numero" id="jgd{{i}}_numero" size=5 placeholder="Número"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jgd_numero"}}'{% endif %}/>
+			</td>
+			
+			<td>
+			<select class="aware-change" size=2 multiple name="jgd{{i}}_posicao" id="jgd{{i}}_posicao"/>
+				{% for posicao in posicoes %}
+					<option value="{{posicao.0}}" {% if multiple_edit and objs|has_element:i and  objs|get_element:i|attribute:"jgd_posicao"|listcontainselement:posicao.0 %} SELECTED{% endif %}>{{posicao.1}}</option>
+					{% endfor %}
+			</select>
+			</td>
+
+			<td>
+				<input type="text" class="aware-change" name="jgd{{i}}_link_foto" id="jgd{{i}}_link_foto" size=30 placeholder="Foto"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jgd_link_foto"}}'{% endif %}/>
+			</td>
+			
+			<td>
+				<input type="text" class="aware-change" name="jgd{{i}}_link_zz" id="jgd{{i}}_link_zz" size=30 placeholder="Link ZZ"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jgd_link_zz"}}'{% endif %}/>
+			</td>
+		</tr>
+	</table>
+				</TD>
+			</TR>
+			</TABLE>
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<td style="margin-top:10px;"><input type="submit" value="{% if multiple_edit %}Editar{% else %}Criar novos{% endif %} jogadores {% if new_for_parent_id or multiple_edit %}associados ao clube {{obj.epo_nome}}{% endif %}" style="width:400px;"/></td>
+	</tr>
+</table>
+</form>
