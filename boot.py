@@ -24,6 +24,7 @@ sys.path.insert(1, os.path.join(config.APP_ROOT_DIR, 'externals'))
 sys.path.insert(2, os.path.join(config.APP_ROOT_DIR, 'handlers'))
 sys.path.insert(3, os.path.join(config.APP_ROOT_DIR, 'lib'))
 sys.path.insert(4, os.path.join(config.APP_ROOT_DIR, 'tags'))
+sys.path.insert(5, os.path.join(config.APP_ROOT_DIR, 'tests'))
 
 # main template tag handlers for django
 import wsgiref.handlers
@@ -33,7 +34,7 @@ template.register_template_library('tags.set_var')
 from lib.myhandler import MyHandler
 from lib import autocomplete
 from admin import delete, edit, list, new, new_multiple, save, save_multiple, admin, home
-from tasks import acumulador_task_manager, refresh_acumuladores
+from tasks import acumulador_task_manager, refresh_acumuladores, parse_jogo
 from mail import sendmail
 
 # handler
@@ -217,6 +218,7 @@ def main():
 # tasks
 			(r'/task/acumulador_task_manager', acumulador_task_manager.AcumuladorTaskManager),
 			(r'/task/refresh/([^/]*)', refresh_acumuladores.Refresh),
+			(r'/task/parse_jogo', parse_jogo.ParseJogo),
 
 #blog
 			(r'/blog', blog.IndexHandler),

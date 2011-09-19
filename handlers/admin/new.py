@@ -53,7 +53,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 				
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 
 ##############
 # COMPETICAO #
@@ -77,7 +77,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei época %s!" % self.request.get('cmp_epoca_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 			
 			### LUGARES ### 
@@ -163,7 +163,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			
 ###########
 # JORNADA #
@@ -188,7 +188,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei competição com id %s!" % self.request.get('jor_competicao_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			data = datetime.datetime.strptime(
@@ -223,7 +223,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 ########
@@ -247,7 +247,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei jornada %s!" % self.request.get('jog_jornada')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 			
 			try:
@@ -257,7 +257,7 @@ class New(MyHandler):
 				 self.request.get('jog_clube1_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			try:
@@ -266,7 +266,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei clube visitante com nome %s!" % self.request.get('jog_clube2_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 			
 			# arbitro pode vir já com id, por exemplo na página edit de um árbitro pode-ser criar um jogo
@@ -354,7 +354,7 @@ class New(MyHandler):
 			
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 #########
@@ -377,7 +377,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei jogo %s!" % self.request.get('lan_jogo')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 
 			list_link_sites = []
@@ -454,7 +454,7 @@ class New(MyHandler):
 
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 #########
@@ -479,7 +479,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 ###########
@@ -512,7 +512,7 @@ class New(MyHandler):
 				 self.request.get('jgd_clube_actual_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 
 			try:
@@ -574,7 +574,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionado." % (ctj_obj.kind(), ctj_obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 ###########
@@ -597,7 +597,7 @@ class New(MyHandler):
 				
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 ##############
@@ -617,7 +617,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei fonte com nome %s!" % self.request.get('com_fonte')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return 
 				
 			obj = Comentador(
@@ -631,7 +631,7 @@ class New(MyHandler):
 			memcache.set_multi({str(obj.key().id()):obj}, time=86400)
 			flash_messages.append(u"%s %s adicionado." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 			
 #########
@@ -651,7 +651,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return 
 			
 # moléculas: estas podem ter um id anexado ou não.
@@ -691,7 +691,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei clube com id %s!" % self.request.get('ctj_clube_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			if not jogador: 
@@ -701,7 +701,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei jogador com nome %s!" % self.request.get('ctj_jogador')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			epocas = []
@@ -734,7 +734,7 @@ class New(MyHandler):
 				
 			flash_messages.append(u"%s %s adicionado." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 				
 #########################
@@ -767,7 +767,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei clube com id %s!" % self.request.get('cjc_clube_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			if not competicao: 
@@ -778,7 +778,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei competicao com nome %s!" % self.request.get('cjc_competicao_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 
 # obj clube_joga_competicao #
@@ -802,7 +802,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 #####################
@@ -840,7 +840,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei jogador com nome %s!" % self.request.get('jjj_jogador')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			if not jogo: 
@@ -851,7 +851,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei jogo %s!" % self.request.get('jjj_jogo')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			if not clube:
@@ -864,7 +864,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei clube com id %s!" % self.request.get('jjj_clube_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 
 			amarelo = self.request.get('jjj_amarelo_minuto')
@@ -951,7 +951,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return				
 
 ############################
@@ -978,7 +978,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei comentador com id %s!" % self.request.get('ccl_comentador_id')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			if not lance: 
@@ -988,7 +988,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei lance %s!" % self.request.get('ccl_lance')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 
 # obj comentador_comenta_lance #
@@ -1042,7 +1042,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 ####################
@@ -1073,7 +1073,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei jogador com nome %s!" % self.request.get('jel_jogador')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 				
 			if not lance: 
@@ -1085,7 +1085,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei lance %s!" % self.request.get('jel_lance')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 
 # obj jogador_em_lance #
@@ -1109,7 +1109,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 ######################
@@ -1130,7 +1130,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei jornada %s!" % self.request.get('acuj_jornada')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 			
 			stats = acumulador_jornada.gera(jornada)
@@ -1163,7 +1163,7 @@ class New(MyHandler):
 			flash_messages.append(u"%s %s adicionada." % (obj.kind(), obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 #########################
@@ -1194,7 +1194,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei competição %s!" % self.request.get('acuc_competicao')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 			
 			stats = acumulador_competicao.gera(competicao, acuc_basico, 
@@ -1269,7 +1269,7 @@ class New(MyHandler):
 
 			
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 
 ####################
@@ -1299,7 +1299,7 @@ class New(MyHandler):
 				error = u"Erro: Não encontrei epoca %s!" % self.request.get('acue_epoca')
 				logging.error(error)
 				memcache.set(str(new_sid), error, namespace="flash")
-				self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+				self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 				return
 			
 			stats = acumulador_epoca.gera(epoca, acue_basico, 
@@ -1363,7 +1363,7 @@ class New(MyHandler):
 				flash_messages.append(u"%s, namespace %s adicionado" % (obj.kind(), "icc") ) 
 
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
 			return
 	
 	# def processTasks(self):	

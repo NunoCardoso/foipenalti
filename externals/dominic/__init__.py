@@ -30,8 +30,8 @@ from xml.dom import minidom
 from xml.sax import make_parser
 from xml.sax.handler import ErrorHandler
 
-from dominic import xpath
-from dominic.css import XPathTranslator
+from ..xpath import *
+from css import XPathTranslator
 
 class FaultTolerantErrorHandler(ErrorHandler):
     def error(self, exception):
@@ -57,7 +57,7 @@ class Element(object):
         self.tag = element.tagName
 
     def xpath(self, path):
-        finder = xpath.XPath(path)
+        finder = XPath(path)
         return ElementSet(finder.find(self.element))
 
     def find(self, selector):

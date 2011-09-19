@@ -70,6 +70,7 @@ class List(MyHandler):
 		sid = self.request.get('sid')
 		url = self.request.url
 
+		
 		# para quando se apaga registos...
 		flash_message = None
 		if sid:
@@ -111,7 +112,9 @@ class List(MyHandler):
 				objs = JogadorEmLance.all().filter("jel_lance = ",  Lance.get_by_id(id))
 			if referrer == "jogador" and objname == "clube_tem_jogador":
 				objs = ClubeTemJogador.all().filter("ctj_jogador = ",  Jogador.get_by_id(id))
-		
+			if referrer == "clube" and objname == "jogador":
+				objs = Jogador.all().filter("jgd_clube_actual = ",  Clube.get_by_id(id))
+
 		html = self.gera_lista({
 			"objs":objs, 
 			"objname":objname, 
@@ -387,7 +390,7 @@ class List(MyHandler):
 			# tudo string fields
 			if filter_field:
 				objs.filter(filter_field+" = ", filter_needle)
-			
+
 			myPagedQuery = PagedQuery(objs, limit)
 			myPagedQuery.order('-clu_ultima_alteracao')
 			
@@ -698,7 +701,7 @@ class List(MyHandler):
 			page_navigation_links = myLinks.get_links()
 		
 		template_path = os.path.join(config.APP_ROOT_DIR, "templates", "admin", "list.html")
-		
+
 		return template.render(template_path, {
 			'objs': myResults,
 			'flash':flash,

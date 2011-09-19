@@ -21,7 +21,7 @@ class ProcurarCompeticao(MyHandler):
 
 		jogos = None		
 		num_resultados = self.request.get("nr")
-		sid = self.request.get("sid")
+		sid = get_sid_from_cookie()
 
 		# critérios
 		competicao_id = self.request.get("cmp")

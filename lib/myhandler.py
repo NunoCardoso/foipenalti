@@ -102,7 +102,7 @@ class MyHandler(webapp.RequestHandler):
 		if self.request.path.startswith("/admin/"):
 			new_sid = mymemcache.generate_sid()
 			memcache.set(str(new_sid), "Erro:" + "".join(traceback.format_exc()), namespace="flash")
-			return self.redirect(mymemcache.add_sid_to_url(pagina_anterior, new_sid))
+			return self.redirect(mymemcache.add_sid_to_cookie(pagina_anterior, new_sid))
 			
 		# para páginas públicas, mostrar erro.		
 		renderPage = None

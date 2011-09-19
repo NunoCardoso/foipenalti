@@ -23,7 +23,7 @@ class ProcurarArbitro(MyHandler):
 		jogadores = None
 		
 		num_resultados = self.request.get("nr")
-		sid = self.request.get("sid")
+		sid = get_sid_from_cookie()
 		
 		# variáveis get que correspondem aos valores do form
 		arb_nome = self.request.get("arb") #ID

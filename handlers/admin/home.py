@@ -281,18 +281,10 @@ class Home(MyHandler):
 				'fields': fields,
 				'new_single':True
 			})
-		
-			# new_multiple = self.render_subdir("admin", 'obj_%s_multiple.html' % objname, {
-			# 	'objname': objname,
-			# 	'fields': fields,
-			# 	'new_multiple':True,
-			# 	'howmany':10
-			# })
 			
 			## HOME render
 			self.render_subdir_to_output("admin", 'home_'+objname+'.html', {
 				'new_single':new_single,
-#				'new_multiple':new_multiple,
 				'objname': objname,
 				'flash': flash_message,
 				'list': lista,

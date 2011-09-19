@@ -185,6 +185,13 @@ def isinlist(value, list):
 		return True
 	return False
 
+# inverse of isinlist
+@register.filter("listcontainselement")
+def listcontainselement(list,value):
+	if value in list:
+		return True
+	return False
+
 @register.filter("containsepocakey")
 def containsepocakey(epocas_list,epoca_needle_key):
 	for epoca_key in epocas_list:

@@ -212,7 +212,7 @@ def get_lista_posicoes():
 		if not cacheresultados:
 			
 			# devolve uma lista com tuplos
-			lista = sorted(Jogador.translation_posicao.copy().items(), key=lambda t: t[0])
+			lista = sorted(Jogador.translation_posicao.copy().items(), key=lambda t: t[1])
 			memcache.set('lista_posicoes',{"date":datetime.datetime.today(),
 				'lista_posicoes':lista},time=86400)
 			return lista

@@ -4,6 +4,9 @@ import logging
 import urlparse
 import time
 import re
+import Cookie
+import os
+import datetime
 
 from urlparse import *
 
@@ -22,12 +25,29 @@ def check(cacheresultados, lista):
 def generate_sid():
 	return int(round(time.time() * 1000))
 
-def add_sid_to_url(url, sid):
+# add sid to cookie
+def add_sid_to_cookie(url, sid):
+	expiration = datetime.datetime.now() + datetime.timedelta(minutes=1)
+	cookie = Cookie.SimpleCookie()
+	cookie["session"]=sid
+	cookie["session"]["domain"] = ".foipenalti.com"
+	cookie["session"]["path"] = "/sid"
+	cookie["session"]["expires"] = expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST")
+	 
+	#query = urlparse(url)[4]
+	#if not query:
+	#	url = url + "?sid="+str(sid)
+	#else:
+	#	url = re.sub(r'sid=\d+',"", url )
+	#	url = url + "&sid="+str(sid)
+	#	url = re.sub(r'&+',"&", url )
 	
-	query = urlparse(url)[4]
-	if not query:
-		url = url + "?sid="+str(sid)
-	else:
-		url = re.sub(r'sid=\d+',"", url )
-		url = url + "&sid="+str(sid)
+	# leave URL untouched
 	return url
+
+def get_sid_from_cookie():
+	try:
+	    cookie = Cookie.SimpleCookie(os.environ["HTTP_COOKIE"])
+	    return cookie["session"].value
+	except (Cookie.CookieError, KeyError):
+	    logging.info("session cookie sid not set.")

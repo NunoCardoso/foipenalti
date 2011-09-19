@@ -13,15 +13,13 @@
 <DIV CLASS="admin-tabs">
 	<UL CLASS="tabs">
 		<LI{% ifequal tab "edit" %} CLASS="active"{% endifequal %}>
-			<A CLASS="admin-tab-link" rel="edit" href="#" >Editar clube</A></LI>
+			<A CLASS="admin-tab-link" rel="edit" href="#">Editar clube</A></LI>
 		<LI{% ifequal tab "list1" %} CLASS="active"{% endifequal %}>
-			<A CLASS="admin-tab-link" rel="list1" href="#" >Listar jogadores</A></LI>
-		<LI{% ifequal tab "new1" %} CLASS="active"{% endifequal %}>
-			<A CLASS="admin-tab-link" rel="new1" href="#" >Associar jogadores</A></LI>
-		<LI{% ifequal tab "list2" %} CLASS="active"{% endifequal %}>
-			<A CLASS="admin-tab-link" rel="list2" href="#" >Listar competições</A></LI>
-		<LI{% ifequal tab "new2" %} CLASS="active"{% endifequal %}>
-			<A CLASS="admin-tab-link" rel="new2" href="#" >Associar competições</A></LI>
+			<A CLASS="admin-tab-link" rel="list1" href="#">Listar jogadores</A></LI>
+		<LI{% ifequal tab "mnew1" %} CLASS="active"{% endifequal %}>
+			<A CLASS="admin-tab-link" rel="mnew1" href="#">Criar jogadores associados</A></LI>
+		<LI{% ifequal tab "medit1" %} CLASS="active"{% endifequal %}>
+			<A CLASS="admin-tab-link" rel="medit1" href="#">Editar jogadores associados</A></LI>
 	</UL>
 	<!-- This is used so the contents don't appear to the right of the tabs -->
 	<DIV class="clear"></DIV>
@@ -29,17 +27,14 @@
 		<DIV class="tab_contents{% ifequal tab 'edit' %} tab_contents_active{% endifequal %}" id="edit">
 			{{edit}}
 		</DIV>
-		<DIV class="tab_contents{% ifequal tab 'list1' %} tab_contents_active{% endifequal %}" id="list1" url="/admin/clube_tem_jogador/list">
+		<DIV class="tab_contents{% ifequal tab 'list1' %} tab_contents_active{% endifequal %}" id="list1" url="/admin/jogador/list">
 			{{list1}}
 		</DIV>
-		<DIV class="tab_contents{% ifequal tab 'new1' %} tab_contents_active{% endifequal %}" id="new1">
-			{{new1}}
+		<DIV class="tab_contents{% ifequal tab 'mnew1' %} tab_contents_active{% endifequal %}" id="mnew1">
+			{{mnew1}}
 		</DIV>
-		<DIV class="tab_contents{% ifequal tab 'list2' %} tab_contents_active{% endifequal %}" id="list2" url="/admin/clube_joga_competicao/list">
-			{{list2}}
-		</DIV>
-		<DIV class="tab_contents{% ifequal tab 'new2' %} tab_contents_active{% endifequal %}" id="new2">
-			{{new2}}
+		<DIV class="tab_contents{% ifequal tab 'medit1' %} tab_contents_active{% endifequal %}" id="medit1">
+			{{medit1}}
 		</DIV>
 	</DIV>
 </DIV>

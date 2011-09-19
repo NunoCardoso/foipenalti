@@ -35,7 +35,7 @@ class DetalheClube(MyCacheHandler):
 			logging.error(error)
 			new_sid = mymemcache.generate_sid()
 			memcache.set(str(new_sid), error, namespace="flash")
-			self.redirect(mymemcache.add_sid_to_url(self.referer, new_sid))
+			self.redirect(mymemcache.add_sid_to_cookie(self.referer, new_sid))
 			return
 
 		self.checkCacheFreshen()
@@ -90,7 +90,7 @@ class DetalheClube(MyCacheHandler):
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
 
-		self.sid = self.request.get("sid")
+		self.sid = get_sid_from_cookie()
 
 		# clube pode ser passado com parâmetro clube, id ou q
 		if self.request.get("clube"):

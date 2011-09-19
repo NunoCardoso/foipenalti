@@ -483,7 +483,56 @@ class Edit(MyHandler):
 		elif objname == "clube":
 			
 			obj = Clube.get_by_id(id)
+
+			# DEPENDENTE 1	
+			objname1 = 'jogador'
+			
+			# List() use Query object. medit use list of retrieved objectd
+			objs = Jogador.all().filter("jgd_clube_actual = ", obj)
+			objs1 = []
+			for o in Jogador.all().filter("jgd_clube_actual = ", obj):
+				objs1.append(o)
+			
+			objs1 = sorted(objs1, cmp=lambda x,y: cmp(x.jgd_numero, y.jgd_numero))
 						
+			try:
+				page_index1 = int(self.request.get("pg_"+objname1,"1"))
+			except ValueError:
+				page_index1 = 1
+			
+			limit1 = 40
+			posicoes = listas.get_lista_posicoes()
+			clubes = listas.get_lista_clubes()
+			
+			logging.info("Starting lista")
+			foo = List().gera_lista({
+				"objs":objs, "objname":objname1, 
+				"filter_field":None, "filter_needle":None, 
+				"url":self.request.url, "referrer":objname,
+				"page_index":page_index1, "limit":limit1
+			})
+			foo2 = None
+			try :
+				foo2 = self.render_subdir("admin", 'obj_%s_multiple.html' % objname1, {
+					'new_for_parent_id':True, 'objname':objname1,
+					'this_id':'clu_id', 'obj':obj, 'howmany':10,
+					'clubes':clubes,
+					'posicoes':posicoes
+				})
+			except:
+				logging.info(sys.exc_info())
+
+			foo3 = None
+			try :
+				foo3 = self.render_subdir("admin", 'obj_%s_multiple.html' % objname1, {
+					'multiple_edit':True, 'obj':obj, 'objs':objs1, 
+					'this_id':'clu_id','howmany':len(objs1), 'objname':objname1,
+					'clubes':clubes,
+					'posicoes':posicoes
+					})
+			except:
+				logging.info(sys.exc_info())
+			
 			self.render_subdir_to_output("admin", 'edit_%s.html' % objname, {
 				'obj':obj, 'flash': flash_message,
 				'objname': objname, 'fields': Clube.fields, 'tab':tab,
@@ -492,6 +541,15 @@ class Edit(MyHandler):
 				'edit': self.render_subdir("admin", 'obj_%s.html' % objname, {
 						'edit':True, 'obj': obj, 'objname': objname
 				}),
+				
+				# listar dependente 1: jogadores actuais deste clube
+				'list1': foo,
+				
+				# novo dependente 1: jogadores actuais deste clube
+				'mnew1': foo2,
+
+				# editar dependentes 1: editar jogadores actuais deste clube
+				'medit1':foo3,
 			})
 
 ##############################
