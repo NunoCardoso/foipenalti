@@ -30,7 +30,7 @@ from xml.dom import minidom
 from xml.sax import make_parser
 from xml.sax.handler import ErrorHandler
 
-from ..xpath import *
+from xpath import *
 from css import XPathTranslator
 
 class FaultTolerantErrorHandler(ErrorHandler):

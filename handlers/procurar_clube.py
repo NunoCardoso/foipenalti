@@ -21,7 +21,7 @@ class ProcurarClube(MyHandler):
 
 		jogos = None		
 		num_resultados = self.request.get("nr")
-		sid = get_sid_from_cookie()
+		sid = mymemcache.get_sid_from_cookie()
 
 		# critérios
 		clube_id = self.request.get("clu")

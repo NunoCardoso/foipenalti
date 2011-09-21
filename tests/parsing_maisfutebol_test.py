@@ -10,7 +10,10 @@ f = open(os.path.dirname(os.path.abspath(__file__))+"/83726.html", "r")
 html = f.read()
 f.close()
 
-results = ParseMaisFutebol().parse(html)
+response = ParseMaisFutebol().parse(html)
+
+assert response["status"] == "OK"
+results = response["message"]
 
 #return {"tacticas_clube1":tacticas_equipa1,
 #		"tacticas_clube2":tacticas_equipa2,
@@ -25,7 +28,7 @@ results = ParseMaisFutebol().parse(html)
 #		"cartoes_clube1":jog_cart_equipa1_arr,
 #		"cartoes_clube2":jog_cart_equipa2_arr,
 #		"golos":jog_gol_arr}
-		
+	
 
 assert results["clube1"] == "Marítimo", results["clube1"]
 assert results["clube2"] == "Rio Ave", results["clube2"]
@@ -63,14 +66,15 @@ assert results["substituicoes_clube2"] == [{'jogador_saida': 'Jorginho', 'jogado
 	{'jogador_saida': 'Yazalde', 'jogador_entrada': 'Atsu', 'minuto': 75}], results["substituicoes_clube2"]
 
 # CARTOES
-assert results["cartoes_clube1"]  ==  [{'cartao': u'cart\xe3o amarelo', 'minuto': 17, 'jogador': 'Robson'}, 
-	{'cartao': u'cart\xe3o amarelo', 'minuto': 50, 'jogador': 'Briguel'}, {'cartao': u'cart\xe3o amarelo', 
-	'minuto': 79, 'jogador': 'R\xc3\xbaben Ferreira'}, {'cartao': u'cart\xe3o amarelo', 'minuto': 90, 
+assert results["cartoes_clube1"]  ==  [{'cartao': u'cartao amarelo', 'minuto': 17, 'jogador': 'Robson'}, 
+	{'cartao': u'cartao amarelo', 'minuto': 50, 'jogador': 'Briguel'}, {'cartao': u'cartao amarelo', 
+	'minuto': 79, 'jogador': 'R\xc3\xbaben Ferreira'}, {'cartao': u'cartao amarelo', 'minuto': 90, 
 	'jogador': 'Olberdam'}], results["cartoes_clube1"]
 	
-assert results["cartoes_clube2"] == [{'cartao': u'cat\xe3o amarelo', 'minuto': 41, 'jogador': 'Jeferson'}, 
-	{'cartao': u'cat\xe3o amarelo', 'minuto': 44, 'jogador': 'Jo\xc3\xa3o Tom\xc3\xa1s'}, 
-	{'cartao': u'cat\xe3o amarelo', 'minuto': 62, 'jogador': 'Tarantini'}], results["cartoes_clube2"]
+assert results["cartoes_clube2"] == [{'cartao': u'cartao amarelo', 'minuto': 41, 'jogador': 'Jeferson'}, 
+	{'cartao': u'cartao amarelo', 'minuto': 44, 'jogador': 'Jo\xc3\xa3o Tom\xc3\xa1s'}, 
+	{'cartao': u'cartao amarelo', 'minuto': 62, 'jogador': 'Tarantini'}], results["cartoes_clube2"]
+
 
 assert results["golos"] == [{'minuto': 14, 'tipo': '', 'jogador': 'Baba'}, 
 	{'minuto': 17, 'tipo': 'g.p.', 'jogador': 'Jo\xc3\xa3o Tom\xc3\xa1s'}, 

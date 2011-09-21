@@ -55,9 +55,8 @@
 		<td>{{ obj.key.id }}</td>
 		{% for field in fields %}
 			{% for item in field.items %}
-				{% if item.1|isnotinlist:omit %}
-
-				<td style="overflow:hidden;">
+				{% if item.1|isnotinlist:omit %}	
+				<td style="overflow:hidden;"{% if obj|attribute:item.1|can_be_number %} value="{{obj|attribute:item.1}}"{% endif %}>
 				{% if obj|attribute:item.1|startswith:"http" %} 
 					{{ obj|attribute:item.1|urlizetrunc:20 }}
 				{% else %}

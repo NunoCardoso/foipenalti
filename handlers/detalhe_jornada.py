@@ -137,7 +137,7 @@ class DetalheJornada(MyCacheHandler):
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
 
-		self.sid = get_sid_from_cookie()
+		self.sid = mymemcache.get_sid_from_cookie()
 		
 		if self.request.get("id"):
 			try:

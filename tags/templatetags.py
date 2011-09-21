@@ -106,6 +106,14 @@ def get_range( value ):
 def get_range_from( value, value2 ):
   return range( value, value2)
 
+@register.filter("can_be_number")
+def can_be_number( val ):
+	try:
+		x =  int(val)
+	except:
+		return False
+	return True
+
 ########################
 ###### PATTERN MATCH ###
 ########################

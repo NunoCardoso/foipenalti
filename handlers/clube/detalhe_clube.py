@@ -90,7 +90,7 @@ class DetalheClube(MyCacheHandler):
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
 
-		self.sid = get_sid_from_cookie()
+		self.sid = mymemcache.get_sid_from_cookie()
 
 		# clube pode ser passado com parâmetro clube, id ou q
 		if self.request.get("clube"):

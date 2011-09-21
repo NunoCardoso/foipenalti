@@ -675,10 +675,105 @@ class NewMultiple(MyHandler):
 ###########
 
 		elif objname == "jogador": 
-			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
+		
+			for index in range(number):
+				
+				if self.request.get(prefix+str(index)+'_checkbox') == "on":
+
+					# FAIL FAST
+					
+					clube = None
+					posicao = []
+					numero = None
+
+					empty = True
+					if self.request.get_all(prefix+str(index)+'_posicao'):
+						for pos in self.request.get_all(prefix+str(index)+'_posicao'):
+							if pos != "": 
+								empty = False
+
+					if not empty:
+						for pos in self.request.get_all(prefix+str(index)+'_posicao'):
+							if pos != "":
+								posicao.append(pos)
+
+					try:
+						clube = Clube.get_by_id(int(self.request.get(prefix+str(index)+'_clube_actual_id')))
+					except: 
+						error = u"Erro: Não encontrei clube com id %s!" % \
+						 self.request.get(prefix+str(index)+'_clube_actual_id')
+						logging.error(error)
+						memcache.set(str(new_sid), error, namespace="flash")
+						self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
+						return
+
+					try:
+						numero = int(self.request.get(prefix+str(index)+'_numero'))
+					except:
+						numero = 0
+
+					epocas = []
+					for epoca_id in self.request.get_all(prefix+str(index)+'_epocas_id'):
+						if epoca_id != "":
+							epoca = None
+							try:
+								epoca = Epoca.get_by_id(int(epoca_id))
+							except:
+								pass
+								#epoca = Epoca.all().filter("__key__ in", [db.Key(epoca_nome)]).get()
+
+							if epoca:	
+								epocas.append(epoca.key()) 
+
+					# by default, add the current epoca
+					if not epocas:
+						epocas.append(config.EPOCA_CORRENTE.key()) 
+
+		# obj jogador 
+
+					obj = Jogador(
+						jgd_numero_visitas = 0,
+						jgd_ultima_alteracao = date,
+						jgd_nome = self.request.get(prefix+str(index)+'_nome'),
+						jgd_nome_completo = self.request.get(prefix+str(index)+'_nome_completo'),
+						jgd_numero = numero,
+						jgd_link_foto = self.request.get(prefix+str(index)+'_link_foto'),
+						jgd_link_zz = db.Link(self.request.get(prefix+str(index)+'_link_zz')),
+						jgd_posicao = posicao,
+						jgd_clube_actual = clube
+					)
+
+					clube.clu_ultima_alteracao = date
+
+					db.put([obj,clube])
+
+					# adicionar tb um CTJ
+					ctj_obj = ClubeTemJogador(
+						ctj_numero = numero,
+						ctj_epocas = epocas,
+						ctj_jogador = obj,
+						ctj_clube = clube
+					)
+
+					db.put(ctj_obj)
+
+					memcache.set_multi({
+						str(clube.key().id()):clube, 
+						str(obj.key().id()):obj}, 
+					time=86400)
+					objs_adicionados += 1	
+			
+			for obj in objs:
+				edit_type = None
+				if obj.kind() == "Jogador":
+					edit_type = "adicionad0"
+				else: 
+					edit_type = "refrescad0"
+				flash_messages.append(u"%s %s: %s" % (obj.kind(), edit_type, obj.__str__().decode("utf-8","replace") ) ) 
+
+			flash_messages.append(u"Total adicionados: %s" %str(objs_adicionados))
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
-			return
 
 
 ###########

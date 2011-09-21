@@ -704,10 +704,76 @@ class SaveMultiple(MyHandler):
 ###########
 
 		elif objname == "jogador": 
-			flash_messages.append(u"Erro: New multiple not avaliable for %s" % (objname))
+			
+			# PARA JOGADORES ASSOCIADOS A UM CLUBE 
+			
+			for index in range(number):
+				
+				if self.request.get(prefix+str(index)+'_checkbox') == "on":
+
+					# FAIL FAST
+					obj = None
+					try: 
+						obj = Jogador.get_by_id(int(self.request.get(prefix+str(index)+'_id')))
+					except: 
+						error = u"Erro: Não encontrei jogador com o id %s!" % self.request.get(prefix+str(index)+'_id')
+						logging.error(error)
+						memcache.set(str(new_sid), error, namespace="flash")
+						self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
+						return
+
+					try:
+						clube = Clube.get_by_id(int(self.request.get(prefix+str(index)+'_clube_actual_id')))
+					except: 
+						error = u"Erro: Não encontrei clube com id %s!" % \
+						 self.request.get(prefix+str(index)+'_clube_actual_id')
+						logging.error(error)
+						memcache.set(str(new_sid), error, namespace="flash")
+						self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
+						return
+
+					try:
+						numero = int(self.request.get(prefix+str(index)+'_numero'))
+					except:
+						numero = 0
+
+					obj.jgd_ultima_alteracao = date
+					obj.jgd_nome = self.request.get(prefix+str(index)+'_nome')
+					obj.jgd_nome_completo = self.request.get(prefix+str(index)+'_nome_completo')
+					obj.jgd_numero = numero
+					obj.jgd_link_foto = self.request.get(prefix+str(index)+'_link_foto')
+					obj.jgd_link_zz = db.Link(self.request.get(prefix+str(index)+'_link_zz'))
+
+					posicao = []
+					if self.request.get_all(prefix+str(index)+'_posicao'):
+						for pos in self.request.get_all(prefix+str(index)+'_posicao'):
+							if pos != "":
+								posicao.append(pos)
+
+					obj.jgd_clube_actual = clube			
+					obj.jgd_posicao = posicao
+
+					clube.clu_ultima_alteracao = date
+					objs.append(obj)
+					objs.append(clube)
+					memcache_objs[str(id)] = obj
+					memcache_objs[str(clube.key().id())] = clube
+						
+					objs_adicionados += 1
+
+			db.put(objs)
+			for obj in objs:
+				edit_type = None
+				if obj.kind() == "Jogador":
+					edit_type = u"editado"
+				else: 
+					edit_type = u"refrescado"
+				flash_messages.append(u"%s %s: %s" % (obj.kind(), edit_type, obj.__str__().decode("utf-8","replace") ) ) 
+
+			memcache.set_multi(memcache_objs, time=86400)
+			flash_messages.append(u"Total edições: %s" % str(objs_adicionados))
 			memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
 			self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
-			return
 
 ###########
 # ARBITRO #

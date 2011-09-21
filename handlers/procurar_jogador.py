@@ -27,7 +27,7 @@ class ProcurarJogador(MyHandler):
 		jgd_epoca = self.request.get("epo")
 		jgd_numero = self.request.get("num")
 		cache = self.request.get("cache")
-		sid = get_sid_from_cookie()
+		sid = mymemcache.get_sid_from_cookie()
 		
 		try:
 			page_index = int(self.request.get("pg","1"))

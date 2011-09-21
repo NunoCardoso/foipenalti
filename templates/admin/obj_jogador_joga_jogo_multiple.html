@@ -29,7 +29,7 @@
 	<input id="url_parser_url" size=40 placeholder="http://www.maisfutebol.iol.pt/jogo/XXXX" />
 	<button id="url_parser">Parse</button>
 </table>
-<table>
+<table id="table_jogadores_clube1">
 		
 	<!-- clube 1-->
 	{% for i in 14|get_range %}
@@ -56,7 +56,7 @@
 			<select size=1 class="aware-change" name="jjj{{i}}_jogador_id" id="jjj{{i}}_jogador_id">
 			<option value="" DEFAULT>--</option>
 			{% for jogad in jogadores_clube1 %}
-				<option value="{{jogad.key.id}}" {% if multiple_edit and jjj_clube1|has_element:this_i and jjj_clube1|get_element:this_i|attribute:"jjj_jogador"|attribute:"jgd_nome"|eq:jogad.jgd_nome %} SELECTED{% endif %}>{{ jogad.jgd_nome }}</option>
+				<option value="{{jogad.key.id}}" {% if multiple_edit and jjj_clube1|has_element:this_i and jjj_clube1|get_element:this_i|attribute:"jjj_jogador"|attribute:"jgd_nome"|eq:jogad.jgd_nome %} SELECTED{% endif %}>{{ jogad.jgd_numero }}. {{ jogad.jgd_nome }}</option>
 			{% endfor %}
 			</select>
 			</div>
@@ -139,9 +139,10 @@
 		</td>
 	</tr>
 {% endfor %}
+</table>
+<P>&nbsp;</P>
 
-<tr><td>&nbsp;</td></tr>
-
+<table id="table_jogadores_clube2">
 	<!-- clube 2-->
 	{% for i in 14|get_range_from:28 %}
 	{% set this_i = forloop.counter0 %}
@@ -169,7 +170,7 @@
 			<select size=1 class="aware-change" name="jjj{{i}}_jogador_id" id="jjj{{i}}_jogador_id">
 			<option value="" DEFAULT>--</option>
 			{% for jogad in jogadores_clube2 %}				
-				<option value="{{jogad.key.id}}" {% if multiple_edit and jjj_clube2|has_element:this_i and jjj_clube2|get_element:this_i|attribute:"jjj_jogador"|attribute:"jgd_nome"|eq:jogad.jgd_nome %} SELECTED{% endif %}>{{ jogad.jgd_nome }}</option>
+				<option value="{{jogad.key.id}}" {% if multiple_edit and jjj_clube2|has_element:this_i and jjj_clube2|get_element:this_i|attribute:"jjj_jogador"|attribute:"jgd_nome"|eq:jogad.jgd_nome %} SELECTED{% endif %}>{{ jogad.jgd_numero }}. {{ jogad.jgd_nome }}</option>
 			{% endfor %}
 			</select>
 			</div>

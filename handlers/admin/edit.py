@@ -296,13 +296,13 @@ class Edit(MyHandler):
 			todos_jogadores_clube2 = Jogador.all().filter("jgd_clube_actual = ", obj.jog_clube2).fetch(1000)
 			
 			# JOGADOR
-			todos_jogadores_clube1 = sorted(todos_jogadores_clube1, cmp=lambda x,y: cmp(x.jgd_nome, y.jgd_nome))
-			todos_jogadores_clube2 = sorted(todos_jogadores_clube2, cmp=lambda x,y: cmp(x.jgd_nome, y.jgd_nome))
+			todos_jogadores_clube1 = sorted(todos_jogadores_clube1, cmp=lambda x,y: cmp(x.jgd_numero, y.jgd_numero))
+			todos_jogadores_clube2 = sorted(todos_jogadores_clube2, cmp=lambda x,y: cmp(x.jgd_numero, y.jgd_numero))
 			todos_jogadores = sorted(todos_jogadores, cmp=lambda x,y: cmp(x.jgd_nome, y.jgd_nome))
 			
 			# JJJ
-			jogadores_clube1 = sorted(jogadores_clube1, cmp=lambda x,y: cmp(x.jjj_jogador.jgd_nome, y.jjj_jogador.jgd_nome))
-			jogadores_clube2 = sorted(jogadores_clube2, cmp=lambda x,y: cmp(x.jjj_jogador.jgd_nome, y.jjj_jogador.jgd_nome))
+			jogadores_clube1 = sorted(jogadores_clube1, cmp=lambda x,y: cmp(x.jjj_jogador.jgd_numero, y.jjj_jogador.jgd_numero))
+			jogadores_clube2 = sorted(jogadores_clube2, cmp=lambda x,y: cmp(x.jjj_jogador.jgd_numero, y.jjj_jogador.jgd_numero))
 			
 			self.render_subdir_to_output("admin", 'edit_%s.html' % objname, {
 				'obj':obj, 'flash': flash_message,
