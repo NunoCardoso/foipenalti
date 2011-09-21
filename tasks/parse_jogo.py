@@ -67,22 +67,22 @@ class ParseJogo(MyHandler):
 		# MAISFUTEBOL
 		if url.startswith("http://www.maisfutebol.iol.pt"):
 			try:
-				f = open(os.path.dirname(os.path.abspath(__file__))+"/../tests/83726.html", "r")
-				logging.info(f)
-				html = f.read()
-				#html =  urlfetch.fetch(url)
+				#f = open(os.path.dirname(os.path.abspath(__file__))+"/../tests/83726.html", "r")
+				#logging.info(f)
+				#html = f.read()
+				html =  urlfetch.fetch(url)
 			except:
 				message = u"Erro: URL %s nao consegue ser lido" % url
 				logging.error(message)
 				return self.response.out.write(simplejson.dumps({'status':'Erro', 'message':message}))
 
-			if html:# and html.status_code == 200:
+			if html and html.status_code == 200:
 				try:
 					p = ParseMaisFutebol()
-					response = p.parse(html)#.content)
+					response = p.parse(html.content)
 					#logging.info(response)
 					if response["status"] == "OK":
-						logging.info("Parse MaisFutebol OK. Li %s bytes." % len(html))#.content))
+						logging.info("Parse MaisFutebol OK. Li %s bytes." % len(html.content))
 					else:
 						logging.info("Parse MaisFutebol FAIL: %s" % response["message"])
 						return self.response.out.write(simplejson.dumps(

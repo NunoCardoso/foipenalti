@@ -4,7 +4,7 @@ import expr
 import parser
 import yappsrt
 
-__all__ = ['find', 'findnode', 'findvalue', 'XPathContext', 'XPath']
+__all__ = ['XPathContext', 'XPath']
 __all__.extend((x for x in dir(exceptions) if not x.startswith('_')))
 
 def api(f):
@@ -63,19 +63,19 @@ class XPathContext(object):
 
     @api
     def find(self, expr, node, **kwargs):
-        return xpath.find(expr, node, context=self, **kwargs)
+        return XPath.get(expr).find(node, context=self, **kwargs)
 
     @api
     def findnode(self, expr, node, **kwargs):
-        return xpath.findnode(expr, node, context=self, **kwargs)
+		return XPath.get(expr).findnode(node, context=self, **kwargs)
 
     @api
     def findvalue(self, expr, node, **kwargs):
-        return xpath.findvalue(expr, node, context=self, **kwargs)
+        return XPath.get(expr).findvalue(node, context=self, **kwargs)
 
     @api
     def findvalues(self, expr, node, **kwargs):
-        return xpath.findvalues(expr, node, context=self, **kwargs)
+        return XPath.get(expr).findvalues(node, context=self, **kwargs)
 
 class XPath():
     _max_cache = 100
@@ -144,19 +144,3 @@ class XPath():
 
     def __str__(self):
         return str(self.expr)
-
-@api
-def find(expr, node, **kwargs):
-    return XPath.get(expr).find(node, **kwargs)
-
-@api
-def findnode(expr, node, **kwargs):
-    return XPath.get(expr).findnode(node, **kwargs)
-
-@api
-def findvalue(expr, node, **kwargs):
-    return XPath.get(expr).findvalue(node, **kwargs)
-
-@api
-def findvalues(expr, node, **kwargs):
-    return XPath.get(expr).findvalues(node, **kwargs)
