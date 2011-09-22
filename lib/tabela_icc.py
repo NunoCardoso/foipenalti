@@ -78,9 +78,11 @@ class TabelaICC:
 		porto = Clube.all().filter("clu_nome = ", "Porto").get()
 		benfica = Clube.all().filter("clu_nome = ", "Benfica").get()
 		sporting = Clube.all().filter("clu_nome = ", "Sporting").get()
+		braga = Clube.all().filter("clu_nome = ", "Braga").get()
 		porto_id = porto.key().id()
 		benfica_id = benfica.key().id()
 		sporting_id = sporting.key().id()
+		braga_id = braga.key().id()
 		
 		pior_arbitro_porto = None
 		melhor_arbitro_porto = None
@@ -88,6 +90,8 @@ class TabelaICC:
 		melhor_arbitro_benfica = None
 		pior_arbitro_sporting = None
 		melhor_arbitro_sporting = None
+		pior_arbitro_braga = None
+		melhor_arbitro_braga = None
 		
 		for idx, val in enumerate(self.tabela):
 			arb_id = self.tabela[idx]["arb"]
@@ -144,6 +148,22 @@ class TabelaICC:
 								if clus_list[idx]["icc"] < melhor_arbitro_sporting["icc"]:
 									melhor_arbitro_sporting = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
 
+				if clus_list[idx]["clu"] == braga_id:
+
+					if clus_list[idx]["icc"] < -0.01 or clus_list[idx]["icc"] > 0.01: # if we have something interesting:
+						if clus_list[idx]["icc"] < -0.01:
+							if pior_arbitro_braga == None:
+								pior_arbitro_braga = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
+							else:
+								if clus_list[idx]["icc"] < pior_arbitro_braga["icc"]:
+									pior_arbitro_braga = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
+						if clus_list[idx]["icc"] > 0.01:
+							if melhor_arbitro_braga == None:
+								melhor_arbitro_braga = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
+							else:
+								if clus_list[idx]["icc"] < melhor_arbitro_braga["icc"]:
+									melhor_arbitro_braga = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
+
 		if pior_arbitro_porto:
 			pior_arbitro_porto["arb"] = Arbitro.get_by_id(pior_arbitro_porto["arb"])
 		if melhor_arbitro_porto:
@@ -156,7 +176,12 @@ class TabelaICC:
 			pior_arbitro_sporting["arb"] = Arbitro.get_by_id(pior_arbitro_sporting["arb"])
 		if melhor_arbitro_sporting:
 			melhor_arbitro_sporting["arb"] = Arbitro.get_by_id(melhor_arbitro_sporting["arb"])
+		if pior_arbitro_braga:
+			pior_arbitro_braga["arb"] = Arbitro.get_by_id(pior_arbitro_braga["arb"])
+		if melhor_arbitro_braga:
+			melhor_arbitro_braga["arb"] = Arbitro.get_by_id(melhor_arbitro_braga["arb"])
 		
-		return [{"clu":porto, "pior_arbitro": pior_arbitro_porto, "melhor_arbitro":melhor_arbitro_porto},
-			{"clu":benfica, "pior_arbitro": pior_arbitro_benfica,"melhor_arbitro":melhor_arbitro_benfica},
-			{"clu":sporting, "pior_arbitro":pior_arbitro_sporting,"melhor_arbitro":melhor_arbitro_sporting}]
+		return [{"clube":porto, "pior_arbitro": pior_arbitro_porto, "melhor_arbitro":melhor_arbitro_porto},
+			{"clube":benfica, "pior_arbitro": pior_arbitro_benfica,"melhor_arbitro":melhor_arbitro_benfica},
+			{"clube":sporting, "pior_arbitro":pior_arbitro_sporting,"melhor_arbitro":melhor_arbitro_sporting},
+			{"clube":braga, "pior_arbitro":pior_arbitro_braga,"melhor_arbitro":melhor_arbitro_braga}]

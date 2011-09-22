@@ -1,12 +1,44 @@
 {% autoescape off %}
-
-{% for clube in top_clubes_beneficiados_icc %}
-	{{clube}}
-{% endfor %}
+<header style="text-align:center;"><H3><a href="/detalhe_epoca?menu=detalhe_epoca_indices&tab=grafico">Top clubes com ICC&#0153;</a></H3></header>
+<table class="fp-table fp-table-estatisticas-homepage" style="width:250px;height:210px;font.size:13px;">
 
 {% for clube in top_clubes_prejudicados_icc %}
-	{{clube}}
+	<tr>
+		<td style="width:90px;">
+			<div class="barra-clube-logo" style="height:25px;text-align:center;">
+				<a href="/detalhe_clube?id={{clube.clu.key.id}}">
+					<div style="float:left;vertical-align:middle;">
+						<img style="height:100%;" src="{{clube.clu.clu_link_logo}}">
+					</div>
+					<p class="marqueeable" style="line-height:25px;">{{clube.clu.clu_nome_curto}}</p>
+				</A>
+			</div>
+		</td>
+		<td style="width:160px;">
+			<div style="width:{{clube.height|absvalue|divideby:2}}px;height:20px;display:inline-block;background-image:url('img/green_bar_horiz_20.png');background-repeat:x;vertical-align:middle;"></div>
+		 {{clube.icc}}	
+		</td>
+	</tr>
 {% endfor %}
 
-
+<tr><td colspan="2">&nbsp;</td></tr>
+{% for clube in top_clubes_beneficiados_icc %}
+	<tr>
+		<td style="width:90px;">
+			<div class="barra-clube-logo" style="height:25px;text-align:center;">
+				<a href="/detalhe_clube?id={{clube.clu.key.id}}">
+					<div style="float:left;vertical-align:middle;">
+						<img style="height:100%;" src="{{clube.clu.clu_link_logo}}">
+					</div>
+					<p class="marqueeable" style="line-height:25px;">{{clube.clu.clu_nome_curto}}</p>
+				</A>
+			</div>
+		</td>
+		<td style="width:160px;">
+			<div style="width:{{clube.height|absvalue|divideby:2}}px;height:20px;display:inline-block;background-image:url('img/red_bar_horiz_20.png');background-repeat:x;vertical-align:middle;"></div>
+		 {{clube.icc}}	
+		</td>
+	</tr>
+{% endfor %}
+</table>
 {% endautoescape %}

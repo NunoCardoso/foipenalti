@@ -1,12 +1,47 @@
 {% autoescape off %}
+<header style="text-align:center;"><H3><a href="/detalhe_epoca?menu=detalhe_epoca_arbitros">Top árbitros com ICA&#0153;</a></H3></header>
+<table class="fp-table fp-table-estatisticas-homepage" style="width:290px;height:210px;font.size:13px;">
 
 {% for arbitro in top_arbitros_bons_ica %}
-	{{arbitro}}
+	<tr>
+		<td style="width:100px;">
+			<div class="fp-jogador-small-img fp-shadow">
+				<a href="/detalhe_arbitro?id={{arbitro.arb.key.id}}">
+				<img style="height:25px;-moz-border-radius:8px;" src="{{arbitro.arb.arb_link_foto}}">
+				</a>
+			</div>
+			<div style="font-size:12px;line-height: 25px;">
+				<a href="/detalhe_arbitro?id={{arbitro.arb.key.id}}">
+				<p class="marqueeable">{{arbitro.arb.arb_nome}}</p>
+				</a>
+			</div>
+		</td>
+		<td style="width:140px;">
+			<div style="width:{{arbitro.height|absvalue|divideby:2}}px;height:20px;display:inline-block;background-image:url('img/green_bar_horiz_20.png');background-repeat:x;vertical-align:middle;"></div>
+		 {{arbitro.ica}}	
+		</td>
+	</tr>
 {% endfor %}
 
 {% for arbitro in top_arbitros_maus_ica %}
-	{{arbitro}}
+<tr>
+	<td style="width:190px;">
+		<div class="fp-jogador-small-img fp-shadow">
+			<a href="/detalhe_arbitro?id={{arbitro.arb.key.id}}">
+			<img style="height:25px;-moz-border-radius:8px;" src="{{arbitro.arb.arb_link_foto}}">
+			</a>
+		</div>
+		<div style="font-size:12px;line-height: 25px;">
+			<a href="/detalhe_arbitro?id={{arbitro.arb.key.id}}">
+			<p class="marqueeable">{{arbitro.arb.arb_nome}}</p>
+			</a>
+		</div>
+	</td>
+	<td style="width:140px;">
+		<div style="width:{{arbitro.height|absvalue|divideby:2}}px;height:20px;display:inline-block;background-image:url('img/red_bar_horiz_20.png');background-repeat:x;vertical-align:middle;"></div>
+	 {{arbitro.ica}}	
+	</td>
+</tr>
 {% endfor %}
-
-
+</table>
 {% endautoescape %}

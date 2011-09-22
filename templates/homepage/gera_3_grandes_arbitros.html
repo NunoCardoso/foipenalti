@@ -1,7 +1,54 @@
 {% autoescape off %}
+<header style="text-align:center;">
+	<H3><a href="/detalhe_epoca?menu=detalhe_epoca_indices&tab=tabela">Os "árbitros" dos 3 grandes</a></H3>
+</header>
+<table class="fp-table fp-table-estatisticas-homepage" style="width:310px;height:210px;">
 
-{% for clube_info in top_tabela_icc_3_grandes %}
-	{{clube_info}}
+	{% for clube_info in top_tabela_icc_3_grandes %}
+	<tr>
+		<td style="width:60px;">
+			<div class="barra-clube-logo" style="height:35px;text-align:center;padding:5px;">
+				<a href="/detalhe_clube?id={{clube_info.clube.key.id}}">
+					<img style="height:100%;" src="{{clube_info.clube.clu_link_logo}}">
+				</A>
+				<div style="font-size:8px;">
+					<p class="marqueeable">{{clube_info.clube.clu_nome_curto}}</p>
+				</div>
+			</div>
+		</td>
+		<td style="width:125px;">
+			{% if clube_info.melhor_arbitro %}
+			<div class="fp-jogador-small-img fp-shadow">
+				<a href="/detalhe_arbitro?id={{clube_info.melhor_arbitro.arb.key.id}}">
+				<img style="height:25px;-moz-border-radius:8px;" src="{{clube_info.melhor_arbitro.arb.arb_link_foto}}">
+				</a>
+			</div>
+			<div>{{clube_info.melhor_arbitro.icc}} 
+				<img style="width:20px;height:20px;" src="img/thumbs_up.png">
+			</div>
+			<p class="marqueeable">
+				<a href="/detalhe_arbitro?id={{clube_info.melhor_arbitro.arb.key.id}}">{{clube_info.melhor_arbitro.arb.arb_nome}}</A>
+			</p>
+			{% endif %}	
+		</td>
+
+		<td style="width:125px;">
+			{% if clube_info.pior_arbitro %}
+			<div class="fp-jogador-small-img fp-shadow">
+				<a href="/detalhe_arbitro?id={{clube_info.pior_arbitro.arb.key.id}}">
+				<img style="height:25px;-moz-border-radius:8px;" src="{{clube_info.pior_arbitro.arb.arb_link_foto}}">
+				</a>
+			</div>
+	
+			<div>{{clube_info.pior_arbitro.icc}} 
+				<img style="width:20px;height:20px;" src="img/thumbs_down.png">
+			</div>
+			<p class="marqueeable">
+				<a href="/detalhe_arbitro?id={{clube_info.pior_arbitro.arb.key.id}}">{{clube_info.pior_arbitro.arb.arb_nome}}</A>
+			</p>
+			{% endif %}
+		</td>
+	</tr>
 {% endfor %}
-
+</table>
 {% endautoescape %}

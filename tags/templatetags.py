@@ -268,6 +268,10 @@ def subtractfrom(value, value2):
 def absvalue(value):
 	return abs(value)
 	
+@register.filter("divideby")
+def divideby(value, value2):
+	return value / value2
+	
 @register.filter("ispositive")
 def ispositive(value):
 	return abs(value) == value

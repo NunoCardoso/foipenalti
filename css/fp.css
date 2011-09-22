@@ -255,6 +255,13 @@
 	border:1px solid #ccc;
 }
 
+.fp-jogador-small-img {
+	float:left;
+	padding:2px;
+	margin-right:2px;
+	border:1px solid #ccc;
+}
+
 .fp-link-video:hover {
 	text-decoration:none;
 	background:#1f3c58;
@@ -561,6 +568,15 @@
 /*	-moz-border-radius: 0px 0px 12px 0px;	
 	-webkit-border-radius:0px 0px 12px 0px;	
 	border-radius:0px 0px 12px 0px;	*/
+}
+
+.fp-table-estatisticas-homepage {
+	font-size:12px;
+}
+
+.fp-table-estatisticas-homepage tr:last-child td {
+	padding:2px;
+	border-bottom:none !important;
 }
 
 .fp-tabela-classificacao-linha-lugar-descida {
