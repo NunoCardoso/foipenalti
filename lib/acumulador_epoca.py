@@ -11,6 +11,9 @@ import classes
 import acumulador
 
 from classes import * #Lance
+from tabela_icc import TabelaICC
+from grafico_icc import GraficoICC
+from grafico_ica import GraficoICA
 import listas
 
 # este do_id tem que lidar com hashes, e também com listas ordenadas
@@ -294,8 +297,7 @@ def gera(epoca, acue_basico,
 	
 	if acue_tabela_icc == "on":
 		# vamos assumir que sabemos que queremos uma tabela icc / Liga
-		tabela = acumulador.gera_tabela_icc(stats, clubes)
-		stats["tabela_icc"] = tabela
+		stats["tabela_icc"] = TabelaICC.gera_nova_tabela_icc(stats, clubes)
 
 ###########
 ### ICC ###
@@ -303,8 +305,9 @@ def gera(epoca, acue_basico,
 	
 	if acue_icc == "on":
 		# vamos assumir que sabemos que queremos uma tabela icc / Liga
-		tabela = acumulador.gera_icc(stats, clubes)
-		stats["icc"] = tabela
+		arbitros = Arbitro.all().fetch(1000)
+		stats["icc"] = GraficoICC.gera_novo_grafico_icc(stats, clubes)
+		stats["ica"] = GraficoICA.gera_novo_grafico_ica(stats, arbitros)
 
 ############
 ### TOPS ###

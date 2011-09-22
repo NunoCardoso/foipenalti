@@ -13,6 +13,9 @@ from models import blog
 from handlers.detalhe_jornada import DetalheJornada
 from google.appengine.api import memcache
 from lib import listas
+from lib.tabela_icc import TabelaICC
+from lib.grafico_icc import GraficoICC
+from lib.grafico_ica import GraficoICA
 
 class HomePage(MyCacheHandler):
 		
@@ -143,13 +146,38 @@ class HomePage(MyCacheHandler):
 		if cl_virtual:
 			for idx, item in enumerate(cl_virtual["total"]):
 				cl_virtual["total"][idx]["clube"] = clus[cl_virtual["total"][idx]["clu"]]
-		
+
+# CRIAR BLOG POSTS		
 		posts = blog.Post.all().order('-pub_date').fetch(blogpost_limit)
+
+# CRIAR TOPS CLUBES ICC
+		grafico = GraficoICC()
+		grafico.load_grafico_icc_for_epoca(self.epoca)
+
+		top_clubes_beneficiados_icc = grafico.get_top_beneficiados(3)
+		top_clubes_prejudicados_icc =  grafico.get_top_prejudicados(3)
 		
-		ultimo_jogo = listas.get_top_jogos_recentes()[0]
-		ultimo_jogador = listas.get_top_jogadores_recentes()[0]
-		ultimo_arbitro = listas.get_top_arbitros_recentes()[0]
-		ultimo_jornada = listas.get_top_jornadas_recentes()[0]
+		for idx, val in enumerate(top_clubes_beneficiados_icc):
+			top_clubes_beneficiados_icc[idx]["clu"] = Clube.get_by_id(top_clubes_beneficiados_icc[idx]["clu"])
+		for idx, val in enumerate(top_clubes_prejudicados_icc):
+			top_clubes_prejudicados_icc[idx]["clu"] = Clube.get_by_id(top_clubes_prejudicados_icc[idx]["clu"])	
+
+# CRIAR TOPS ARBITROS ICA
+		grafico_ica = GraficoICA()
+		grafico_ica.load_grafico_ica_for_epoca(self.epoca)
+
+		top_arbitros_bons_ica = grafico_ica.get_top_bons(3)
+		top_arbitros_maus_ica = grafico_ica.get_top_maus(3)
+
+		for idx, val in enumerate(top_arbitros_bons_ica):
+			top_arbitros_bons_ica[idx]["arb"] = Arbitro.get_by_id(top_arbitros_bons_ica[idx]["arb"])
+		for idx, val in enumerate(top_arbitros_maus_ica):
+			top_arbitros_maus_ica[idx]["arb"] = Arbitro.get_by_id(top_arbitros_maus_ica[idx]["arb"])	
+
+# CRIAR TOPS 3 GRANDES/ÁRBITROS (TABELA ICC)	
+		tabela_icc = TabelaICC()
+		tabela_icc.load_tabela_icc_for_epoca(self.epoca)
+		top_tabela_icc_3_grandes = tabela_icc.get_top_arbitros_para_3_grandes()
 
 		dados = {
 			"cl_real":cl_real["total"],
@@ -163,7 +191,16 @@ class HomePage(MyCacheHandler):
 			"today_year":today_year, 
 			"next_month":next_month, 
 			"next_year":next_year,
+			
 			"posts":posts,
+			
+			"top_clubes_beneficiados_icc":top_clubes_beneficiados_icc,
+			"top_clubes_prejudicados_icc":top_clubes_prejudicados_icc,
+			
+			"top_tabela_icc_3_grandes":top_tabela_icc_3_grandes,
+			
+			"top_arbitros_bons_ica":top_arbitros_bons_ica,
+			"top_arbitros_maus_ica":top_arbitros_maus_ica,
 			
 			"jogadores_populares":listas.get_top_jogadores_populares(),
 			"clubes_populares":listas.get_top_clubes_populares(),
@@ -175,7 +212,6 @@ class HomePage(MyCacheHandler):
 			"jogos_recentes":listas.get_top_jogos_recentes(),
 			"lances_recentes":listas.get_top_lances_recentes(),
 			"arbitros_recentes":listas.get_top_arbitros_recentes(),
-			
 		}
 		
 		if jornada_anterior != None:
@@ -238,8 +274,23 @@ class HomePage(MyCacheHandler):
 			"jornada_dados": self.dados['jornada_posterior_dados']
 		})
 
+		top_arbitros_ica_html = self.render_subdir('homepage','gera_tops_arbitros_ica.html', {
+			"top_arbitros_bons_ica": self.dados['top_arbitros_bons_ica'],
+			"top_arbitros_maus_ica": self.dados['top_arbitros_maus_ica']
+		})
+		
+		top_clubes_icc_html = self.render_subdir('homepage','gera_tops_clubes_icc.html', {
+			"top_clubes_beneficiados_icc": self.dados['top_clubes_beneficiados_icc'],
+			"top_clubes_prejudicados_icc": self.dados['top_clubes_prejudicados_icc']
+		})
+		
+		top_3_grandes_arbitros_html = self.render_subdir('homepage','gera_3_grandes_arbitros.html', {
+			"top_tabela_icc_3_grandes": self.dados['top_tabela_icc_3_grandes']
+		})
+		
 		#logging.info("Rendering homepage")
 		html = self.render_subdir('homepage','homepage.html', {
+		
 			"classificacao_real_html":classificacao_real_html,
 			"classificacao_virtual_html":classificacao_virtual_html,
 			
@@ -250,12 +301,17 @@ class HomePage(MyCacheHandler):
 			"noticias_html": noticias_html,
 						
 			"jogos_calendario": self.dados['jogos_calendario'],
+			
 			"last_month":self.dados['last_month'],
 			"last_year":self.dados['last_year'],
 			"today_month":self.dados['today_month'],
 			"today_year":self.dados['today_year'],
 			"next_month":self.dados['next_month'],
 			"next_year":self.dados['next_year'],
+			
+			"top_arbitros_ica_html":top_arbitros_ica_html,
+			"top_clubes_icc_html":top_clubes_icc_html,
+			"top_3_grandes_arbitros_html":top_3_grandes_arbitros_html,
 				
 			"jogadores_populares":self.dados['jogadores_populares'],
 			"clubes_populares":self.dados['clubes_populares'],

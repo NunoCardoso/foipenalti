@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 import logging
 import sys
-from externals.dominic import DOM
+from externals.css2xpath import DOM
 import re
 import traceback
+
+from xml.dom import minidom
+
 
 class ParseMaisFutebol:
 	
 	def reDOM(self, val):
-		return DOM("%s" % val.html())
+	#	logging.info(type(val.html()))
+		return DOM(val.html().encode("utf-8"))
 
 	def parse(self, html):
 
@@ -41,14 +45,19 @@ class ParseMaisFutebol:
 # TABELAS EQUIPAS	
 		try:	
 			tabelas = maindiv.find('div.equipa > table.fj2')
-			logging.info(tabelas)
 			tabelas_equipas = self.reDOM(tabelas[0])
-	
+		except:
+			logging.error("Não consegui ler a div.equipa > table.fj2")
+			trace = "".join(traceback.format_exc())
+			logging.error(trace)
+			return {"status":"Error","message":sys.exc_info()}
+
+		try:
 			tacticas_equipa1 = tabelas_equipas.xpath("/table/tr[position()=1]/td[position()=1]")[0].text().strip()  
 			tacticas_equipa2 = tabelas_equipas.xpath("/table/tr[position()=1]/td[position()=3]")[0].text().strip()
 		except:
 			trace = "".join(traceback.format_exc())
-			logging.error("Não consegui ler div.equipa > table.fj2")
+			logging.error("Não consegui xpath table")
 			logging.error(trace)
 			return {"status":"Error","message":sys.exc_info()}
 			

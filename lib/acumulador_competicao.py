@@ -13,6 +13,9 @@ import acumulador
 
 from classes import * #Lance
 from classificacao import Classificacao
+from tabela_icc import TabelaICC
+from grafico_icc import GraficoICC
+from grafico_ica import GraficoICA
 from copy import deepcopy
 
 def doit(content, stats):
@@ -187,11 +190,10 @@ def gera(competicao, acuc_basico,
 		clubes = Clube.get_by_id(clubes_liga_ids)
 
 	clubes = sorted(clubes, cmp=lambda x,y: cmp(x.clu_numero_visitas, y.clu_numero_visitas), reverse=True)
-
+	
 	if acuc_tabela_icc == "on":
 		# vamos assumir que sabemos que queremos uma tabela icc / Liga
-		tabela = acumulador.gera_tabela_icc(stats_total, clubes)
-		stats_total["tabela_icc"] = tabela
+		stats_total["tabela_icc"] = TabelaICC.gera_nova_tabela_icc(stats_total, clubes)
 
 ###########
 ### ICC ###
@@ -199,9 +201,10 @@ def gera(competicao, acuc_basico,
 	
 	if acuc_icc == "on":
 		# vamos assumir que sabemos que queremos uma tabela icc / Liga
-		tabela = acumulador.gera_icc(stats_total, clubes)
-		stats_total["icc"] = tabela
-
+		arbitros = Arbitro.all().fetch(1000)
+		stats_total["icc"] = GraficoICC.gera_novo_grafico_icc(stats_total, clubes)
+		stats_total["ica"] = GraficoICA.gera_novo_grafico_ica(stats_total, arbitros)
+		
 ############
 ### TOPS ###
 ############

@@ -971,7 +971,7 @@ class CacheHTML(db.Model):
 			'detalhe_jogador_jogos',
 			'detalhe_jogador_sumario',
 
-			'icc','detalhe_icc','classificacao','tabela_icc',
+			'icc','ica','detalhe_icc','classificacao','tabela_icc',
 			'top_arbitros','top_clubes','top_jogadores','top_jogos',
 			'rss')
 		)
@@ -985,7 +985,7 @@ class CacheDados(db.Model):
 		choices=('homepage',
 			'detalhe_competicao','detalhe_jornada','detalhe_jogo','detalhe_lance',
 			'detalhe_arbitro','detalhe_clube','detalhe_jogador',
-			'icc','detalhe_icc','classificacao','tabela_icc',
+			'icc','ica','detalhe_icc','classificacao','tabela_icc',
 			'top_arbitros','top_clubes','top_jogadores','top_jogos',
 			'rss')
 		)
@@ -1031,7 +1031,7 @@ class AcumuladorCompeticao(db.Model):
       collection_name='cmp_acumulador_competicoes')
 	acuc_namespace = db.StringProperty(
 		choices=('arbitro','clube','jogador','lance','jogo',
-		'classificacao_real','classificacao_virtual','icc','tabela_icc',
+		'classificacao_real','classificacao_virtual','icc','ica','tabela_icc',
 		'top_clubes','top_arbitros','top_jogadores','top_lances','top_jogos',
 		#OBSOLETO
 		'matriz_arbitro_clube')
@@ -1043,7 +1043,7 @@ class AcumuladorCompeticao(db.Model):
 	acuc_namespaces = ["arbitro", "jogo","jogador","clube", 
 			"top_arbitros","top_clubes", "top_jogos", "top_jogadores",
 			"classificacao_real","classificacao_virtual",
-			"tabela_icc","icc"]
+			"tabela_icc","icc","ica"]
 	
 	fields = [{'Versão':'acuc_versao'},
 				 {'Época':'acuc_epoca'},
@@ -1067,7 +1067,7 @@ class AcumuladorEpoca(db.Model):
       collection_name='epo_acumulador_epocas')
 	acue_namespace = db.StringProperty(
 		choices=('arbitro','clube','jogador','lance','jogo',
-		'icc','tabela_icc',
+		'icc','tabela_icc','ica',
 		'top_clubes','top_arbitros','top_jogadores','top_lances','top_jogos',
 		# OBSOLETO
 		'matriz_arbitro_clube')
@@ -1077,7 +1077,7 @@ class AcumuladorEpoca(db.Model):
 
 	acue_namespaces = ["arbitro", "jogo","jogador","clube", 
 			"top_arbitros","top_clubes", "top_jogos", "top_jogadores",
-			"tabela_icc","icc"]
+			"tabela_icc","icc","ica"]
 
 	fields = [{'Versão':'acue_versao'},
 				 {'Época':'acue_epoca'},

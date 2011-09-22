@@ -36,6 +36,7 @@ from lib import autocomplete
 from admin import delete, edit, list, new, new_multiple, save, save_multiple, admin, home
 from tasks import acumulador_task_manager, refresh_acumuladores, parse_jogo
 from mail import sendmail
+from externals import xpath
 
 # handler
 import blog, blogadmin
