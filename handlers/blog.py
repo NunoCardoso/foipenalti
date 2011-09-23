@@ -7,7 +7,7 @@ import re
 
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
-from models import blog
+
 import blogview as view
 import logging
 from classes import *

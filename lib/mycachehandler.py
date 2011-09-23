@@ -2,7 +2,7 @@
 
 from google.appengine.api import memcache
 from google.appengine.ext import db
-
+from google.appengine.api import users 
 import logging
 import config
 import os
@@ -10,6 +10,7 @@ import re
 import datetime
 import hashlib
 import django
+
 from classes import *
 from myhandler import MyHandler
 
@@ -24,12 +25,17 @@ class MyCacheHandler(MyHandler):
 	softcache_html = None
 	hardcache_html = None
 	cache_namespace = None
-	
+	user_is_admin = False
 		
 	def head(self):
 		self.response.set_status(200)
 		return
-		
+	
+	def checkIfAdminUser(self):
+		user = users.get_current_user()
+		if user:
+			self.user_is_admin = users.is_current_user_admin()
+
 	def requestHandler(self):
 		
 		if self.use_cache and not self.refreshen_cache:
@@ -37,7 +43,6 @@ class MyCacheHandler(MyHandler):
 			# hack: if RSS:
 			if self.cache_namespace == "rss":
 			   self.response.headers['Content-Type'] = 'application/rss+xml'
-
 
 # 1: check cache HTML
 			

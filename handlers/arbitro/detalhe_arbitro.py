@@ -38,6 +38,7 @@ class DetalheArbitro(MyCacheHandler):
 			self.redirect(referer)	
 			return
 		self.checkCacheFreshen()
+		self.checkIfAdminUser()
 		self.requestHandler()
 		self.arbitro.arb_numero_visitas += 1
 		self.arbitro.put() 
@@ -63,12 +64,13 @@ class DetalheArbitro(MyCacheHandler):
 		}
 
 	def renderHTML(self):
+		
 		flash_message = None
 		if self.sid:
 			flash_message = memcache.get(str(self.sid), namespace="flash")
 			if flash_message:
 				memcache.delete(str(self.sid), namespace="flash")
-		
+
 		html = self.render_subdir('arbitro','detalhe_arbitro.html', {
 			"arbitro": self.arbitro,
 			"epoca":self.epoca,

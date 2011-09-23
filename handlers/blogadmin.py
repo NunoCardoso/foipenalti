@@ -5,7 +5,7 @@ import datetime
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
-from models import blog
+import classes
 import blogview as view
 from lib.myhandler import MyHandler
 

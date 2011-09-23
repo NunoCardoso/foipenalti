@@ -9,7 +9,6 @@ import classes
 
 from classes import *
 from lib.mycachehandler import MyCacheHandler
-from models import blog
 from handlers.detalhe_jornada import DetalheJornada
 from google.appengine.api import memcache
 from lib import listas

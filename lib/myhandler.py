@@ -32,20 +32,16 @@ class MyHandler(webapp.RequestHandler):
 	pattern = re.compile("<!--STARTCUTTINGPART-->(.*)<!--ENDCUTTINGPART-->", re.S)
 	
 	def render_template_block(self, template_file, template_values={}):
-		#renderer = Renderer()
 		val = MyHandler.render(self, template_file, template_values)
 		m = MyHandler.pattern.search(val)
 		return m.group(1)
 
 	def render_subdir_template_block(self, template_dir, template_file, template_values={}):
-		#renderer = Renderer()
 		val = MyHandler.render_subdir(self, template_dir, template_file, template_values)
 		m = MyHandler.pattern.search(val)
 		return m.group(1)
 		
 	def render(self, template_file, template_values={}):
-		"""Render a template"""
-		
 		values = {
 		'host':os.environ['HTTP_HOST'],
 		'request':self.request,
@@ -62,7 +58,6 @@ class MyHandler(webapp.RequestHandler):
 		return template.render(template_path, values)
 
 	def render_subdir(self, template_dir, template_file, template_values={}):
-		"""Render a template"""
 		values = {
 		'host':os.environ['HTTP_HOST'],
 		'request':self.request,
@@ -73,24 +68,19 @@ class MyHandler(webapp.RequestHandler):
 		"lista_top_arbitros_populares": listas.get_top_arbitros_populares(),
 		"lista_top_lances_populares": listas.get_top_lances_populares()
 		}
-		 
 		values.update(template_values)
-
 		template_path = os.path.join(config.APP_ROOT_DIR, config.TEMPLATE_DIR, template_dir, template_file)
-		
 		return template.render(template_path, values)
 	
 	def render_to_output(self, template_file, template_values={}):
-	#	renderer = Renderer()
 		val = MyHandler.render(self, template_file, template_values)
 		self.response.out.write(val)
 		
 	def render_subdir_to_output(self, template_dir, template_file, template_values={}):
-	#	renderer = Renderer()
 		val = MyHandler.render_subdir(self, template_dir, template_file, template_values)
 		self.response.out.write(val)
 
-	# et milliseconds	
+	# get milliseconds	
 	def generate_sid(self):
 		return int(round(time.time() * 1000))
 

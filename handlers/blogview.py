@@ -11,7 +11,7 @@ from google.appengine.api import memcache
 from google.appengine.api import users
 
 import config
-from models import blog
+import classes
 			
 def get_archive_list():
     """Return a list of the archive months and their article counts."""

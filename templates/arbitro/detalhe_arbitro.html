@@ -2,6 +2,7 @@
 {% block title %}{{arbitro.arb_nome}}{% endblock %}
 {% block content %} 
 {% spaceless %}
+
 {% if flash %}
 	{% if flash|startswith:"Err" %}
     <div class="flash-err-msg fp-shadow fp-medium-radius">{{ flash }}</div>
@@ -9,8 +10,14 @@
 	 <div class="flash-ok-msg fp-shadow fp-medium-radius">{{ flash }}</div>
 	{% endif %}
 {% endif %}
+
 {% autoescape off %}
 {% if arbitro %} 
+
+{% if user_is_admin %}
+    <div><a href="/admin/arbitro/edit?id={{arbitro.key.id}}">Administrar árbitro</a></div>
+{% endif %}
+
 <div class="fp-video-box fp-shadow fp-medium-radius" id="fp-fixed-video-screen-div" style="display:none;">
 	<a href="#" class="minimize-video" style="text-align:left;display:block;font-size:10px;height:10px;">[x] Esconder</A> 
 	<div id="fp-fixed-video-screen"></div>
