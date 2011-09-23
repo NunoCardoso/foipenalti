@@ -59,7 +59,7 @@ class DetalheJogo(MyCacheHandler):
 			logging.info("refreshen cache = true")
 			
 	def renderDados(self):
-		#logging.info("renderDados")
+		
 		jogo_dados = {
 			"guarda_redes1":None,
 			"guarda_redes2":None,
@@ -75,9 +75,22 @@ class DetalheJogo(MyCacheHandler):
 			"icc_clube2":0,
 			"ia":""
 		}
-			
+		
+		jornada_anterior = self.jogo.jog_jornada.jor_competicao.cmp_jornadas.filter("jor_ordem = ", self.jogo.jog_jornada.jor_ordem - 1).get()
+		jornada_posterior = self.jogo.jog_jornada.jor_competicao.cmp_jornadas.filter("jor_ordem = ", self.jogo.jog_jornada.jor_ordem + 1).get()
+		jogo_anterior_clube1 = None
+		jogo_anterior_clube2 = None
+		jogo_posterior_clube1 = None
+		jogo_posterior_clube2 = None
+		
+		if jornada_anterior:
+			jogo_anterior_clube1 = jornada_anterior.jor_jogos.filter("jog_clubes = ", self.jogo.jog_clube1).get()
+			jogo_anterior_clube2 = jornada_anterior.jor_jogos.filter("jog_clubes = ", self.jogo.jog_clube2).get()
+		if jornada_posterior:
+			jogo_posterior_clube1 = jornada_posterior.jor_jogos.filter("jog_clubes = ", self.jogo.jog_clube1).get()
+			jogo_posterior_clube2 = jornada_posterior.jor_jogos.filter("jog_clubes = ", self.jogo.jog_clube2).get()
+		
 		for jjj_jogador in self.jogo.jog_jogadores:
-		#logging.info(jjj_jogador)
 			jogador = jjj_jogador.jjj_jogador
 			clube = jjj_jogador.jjj_clube
 			ctj = ClubeTemJogador.all().filter("ctj_jogador = ", jogador).filter("ctj_clube = ", clube).filter("ctj_epocas = ", self.jogo.jog_epoca.key()).get()
@@ -153,8 +166,27 @@ class DetalheJogo(MyCacheHandler):
 		 	"tipo": Lance.translation_classe[lance.lan_classe]
 			}
 			lances.append(prop)
-				
-		return {"jogos":jogo_dados, "lances":lances}
+			
+		logging.info(	{
+			"jogos":jogo_dados,
+			"lances":lances,
+			"jornada_anterior":jornada_anterior,
+			"jornada_posterior":jornada_posterior,
+			"jogo_anterior_clube1":jogo_anterior_clube1,
+			"jogo_anterior_clube2":jogo_anterior_clube2,
+			"jogo_posterior_clube1":jogo_posterior_clube1,
+			"jogo_posterior_clube2":jogo_posterior_clube2
+			})	
+		return {
+		"jogos":jogo_dados,
+		"lances":lances,
+		"jornada_anterior":jornada_anterior,
+		"jornada_posterior":jornada_posterior,
+		"jogo_anterior_clube1":jogo_anterior_clube1,
+		"jogo_anterior_clube2":jogo_anterior_clube2,
+		"jogo_posterior_clube1":jogo_posterior_clube1,
+		"jogo_posterior_clube2":jogo_posterior_clube2
+		}
 
 	def renderHTML(self):
 		flash_message = None
@@ -180,9 +212,14 @@ class DetalheJogo(MyCacheHandler):
 			}))
 			
 		html = self.render('detalhe_jogo.html', {
-			## feedback of get variables
 			"jogo": self.jogo,
 			"jogo_dados": self.dados["jogos"],
+			"jornada_anterior":self.dados["jornada_anterior"],
+			"jornada_posterior":self.dados["jornada_posterior"],
+			"jogo_anterior_clube1":self.dados["jogo_anterior_clube1"],
+			"jogo_anterior_clube2":self.dados["jogo_anterior_clube2"],
+			"jogo_posterior_clube1":self.dados["jogo_posterior_clube1"],
+			"jogo_posterior_clube2":self.dados["jogo_posterior_clube2"],
 			"lances_html":lances_html,
 			"ficha_de_jogo_html":ficha_de_jogo_html,
 			"sumario_actuacao_arbitro_html":sumario_actuacao_arbitro_html,

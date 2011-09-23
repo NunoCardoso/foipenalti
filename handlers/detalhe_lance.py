@@ -58,10 +58,23 @@ class DetalheLance(MyCacheHandler):
 			self.refreshen_cache = True
 
 	def renderDados(self):
-		dados = {"lance": self.lance, 
+		
+		lances_siblings = self.lance.lan_jogo.jog_lances
+		lance_anterior = None
+		lance_posterior = None
+		for lan in lances_siblings:
+			if lan.lan_numero == self.lance.lan_numero - 1:
+				lance_anterior = lan
+			if lan.lan_numero == self.lance.lan_numero + 1:
+				lance_posterior = lan
+				
+		dados = {
+			"lance": self.lance, 
+			"lance_anterior":lance_anterior,
+			"lance_posterior":lance_posterior,
 			"comentarios":self.lance.lan_comentadores.fetch(1000),
-			 "protagonistas": self.lance.lan_jogadores.fetch(1000),
-			 "tipo": Lance.translation_classe[self.lance.lan_classe]
+			"protagonistas": self.lance.lan_jogadores.fetch(1000),
+			"tipo": Lance.translation_classe[self.lance.lan_classe]
 		}	
 		return dados
 
@@ -73,14 +86,14 @@ class DetalheLance(MyCacheHandler):
 				memcache.delete(str(self.sid), namespace="flash")
 		
 		html = self.render('detalhe_lance.html', {
-			## feedback of get variables
 			"lance_html":self.render_subdir("gera","gera_lance.html", {
 				"lance":self.dados
-				}),
+			}),
+			"lance_anterior":self.dados['lance_anterior'],
+			"lance_posterior":self.dados['lance_posterior'],
 			"lance":self.dados['lance'],
 			"flash":flash_message
 		})
-		
 		return html
 		
 	def decontaminate_vars(self):

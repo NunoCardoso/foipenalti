@@ -391,6 +391,8 @@ def print_epocas_keys(lista):
 
 @register.filter("printjogo4clube")
 def printjogo4clube( jogo, clube ):
+  if not jogo:
+	return ""
   return jogo.printjogo(clube)
 
 @register.filter("printjogo")

@@ -11,14 +11,31 @@
 {% endif %}
 {% if jornada_dados %} 
 
+<div style="position:relative">
+	{% if jornada_anterior %}
+	<div style="position:absolute;left:15px;top:30px;">
+		<a href="/detalhe_jornada?id={{jornada_anterior.key.id}}">&larr; {{jornada_anterior.jor_nome_completo}}</a>
+	</div>
+	{% endif %}
+	{% if jornada_posterior %}
+	<div style="position:absolute;right:15px;top:30px;">
+		<a href="/detalhe_jornada?id={{jornada_posterior.key.id}}">{{jornada_posterior.jor_nome_completo}} &rarr;</a>
+	</div>
+	{% endif %}
+</div>
+
 <div class="fp-video-box fp-shadow fp-medium-radius" id="fp-fixed-video-screen-div" style="display:none;">
 	<a href="#" class="minimize-video" style="text-align:left;display:block;font-size:10px;height:10px;">[x] Esconder</A> 
 	<div id="fp-fixed-video-screen"></div>
 </DIV>
 
 <div>
-	<div class="fp-subtitulo" style="text-align:center;font-size:30px;margin:20px;">{{jornada.jor_nome_completo}} da {{jornada.jor_competicao.cmp_nome_completo}} <div class="epoca-container">{{jornada.jor_competicao.cmp_epoca.epo_nome}}</div></div> 
+	<div class="fp-subtitulo" style="text-align:center;font-size:30px;margin:20px;">{{jornada.jor_nome_completo}} da 
+<a href="/detalhe_competicao?id={{jornada.jor_competicao.key.id}}">{{jornada.jor_competicao.cmp_nome_completo}}</a> - <a href="/detalhe_epoca?id={{jornada.jor_competicao.cmp_epoca.key.id}}"><div class="epoca-container">{{jornada.jor_competicao.cmp_epoca.epo_nome}}</div></a>
+
+</div> 
 	<div class="main-center">
+
 
 	<table id="fp-ficha-jogo" style="margin:auto; width:730px;margin: auto;
 table-layout: fixed;">

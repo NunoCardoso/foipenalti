@@ -7,9 +7,25 @@
     <div class="flash-err-msg fp-shadow fp-medium-radius">{{ flash }}</div>
    {% else %}
 	 <div class="flash-ok-msg fp-shadow fp-medium-radius">{{ flash }}</div>
-	{% endif %}
+    {% endif %}
 {% endif %}
-<div style="text-align:center;margin:10px;"><H3>Lance número {{lance.lan_numero}} do jogo {{lance.lan_jogo.jog_clube1.clu_nome_curto}} {{lance.lan_jogo.jog_golos_clube1}} - {{lance.lan_jogo.jog_golos_clube2}} {{lance.lan_jogo.jog_clube2.clu_nome_curto}}</H2></DIV>
+
+<div style="position:relative">
+	{% if lance_anterior %}
+	<div style="position:absolute;left:15px;top:30px;">
+		<a href="/detalhe_lance?id={{lance_anterior.key.id}}">&larr; Lance número {{lance_anterior.lan_numero}}</a>
+	</div>
+	{% endif %}
+	{% if lance_posterior %}
+	<div style="position:absolute;right:15px;top:30px;">
+		<a href="/detalhe_lance?id={{lance_posterior.key.id}}">Lance número {{lance_posterior.lan_numero}} &rarr;</a>
+	</div>
+	{% endif %}
+</div>	
+
+<div style="text-align:center;margin:10px;"><H3>Lance número {{lance.lan_numero}} do 
+	<a href="/detalhe_jogo?id={{lance.lan_jogo.key.id}}">{{lance.lan_jogo.jog_clube1.clu_nome_curto}} {{lance.lan_jogo.jog_golos_clube1}} - {{lance.lan_jogo.jog_golos_clube2}} {{lance.lan_jogo.jog_clube2.clu_nome_curto}}</a><BR><a href="/detalhe_jornada?id={{lance.lan_jogo.jog_jornada.key.id}}">{{lance.lan_jogo.jog_jornada.jor_nome_completo}}</a> da <a href="/detalhe_competicao?id={{lance.lan_jogo.jog_jornada.jor_competicao.key.id}}">{{lance.lan_jogo.jog_jornada.jor_competicao.cmp_nome_completo}}</a> - <a href="/detalhe_epoca?id={{lance.lan_jogo.jog_jornada.jor_competicao.cmp_epoca.key.id}}">{{lance.lan_jogo.jog_jornada.jor_competicao.cmp_epoca.epo_nome}}</a></H3></DIV>
+
 
 <HR width="97%" color="#888" style="margin-top:5px; margin-bottom:20px;">
 

@@ -53,7 +53,7 @@ class HomePage(MyCacheHandler):
 		
 		
 		# onde é que estou dependente? de: blog e de competição, basicamente
-		post = blog.Post.all().order('-pub_date').get()
+		post = Post.all().order('-pub_date').get()
 		jornada = Jornada.all().order('-jor_ultima_alteracao').get()
 		
 		if data_cache and post.pub_date and jornada:

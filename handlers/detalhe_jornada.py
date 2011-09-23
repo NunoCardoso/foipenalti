@@ -92,6 +92,10 @@ class DetalheJornada(MyCacheHandler):
 			lista_datas.append({"data":key, "jogos":jornada_dados["datas"][key]})
 	
 		jornada_dados["datas"] = lista_datas
+		
+		jornada_anterior = self.jornada.jor_competicao.cmp_jornadas.filter("jor_ordem = ", self.jornada.jor_ordem - 1).get()
+		jornada_posterior = self.jornada.jor_competicao.cmp_jornadas.filter("jor_ordem = ", self.jornada.jor_ordem + 1).get()		
+		
 	# {"jornada":{
 	#      "datas":[
 	#              {"data":"2010-09-18",
@@ -106,7 +110,11 @@ class DetalheJornada(MyCacheHandler):
 	#      }
 	# }
 
-		return {"jornada":jornada_dados}
+		return {
+		"jornada":jornada_dados,
+		"jornada_anterior":jornada_anterior,
+		"jornada_posterior":jornada_posterior
+		}
 		
 	def renderHTML(self):
 		flash_message = None
@@ -118,6 +126,8 @@ class DetalheJornada(MyCacheHandler):
 		html = self.render('detalhe_jornada.html', {
 			## feedback of get variables
 			"jornada":self.jornada,
+			"jornada_anterior":self.dados["jornada_anterior"],
+			"jornada_posterior":self.dados["jornada_posterior"],
 			"jornada_dados": self.dados["jornada"],
 			"flash":flash_message
 		})
