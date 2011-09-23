@@ -9,6 +9,7 @@ import config
 from classes import *
 from google.appengine.api import memcache
 from lib.mycachehandler import MyCacheHandler
+from lib.detalhe_icc import DetalheICC
 
 class DetalheLance(MyCacheHandler):
 		
@@ -67,14 +68,28 @@ class DetalheLance(MyCacheHandler):
 				lance_anterior = lan
 			if lan.lan_numero == self.lance.lan_numero + 1:
 				lance_posterior = lan
-				
+
+		acu_jornadas = {}
+		acumuladores = AcumuladorJornada.all().filter("acuj_jornada = ", self.lance.lan_jogo.jog_jornada).filter("acuj_versao = ", config.VERSAO_ACUMULADOR)
+		for acu in acumuladores:
+			acu_jornadas[acu.acuj_jornada.jor_nome] = acu.acuj_content
+
+		detalhe_icc = DetalheICC()
+		detalhe_icc.setLances([self.lance])
+		detalhe_icc.setAcumuladoresJornadas(acu_jornadas)
+		resultados = detalhe_icc.gera()
+
+		detalhe_icc_jogos = resultados["jogos"]
+		logging.info(detalhe_icc_jogos)
 		dados = {
 			"lance": self.lance, 
 			"lance_anterior":lance_anterior,
 			"lance_posterior":lance_posterior,
 			"comentarios":self.lance.lan_comentadores.fetch(1000),
 			"protagonistas": self.lance.lan_jogadores.fetch(1000),
-			"tipo": Lance.translation_classe[self.lance.lan_classe]
+			"tipo": Lance.translation_classe[self.lance.lan_classe],
+			
+			"detalhe_icc_jogos":detalhe_icc_jogos
 		}	
 		return dados
 
@@ -92,6 +107,7 @@ class DetalheLance(MyCacheHandler):
 			"lance_anterior":self.dados['lance_anterior'],
 			"lance_posterior":self.dados['lance_posterior'],
 			"lance":self.dados['lance'],
+			"detalhe_icc_jogos":self.dados["detalhe_icc_jogos"],
 			"flash":flash_message
 		})
 		return html

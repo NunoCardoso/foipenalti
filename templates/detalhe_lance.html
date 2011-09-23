@@ -41,8 +41,117 @@
 	{% endif %}
 	{% endif %}
 
+<!-- detalhe icc -->
+
+	<div class="fp-subtitulo" style="margin:10px;text-align:center;">Detalhe do ICC&#0153;</div> 
+		<div class="fp-table-wrapper">
+			<div style="text-align:left;font-size:12px;margin-bottom:10px;">Nota: só serão apresentados os lances onde o árbitro errou, e que efectivamente contam para o ICC&#0153;.</div>
+	
+			<div id="fp-detalhe-icc" style="margin-left:auto;margin-right:auto;width:800px;">
+				<table id="fp-detalhe-icc-table" style="table-layout:fixed;width:800px;font-size:12px">
+					<tr style="border-top:1px solid black;">
+						<th rowspan=2 style="text-align:center;width:350px;">Jogos / lances</th>
+				
+						<th colspan=4 style="width:400px;text-align:center;">Factores e pesos</th>
+						<th rowspan=2 style="width:60px;">ICC&#0153;</th>
+					</tr>
+					<tr>
+						<th style="width:250px;">Tipo<BR>de lance</th>	
+						<th style="width:40px;">Tempo<BR>de jogo</th>	
+						<th style="width:50px;">Resultado<BR>na altura</th>	
+						<th style="width:30px;">Risco<BR>do jogo</th>	
+					</tr>	
+
+					<tr><td colspan=6 style="padding:0px; height:1px; background-color:#888;"></td></tr>
+
+{% for item in detalhe_icc_jogos %} 
+<!-- jogo header -->
+<tr style="text-align:left;">
+	<td>
+		<P class="marqueeable">
+			<B><a href="/detalhe_jornada?id={{item.jogo.jog_jornada.key.id}}"> {{item.jogo.jog_jornada.jor_nome_completo}}</A></B>: 
+			<a href="/detalhe_jogo?id={{item.jogo.key.id}}">{{item.jogo|printjogo}}</a>
+		</P>
+	</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+<!-- lance list -->
+{% for lance in item.lances %}
+<tr style="text-align:center;font-size:16px;">
+	<td style="text-align:left;font-size:12px;">
+		<B>Lance {{lance.num}}, aos {{lance.min}}'</B>
+	</td>
+	<td>{{lance.p_cla}}</td>
+	<td>{{lance.p_tmp}}</td>
+	<td>{{lance.p_res}}</td>
+	<td>{{lance.p_ris}}</td>
+	<td rowspan=2>
+	<div style="float:right;font-size:14px;">{{lance.icc1}}</div>
+	</td>
+</tr>
+<tr style="text-align:center;color:gray;">
+	<td style="text-align:left;color:black;">
+		<a href="detalhe_lance?id={{lance.id}}"><I>{{lance.descricao}}</I></a>
+	</td>
+	<td><p class="marqueeable"><I>{{lance.d_cla|translate_classe_lance}}</I></P></td>
+	<td><p class="marqueeable"><span class="color:#CCC;font-size:10px;">{{lance.d_tmp|translate_tempo_lance}}</span></P></td>
+	<td><p class="marqueeable"><span class="color:#CCC;font-size:10px;">{{lance.d_res}}</span></P></td>
+	<td><p class="marqueeable"><span class="color:#CCC;font-size:10px;">{{lance.d_ris|translate_risco_jogo}}</span></P></td>
+</tr>
+{% endfor %}
+
+<!-- bonus -->
+
+{% if item.bonus %}
+<tr style="text-align:left;">
+	<td rowspan=2><B><span style="color:red;">Agravamento:</span></B><BR>
+O resultado podia ser: {{item.jogo.jog_clube1.clu_nome_curto}} {{item.bonus.rv}}  {{item.jogo.jog_clube2.clu_nome_curto}}</td>
+	<td colspan=3 style="text-align:center;font-size:16px;">{{item.bonus.p_agr}}</td>
+	<td style="text-align:center;font-size:16px;">{{item.bonus.p_ris}}</td>
+	{% if item.bonus.dn|eq:1 %}
+	<td colspan=2><div style="float:right;font-size:14px;color:gray;">{{item.bonus.icc1}}</div></td>
+	{% endif %}
+	{% if item.bonus.clu1|eq:clube.key.id and item.bonus.dn|eq:2 %}
+	<td><div style="float:right;font-size:14px;color:red;">{{item.bonus.icc1}}</div></td>
+	<td></td>
+	{% endif %}
+	{% if item.bonus.clu2|eq:clube.key.id and item.bonus.dn|eq:3 %}
+	<td><div style="float:right;font-size:14px;color:red;">{{item.bonus.icc2}}</div></td>
+	<td></td>
+	{% endif %}
+
+	{% if item.bonus.clu1|eq:clube.key.id and item.bonus.dn|eq:3 %}
+	<td></td>
+	<td><div style="float:right;font-size:14px;color:green;">{{item.bonus.icc1}}</div></td>
+	{% endif %}
+	{% if item.bonus.clu2|eq:clube.key.id and item.bonus.dn|eq:2 %}
+	<td></td>
+	<td><div style="float:right;font-size:14px;color:green;">{{item.bonus.icc2}}</div></td>
+	{% endif %}
+</tr>
+<tr style="text-align:center;color:gray;">
+	<td colspan=3><P class="marqueeable">{{item.bonus.d_agr|translate_classe_lance}}</P></td>
+	<td>{{item.bonus.d_ris|translate_risco_jogo}}</td>
+</tr>
+{% endif %}
+<tr><td colspan=6 style="padding:0px; height:1px; background-color:#888;"></td></tr>
+{% endfor %}
+
+					</table>
+				</div>
+			</div>
+<!-- fim detalhe icc -->
+
+
+
+
 <!-- videos -->
-<div style="text-align:center;width:100%;display:inline-block;font-size:20px;margin:10px;">Lances</DIV>	
+<div style="text-align:center;width:100%;display:inline-block;font-size:20px;margin:10px;">Vídeos do lance</DIV>	
 <div class="fp-videos" style="width:100%;text-align:center;">
 	{% if lance.lan_link_videos %}
 

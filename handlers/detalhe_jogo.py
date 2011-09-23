@@ -9,6 +9,7 @@ import config
 from classes import *
 from lib.mycachehandler import MyCacheHandler
 from google.appengine.api import memcache
+from lib.detalhe_icc import DetalheICC
 
 class DetalheJogo(MyCacheHandler):
 		
@@ -64,7 +65,6 @@ class DetalheJogo(MyCacheHandler):
 			"guarda_redes1":None,
 			"guarda_redes2":None,
 			"jogadores_inicio1":[], 
-			# hash com {golos: entrada: saida: amarelos: vermelhos:}
 			"jogadores_subst1":[],
 			"jogadores_inicio2":[],
 			"jogadores_subst2":[],
@@ -75,7 +75,9 @@ class DetalheJogo(MyCacheHandler):
 			"icc_clube2":0,
 			"ia":""
 		}
-		
+
+# setas de navegação
+
 		jornada_anterior = self.jogo.jog_jornada.jor_competicao.cmp_jornadas.filter("jor_ordem = ", self.jogo.jog_jornada.jor_ordem - 1).get()
 		jornada_posterior = self.jogo.jog_jornada.jor_competicao.cmp_jornadas.filter("jor_ordem = ", self.jogo.jog_jornada.jor_ordem + 1).get()
 		jogo_anterior_clube1 = None
@@ -89,7 +91,9 @@ class DetalheJogo(MyCacheHandler):
 		if jornada_posterior:
 			jogo_posterior_clube1 = jornada_posterior.jor_jogos.filter("jog_clubes = ", self.jogo.jog_clube1).get()
 			jogo_posterior_clube2 = jornada_posterior.jor_jogos.filter("jog_clubes = ", self.jogo.jog_clube2).get()
-		
+
+# jjjs
+
 		for jjj_jogador in self.jogo.jog_jogadores:
 			jogador = jjj_jogador.jjj_jogador
 			clube = jjj_jogador.jjj_clube
@@ -159,7 +163,7 @@ class DetalheJogo(MyCacheHandler):
 		jogo_dados["ia"] = self.jogo.jog_influencia_arbitro
 		lances = []
 		
-		# vamos adicionar lances
+# vamos adicionar lances
 		for lance in self.jogo.jog_lances.order("lan_numero"):
 			prop = {"lance": lance, "comentarios":lance.lan_comentadores.fetch(1000),
 		 	"protagonistas": lance.lan_jogadores.fetch(1000),
@@ -167,25 +171,34 @@ class DetalheJogo(MyCacheHandler):
 			}
 			lances.append(prop)
 			
-		logging.info(	{
-			"jogos":jogo_dados,
-			"lances":lances,
-			"jornada_anterior":jornada_anterior,
-			"jornada_posterior":jornada_posterior,
-			"jogo_anterior_clube1":jogo_anterior_clube1,
-			"jogo_anterior_clube2":jogo_anterior_clube2,
-			"jogo_posterior_clube1":jogo_posterior_clube1,
-			"jogo_posterior_clube2":jogo_posterior_clube2
-			})	
+# vamos adicionar detalhe icc
+		lista_lances = self.jogo.jog_lances.fetch(1000)
+
+# acumulador_jornadas, como folte dos lances
+		acu_jornadas = {}
+		acumuladores = AcumuladorJornada.all().filter("acuj_jornada = ", self.jogo.jog_jornada).filter("acuj_versao = ", config.VERSAO_ACUMULADOR)
+		for acu in acumuladores:
+			acu_jornadas[acu.acuj_jornada.jor_nome] = acu.acuj_content
+
+		detalhe_icc = DetalheICC()
+		detalhe_icc.setLances(lista_lances)
+		detalhe_icc.setAcumuladoresJornadas(acu_jornadas)
+		resultados = detalhe_icc.gera()
+
+		detalhe_icc_jogos = resultados["jogos"]
+
 		return {
 		"jogos":jogo_dados,
 		"lances":lances,
+		
 		"jornada_anterior":jornada_anterior,
 		"jornada_posterior":jornada_posterior,
 		"jogo_anterior_clube1":jogo_anterior_clube1,
 		"jogo_anterior_clube2":jogo_anterior_clube2,
 		"jogo_posterior_clube1":jogo_posterior_clube1,
-		"jogo_posterior_clube2":jogo_posterior_clube2
+		"jogo_posterior_clube2":jogo_posterior_clube2,
+		
+		"detalhe_icc_jogos":detalhe_icc_jogos
 		}
 
 	def renderHTML(self):
@@ -214,12 +227,16 @@ class DetalheJogo(MyCacheHandler):
 		html = self.render('detalhe_jogo.html', {
 			"jogo": self.jogo,
 			"jogo_dados": self.dados["jogos"],
+			
 			"jornada_anterior":self.dados["jornada_anterior"],
 			"jornada_posterior":self.dados["jornada_posterior"],
 			"jogo_anterior_clube1":self.dados["jogo_anterior_clube1"],
 			"jogo_anterior_clube2":self.dados["jogo_anterior_clube2"],
 			"jogo_posterior_clube1":self.dados["jogo_posterior_clube1"],
 			"jogo_posterior_clube2":self.dados["jogo_posterior_clube2"],
+			
+			"detalhe_icc_jogos":self.dados["detalhe_icc_jogos"],
+			
 			"lances_html":lances_html,
 			"ficha_de_jogo_html":ficha_de_jogo_html,
 			"sumario_actuacao_arbitro_html":sumario_actuacao_arbitro_html,
