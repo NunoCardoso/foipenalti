@@ -23,12 +23,121 @@
 <DIV style="margin:10px;">Editar JJJs associadas ao jogo {{obj}}</DIV>
 {% endif %}
 
-
+<!-- parse maisfutebol -->
 <table>
 	<tr><td>
 	<input id="url_parser_url" size=40 placeholder="http://www.maisfutebol.iol.pt/jogo/XXXX" />
 	<button id="url_parser">Parse</button>
 </table>
+
+<BR>
+<!-- parse jogo -->
+
+<table>
+	<tr><td>
+		<table><tr>
+			<td>Jornada: 
+			<div style="display:inline;">
+			{% if new_for_parent_id %}<B>{{obj.jog_jornada.jor_nome}}</B>
+			{% else %}
+			<input type="text" name="jog_jornada" id="jog_jornada" size=30/ placeholder="201X/201X:Liga:30" value="{{obj.jog_jornada.jor_nome}}">
+			{% endif %}	
+			</div>
+		
+			<div style="display:inline;">
+				<input class="datepicker-datetime" type="text" name="jog_data2" id="jog_data_single2" size=20 value="{{obj.jog_data|pp_year_month_day_hour_minute}}" placeholder="2011-01-01 00:00"/>
+			</div>
+			
+			<div style="display:inline;">
+			Árbitro: 
+			<select size=1 name="jog_arbitro_id" id="jog_arbitro_id"/>
+			<option value="">--</option>
+			{% for arbitro in arbitros %}
+				<option value="{{arbitro.key.id}}" {% ifequal obj.jog_arbitro.arb_nome arbitro.arb_nome %} SELECTED{% endifequal %}>{{arbitro.arb_nome}}</option>
+				{% endfor %}
+			</select>	
+			</div>
+		</td>
+		</tr></table>
+	</td></tr>
+	<tr><td>
+		<table><tr>
+			<td>Clube/golos:
+				<div style="display:inline;">
+				<select size=1 name="jog_clube1_id" id="jog_clube1_id"/>
+				{% for clube in clubes %}
+				<option value="{{clube.key.id}}" {% ifequal obj.jog_clube1.clu_nome clube.clu_nome %} SELECTED{% endifequal %}>{{clube.clu_nome_curto}}</option>
+				{% endfor %}
+				</select>	
+				
+				<input type="number" min="0" step="1" name="jog_golos_clube1" id="jog_golos_clube1" size=6 value="{{obj.jog_golos_clube1}}"/> - 
+			<input type="number" min="0" step="1" name="jog_golos_clube2" id="jog_golos_clube2" size=6 value="{{obj.jog_golos_clube2}}"/>	<select size=1 name="jog_clube2_id" id="jog_clube2_id"/>
+				{% for clube in clubes %}
+				<option value="{{clube.key.id}}" {% ifequal obj.jog_clube2.clu_nome clube.clu_nome %} SELECTED{% endifequal %}>{{clube.clu_nome_curto}}</option>
+				{% endfor %}
+				</select>
+				</div>
+				
+				<div style="display:inline;">
+				Tácticas: 
+			<select size=1 name="jog_tactica_clube1" id="jog_tactica_clube1"/>
+			<option value="">--</option>
+			{% for tactica in tacticas %}
+				<option value="{{tactica}}" {% ifequal obj.jog_tactica_clube1 tactica %} SELECTED{% endifequal %}>{{tactica}}</option>
+				{% endfor %}
+			</select> - 
+			<select size=1 name="jog_tactica_clube2" id="jog_tactica_clube2"/>
+			<option value="">--</option>
+			{% for tactica in tacticas %}
+				<option value="{{tactica}}" {% ifequal obj.jog_tactica_clube2 tactica %} SELECTED{% endifequal %}>{{tactica}}</option>
+				{% endfor %}
+			</select>	
+			</div>
+		</td>
+		</tr></table>
+	</td></tr>
+	<tr><td>
+		<table><tr>
+			<td>
+				<div style="display_inline;">
+				
+		<table>
+			{% for site in obj.jog_link_sites %}
+			<tr class='toDuplicate1'><td><input type="text" name="jog_link_sites" id="jog_link_sites" size=30 value="{{site}}" placeholder="Links externos"/></td></tr>
+			{% endfor %}
+			<tr class='toDuplicate1'><td><input type="text" name="jog_link_sites" id="jog_link_sites" size=30  placeholder="Links externos"/></td></tr>
+			<tr><td>
+				<a href="#" class='duplicate-input-link' what="toDuplicate1"><img src='img/plus.gif'></a> 
+				<a href="#" class='remove-input-link' what='toDuplicate1'><img src='img/minus.gif'></a>
+			</td></tr>
+		</table>
+		</div>
+	</td>
+	
+	<td>
+		<div style="display:inline;">
+		<table style="width:250px;">
+			{% for video in obj.jog_link_videos %}
+			<tr class='toDuplicate2'><td><textarea name="jog_link_videos" id="jog_link_videos" style="width:200px;height:30px;" placeholder="Vídeos"/>{{video}}</textarea>
+			</td></tr>
+			{% endfor %}
+			<tr class='toDuplicate2'><td><textarea name="jog_link_videos" id="jog_link_videos" style="width:200px;height:30px;" placeholder="Vídeos"/></textarea>
+			<tr><td>
+	 		<a href="#" class='duplicate-input-link' what="toDuplicate2"><img src='img/plus.gif'></a>
+	 		<a href="#" class='remove-input-link' what='toDuplicate2'><img src='img/minus.gif'></a>
+		</td></tr>
+		</table>
+		</div>
+	</td>
+	<td>
+		<div style="display:inline;">
+<textarea name="jog_comentario" id="jog_comentario" style="width:300px;height:50px;" placeholder="Comentários"/>{{obj.jog_comentario}}</textarea>
+		</div>
+		</tr></table>
+	</td></tr>
+</TABLE>
+
+<BR>
 <table id="table_jogadores_clube1">
 		
 	<!-- clube 1-->

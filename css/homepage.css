@@ -232,9 +232,6 @@ DIV.fp-tabela-classificacao-linha-lugar-liga-europa  {
 
 /* make all links in TABLESORTER to behave with a background */
 .fp-homepage-jornada * > A {
-	display: block;
-	height: 100%;
-	width: 100%;
 	-moz-border-radius:8px ;	
 	-webkit-border-radius:8px;
 	border-radius:8px;

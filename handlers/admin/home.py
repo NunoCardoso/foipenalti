@@ -13,7 +13,7 @@ from classes import *
 from externals.paging import *
 from lib.myhandler import MyHandler
 from list import List
-from lib import listas
+from lib import listas, mymemcache
 ## recebe pedidos, faz splash screens
 
 class RedirectHome(MyHandler):
@@ -27,7 +27,7 @@ class Home(MyHandler):
 		
 	def get(self, objname):
 		
-		sid = self.request.get('sid')
+		sid = self.get_sid_from_cookie()
 		flash_message = None
 		if sid:
 			flash_message = memcache.get(str(sid), namespace="flash")

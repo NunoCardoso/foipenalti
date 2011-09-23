@@ -10,9 +10,9 @@ import re
 import datetime
 import traceback
 import urllib
-
+import Cookie
+import time
 import listas
-import mymemcache
 
 from exception import BadParameterException
 from google.appengine.api import datastore
@@ -90,6 +90,18 @@ class MyHandler(webapp.RequestHandler):
 		val = MyHandler.render_subdir(self, template_dir, template_file, template_values)
 		self.response.out.write(val)
 
+	# et milliseconds	
+	def generate_sid(self):
+		return int(round(time.time() * 1000))
+
+	# add sid to cookie
+	def add_sid_to_cookie(self, sid):
+		expiration = datetime.datetime.now() + datetime.timedelta(minutes=1)
+		self.response.headers.add_header('Set-Cookie','sid='+str(sid)+'; expires='+expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST")+'; path=/;')
+			
+	def get_sid_from_cookie(self):
+		return self.request.cookies.get("sid") 
+
 ####################
 ### EXCEPÇÕES ######
 ####################
@@ -100,9 +112,12 @@ class MyHandler(webapp.RequestHandler):
 		
 #		para páginas admin, colocar erro no flash
 		if self.request.path.startswith("/admin/"):
-			new_sid = mymemcache.generate_sid()
-			memcache.set(str(new_sid), "Erro:" + "".join(traceback.format_exc()), namespace="flash")
-			return self.redirect(mymemcache.add_sid_to_cookie(pagina_anterior, new_sid))
+			new_sid = self.generate_sid()
+			trace = "".join(traceback.format_exc())
+			memcache.set(str(new_sid), "Erro:" + trace, namespace="flash")
+			logging.error(trace)
+			self.add_sid_to_cookie(new_sid)
+			return self.redirect(pagina_anterior)
 			
 		# para páginas públicas, mostrar erro.		
 		renderPage = None

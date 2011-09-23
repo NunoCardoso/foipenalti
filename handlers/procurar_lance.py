@@ -31,7 +31,7 @@ class ProcurarLance(MyHandler):
 		lan_jogador = self.request.get("jgd")
 		lan_classe = self.request.get("cla")
 		cache = self.request.get("cache")
-		sid = mymemcache.get_sid_from_cookie()
+		sid = get_sid_from_cookie()
 		
 		# preciso de lista de epocas, lista de competições, lista de clubes, lista de árbitros
 		

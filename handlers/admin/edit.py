@@ -15,6 +15,7 @@ import urllib
 from classes import *
 from externals.paging import *
 from lib.myhandler import MyHandler
+from lib import mymemcache
 from list import List
 
 from lib import listas
@@ -24,7 +25,7 @@ class Edit(MyHandler):
 	def get(self, objname):
 		
 		id = int(self.request.get('id'))
-		sid = self.request.get('sid')
+		sid = self.get_sid_from_cookie()
 		tab = self.request.get('tab')
 		flash_message = None
 		
@@ -332,7 +333,10 @@ class Edit(MyHandler):
 						'jogadores_clube1':todos_jogadores_clube1,
 						'jogadores_clube2':todos_jogadores_clube2,
 						'clubes':listas.get_lista_clubes(),
-						'posicoes':listas.get_lista_posicoes()
+						'posicoes':listas.get_lista_posicoes(),
+						'arbitros':listas.get_lista_arbitros(),
+						'tacticas':listas.get_lista_tacticas()
+						
 				}),
 
 				# editar dependentes 1: editar múltiplos jjj anexadas a este jogo
@@ -348,7 +352,9 @@ class Edit(MyHandler):
 						'clubes':listas.get_lista_clubes(),
 						'posicoes':listas.get_lista_posicoes(),
 						'jjj_clube1':jogadores_clube1,
-						'jjj_clube2':jogadores_clube2
+						'jjj_clube2':jogadores_clube2,
+						'arbitros':listas.get_lista_arbitros(), 
+						'tacticas':listas.get_lista_tacticas()
 				}),
 				
 				# listar dependente 2: lances deste jogo

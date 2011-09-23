@@ -11,7 +11,6 @@ import logging
 import re
 import config 
 import urllib
-from lib import mymemcache
 
 from classes import *
 from externals.paging import *
@@ -181,6 +180,7 @@ class Delete(MyHandler):
 			memcache.delete(str(obj.key().id()), namespace=objname)
 			obj.delete()
 			
-		new_sid = mymemcache.generate_sid()
+		new_sid = self.generate_sid()
 		memcache.set(str(new_sid), "<BR>".join(flash_messages), namespace="flash")
-		self.redirect(mymemcache.add_sid_to_cookie(referer, new_sid))
+		self.add_sid_to_cookie(new_sid)
+		self.redirect(referer)

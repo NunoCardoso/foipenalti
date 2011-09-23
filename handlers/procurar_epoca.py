@@ -21,7 +21,7 @@ class ProcurarEpoca(MyHandler):
 
 		jogos = None		
 		num_resultados = self.request.get("nr")
-		sid = mymemcache.get_sid_from_cookie()
+		sid = get_sid_from_cookie()
 
 		# critérios
 		epoca_id = self.request.get("epo")

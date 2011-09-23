@@ -7,7 +7,6 @@ import re
 import config 
 
 from classes import *
-from lib import mymemcache
 from lib.mycachehandler import MyCacheHandler
 from google.appengine.api import memcache
 
@@ -32,9 +31,10 @@ class DetalheJogo(MyCacheHandler):
 		if not self.jogo:
 			error = u"Erro: Não há jogo com id %s" % jog_id
 			logging.error(error)
-			new_sid = mymemcache.generate_sid()
+			new_sid = self.generate_sid()
 			memcache.set(str(new_sid), error, namespace="flash")
-			self.redirect(mymemcache.add_sid_to_cookie(self.referer, new_sid))
+			self.add_sid_to_cookie(new_sid)
+			self.redirect(referer)	
 			return
 			
 		self.checkCacheFreshen()
@@ -205,7 +205,7 @@ class DetalheJogo(MyCacheHandler):
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
 
-		self.sid = mymemcache.get_sid_from_cookie()
+		self.sid = get_sid_from_cookie()
 
 		try:
 			jog_id = int(self.request.get("id"))

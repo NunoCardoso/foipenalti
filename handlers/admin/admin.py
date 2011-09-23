@@ -12,13 +12,14 @@ import config
 from classes import *
 from externals.paging import *
 from lib.myhandler import MyHandler
+from lib import mymemcache
 
 class Admin(MyHandler):
 	
 	def get(self):
 		
 		jornada = Jornada.all().order('-jor_ultima_alteracao').get()
-		sid = self.request.get('sid')
+		sid = self.get_sid_from_cookie()
 		flash_message = None
 		
 		if sid:

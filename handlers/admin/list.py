@@ -12,6 +12,7 @@ import config
 from classes import *
 from externals.paging import *
 from lib.myhandler import MyHandler
+from lib import mymemcache
 
 ## gera listas simples quando invocado directamente por url /list,
 
@@ -67,9 +68,8 @@ class List(MyHandler):
 		
 		filter_field = self.request.get("filter_field")
 		filter_needle = self.request.get("filter_needle")
-		sid = self.request.get('sid')
+		sid = get_sid_from_cookie()
 		url = self.request.url
-
 		
 		# para quando se apaga registos...
 		flash_message = None
