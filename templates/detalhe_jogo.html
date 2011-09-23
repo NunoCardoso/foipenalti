@@ -12,6 +12,7 @@
 	{% endif %}
 {% endif %}
 {% if jogo %} 
+{{historial_jogos}}
 
 <div style="position:relative">
 	{% if jogo_anterior_clube1 or jogo_anterior_clube2 %}
@@ -94,7 +95,7 @@
 	<!-- data e árbitro -->
 </table>	
 	
-	
+<!-- início menu -->	
 <DIV id="main-submenu-tab">
 	<UL CLASS="tabs">
 		<LI CLASS="active">
@@ -108,6 +109,9 @@
 		</LI>
 		<LI>
 			<A CLASS="main-submenu-tab-link" rel="videos" href="#">Vídeos</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="historial" href="#">Historial</A>
 		</LI>
 	</UL>	
 	
@@ -293,6 +297,104 @@ O resultado podia ser: {{item.jogo.jog_clube1.clu_nome_curto}} {{item.bonus.rv}}
 			{% endif %}
 		</div>
 		</div>
+
+<!-- início historial -->
+
+		<DIV class="tab_contents" id="historial" style="margin-top:10px;">
+
+			<div class="fp-table-wrapper">
+				<div class="fp-table-gadgets" style="width:850px;">
+					<div style="text-align:left;float:left;" class="fp-table-tablesorter-filter">
+					Filtro: <input class="fp-table-tablesorter-filter-box" value="" maxlength="30" size="30" type="text">
+					<img class="fp-table-tablesorter-filter-clear" src="img/cross.png" title="Limpar filtro" alt="Limpar filtro">
+					</div>
+					<div class="fp-table-tablesorter-pager" style="float:right;">
+					<img src="img/first.png" class="first"/>
+			      <img src="img/prev.png" class="prev"/>
+			      <input type="text" class="fp-table-tablesorter-pager-counter pagedisplay"/>
+			      <img src="img/next.png" class="next"/>
+			      <img src="img/last.png" class="last"/>
+			      <select class="pagesize">
+			      <option value="10">10</option>
+			 			<option value="20" selected="selected">20</option>
+			         <option value="30">30</option>
+			         <option value="40">40</option>
+			       </select>
+			    	</div>
+				</div>
+
+				<table id="fp-jogos-historial" class='fp-table fp-table-pager fp-table-filter' style="width:850px;">
+					<THEAD>
+						<tr style="text-align:center;">
+							<TH style="width:100px;">Data</TH>
+							<TH style="width:170px;">Competição</TH>
+							<TH style="width:100px;">Jornada</TH>
+							<TH style="width:170px;">Jogo</TH>
+							<TH style="width:30px;"></TH>
+							<TH style="width:70px;">ICC</TH>
+							<TH style="width:160px;">Arbitragem</TH>
+						</tr>
+					</THEAD>
+					<TBODY>
+					{% for jogo in historial_jogos %}	
+					<tr>
+					<TD value="{{jogo.jog_data|pp_yearmonthday}}">
+						<P class="marqueeable">
+							{{jogo.jog_data|pp_daymonthyear}}, {{jogo.jog_data|pp_hour}}
+						</P>
+					</TD>	
+					<TD>
+						<P class="marqueeable">
+							<a href="/detalhe_competicao?id={{jogo.jog_competicao.key.id}}">{{jogo.jog_competicao.cmp_nome_completo}} {{jogo.jog_competicao.cmp_epoca.epo_nome}}</a>
+					</P>
+					</TD>	
+					<td>
+						<P class="marqueeable">
+			<a href="/detalhe_jornada?id={{jogo.jog_jornada.key.id}}">{{jogo.jog_jornada.jor_nome_completo}}</A></P>
+					</TD>
+					<TD><P class="marqueeable">
+			<a href="/detalhe_jogo?id={{jogo.key.id}}">{{jogo|printjogo}}</A>
+					</P></TD>
+
+						<TD>{% if jogo.jog_link_videos %}	
+						<A CLASS="fp-watch-video" HREF="#" 
+						VIDEO_HTML="{{jogo.jog_link_videos.0|resizewidth:300|resizeheight:300|urlencode}}" 
+						TARGET_DIV="fp-fixed-video-screen">
+						<img src="img/movie.png"></A>
+					{% endif %}
+					</TD>
+					<TD><P class="marqueeable">{{jogo|print_icc}}</P></TD>
+
+					<TD style="font-size:10px;width:160px;">
+						<P class="marqueeable">
+							<div id="veredicto_polegar" style="float:left; margin-right:10px;vertical-align:middle;">	
+								{% if jogo.jog_influencia_arbitro|eq:1 %}
+								<img src="img/thumbs_up.png" style="vertical-align:middle;height:15px;width:15px;">
+								{% endif %}
+								{% if jogo.jog_influencia_arbitro|eq:2 %}
+								<img src="img/thumbs_soso.png" style="vertical-align:middle;height:15px;width:15px;">					
+								{% endif %}
+								{% if jogo.jog_influencia_arbitro|eq:3 %}
+								<img src="img/thumbs_down.png" style="vertical-align:middle;height:15px;width:15px;">
+								{% endif %}
+								{% if jogo.jog_influencia_arbitro|eq:4 %}
+								<img src="img/thumbs_meh.png" style="vertical-align:middle;height:15px;width:15px;">
+								{% endif %}
+						</DIV>
+						<DIV>
+							<P class="marqueeable">
+			{{jogo.jog_influencia_arbitro|translate_ia}}</P>
+			</DIV>
+					</P>
+					</TD>
+					</tr>	
+					{% endfor %}
+				</tbody>
+				</table>	
+			</DIV>
+
+		</DIV>
+<!-- fim historial -->
 
 <!--fim tabs -->	
 		</DIV>

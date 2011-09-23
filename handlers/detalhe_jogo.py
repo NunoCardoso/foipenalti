@@ -187,9 +187,14 @@ class DetalheJogo(MyCacheHandler):
 
 		detalhe_icc_jogos = resultados["jogos"]
 
+# historial 
+		
+		historial_jogos = Jogo.all().filter("jog_clubes = ", self.jogo.jog_clube1).filter("jog_clubes = ", self.jogo.jog_clube2).order("-jog_data").fetch(1000)
+
 		return {
 		"jogos":jogo_dados,
 		"lances":lances,
+		"historial_jogos":historial_jogos,
 		
 		"jornada_anterior":jornada_anterior,
 		"jornada_posterior":jornada_posterior,
@@ -227,6 +232,7 @@ class DetalheJogo(MyCacheHandler):
 		html = self.render('detalhe_jogo.html', {
 			"jogo": self.jogo,
 			"jogo_dados": self.dados["jogos"],
+			"historial_jogos": self.dados["historial_jogos"],
 			
 			"jornada_anterior":self.dados["jornada_anterior"],
 			"jornada_posterior":self.dados["jornada_posterior"],
