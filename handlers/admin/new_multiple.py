@@ -1025,7 +1025,11 @@ class NewMultiple(MyHandler):
 			
 		elif objname == "jogador_joga_jogo": 
 
-			# PRIMEIRO: EDITAR O JOGO
+			# PRIMEIRO: EDITAR O JOGO, SE A CHECKBOX ESTIVER ACTIVA
+			
+			checkbox_jogo = self.request.get('jog_checkbox')
+			changes_in_jogo = False
+			
 			jog_id = self.request.get('jog_id')
 			jogo_id = None	
 			
@@ -1049,88 +1053,89 @@ class NewMultiple(MyHandler):
 			clube_casa = None
 			clube_fora = None
 			
-			try:
-				clube_casa = Clube.get_by_id(int(self.request.get('jog_clube1_id')))
-			except:
-				error = u"Erro: Não encontrei clube de casa com nome %s!" % \
-				 self.request.get('jog_clube1_id')
-				logging.error(error)
-				memcache.set(str(new_sid), error, namespace="flash")
-				self.add_sid_to_cookie(new_sid)
-				self.redirect(referer)	
-				return
+			if checkbox_jogo == "on": 
+				changes_in_jogo = True
+				try:
+					clube_casa = Clube.get_by_id(int(self.request.get('jog_clube1_id')))
+				except:
+					error = u"Erro: Não encontrei clube de casa com nome %s!" % \
+				 	self.request.get('jog_clube1_id')
+					logging.error(error)
+					memcache.set(str(new_sid), error, namespace="flash")
+					self.add_sid_to_cookie(new_sid)
+					self.redirect(referer)	
+					return
 				
-			try:
-				clube_fora = Clube.get_by_id(int(self.request.get('jog_clube2_id')))
-			except:
-				error = u"Erro: Não encontrei clube visitante com nome %s!" % self.request.get('jog_clube2_id')
-				logging.error(error)
-				memcache.set(str(new_sid), error, namespace="flash")
-				self.add_sid_to_cookie(new_sid)
-				self.redirect(referer)	
-				return
+				try:
+					clube_fora = Clube.get_by_id(int(self.request.get('jog_clube2_id')))
+				except:
+					error = u"Erro: Não encontrei clube visitante com nome %s!" % self.request.get('jog_clube2_id')
+					logging.error(error)
+					memcache.set(str(new_sid), error, namespace="flash")
+					self.add_sid_to_cookie(new_sid)
+					self.redirect(referer)	
+					return
 			
-			arbitro = None
-			# arbitro pode vir já com id, por exemplo na página edit de um árbitro pode-ser criar um jogo
-			try:
-				arbitro = Arbitro.get_by_id(int(self.request.get('jog_arbitro_id')))
-			except:
-				pass
+				arbitro = None
+				# arbitro pode vir já com id, por exemplo na página edit de um árbitro pode-ser criar um jogo
+				try:
+					arbitro = Arbitro.get_by_id(int(self.request.get('jog_arbitro_id')))
+				except:
+					pass
 
-			list_link_sites = []
-			empty = True
-			if self.request.get_all('jog_link_sites'):
-				for item in self.request.get_all('jog_link_sites'):
-					if item != u"": 
-						empty = False
+				list_link_sites = []
+				empty = True
+				if self.request.get_all('jog_link_sites'):
+					for item in self.request.get_all('jog_link_sites'):
+						if item != u"": 
+							empty = False
 			
-			if not empty:
-				for link_site in self.request.get_all('jog_link_sites'):
-					if link_site != "":
-						list_link_sites.append(db.Link(link_site))
+				if not empty:
+					for link_site in self.request.get_all('jog_link_sites'):
+						if link_site != "":
+							list_link_sites.append(db.Link(link_site))
 			
-			#logging.info(list_link_sites)
-			list_link_videos = []
+				list_link_videos = []
 			
-			empty = True
-			if self.request.get_all('jog_link_videos'):
-				for item in self.request.get_all('jog_link_videos'):
-					if item != u"": 
-						empty = False
+				empty = True
+				if self.request.get_all('jog_link_videos'):
+					for item in self.request.get_all('jog_link_videos'):
+						if item != u"": 
+							empty = False
 
-			if not empty:
-				for link_video in self.request.get_all('jog_link_videos'):
-					if link_video != "":
-						list_link_videos.append(db.Text(link_video))
+				if not empty:
+					for link_video in self.request.get_all('jog_link_videos'):
+						if link_video != "":
+							list_link_videos.append(db.Text(link_video))
 
-			data = None
-			try:
-				data = datetime.datetime.strptime(self.request.get('jog_data2'), "%Y-%m-%d %H:%M") 
-			except:
 				data = None
+				try:
+					data = datetime.datetime.strptime(self.request.get('jog_data2'), "%Y-%m-%d %H:%M") 
+				except:
+					data = None
 					
-			clubes = []
-			if clube_casa:
-				clubes.append(clube_casa.key())
-                        if clube_fora:
-                                clubes.append(clube_fora.key())
+				clubes = []
+				if clube_casa:
+					clubes.append(clube_casa.key())
+				if clube_fora:
+					clubes.append(clube_fora.key())
 
-			jogo.jog_ultima_alteracao = date
-			jogo.jog_nome = jogo.jog_jornada.jor_nome+":"+clube_casa.clu_nome+":"+clube_fora.clu_nome
-			jogo.jog_data = data
-			jogo.jog_clube1 = clube_casa
-			jogo.jog_clube2 = clube_fora
-			jogo.jog_clubes = clubes
-			jogo.jog_tactica_clube1 = self.request.get('jog_tactica_clube1')
-			jogo.jog_tactica_clube2 = self.request.get('jog_tactica_clube2')
-			jogo.jog_arbitro = arbitro if arbitro else None
-			jogo.jog_golos_clube1 = int(self.request.get('jog_golos_clube1')) if \
-				self.request.get('jog_golos_clube1') else None
-			jogo.jog_golos_clube2 = int(self.request.get('jog_golos_clube2')) if \
-				self.request.get('jog_golos_clube2') else None
-			jogo.jog_link_sites = list_link_sites
-			jogo.jog_link_videos = list_link_videos
-			jogo.jog_comentario = self.request.get('jog_comentario')
+				jogo.jog_ultima_alteracao = date
+				jogo.jog_nome = jogo.jog_jornada.jor_nome+":"+clube_casa.clu_nome+":"+clube_fora.clu_nome
+				jogo.jog_data = data
+				jogo.jog_clube1 = clube_casa
+				jogo.jog_clube2 = clube_fora
+				jogo.jog_clubes = clubes
+				jogo.jog_tactica_clube1 = self.request.get('jog_tactica_clube1')
+				jogo.jog_tactica_clube2 = self.request.get('jog_tactica_clube2')
+				jogo.jog_arbitro = arbitro if arbitro else None
+				jogo.jog_golos_clube1 = int(self.request.get('jog_golos_clube1')) if \
+					self.request.get('jog_golos_clube1') else None
+				jogo.jog_golos_clube2 = int(self.request.get('jog_golos_clube2')) if \
+					self.request.get('jog_golos_clube2') else None
+				jogo.jog_link_sites = list_link_sites
+				jogo.jog_link_videos = list_link_videos
+				jogo.jog_comentario = self.request.get('jog_comentario')
 
 
 			# SEGUNDO: JJJs ASSOCIADOS A UM JOGO
@@ -1138,6 +1143,8 @@ class NewMultiple(MyHandler):
 			for index in range(number):
 				
 				if self.request.get(prefix+str(index)+'_checkbox') == "on": 
+					
+					changes_in_jogo = True
 					
 					jogador = None
 					clube = None
@@ -1249,37 +1256,39 @@ class NewMultiple(MyHandler):
 					objs_adicionados += 1
 
 
-			jogo.jog_ultima_alteracao = date
-			clube_casa.clu_ultima_alteracao = date
-			clube_fora.clu_ultima_alteracao = date
-			jogo.jog_jornada.jor_ultima_alteracao = date
-			jogo.jog_jornada.jor_competicao.cmp_epoca.epo_ultima_alteracao = date
-			jogo.jog_jornada.jor_competicao.cmp_ultima_alteracao = date
+			if changes_in_jogo: 
+				
+				jogo.jog_ultima_alteracao = date
+				clube_casa.clu_ultima_alteracao = date
+				clube_fora.clu_ultima_alteracao = date
+				jogo.jog_jornada.jor_ultima_alteracao = date
+				jogo.jog_jornada.jor_competicao.cmp_epoca.epo_ultima_alteracao = date
+				jogo.jog_jornada.jor_competicao.cmp_ultima_alteracao = date
 			
-			objs.append(jogo)
-			objs.append(clube_casa)
-			objs.append(clube_fora)
-			objs.append(jogo.jog_jornada)
-			objs.append(jogo.jog_jornada.jor_competicao)
-			objs.append(jogo.jog_jornada.jor_competicao.cmp_epoca)
+				objs.append(jogo)
+				objs.append(clube_casa)
+				objs.append(clube_fora)
+				objs.append(jogo.jog_jornada)
+				objs.append(jogo.jog_jornada.jor_competicao)
+				objs.append(jogo.jog_jornada.jor_competicao.cmp_epoca)
 
-			if arbitro:
-				arbitro.arb_ultima_alteracao = date
-				objs.append(arbitro)
-				memcache_objs[str(arbitro.key().id())] = arbitro
+				if arbitro:
+					arbitro.arb_ultima_alteracao = date
+					objs.append(arbitro)
+					memcache_objs[str(arbitro.key().id())] = arbitro
 
-			db.put(objs)
+				db.put(objs)
 
-			flash_messages.append(u"%s %s: %s" % (jogo.kind(), "editado", jogo.__str__().decode("utf-8","replace") ) ) 
+				flash_messages.append(u"%s %s: %s" % (jogo.kind(), "editado", jogo.__str__().decode("utf-8","replace") ) ) 
 
-			for obj in objs:
-				memcache_objs[str(obj.key().id())] = obj
-				edit_type = None
-				if obj.kind() == "JogadorJogaJogo":
-					edit_type = "adicionado"
-				else: 
-					edit_type = "refrescada"
-				flash_messages.append(u"%s %s: %s" % (obj.kind(), edit_type, obj.__str__().decode("utf-8","replace") ) ) 
+				for obj in objs:
+					memcache_objs[str(obj.key().id())] = obj
+					edit_type = None
+					if obj.kind() == "JogadorJogaJogo":
+						edit_type = "adicionado"
+					else: 
+						edit_type = "refrescada"
+					flash_messages.append(u"%s %s: %s" % (obj.kind(), edit_type, obj.__str__().decode("utf-8","replace") ) ) 
 
 			memcache.set_multi(memcache_objs, time=86400)
 			flash_messages.append(u"Total edições: %s" %str(objs_adicionados))

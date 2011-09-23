@@ -19,6 +19,7 @@ class DetalheCompeticaoIndices(DetalheCompeticao):
 	# objecto do respectivo acumulador
 	nspace1 = "icc"
 	nspace2 = "tabela_icc"
+	nspace3 = "ica"
 	acumulador_icc = None
 	acumulador_tabela_icc = None
 	
@@ -47,6 +48,15 @@ class DetalheCompeticaoIndices(DetalheCompeticao):
 			self.acumulador_icc = classes.getAcumuladorCompeticao(self.competicao, config.VERSAO_ACUMULADOR, self.nspace1)
 
 		if data_cache and self.acumulador_icc and self.acumulador_icc.acuc_date > data_cache:
+			self.refreshen_cache = True
+			
+		self.acumulador_ica = memcache.get("acumulador-%s-%s" % (self.competicao, config.VERSAO_ACUMULADOR),
+		 namespace=self.nspace3)
+
+		if not self.acumulador_ica:
+			self.acumulador_ica = classes.getAcumuladorCompeticao(self.competicao, config.VERSAO_ACUMULADOR, self.nspace3)
+
+		if data_cache and self.acumulador_ica and self.acumulador_ica.acuc_date > data_cache:
 			self.refreshen_cache = True
 		
 		self.acumulador_tabela_icc = memcache.get("acumulador-%s-%s" % (self.competicao, config.VERSAO_ACUMULADOR),
@@ -92,12 +102,24 @@ class DetalheCompeticaoIndices(DetalheCompeticao):
 		# preparar o gráfico de icc
 		grafico_icc = self.acumulador_icc.acuc_content["icc"]
 		for idx, val in enumerate(grafico_icc):
-				grafico_icc[idx]["clube"] = hash_clubes[grafico_icc[idx]["clu"]]
-		
+			grafico_icc[idx]["clube"] = hash_clubes[grafico_icc[idx]["clu"]]
+
+		# preparar o gráfico de ica
+		grafico_ica = self.acumulador_ica.acuc_content["ica"]
+		for idx, val in enumerate(grafico_ica):
+			grafico_ica[idx]["arbitro"] = hash_arbitros[grafico_ica[idx]["arb"]]
+
+		if len(grafico_ica) > 16: 
+			list_1 = grafico_ica[:8]
+			for el in grafico_ica[8:]:
+				list_1.append(el)
+			grafico_ica = list_1
+						
 		dados = {
 		"clubes_tabela_icc":clubes,
 		"tabela_icc":tabela_icc,
-		"grafico_icc":grafico_icc
+		"grafico_icc":grafico_icc,
+		"grafico_ica":grafico_ica
 		}
 		return dados
 
@@ -107,8 +129,13 @@ class DetalheCompeticaoIndices(DetalheCompeticao):
 			"clubes_tabela_icc":self.dados["clubes_tabela_icc"],
 			"tabela_icc":self.dados["tabela_icc"],
 			"competicao":self.competicao,
-			"grafico":self.render_subdir('gera','gera_grafico_horizontal_icc.html', {
+			"grafico_icc":self.render_subdir('gera','gera_grafico_horizontal_icc.html', {
 					"icc_dados": self.dados["grafico_icc"],
+					"competicao":self.competicao
+					
+			}),
+			"grafico_ica":self.render_subdir('gera','gera_grafico_horizontal_ica.html', {
+					"ica_dados": self.dados["grafico_ica"],
 					"competicao":self.competicao
 					
 			}),

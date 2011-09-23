@@ -86,7 +86,7 @@ class DetalheArbitro(MyCacheHandler):
 		else:
 			self.referer = "/procurar_arbitro"
 		
-		self.sid = get_sid_from_cookie()
+		self.sid =self.get_sid_from_cookie()
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False

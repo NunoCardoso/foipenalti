@@ -29,11 +29,12 @@ $(document).ready(function() {
 		
 // verificar se tem IE
 	if (isIE()) {
-		var cookie = $.cookie("IESUCKS")
+	/*	var cookie = $.cookie("IESUCKS")
 		if (!cookie) {
 			$.cookie("IESUCKS", "Sim", { expires: 7, path: '/'});
 			IEwarningModal()
 		}
+		*/
 	}
 
 // duplicar linhas na edição de campos

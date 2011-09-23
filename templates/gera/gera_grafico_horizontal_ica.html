@@ -1,0 +1,39 @@
+<div id="fp-icc-wrapper" style="width:100%;">
+	<div id="fp-icc" style="margin-left:auto;margin-right:auto;width:800px;">
+		<div class="fp-barras-contentor" id="barras-cima" style="height: 300px;">
+			{% for item in ica_dados %} 
+				{% if item.height|ispositive %}
+			<div class="barra" style="float:left;width:50px;height:100%;vertical-align:bottom;">
+				<div class="barra-space" style="height:{{item.height|subtractfrom:230}}px;"></div>
+				<div class="barra-clube-logo" style="height:40px;text-align:center;"><a href="/detalhe_arbitro?id={{item.arbitro.key.id}}&menu=detalhe_arbitro_sumario&competicao={{competicao}}"><img style="height:100%;" src="{{item.arbitro.arb_link_foto}}"></A></div>
+				<div class="barra-clube-nome" style="height:10px;font-size:7px;text-align:center;"><P class="marqueeable"><a href="/detalhe_arbitro?id={{item.arbitro.key.id}}&menu=detalhe_arbitro_sumario&competicao={{competicao}}">{{item.arbitro}}</A></P></div>
+				<div class="barra-clube-icc" style="height:20px;text-align:center;text-size:16px;">{{item.ica}}</div>
+				<div class="barra-clube-fill" style="height:{{item.height}}px; background-image: url('img/red_bar.png');"></div>
+			</div>	
+				{% else %}
+			<div class="barra" style="float:left;width:50px;height:100%;vertical-align:bottom;">
+			 <div class="barra-space" style="height:300px;">&nbsp;</div>
+			</div>
+				{% endif %}
+			{% endfor %}	
+		</div>
+		<div id="barra_meio" style="height: 1px; background-color:#888;"></div>
+		<div class="fcp-barras-contentor" id="barra_baixo" style="height: 300px;">
+			{% for item in ica_dados %} 
+				{% if item.height|isnegative %}
+			<div class="barra" style="float:left;width:50px;height:100%;vertical-align:bottom;">
+				<div class="barra-clube-fill" style="height:{{item.height|absvalue}}px; background-image: url('img/green_bar.png');"></div>
+				<div class="barra-clube-icc" style="height:20px;text-align:center;text-size:16px;">{{item.ica}}</div>
+				<div class="barra-clube-logo" style="height:40px;text-align:center;"><a href="/detalhe_arbitro?id={{item.arbitro.key.id}}&menu=detalhe_arbitro_sumario&competicao={{competicao}}"><img style="height:100%;" src="{{item.arbitro.arb_link_foto}}"></A></div>
+				<div class="barra-clube-nome" style="height:10px;font-size:7px;text-align:center;"><P class="marqueeable"><a href="/detalhe_arbitro?id={{item.arbitro.key.id}}&menu=detalhe_arbitro_sumario&competicao={{competicao}}">{{item.arbitro.arb_nome}}</A></P></div>
+				<div class="barra-space" style="height:{{item.height|absvalue|subtractfrom:230}}px;"></div>
+			</div>	
+					{% else %}
+			<div class="barra" style="float:left;width:50px;height:100%;vertical-align:bottom;">
+			 <div class="barra-space" style="height:300px;">&nbsp;</div>
+			</div>
+				{% endif %}
+			{% endfor %}	
+		</div>
+	</div>
+</div>

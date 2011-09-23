@@ -68,120 +68,58 @@ class TabelaICC:
 		return arbitro_clube_list
 		
 	
-	#	@staticmethod
 	def load_tabela_icc_for_epoca(self, epoca):
 		acue = classes.getAcumuladorEpoca(epoca, config.VERSAO_ACUMULADOR,"tabela_icc")
 		if acue:
 			self.tabela = acue.acue_content["tabela_icc"]
 
+	def load_tabela_icc_for_competicao(self, competicao):
+		acuc = classes.getAcumuladorCompeticao(competicao, config.VERSAO_ACUMULADOR,"tabela_icc")
+		if acuc:
+			self.tabela = acuc.acuc_content["tabela_icc"]
+
 	def get_top_arbitros_para_3_grandes(self):
-		porto = Clube.all().filter("clu_nome = ", "Porto").get()
-		benfica = Clube.all().filter("clu_nome = ", "Benfica").get()
-		sporting = Clube.all().filter("clu_nome = ", "Sporting").get()
-		braga = Clube.all().filter("clu_nome = ", "Braga").get()
-		porto_id = porto.key().id()
-		benfica_id = benfica.key().id()
-		sporting_id = sporting.key().id()
-		braga_id = braga.key().id()
 		
-		pior_arbitro_porto = None
-		melhor_arbitro_porto = None
-		pior_arbitro_benfica = None
-		melhor_arbitro_benfica = None
-		pior_arbitro_sporting = None
-		melhor_arbitro_sporting = None
-		pior_arbitro_braga = None
-		melhor_arbitro_braga = None
+		clubes = ["Porto", "Benfica", "Sporting", "Braga"]
+
+		for idx, val in enumerate(clubes):
+			
+			clube = Clube.all().filter("clu_nome = ", clubes[idx]).get()
+			clube_id = clube.key().id()
+			clubes[idx] = {"clube":clube, "clube_id":clube_id, "pior_arbitro":None, "melhor_arbitro":None}
 		
 		for idx, val in enumerate(self.tabela):
+
 			arb_id = self.tabela[idx]["arb"]
 			clus_list = self.tabela[idx]["clus"]
+
 			for idx, val in enumerate(clus_list):
 				
-				if clus_list[idx]["clu"] == porto_id:
-					
-					if clus_list[idx]["icc"] < -0.01 or clus_list[idx]["icc"] > 0.01: # if we have something interesting:
-						
-						if clus_list[idx]["icc"] < -0.01:
-							if pior_arbitro_porto == None:
-								pior_arbitro_porto = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-							else:
-								if clus_list[idx]["icc"] < pior_arbitro_porto["icc"]:
-									pior_arbitro_porto = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-						if clus_list[idx]["icc"] > 0.01:
-							if melhor_arbitro_porto == None:
-								melhor_arbitro_porto = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-							else:
-								if clus_list[idx]["icc"] < melhor_arbitro_porto["icc"]:
-									melhor_arbitro_porto = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
+				for idx2, val2 in enumerate(clubes):
 				
-				if clus_list[idx]["clu"] == benfica_id:
-
-					if clus_list[idx]["icc"] < -0.01 or clus_list[idx]["icc"] > 0.01: # if we have something interesting:
-
-						if clus_list[idx]["icc"] < -0.01:
-							if pior_arbitro_benfica == None:
-								pior_arbitro_benfica = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-							else:
-								if clus_list[idx]["icc"] < pior_arbitro_benfica["icc"]:
-									pior_arbitro_benfica = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-						if clus_list[idx]["icc"] > 0.01:
-							if melhor_arbitro_benfica == None:
-								melhor_arbitro_benfica = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-							else:
-								if clus_list[idx]["icc"] < melhor_arbitro_benfica["icc"]:
-									melhor_arbitro_benfica = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-
-				if clus_list[idx]["clu"] == sporting_id:
-
-					if clus_list[idx]["icc"] < -0.01 or clus_list[idx]["icc"] > 0.01: # if we have something interesting:
-						if clus_list[idx]["icc"] < -0.01:
-							if pior_arbitro_sporting == None:
-								pior_arbitro_sporting = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-							else:
-								if clus_list[idx]["icc"] < pior_arbitro_sporting["icc"]:
-									pior_arbitro_sporting = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-						if clus_list[idx]["icc"] > 0.01:
-							if melhor_arbitro_sporting == None:
-								melhor_arbitro_sporting = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-							else:
-								if clus_list[idx]["icc"] < melhor_arbitro_sporting["icc"]:
-									melhor_arbitro_sporting = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-
-				if clus_list[idx]["clu"] == braga_id:
-
-					if clus_list[idx]["icc"] < -0.01 or clus_list[idx]["icc"] > 0.01: # if we have something interesting:
-						if clus_list[idx]["icc"] < -0.01:
-							if pior_arbitro_braga == None:
-								pior_arbitro_braga = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-							else:
-								if clus_list[idx]["icc"] < pior_arbitro_braga["icc"]:
-									pior_arbitro_braga = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-						if clus_list[idx]["icc"] > 0.01:
-							if melhor_arbitro_braga == None:
-								melhor_arbitro_braga = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-							else:
-								if clus_list[idx]["icc"] < melhor_arbitro_braga["icc"]:
-									melhor_arbitro_braga = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
-
-		if pior_arbitro_porto:
-			pior_arbitro_porto["arb"] = Arbitro.get_by_id(pior_arbitro_porto["arb"])
-		if melhor_arbitro_porto:
-			melhor_arbitro_porto["arb"] = Arbitro.get_by_id(melhor_arbitro_porto["arb"])
-		if pior_arbitro_benfica:
-			pior_arbitro_benfica["arb"] = Arbitro.get_by_id(pior_arbitro_benfica["arb"])
-		if melhor_arbitro_benfica:
-			melhor_arbitro_benfica["arb"] = Arbitro.get_by_id(melhor_arbitro_benfica["arb"])
-		if pior_arbitro_sporting:
-			pior_arbitro_sporting["arb"] = Arbitro.get_by_id(pior_arbitro_sporting["arb"])
-		if melhor_arbitro_sporting:
-			melhor_arbitro_sporting["arb"] = Arbitro.get_by_id(melhor_arbitro_sporting["arb"])
-		if pior_arbitro_braga:
-			pior_arbitro_braga["arb"] = Arbitro.get_by_id(pior_arbitro_braga["arb"])
-		if melhor_arbitro_braga:
-			melhor_arbitro_braga["arb"] = Arbitro.get_by_id(melhor_arbitro_braga["arb"])
+					if clus_list[idx]["clu"] == clubes[idx2]["clube_id"]:
+					
+						if clus_list[idx]["icc"] < -0.01 or clus_list[idx]["icc"] > 0.01: # if we have something interesting:
+						
+							if clus_list[idx]["icc"] < -0.01:
+								
+								if clubes[idx2]["pior_arbitro"] == None:
+									clubes[idx2]["pior_arbitro"] = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
+								else:
+									if clus_list[idx]["icc"] < clubes[idx2]["pior_arbitro"]["icc"]:
+										clubes[idx2]["pior_arbitro"] = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
+										
+							if clus_list[idx]["icc"] > 0.01:
+								if clubes[idx2]["melhor_arbitro"] == None:
+									clubes[idx2]["melhor_arbitro"] = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
+								else:
+									if clus_list[idx]["icc"] < clubes[idx2]["melhor_arbitro"]["icc"]:
+										clubes[idx2]["melhor_arbitro"] = {"arb":arb_id, "icc":clus_list[idx]["icc"]}
 		
-		return [{"clube":porto, "pior_arbitro": pior_arbitro_porto, "melhor_arbitro":melhor_arbitro_porto},
-			{"clube":benfica, "pior_arbitro": pior_arbitro_benfica,"melhor_arbitro":melhor_arbitro_benfica},
-			{"clube":sporting, "pior_arbitro":pior_arbitro_sporting,"melhor_arbitro":melhor_arbitro_sporting},
-			{"clube":braga, "pior_arbitro":pior_arbitro_braga,"melhor_arbitro":melhor_arbitro_braga}]
+		for idx, val in enumerate(clubes):
+			if clubes[idx]["pior_arbitro"]:
+				clubes[idx]["pior_arbitro"]["arb"] = Arbitro.get_by_id(clubes[idx]["pior_arbitro"]["arb"])
+			if clubes[idx]["melhor_arbitro"]:
+				clubes[idx]["melhor_arbitro"]["arb"] = Arbitro.get_by_id(clubes[idx]["melhor_arbitro"]["arb"])
+
+		return clubes

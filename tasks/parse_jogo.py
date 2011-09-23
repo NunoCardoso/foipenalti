@@ -11,6 +11,7 @@ import re
 import config 
 import urllib
 import traceback
+from lib import listas
 
 from django.utils import simplejson
 
@@ -67,9 +68,6 @@ class ParseJogo(MyHandler):
 		# MAISFUTEBOL
 		if url.startswith("http://www.maisfutebol.iol.pt"):
 			try:
-				#f = open(os.path.dirname(os.path.abspath(__file__))+"/../tests/83726.html", "r")
-				#logging.info(f)
-				#html = f.read()
 				html =  urlfetch.fetch(url)
 			except:
 				message = u"Erro: URL %s nao consegue ser lido" % url
@@ -115,7 +113,27 @@ class ParseJogo(MyHandler):
 				return self.response.out.write(simplejson.dumps({'status':'Erro', 'message':message}))
 
 			logging.info("Clubes detectados")
-			
+
+			arbitro = None
+			if results.has_key("arbitro"):
+				arbitros = listas.get_lista_arbitros()
+				for arb in arbitros:
+					if arb.arb_nome == results["arbitro"]:
+						arbitro = arb
+						logging.info('Árbitro detectado')
+
+			if not arbitro:
+				logging.info('Árbitro NÃO detectado')
+			else:
+				output["arbitro"] = arbitro.key().id()
+				
+			if results.has_key("resultado_clube1"):
+				output["resultado_clube1"] = results["resultado_clube1"]
+			if results.has_key("resultado_clube2"):	
+				output["resultado_clube2"] = results["resultado_clube2"]
+
+			logging.info("Resultados detectados")
+				
 			jog_clube1 = Jogador.all().filter("jgd_clube_actual = ", clube1)
 			jog_clube2 = Jogador.all().filter("jgd_clube_actual = ", clube2)
 
@@ -142,8 +160,12 @@ class ParseJogo(MyHandler):
 
 			logging.info('Índices de jogadores preenchidos.')
 
-#			assert results["tacticas_clube1"] == "4x3x3", results["tacticas_clube1"]
-#			assert results["tacticas_clube2"] == "4x2x3x1", results["tacticas_clube2"] 
+			if results.has_key("tacticas_clube1"):
+				output["tacticas_clube1"] = re.sub("x","-",results["tacticas_clube1"])
+			if results.has_key("tacticas_clube2"):
+				output["tacticas_clube2"] = re.sub("x","-",results["tacticas_clube2"])
+	
+			logging.info('Tácticas preenchidas.')
 
 			# hash now, array later after all filled up
 			output["jogadores_clube1"] = {}

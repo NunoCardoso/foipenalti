@@ -3,7 +3,10 @@
 <DIV id="main-submenu-tab">
 	<UL CLASS="tabs">
 		<LI CLASS="active">
-			<A CLASS="main-submenu-tab-link" rel="grafico" href="#">Gráfico ICC&#0153;</A>
+			<A CLASS="main-submenu-tab-link" rel="grafico_icc" href="#">Gráfico ICC&#0153;</A>
+		</LI>
+		<LI>
+			<A CLASS="main-submenu-tab-link" rel="grafico_ica" href="#">Gráfico ICA&#0153;</A>
 		</LI>
 		<LI>
 			<A CLASS="main-submenu-tab-link" rel="tabela" href="#">Tabela ICC&#0153;</A>
@@ -11,19 +14,34 @@
 	</UL>	
 	<DIV class="clear"></DIV>
 	<DIV class="main-tab-content">
-		<DIV class="tab_contents tab_contents_active" id="grafico">
+		<DIV class="tab_contents tab_contents_active" id="grafico_icc">
 			
-<!-- inicio grafico -->
+<!-- inicio grafico_icc -->
 <div class="fp-subtitulo">ICC&#0153; para <div class="epoca-container">{{epoca.epo_nome}}</div></DIV>
-{{grafico}}
+{{grafico_icc}}
 
-<div style="margin:10px;text-align:left;">Estes são os valores do ICC&#0153; da época {{epoca.epo_nome}} (<A href="/faq#3.5">O que é o ICC&#0153?</A>). Os clubes com barras vermelhas são os que estão a obter mais benefícios dos erros dos árbitros, enquanto que os clubes com barras verdes são os que estão a ser mais prejudicados com os erros da arbitragem.</DIV>
+<div style="margin:10px;text-align:left;">Estes são os valores do ICC&#0153; da época <div class="epoca-container">{{epoca.epo_nome}}</div> (<A href="/faq#3.5">O que é o ICC&#0153?</A>). Os clubes com barras vermelhas são os que estão a obter mais benefícios dos erros dos árbitros, enquanto que os clubes com barras verdes são os que estão a ser mais prejudicados com os erros da arbitragem.</DIV>
 <div style="margin:10px;text-align:left;">Para mais detalhes sobre o ICC&#0153; de cada clube, clique no emblema do clube.</DIV>
 <div style="margin:10px;text-align:left;"><span style="font-size:16px;"><B>Importante: Os pesos da métrica ICC&#0153; ainda não estão afinados, ainda se encontram em fase experimental</B></span>. Além disso, convém relembrar que estes valores <A HREF="/termos">devem ser consumidos com moderação</a>. Para mais detalhes sobre o ICC de cada clube, clique no emblema do clube.</DIV>	
 
-<!-- fim grafico -->
+<!-- fim grafico_icc -->
 
 		</DIV>
+		
+		<DIV class="tab_contents" id="grafico_ica">
+
+		<!-- inicio grafico_ica -->
+		<div class="fp-subtitulo">ICA&#0153; para <div class="epoca-container">{{epoca.epo_nome}}</div></DIV>
+		{{grafico_ica}}
+
+		<div style="margin:10px;text-align:left;">Estes são os valores do ICA&#0153; da <div class="epoca-container">{{epoca.epo_nome}}</div> (<A href="/faq#3.5">O que é o ICA&#0153?</A>). Os árbitros com barras vermelhas são os que estão com piores desempenhos, enquanto que os árbitros com barras verdes são os que estão a ter melhores desempenhos.</DIV>
+		<div style="margin:10px;text-align:left;">Para mais detalhes sobre o ICA&#0153; de cada árbitro, clique na fotografia do árbitro.</DIV>
+		<div style="margin:10px;text-align:left;"><span style="font-size:16px;"><B>Importante: Os pesos da métrica ICA&#0153; ainda não estão afinados, ainda se encontram em fase experimental</B></span>. Além disso, convém relembrar que estes valores <A HREF="/termos">devem ser consumidos com moderação</a>.</DIV>	
+
+		<!-- fim grafico_ica -->
+
+		</DIV>
+					
 		<DIV class="tab_contents" id="tabela">
 <!-- inicio tabela -->
 		

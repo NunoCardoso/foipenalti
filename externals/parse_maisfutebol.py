@@ -35,16 +35,31 @@ class ParseMaisFutebol:
 			nomes_equipas = maindiv.find('div.topofichajogo >  table > tr > td.nome')
 			nome_equipa1 = nomes_equipas[0].text().strip()
 			nome_equipa2 = nomes_equipas[1].text().strip()
-			logging.info("ParseMaisFutebol: equpias: "+nome_equipa1+" e "+nome_equipa2)
+			resultados_equipas = maindiv.find('div.topofichajogo >  table > tr > td.resultado')
+			resultado_equipa1 = resultados_equipas[0].text().strip()
+			resultado_equipa2 = resultados_equipas[1].text().strip()
+			logging.info("ParseMaisFutebol: %s %s-%s %s" % (nome_equipa1,resultado_equipa1, resultado_equipa2, nome_equipa2) )
 		except:
 			trace = "".join(traceback.format_exc())
 			logging.error("Não consegui ler div.ficha-content, nem div.topofichajogo >  table > tr > td.nome")
+			logging.error(trace)
+			return {"status":"Error","message":sys.exc_info()}
+# ARBITRO
+		try:
+			tabela_arbitro = maindiv.find('div.dados table')
+			tabela_arbitro = self.reDOM(tabela_arbitro[0])
+			arbitro = tabela_arbitro.xpath("/table/tr[position()=4]/td[position()=2]")[0].text().strip()  
+			arbitro = re.sub(r'\([^\)]*\)','',arbitro).strip()
+		except:
+			trace = "".join(traceback.format_exc())
+			logging.error("Não consegui ler árbitro em div.equipa > table.fj1")
 			logging.error(trace)
 			return {"status":"Error","message":sys.exc_info()}
 			
 # TABELAS EQUIPAS	
 		try:	
 			tabelas = maindiv.find('div.equipa > table.fj2')
+			logging.info(tabelas)
 			tabelas_equipas = self.reDOM(tabelas[0])
 		except:
 			logging.error("Não consegui ler a div.equipa > table.fj2")
@@ -247,8 +262,11 @@ class ParseMaisFutebol:
 		return {"status":"OK","message":{
 			"tacticas_clube1":tacticas_equipa1,
 			"tacticas_clube2":tacticas_equipa2,
+			"resultado_clube1":resultado_equipa1,
+			"resultado_clube2":resultado_equipa2,
 			"clube1":nome_equipa1,
 			"clube2":nome_equipa2,
+			"arbitro":arbitro,
 			"jogadores_titulares_clube1":jog_tit_equipa1_arr,
 			"jogadores_titulares_clube2":jog_tit_equipa2_arr,
 			"jogadores_suplentes_clube1":jog_supl_equipa1_arr,

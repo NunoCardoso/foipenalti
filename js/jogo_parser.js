@@ -28,6 +28,25 @@ $(document).ready(function() {
 })
 
 function fill_out_jogadores(info) {
+	
+	// info tem resultados_clube1, resultados_clube2, arbitro(id), tacticas_clube1, tacticas_clube2
+	if ("arbitro" in info) {
+		$("#jog_arbitro_id").val(info["arbitro"])
+	}
+	if ("resultados_clube1" in info) {
+		$("#jog_golos_clube1").val(info["resultados_clube1"])
+	}
+	if ("resultados_clube2" in info) {
+		$("#jog_golos_clube2").val(info["resultados_clube2"])
+	}
+	if ("tacticas_clube1" in info) {
+		$("#jog_tactica_clube1").val(info["tacticas_clube1"])
+	}
+	if ("tacticas_clube1" in info) {
+		$("#jog_tactica_clube2").val(info["tacticas_clube1"])
+	}
+	
+			
 	if ("jogadores_clube1" in info) {
 		fill_out_jogadores_batch(0, info["jogadores_clube1"])
 	}

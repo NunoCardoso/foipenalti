@@ -68,7 +68,7 @@ class List(MyHandler):
 		
 		filter_field = self.request.get("filter_field")
 		filter_needle = self.request.get("filter_needle")
-		sid = get_sid_from_cookie()
+		sid =self.get_sid_from_cookie()
 		url = self.request.url
 		
 		# para quando se apaga registos...

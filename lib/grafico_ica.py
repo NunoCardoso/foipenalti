@@ -54,11 +54,15 @@ class GraficoICA:
 
 			return final_ica
 	
-#	@staticmethod
 	def load_grafico_ica_for_epoca(self, epoca):
 		acue = classes.getAcumuladorEpoca(epoca, config.VERSAO_ACUMULADOR,"ica")
 		if acue:
 			self.grafico = acue.acue_content["ica"]
+	
+	def load_grafico_ica_for_competicao(self, competicao):
+		acuc = classes.getAcumuladorCompeticao(competicao, config.VERSAO_ACUMULADOR,"ica")
+		if acuc:
+			self.grafico = acuc.acuc_content["ica"]
 		
 	def get_top_bons(self, howmuch = 3):
 		new_grafico = self.grafico[:]
