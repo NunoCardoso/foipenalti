@@ -616,6 +616,6 @@ class Classificacao():
 				
 		tabela_ordenada_real = {"total":tabela_total_2 , "parcial":tabela_parcial_2 }
 		tabela_ordenada_virtual = {"total":tabela_total_2, "parcial":tabela_parcial_2 }
-		#vamos adicionar posi
+
 		return tabela_ordenada_real, tabela_ordenada_virtual
 

@@ -147,7 +147,7 @@ class HomePage(MyCacheHandler):
 				cl_virtual["total"][idx]["clube"] = clus[cl_virtual["total"][idx]["clu"]]
 
 # CRIAR BLOG POSTS		
-		posts = blog.Post.all().order('-pub_date').fetch(blogpost_limit)
+		posts = Post.all().order('-pub_date').fetch(blogpost_limit)
 
 # CRIAR TOPS CLUBES ICC
 		grafico = GraficoICC()

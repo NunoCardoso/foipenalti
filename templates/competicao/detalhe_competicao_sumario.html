@@ -1,5 +1,8 @@
 {% spaceless %}
 {% autoescape off %}
+
+<script type="text/javascript" src="js/classificacao.js" ></script>
+
 <DIV id="main-submenu-tab">
 	<UL CLASS="tabs">
 		<LI CLASS="active">
@@ -15,12 +18,18 @@
 			
 		<!-- inicio sumario -->
 
-<div class="fp-subtitulo" style="margin:10px;">Classificação geral da {{competicao.cmp_nome_completo}} <div class="epoca-container">{{competicao.cmp_epoca.epo_nome}}</div></div>
+<div class="fp-subtitulo" style="margin:10px;">Classificação geral da {{competicao.cmp_nome_completo}} 
+	<div class="epoca-container">{{competicao.cmp_epoca.epo_nome}}</div>
+</div>
+
+<div><input id="fp_classificacao_range" style="width:700px;" type="range" min="1" max="{{competicao.cmp_numero_jornadas}}" /></div>
+
 <div style="text-align: center;display:inline-block;">
 	<div style="float:left; margin-right:15px;">
 		<div style="width:100%; text-align:center; padding:10px;font-size:16px;">A classificação "real"...</div>
 		<div style="width:100%; text-align:center;">
-			<TABLE id="fp_classificacao" CLASS="fp-table" style="margin:auto;font-size:12px;text-align:center;width:400px;">
+			
+			<TABLE id="fp_classificacao_real" CLASS="fp-table" style="margin:auto;font-size:12px;text-align:center;width:400px;">
 				<THEAD>
 					<TR>
 						<TH{% if competicao.cmp_tipo|neq:"Liga" %} style="width:50px;"{% endif %}>P</TH>
@@ -78,7 +87,8 @@
 	<div style="float:left; margin-right:15px;">
 		<div style="width:100%; text-align:center; padding:10px;font-size:16px;">A classificação "virtual"...</div>
 		<div style="width:100%; text-align:center;">
-			<TABLE id="fp_classificacao" CLASS="fp-table" style="margin:auto;font-size:12px;text-align:center;width:400px;">
+			
+			<TABLE id="fp_classificacao_virtual" CLASS="fp-table" style="margin:auto;font-size:12px;text-align:center;width:400px;">
 	<THEAD>
 		<TR>
 			<TH{% if competicao.cmp_tipo|neq:"Liga" %} style="width:50px;"{% endif %}>P</TH>

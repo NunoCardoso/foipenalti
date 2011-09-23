@@ -1032,11 +1032,12 @@ class NewMultiple(MyHandler):
 			
 			jog_id = self.request.get('jog_id')
 			jogo_id = None	
+			arbitro = None
+			jogo = None
 			
 			if jog_id: 
 				jogo_id = Jogo.get_by_id(int(jog_id))
 
-			jogo = None
 			if jogo_id:
 				jogo = jogo_id
 
@@ -1076,7 +1077,6 @@ class NewMultiple(MyHandler):
 					self.redirect(referer)	
 					return
 			
-				arbitro = None
 				# arbitro pode vir já com id, por exemplo na página edit de um árbitro pode-ser criar um jogo
 				try:
 					arbitro = Arbitro.get_by_id(int(self.request.get('jog_arbitro_id')))
@@ -1259,15 +1259,15 @@ class NewMultiple(MyHandler):
 			if changes_in_jogo: 
 				
 				jogo.jog_ultima_alteracao = date
-				clube_casa.clu_ultima_alteracao = date
-				clube_fora.clu_ultima_alteracao = date
+				jogo.jog_clube1.clu_ultima_alteracao = date
+				jogo.jog_clube2.clu_ultima_alteracao = date
 				jogo.jog_jornada.jor_ultima_alteracao = date
 				jogo.jog_jornada.jor_competicao.cmp_epoca.epo_ultima_alteracao = date
 				jogo.jog_jornada.jor_competicao.cmp_ultima_alteracao = date
 			
 				objs.append(jogo)
-				objs.append(clube_casa)
-				objs.append(clube_fora)
+				objs.append(jogo.jog_clube1)
+				objs.append(jogo.jog_clube2)
 				objs.append(jogo.jog_jornada)
 				objs.append(jogo.jog_jornada.jor_competicao)
 				objs.append(jogo.jog_jornada.jor_competicao.cmp_epoca)

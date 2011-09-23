@@ -134,8 +134,16 @@ class DetalheCompeticaoSumario(DetalheCompeticao):
 		
 		if classificacao_real and classificacao_real.has_key("total"):
 			dados["classificacao_real"] = classificacao_real["total"] 
+			
+		if classificacao_real and classificacao_real.has_key("parcial"):
+			dados["classificacao_real_parcial"] = classificacao_real["parcial"] 
+		
 		if classificacao_virtual and classificacao_virtual.has_key("total"):
 			dados["classificacao_virtual"] = classificacao_virtual["total"]
+
+		if classificacao_virtual and classificacao_virtual.has_key("parcial"):
+			dados["classificacao_virtual_parcial"] = classificacao_virtual["parcial"] 
+
 		return dados
 
 	def renderHTML(self):
@@ -143,9 +151,19 @@ class DetalheCompeticaoSumario(DetalheCompeticao):
 		html = self.render_subdir('competicao','detalhe_competicao_sumario.html', {
 			"classificacao_real": self.dados['classificacao_real'] if  self.dados.has_key('classificacao_real') else None,
 			"classificacao_virtual": self.dados['classificacao_virtual'] if self.dados.has_key('classificacao_virtual') else None, 
+			"classificacao_real_parcial": self.dados['classificacao_real_parcial'] if  self.dados.has_key('classificacao_real_parcial') else None,
+			"classificacao_virtual_parcial": self.dados['classificacao_virtual_parcial'] if self.dados.has_key('classificacao_virtual_parcial') else None, 
 			"melhores_marcadores":self.dados["melhores_marcadores"],
 			"mais_indisciplinados":self.dados["mais_indisciplinados"],
 			"competicao": self.competicao,
 			"data":datetime.datetime.now()
 		})
 		return html
+
+#		[
+#		  {'jor_ordem': 1L,
+#		  'classificacao_parcial': [
+#		      {},{},{}], 
+#		  'jor_nome': u'2011/2012:Liga:1'
+#		  }, {
+#		   'jor_ordem': 2L,
