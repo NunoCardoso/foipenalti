@@ -1,8 +1,6 @@
 {% spaceless %}
 {% autoescape off %}
 
-<script type="text/javascript" src="js/classificacao.js" ></script>
-
 <DIV id="main-submenu-tab">
 	<UL CLASS="tabs">
 		<LI CLASS="active">
@@ -22,7 +20,7 @@
 	<div class="epoca-container">{{competicao.cmp_epoca.epo_nome}}</div>
 </div>
 
-<div><input id="fp_classificacao_range" style="width:700px;" type="range" min="1" max="{{competicao.cmp_numero_jornadas}}" /></div>
+<div><div id="fp_classificacao_range_jornada"></div><input id="fp_classificacao_range" style="width:800px;" type="range" min="1" max="{{competicao.cmp_numero_jornadas}}" /></div>
 
 <div style="text-align: center;display:inline-block;">
 	<div style="float:left; margin-right:15px;">
@@ -43,43 +41,8 @@
 						{% if competicao.cmp_tipo|eq:"Liga" %}<TH>P</TH>{% endif %}
 					</TR>
 				</THEAD>
-			<TBODY>
-				{% for linha in classificacao_real %}
-		<TR>
-			<TD value="{{linha.psr}}">
-			{% if linha.psr|isinintegerlist:competicao.cmp_lugares_descida %}
-		<DIV CLASS="fp-tabela-classificacao-linha-lugar-descida fp-medium-radius">
-			{% else %}
-				{% if linha.psr|isinintegerlist:competicao.cmp_lugares_liga_campeoes %}
-		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius">
-				{% else %}
-					{% if linha.psr|isinintegerlist:competicao.cmp_lugares_eliminatorias_liga_campeoes %}
-		<DIV CLASS="fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius">
-					{% else %}
-						{% if linha.psr|isinintegerlist:competicao.cmp_lugares_liga_europa %}
-		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius">
-						{% else %}
-						<DIV>
-						{% endif %}	
-					{% endif %}	
-				{% endif %}	
-			{% endif %}	
-		<p class="marqueeable">{{linha.psr}}{% if competicao.cmp_tipo|eq:"Liga" %}º{% endif %}</P>
-			</DIV>
-		</TD>
-		<TD value="{{linha.clube.clu_nome_curto}}" style="text-align:left;">
-			<P class="marqueeable"><img src="{{linha.clube.clu_link_logo}}" style="height:14px;margin-right:3px;">
-			<A HREF="detalhe_clube?id={{linha.clube.key.id}}">{{linha.clube.clu_nome_curto}}</A></P></TD>
-		<TD>{{linha.jr}}</TD>
-		<TD>{{linha.vr}}</TD>
-		<TD>{{linha.er}}</TD>
-		<TD>{{linha.dr}}</TD>
-		<TD>{{linha.gmr}}</TD>
-		<TD>{{linha.gsr}}</TD>
-		{% if competicao.cmp_tipo|eq:"Liga" %}<TD <B>{{linha.pr}}</B></TD>{% endif %}
-		</TR>
-		{% endfor %}	
-	</TBODY>
+			<TBODY>	
+			</TBODY>
 			</TABLE>
 		</div>
 	</div>
@@ -98,80 +61,6 @@
 		</TR>
 	</THEAD>
 	<TBODY>
-		{% for linha in classificacao_virtual %}
-		<TR><TD value="{{linha.psv}}">
-					{% if linha.psv|isinintegerlist:competicao.cmp_lugares_descida %}
-		<DIV CLASS="fp-tabela-classificacao-linha-lugar-descida fp-medium-radius">
-			{% else %}
-				{% if linha.psv|isinintegerlist:competicao.cmp_lugares_liga_campeoes %}
-		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius">
-				{% else %}
-					{% if linha.psv|isinintegerlist:competicao.cmp_lugares_eliminatorias_liga_campeoes %}
-		<DIV CLASS="fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius">
-					{% else %}
-						{% if linha.psv|isinintegerlist:competicao.cmp_lugares_liga_europa %}
-		<DIV CLASS="fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius">
-						{% else %}
-						<DIV>
-						{% endif %}	
-					{% endif %}	
-				{% endif %}	
-			{% endif %}
-			<P class="marqueeable">
-			{{linha.psv}}{% if competicao.cmp_tipo|eq:"Liga" %}º{% endif %}
-			</P></DIV>
-			</TD>
-</DIV></TD>
-		<td>
-		{% if linha.psv|lt:linha.psr %}	
-			<span style="font-weight:bold;color:green;">&uarr;</span>
-		{% endif %}	
-		{% if linha.psv|gt:linha.psr %}	
-			<span style="font-weight:bold;color:red;">&darr;</span>
-		{% endif %}	
-		</td>
-		<TD value="{{linha.clube.clu_nome_curto}}" style="text-align:left;">
-			<P class="marqueeable"><img src="{{linha.clube.clu_link_logo}}" style="height:14px;margin-right:3px;">
-			<A HREF="detalhe_clube?id={{linha.clube.key.id}}">{{linha.clube.clu_nome_curto}}</A></P></TD>
-		<TD>{{linha.jr}}</TD>
-		<TD {% if linha.vv|lt:linha.vr %}
-		   style="background-color:#FF9999"
-		{% else %}{% if linha.vv|gt:linha.vr %}
-			style="background-color:#99FF99"
-		{% endif %}{% endif %}>{{linha.vv}}</TD>
-		<TD {% if linha.ev|neq:linha.er %}
-		   style="background-color:#9999FF"
-		{% endif %}>{{linha.ev}}</TD>
-		<TD {% if linha.dv|lt:linha.dr %}
-		   style="background-color:#99FF99"
-		{% else %}{% if linha.dv|gt:linha.dr %}
-			style="background-color:#FF9999"
-		{% endif %}{% endif %}>{{linha.dv}}</TD>
-		<TD {% if linha.gmv|lt:linha.gmr %}
-		   style="background-color:#FF9999"
-		{% else %}{% if linha.gmv|gt:linha.gmr %}
-			style="background-color:#99FF99"
-		{% endif %}{% endif %}>{{linha.gmv}}</TD>
-		<TD {% if linha.gsv|lt:linha.gsr %}
-		   style="background-color:#99FF99"
-		{% else %}{% if linha.gsv|gt:linha.gsr %}
-			style="background-color:#FF9999"
-		{% endif %}{% endif %}>{{linha.gsv}}</TD>
-		{% if competicao.cmp_tipo|eq:"Liga" %}
-		<TD 
-		{% if linha.pv|lt:linha.pr %}
-		   style="background-color:#FF9999"
-		{% else %}{% if linha.pv|gt:linha.pr %}
-			style="background-color:#99FF99"
-		{% endif %}{% endif %}><B>{{linha.pv}}</B>
-		{% if linha.pv|neq:linha.pr %}
-		  <span style="font-size:10px;">({{linha.pv|diff:linha.pr }})</span>
-		{% endif %}
-		
-		</TD>
-		{% endif %}
-		</TR>
-		{% endfor %}	
 	</TBODY>
 			</TABLE>
 		</div>
@@ -291,6 +180,194 @@
 </DIV>
 	
 <DIV class="fp-date">Página gerada em {{data|date:"Y/m/d H:i"}} | <a href="http://www.foipenalti.com/detalhe_competicao?id={{competicao.key.id}}&menu=detalhe_competicao_sumario">Link permanente</A> | <A class="modalCorrect" href="#">Corrigir a informação</a></DIV> 
+<script>
+var classificacao_real_parcial = {{classificacao_real_parcial|to_json}}
+var classificacao_virtual_parcial = {{classificacao_virtual_parcial|to_json}}
+var cmp_lugares_descida = {{competicao.cmp_lugares_descida|to_json}}
+var cmp_lugares_liga_campeoes = {{competicao.cmp_lugares_liga_campeoes|to_json}}
+var cmp_lugares_eliminatorias_liga_campeoes = {{competicao.cmp_lugares_eliminatorias_liga_campeoes|to_json}}
+var cmp_lugares_liga_europa = {{competicao.cmp_lugares_liga_europa|to_json}}
+var cmp_tipo = "{{competicao.cmp_tipo}}"
+var clubes = {{clubes|to_json}}
+
+$(document).ready(function() {
+
+	$("#fp_classificacao_range").live("change", function() {
+
+		var jornada_label = $("#fp_classificacao_range_jornada")
+
+		var tabela_classificacao_real = $("#fp_classificacao_real")
+		var tabela_classificacao_virtual = $("#fp_classificacao_virtual")
+		tabela_classificacao_real.find("tbody").html("")
+		tabela_classificacao_virtual.find("tbody").html("")	
+			
+		var que_jornada = $(this).val()
+		var que_indice = que_jornada-1
+		var quantas_jornadas_ha = classificacao_real_parcial.length
+		if (que_indice > classificacao_real_parcial.length -1) {
+			que_indice = classificacao_real_parcial.length -1
+		}
+
+		dados_real = classificacao_real_parcial[que_indice]
+		classificacao_real = dados_real["classificacao_parcial"]
+		dados_virtual = classificacao_virtual_parcial[que_indice]
+		classificacao_virtual = dados_virtual["classificacao_parcial"]
+		html_real = ""
+		html_virtual = ""
+		
+		// preciso, para fazer depois comparações na tabela virtual, por clube
+		classificacao_real_por_clube = []
+
+		for (i in classificacao_real) {
+			linha = classificacao_real[i]
+			
+			classificacao_real_por_clube[linha["clu"]] = linha
+			
+			html_real += "<TR><TD value='"+linha["psr"]+"'>"
+			if (linha["psr"] in cmp_lugares_descida) {
+				html_real += "<DIV CLASS='fp-tabela-classificacao-linha-lugar-descida fp-medium-radius'>"
+			} else if (linha["psr"] in cmp_lugares_liga_campeoes) {
+				html_real += "<DIV CLASS='fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius'>"
+			} else if (linha["psr"] in cmp_lugares_eliminatorias_liga_campeoes) {
+				html_real += "<DIV CLASS='fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius'>"
+			} else if (linha["psr"] in cmp_lugares_liga_europa) {
+				html_real += "<DIV CLASS='fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius'>"
+			} else {
+				html_real += "<DIV>"
+			}
+			html_real += "<p class='marqueeable'>"+linha["psr"]
+			if (cmp_tipo == "Liga") {html_real += "º"}
+			html_real += "</P>"
+			html_real += "</DIV></TD>"
+			
+			html_real += "<TD value='"+clubes[linha["clu"]]["nome"]+"' style='text-align:left;'>"
+			html_real += "<P class='marqueeable'><img src='"+clubes[linha["clu"]]["logo"]+"' style='height:14px;margin-right:3px;'>"
+			html_real += "<A HREF='detalhe_clube?clube="+clubes[linha["clu"]]["id"]+"'>"+clubes[linha["clu"]]["nome"]+"</A></P></TD>"
+			html_real += "<TD>"+linha["jr"]+"</TD>"
+			html_real += "<TD>"+linha["vr"]+"</TD>"
+			html_real += "<TD>"+linha["er"]+"</TD>"
+			html_real += "<TD>"+linha["dr"]+"</TD>"
+			html_real += "<TD>"+linha["gmr"]+"</TD>"
+			html_real += "<TD>"+linha["gsr"]+"</TD>"
+			if (cmp_tipo == "Liga") {
+				html_real += "<TD><B>"+linha["pr"]+"</B></TD>"
+			}
+			html_real += "</TR>"
+		}
+		
+		
+		for (i in classificacao_virtual) {
+			linha = classificacao_virtual[i]
+			
+			linha_classificacao_real_do_clube = classificacao_real_por_clube[linha["clu"]]
+			
+			html_virtual += "<TR><TD value='"+linha["psv"]+"'>"
+			if (linha["psv"] in cmp_lugares_descida) {
+				html_virtual += "<DIV CLASS='fp-tabela-classificacao-linha-lugar-descida fp-medium-radius'>"
+			} else if (linha["psv"] in cmp_lugares_liga_campeoes) {
+				html_virtual += "<DIV CLASS='fp-tabela-classificacao-linha-lugar-liga-campeoes fp-medium-radius'>"
+			} else if (linha["psv"] in cmp_lugares_eliminatorias_liga_campeoes) {
+				html_virtual += "<DIV CLASS='fp-tabela-classificacao-linha-lugar-eliminatoria-liga-campeoes fp-medium-radius'>"
+			} else if (linha["psv"] in cmp_lugares_liga_europa) {
+				html_virtual += "<DIV CLASS='fp-tabela-classificacao-linha-lugar-liga-europa fp-medium-radius'>"
+			} else {
+				html_virtual += "<DIV>"
+			}
+			html_virtual += "<p class='marqueeable'>"+linha["psv"]
+			if (cmp_tipo == "Liga") {html_virtual += "º"}
+			html_virtual += "</P>"
+			html_virtual += "</DIV></TD>"
+			
+			html_virtual += "<td>"
+			if (linha["psv"] < linha_classificacao_real_do_clube["psr"]) {
+				html_virtual += "<span style='font-weight:bold;color:green;'>&uarr;</span>"
+			}else if (linha["psv"] > linha_classificacao_real_do_clube["psr"]) {
+				html_virtual += "<span style='font-weight:bold;color:red;'>&darr;</span>"
+			}
+			html_virtual += "</td>"
+			html_virtual += "<TD value='"+clubes[linha["clu"]]["nome"]+"' style='text-align:left;'>"
+			html_virtual += "<P class='marqueeable'><img src='"+clubes[linha["clu"]]["logo"]+"' style='height:14px;margin-right:3px;'>"
+			html_virtual += "<A HREF='detalhe_clube?clube="+clubes[linha["clu"]]["id"]+"'>"+clubes[linha["clu"]]["nome"]+"</A></P></TD>"
+			html_virtual += "<TD>"+classificacao_real[i]["jr"]+"</TD>"
+			
+			// VV
+			if (linha["vv"] <  linha_classificacao_real_do_clube["vr"]) { 
+			   html_virtual += "<TD style='background-color:#FF9999'>"
+			} else if (linha["vv"] > linha_classificacao_real_do_clube["vr"]) { 
+			   html_virtual += "<TD style='background-color:#99FF99'>"
+			} else {
+				html_virtual += "<TD>"
+			} 
+			html_virtual += linha["vv"]+"</TD>"
+			
+			// EV
+			if (linha["ev"] !=  linha_classificacao_real_do_clube["er"]) { 
+			   html_virtual += "<TD style='background-color:#9999FF'>"
+			}  else {
+				html_virtual += "<TD>"
+			}
+			html_virtual += linha["ev"]+"</TD>"
+			
+			// DV
+			if (linha["dv"] <  linha_classificacao_real_do_clube["dr"]) { 
+			   html_virtual += "<TD style='background-color:#FF9999'>"
+			} else if (linha["dv"] > linha_classificacao_real_do_clube["dr"]) { 
+			   html_virtual += "<TD style='background-color:#99FF99'>"
+			} else {
+				html_virtual += "<TD>"
+			} 
+			html_virtual += linha["dv"]+"</TD>"
+			
+			// GMV
+			if (linha["gmv"] <  linha_classificacao_real_do_clube["gmr"]) { 
+			   html_virtual += "<TD style='background-color:#FF9999'>"
+			} else if (linha["gmv"] > linha_classificacao_real_do_clube["gmr"]) { 
+			   html_virtual += "<TD style='background-color:#99FF99'>"
+			} else {
+				html_virtual += "<TD>"
+			} 
+			html_virtual += linha["gmv"]+"</TD>"
+
+			// GSV
+			if (linha["gsv"] <  linha_classificacao_real_do_clube["gsr"]) { 
+			   html_virtual += "<TD style='background-color:#FF9999'>"
+			} else if (linha["gsv"] > linha_classificacao_real_do_clube["gsr"]) { 
+			   html_virtual += "<TD style='background-color:#99FF99'>"
+			} else {
+				html_virtual += "<TD>"
+			} 
+			html_virtual += linha["gsv"]+"</TD>"
+
+			if (cmp_tipo == "Liga") {
+				//PV
+				if (linha["pv"] <  linha_classificacao_real_do_clube["pr"]) { 
+				   html_virtual += "<TD style='background-color:#FF9999'>"
+				} else if (linha["pv"] > linha_classificacao_real_do_clube["pr"]) { 
+				   html_virtual += "<TD style='background-color:#99FF99'>"
+				} else {
+					html_virtual += "<TD>"
+				} 
+				html_virtual += linha["pv"]
+				if (linha["pv"] != linha_classificacao_real_do_clube["pr"]) {
+				  html_virtual += "<span style='font-size:10px;'> ( "+(linha["pv"]-linha_classificacao_real_do_clube["pr"])+")</span>"
+				}
+				html_virtual += "</TD>"
+			}
+			html_virtual += "</TR>"
+		}
+		
+		tabela_classificacao_real.find("tbody").html(html_real)
+		tabela_classificacao_virtual.find("tbody").html(html_virtual)	
+		jornada_label.html(dados_real["jor_nome"])
+		
+	})
+})
+// desenhar a jornada corrente
+var quantas_jornadas_ha = classificacao_real_parcial.length
+$("#fp_classificacao_range").val(quantas_jornadas_ha)
+$("#fp_classificacao_range").trigger("change")
+
+</script>
 <script>$(document).ready(function() {
 $(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}});
 $(".marqueeable").each(function() {	addMarquee(this)}) 

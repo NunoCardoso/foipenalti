@@ -275,7 +275,6 @@ function change_epocas(options) {
 // tira variável tab do URL
 function get_tab() { 
 	vars = window.location.search.match(/tab=([^&]+)/)
-	debug(vars)
 	if (vars) return vars[1]
 	return false
 }
@@ -333,14 +332,6 @@ function submenu_ajax_loader(options) {
 	options["target_div"] = target_div
 	
 	loading = ajaxMainLoader(options)
-}
-
-
-// função debug
-function debug(text) {
-	if (!jQuery.browser.msie){	
-		if (window.console && console.log) console.log(text)
-	}
 }
 
 // funcão de mensagem de erro.

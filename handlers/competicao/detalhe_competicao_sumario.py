@@ -54,6 +54,7 @@ class DetalheCompeticaoSumario(DetalheCompeticao):
 			self.refreshen_cache = True
 					
 	def renderDados(self):
+		
 		# classificacao
 		classificacao_real = None
 		if self.acu_class_real:
@@ -73,13 +74,22 @@ class DetalheCompeticaoSumario(DetalheCompeticao):
 			if acuc:
 				classificacao_virtual = acuc.acuc_content["classificacao_virtual"]
 		
+		clubes = {}
+		
 		if classificacao_real and classificacao_real.has_key("total"):
 			for idx, item in enumerate(classificacao_real["total"]):
-				classificacao_real["total"][idx]["clube"] = Clube.get_by_id(classificacao_real["total"][idx]["clu"])
-
+				# fill out clubes.
+				c = Clube.get_by_id(classificacao_real["total"][idx]["clu"])
+				classificacao_real["total"][idx]["clube"] = c
+				clubes[c.key().id()] = {"id":c.key().id(), "nome":c.clu_nome_curto, "logo":c.clu_link_logo} 
+		
 		if classificacao_virtual and classificacao_virtual.has_key("total"):
 			for idx, item in enumerate(classificacao_virtual["total"]):
 				classificacao_virtual["total"][idx]["clube"] = Clube.get_by_id(classificacao_virtual["total"][idx]["clu"])
+		
+		# tenho de enviar uma lista de clubes e a sua info, para que o javascript de desenho 
+		# da classificação possa fazer nas classificações parciais. Não é inteligente adicionar 
+		# objectos clubes em cada versão de classificação parcial
 
 		# top jogadores
 		melhores_marcadores = []
@@ -129,7 +139,8 @@ class DetalheCompeticaoSumario(DetalheCompeticao):
 		
 		dados = {
 			"melhores_marcadores":melhores_marcadores,
-			"mais_indisciplinados":mais_indisciplinados
+			"mais_indisciplinados":mais_indisciplinados,
+			"clubes":clubes
 		}
 		
 		if classificacao_real and classificacao_real.has_key("total"):
@@ -155,15 +166,8 @@ class DetalheCompeticaoSumario(DetalheCompeticao):
 			"classificacao_virtual_parcial": self.dados['classificacao_virtual_parcial'] if self.dados.has_key('classificacao_virtual_parcial') else None, 
 			"melhores_marcadores":self.dados["melhores_marcadores"],
 			"mais_indisciplinados":self.dados["mais_indisciplinados"],
+			"clubes":self.dados["clubes"],
 			"competicao": self.competicao,
 			"data":datetime.datetime.now()
 		})
 		return html
-
-#		[
-#		  {'jor_ordem': 1L,
-#		  'classificacao_parcial': [
-#		      {},{},{}], 
-#		  'jor_nome': u'2011/2012:Liga:1'
-#		  }, {
-#		   'jor_ordem': 2L,

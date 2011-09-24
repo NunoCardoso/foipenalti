@@ -465,7 +465,7 @@ class Classificacao():
 			cmp=lambda x,y:self.cmp_liga_classificacao_real(tabela_parcial[x], tabela_parcial[y]),
 			reverse=True)
 			
-			tabela_parcial_2 = {"jor_nome":stat_parcial["jornada"].jor_nome, 
+			tabela_parcial_2 = {"jor_nome":stat_parcial["jornada"].jor_nome_completo, 
 									"jor_ordem":stat_parcial["jornada"].jor_ordem,
 									"classificacao_parcial":[]}
 
@@ -478,7 +478,7 @@ class Classificacao():
 		
 			tabela_ordenada_real["parcial"].append(tabela_parcial_2)
 						
-			tabela_parcial_2 = {"jor_nome":stat_parcial["jornada"].jor_nome, 
+			tabela_parcial_2 = {"jor_nome":stat_parcial["jornada"].jor_nome_completo, 
 									"jor_ordem":stat_parcial["jornada"].jor_ordem,
 									"classificacao_parcial":[]}
 
