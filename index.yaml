@@ -137,7 +137,13 @@ indexes:
   - name: jog_ultima_alteracao
     direction: desc
 
-
+# preciso para historiais de jogos
+- kind: Jogo
+  properties:
+  - name: jog_clubes
+  - name: jog_data
+    direction: desc
+        
 - kind: Clube
   properties:
   - name: __key__
