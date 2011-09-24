@@ -21,7 +21,7 @@ def get_archive_list():
         return archive
 
     # Get the date of the oldest post
-    query = db.Query(blog.Post)
+    query = db.Query(Post)
     query.order('pub_date')
     oldest = query.get()
 
@@ -45,7 +45,7 @@ def get_archive_list():
     while current_date < end_date:
         next_date = current_date + plus_one_month
 
-        query = db.Query(blog.Post)
+        query = db.Query(Post)
         query.filter('pub_date >= ', current_date)
         query.filter('pub_date < ', next_date)
 
@@ -67,7 +67,7 @@ def get_tag_list():
 
     # Build a list of tags and their article counts
     tag_list = {}
-    query = blog.Post.all()
+    query = Post.all()
     for p in query:
         for tag in p.tags:
             if tag in tag_list:

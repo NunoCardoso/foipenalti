@@ -16,13 +16,13 @@ class CreatePostHandler(MyHandler):
         page.render(self, 'templates/blog/post_form.html')
 
     def post(self):
-        new_post = blog.Post()
+        new_post = Post()
         new_post.title = self.request.get('title')
         new_post.body = self.request.get('body')
 
         slug = self.request.get('slug').strip()
         if slug == '':
-            slug = blog.slugify(new_post.title)
+            slug = slugify(new_post.title)
         new_post.slug = slug
 
         excerpt = self.request.get('excerpt').strip()
@@ -56,7 +56,7 @@ class EditPostHandler(MyHandler):
         end_date = start_date + time_delta
 
         # Create a query to check for slug uniqueness in the specified time span
-        query = blog.Post.all()
+        query = Post.all()
         query.filter('pub_date >= ', start_date)
         query.filter('pub_date < ', end_date)
         query.filter('slug = ', slug)
@@ -88,7 +88,7 @@ class EditPostHandler(MyHandler):
         end_date = start_date + time_delta
 
         # Create a query to check for slug uniqueness in the specified time span
-        query = blog.Post.all()
+        query = Post.all()
         query.filter('pub_date >= ', start_date)
         query.filter('pub_date < ', end_date)
         query.filter('slug = ', slug)
@@ -105,7 +105,7 @@ class EditPostHandler(MyHandler):
 
             slug = self.request.get('slug').strip()
             if slug == '':
-                slug = blog.slugify(post.title)
+                slug = slugify(post.title)
             post.slug = slug
 
             excerpt = self.request.get('excerpt').strip()

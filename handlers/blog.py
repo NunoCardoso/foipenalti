@@ -17,7 +17,7 @@ from lib.mycachehandler import MyCacheHandler
 class IndexHandler(MyHandler):
 
     def get(self):
-        query = blog.Post.all()
+        query = Post.all()
         query.order('-pub_date')
 
         template_values = {'page_title': 'Home',
@@ -49,7 +49,7 @@ class PostHandler(MyHandler):
         end_date = start_date + time_delta
 
         # Create a query to check for slug uniqueness in the specified time span
-        query = blog.Post.all()
+        query = Post.all()
         query.filter('pub_date >= ', start_date)
         query.filter('pub_date < ', end_date)
         query.filter('slug = ', slug)
@@ -74,7 +74,7 @@ class PostHandler(MyHandler):
             	
 class TagHandler(MyHandler):
     def get(self, tag):
-        query = blog.Post.all()
+        query = Post.all()
         query.filter('tags = ', tag)
         query.order('-pub_date')
 
@@ -95,7 +95,7 @@ class YearHandler(MyHandler):
         end_date = datetime.datetime(year + 1, 1, 1)
 
         # Create a query to find posts in the given time span
-        query = blog.Post.all()
+        query = Post.all()
         query.filter('pub_date >= ', start_date)
         query.filter('pub_date < ', end_date)
         query.order('-pub_date')
@@ -120,7 +120,7 @@ class MonthHandler(MyHandler):
         end_date = datetime.datetime(end_year, end_month, 1)
 
         # Create a query to find posts in the given time span
-        query = blog.Post.all()
+        query = Post.all()
         query.filter('pub_date >= ', start_date)
         query.filter('pub_date < ', end_date)
         query.order('-pub_date')
@@ -146,7 +146,7 @@ class DayHandler(MyHandler):
         end_date = start_date + time_delta
 
         # Create a query to find posts in the given time span
-        query = blog.Post.all()
+        query = Post.all()
         query.filter('pub_date >= ', start_date)
         query.filter('pub_date < ', end_date)
         query.order('-pub_date')
@@ -181,14 +181,14 @@ class RSS2Handler(MyCacheHandler):
 				data_cache = self.hardcache_html.cch_date
 		
 		# não é mto eficiente
-		blog_date = blog.Post.all().order('-pub_date').get().pub_date
+		blog_date = Post.all().order('-pub_date').get().pub_date
 
 		if data_cache and blog_date > data_cache:
 			self.refreshen_cache = True
 
 	def renderDados(self):
         
-		query = blog.Post.all().order('-pub_date')
+		query = Post.all().order('-pub_date')
 		posts = query.fetch(10)
 
 		rss_items = []
