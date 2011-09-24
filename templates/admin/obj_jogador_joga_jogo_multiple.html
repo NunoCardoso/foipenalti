@@ -48,7 +48,8 @@
 			</div>
 		
 			<div style="display:inline;">
-				<input class="aware-change datepicker-datetime" type="text" name="jog_data2" id="jog_data_single2" size=20 value="{{obj.jog_data|pp_year_month_day_hour_minute}}" placeholder="2011-01-01 00:00"/>
+				<!-- can't have a new and edit version of this page, on the same HTML, with the same name - datepicker does not work, and screws all javascript -->
+				<input class="aware-change datepicker-datetime" type="text" name="jog_data2_{% if new_for_parent_id %}new{% endif %}{% if multiple_edir %}edit{% endif %}" id="jog_data_single2_{% if new_for_parent_id %}new{% endif %}{% if multiple_edir %}edit{% endif %}" size=20 value="{{obj.jog_data|pp_year_month_day_hour_minute}}" placeholder="2011-01-01 00:00"/>
 			</div>
 			
 			<div style="display:inline;">

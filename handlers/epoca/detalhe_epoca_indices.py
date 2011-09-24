@@ -50,12 +50,11 @@ class DetalheEpocaIndices(DetalheEpoca):
 		if data_cache and self.acumulador_icc and self.acumulador_icc.acue_date > data_cache:
 			self.refreshen_cache = True
 
-
 		self.acumulador_ica = memcache.get("acumulador-%s-%s" % (self.epoca, config.VERSAO_ACUMULADOR),
 		 namespace=self.nspace3)
 
 		if not self.acumulador_ica:
-			self.acumulador_ica = classes.getAcumuladorCompeticao(self.epoca, config.VERSAO_ACUMULADOR, self.nspace3)
+			self.acumulador_ica = classes.getAcumuladorEpoca(self.epoca, config.VERSAO_ACUMULADOR, self.nspace3)
 
 		if data_cache and self.acumulador_ica and self.acumulador_ica.acue_date > data_cache:
 			self.refreshen_cache = True
@@ -97,7 +96,6 @@ class DetalheEpocaIndices(DetalheEpoca):
 		clubes = []
 		if len(tabela_icc) > 0:
 			for idx, val in enumerate(tabela_icc[0]["clus"]):
-				logging.info("appending %s" % val["clube"])
 				clubes.append(val["clube"])
 
 		# preparar o gráfico de icc
@@ -110,9 +108,14 @@ class DetalheEpocaIndices(DetalheEpoca):
 		for idx, val in enumerate(grafico_ica):
 			grafico_ica[idx]["arbitro"] = hash_arbitros[grafico_ica[idx]["arb"]]
 
+		logging.info(grafico_ica)
+		logging.info(len(grafico_ica))
 		if len(grafico_ica) > 16: 
-			list_1 = grafico_ica[:8]
-			for el in grafico_ica[8:]:
+
+			list_1 = grafico_ica[:5]
+			list_2 = grafico_ica[-5:]
+			
+			for el in list_2:
 				list_1.append(el)
 			grafico_ica = list_1
 			

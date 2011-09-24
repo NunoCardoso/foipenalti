@@ -6,6 +6,7 @@ from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
 import classes
+from classes import Post
 import blogview as view
 from lib.myhandler import MyHandler
 

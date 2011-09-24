@@ -12,6 +12,7 @@ from google.appengine.api import users
 
 import config
 import classes
+from classes import Post
 			
 def get_archive_list():
     """Return a list of the archive months and their article counts."""

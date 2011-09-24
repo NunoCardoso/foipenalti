@@ -1110,7 +1110,7 @@ class NewMultiple(MyHandler):
 
 				data = None
 				try:
-					data = datetime.datetime.strptime(self.request.get('jog_data2'), "%Y-%m-%d %H:%M") 
+					data = datetime.datetime.strptime(self.request.get('jog_data2_new'), "%Y-%m-%d %H:%M") 
 				except:
 					data = None
 					

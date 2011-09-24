@@ -12,7 +12,6 @@
 	{% endif %}
 {% endif %}
 {% if jogo %} 
-{{historial_jogos}}
 
 <div style="position:relative">
 	{% if jogo_anterior_clube1 or jogo_anterior_clube2 %}
@@ -400,10 +399,13 @@ O resultado podia ser: {{item.jogo.jog_clube1.clu_nome_curto}} {{item.bonus.rv}}
 		</DIV>
 	</DIV>
 </DIV>
-
-<script>$(document).ready(function() {
-$(".marqueeable").each(function() {	addMarquee(this)}) 
-tab = get_tab(); tablink = null;
+<script>$(document).ready(function() {$(".fp-table").tablesorter({textExtraction: function(node) { if ($(node).attr("value")) {return $(node).attr("value")} else {return $(node).html()}}});
+	$(".fp-table-pager").each(function() {	$(this).tablesorterPager({ container: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager"), positionFixed: false, size:$(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-pager .pagesize option:selected").val() });
+	})
+	$(".fp-table-filter").each(function() { $(this).tablesorterFilter({ filterContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-box"),
+	 filterClearContainer: $(this).parents(".fp-table-wrapper").find(".fp-table-tablesorter-filter-clear"),filterCaseSensitive: false}); })
+	$(".marqueeable").each(function() {addMarquee(this)}
+	tab = get_tab(); tablink = null;
 if (tab) tablink = ($("#main-submenu-tab > UL.tabs > LI > A[rel='"+tab+"']"))
 if (!tab && jQuery.isEmptyObject($("#main-submenu-tab > UL.tabs > LI.active"))) tablink =  $("#main-submenu-tab > UL.tabs > LI > A:first")
 tablink.trigger("click")
