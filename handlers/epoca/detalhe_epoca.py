@@ -16,9 +16,13 @@ class DetalheEpoca(MyCacheHandler):
 	cache_namespace = "detalhe_epoca"
 	cache_url = None
 
+	render_this_page_without_main = False
+
 	#memcache values
 	dados = None
 	html = None
+	title = None
+	
 	sid = None
 
 	# get vars
@@ -77,6 +81,9 @@ class DetalheEpoca(MyCacheHandler):
 		})
 		return html
 		
+	def renderTitle(self):
+		return self.epoca.epo_nome
+
 	def decontaminate_vars(self):
 		
 		if os.environ.has_key("HTTP_REFERER"):

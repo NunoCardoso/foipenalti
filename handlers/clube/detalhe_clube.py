@@ -16,9 +16,13 @@ class DetalheClube(MyCacheHandler):
 	cache_namespace = "detalhe_clube"
 	cache_url = None
 
+	render_this_page_without_main = False
+	
 	#memcache values
 	dados = None
 	html = None
+	title = None
+	
 	sid = None
 	
 	# get vars
@@ -77,6 +81,9 @@ class DetalheClube(MyCacheHandler):
 			"flash":flash_message
 		})
 		return html
+
+	def renderTitle(self):
+		return self.clube.clu_nome_completo
 		
 	def decontaminate_vars(self):
 		

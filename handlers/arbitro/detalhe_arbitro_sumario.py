@@ -16,6 +16,7 @@ class DetalheArbitroSumario(DetalheArbitro):
 		
 	# memcache vars
 	cache_namespace = "detalhe_arbitro_sumario"
+	render_this_page_without_main = True
 	
 	def get(self):
 		self.decontaminate_vars()

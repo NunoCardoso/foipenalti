@@ -16,9 +16,13 @@ class DetalheJogador(MyCacheHandler):
 	cache_namespace = "detalhe_jogador"
 	cache_url = None
 
+	render_this_page_without_main = False
+
 	#memcache values
 	dados = None
 	html = None
+	title = None
+	
 	sid = None
 
 	# get vars
@@ -77,6 +81,9 @@ class DetalheJogador(MyCacheHandler):
 			"flash":flash_message
 		})
 		return html
+
+	def renderTitle(self):
+		return self.jogador.jgd_nome
 		
 	def decontaminate_vars(self):
 		

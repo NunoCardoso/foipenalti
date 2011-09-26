@@ -16,9 +16,13 @@ class DetalheJornada(MyCacheHandler):
 	cache_namespace = "detalhe_jornada"
 	cache_url = None
 
+	render_this_page_without_main = False
+
 	#memcache values
 	dados = None
 	html = None
+	title = None
+	
 	sid = None
 
 	# get vars
@@ -133,6 +137,9 @@ class DetalheJornada(MyCacheHandler):
 		})
 		
 		return html
+
+	def renderTitle(self):
+		return self.jornada.jor_nome_completo+", "+self.jornada.jor_competicao.cmp_nome_completo+" "+self.jornada.jor_competicao.cmp_epoca.epo_nome
 		
 	def decontaminate_vars(self):
 		

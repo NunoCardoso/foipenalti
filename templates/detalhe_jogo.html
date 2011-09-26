@@ -1,8 +1,3 @@
-{% extends "main.html" %}
-{% block title %}
-{% if jogo %}{{jogo|printjogo}}{% endif %}
-{% endblock %}
-{% block content %} 
 {% spaceless %}
 {% if flash %}
 	{% if flash|startswith:"Err" %}
@@ -423,4 +418,3 @@ tablink.trigger("click")
 Jogo inexistente.
 {% endif %}
 {% endspaceless %}
-{% endblock %}

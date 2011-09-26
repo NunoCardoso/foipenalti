@@ -16,6 +16,7 @@ from google.appengine.api import memcache
 class DetalheCompeticaoSumario(DetalheCompeticao):
 		
 	cache_namespace = "detalhe_competicao_sumario"
+	render_this_page_without_main = True
 
 	acu_class_real = None
 	acu_class_virtual = None

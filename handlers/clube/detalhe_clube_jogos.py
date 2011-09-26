@@ -14,6 +14,7 @@ class DetalheClubeJogos(DetalheClube):
 		
 	# memcache vars
 	cache_namespace = "detalhe_clube_jogos"
+	render_this_page_without_main = True
 	
 	def get(self):
 		self.decontaminate_vars()

@@ -977,10 +977,15 @@ class CacheHTML(db.Model):
 			'top_arbitros','top_clubes','top_jogadores','top_jogos',
 			'rss')
 		)
+	cch_title = db.StringProperty()
 	cch_url = db.StringProperty()
 	cch_signature = db.StringProperty()
 	cch_date = db.DateTimeProperty()
 	cch_content = db.BlobProperty()
+	
+	def get_admin_url(self):
+		# converter detalhe_XXXXX?id=YYY até /admin/XXXXX/edit?id=YYYY
+		return self.cch_url
 
 class CacheDados(db.Model):
 	ccd_namespace = db.StringProperty(
@@ -991,10 +996,16 @@ class CacheDados(db.Model):
 			'top_arbitros','top_clubes','top_jogadores','top_jogos',
 			'rss')
 		)
+	ccd_title = db.StringProperty()
 	ccd_url = db.StringProperty()
 	ccd_signature = db.StringProperty()
 	ccd_date = db.DateTimeProperty()
 	ccd_content = DictProperty()	
+	
+	def get_admin_url(self):
+		# converter detalhe_XXXXX?id=YYY até /admin/XXXXX/edit?id=YYYY
+		return self.ccd_url
+	
 
 class AcumuladorJornada(db.Model):
 	acuj_versao = db.IntegerProperty()

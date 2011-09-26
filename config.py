@@ -10,6 +10,7 @@ ULTIMA_EPOCA_NA_DB = Epoca.all().filter("epo_nome = ", u"2011/2012").get()
 COMPETICAO_CORRENTE = EPOCA_CORRENTE.epo_competicoes.filter("cmp_tipo = ", u"Liga").get()
 VERSAO_ACUMULADOR=2
 DEVEL = True
+MAIN_TEMPLATE_HTML="main.html"
 
 def getCurrentHost():
 	CURRENT_HOST = None

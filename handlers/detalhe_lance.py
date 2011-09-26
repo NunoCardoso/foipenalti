@@ -17,9 +17,13 @@ class DetalheLance(MyCacheHandler):
 	cache_namespace = "detalhe_lance"
 	cache_url = None
 
+	render_this_page_without_main = False
+
 	#memcache values
 	dados = None
 	html = None
+	title = None
+	
 	sid = None
 
 	# get vars
@@ -111,6 +115,9 @@ class DetalheLance(MyCacheHandler):
 			"flash":flash_message
 		})
 		return html
+
+	def renderTitle(self):
+		return "Lance n. %s, %s" % (self.lance.lan_numero, self.lance.lan_jogo.printjogo())
 		
 	def decontaminate_vars(self):
 		

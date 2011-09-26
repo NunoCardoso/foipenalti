@@ -16,6 +16,7 @@ class DetalheCompeticaoClubes(DetalheCompeticao):
 		
 	# memcache vars
 	cache_namespace = "detalhe_competicao_clubes"
+	render_this_page_without_main = True
 
 	# objecto do respectivo acumulador
 	nspace = "top_clubes"

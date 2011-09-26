@@ -17,9 +17,13 @@ class DetalheJogo(MyCacheHandler):
 	cache_namespace = "detalhe_jogo"
 	cache_url = None
 
+	render_this_page_without_main = False
+
 	#memcache values
 	dados = None
 	html = None
+	title = None
+	
 	sid = None
 
 	# get vars
@@ -250,6 +254,9 @@ class DetalheJogo(MyCacheHandler):
 		})
 		
 		return html
+
+	def renderTitle(self):
+		return self.jogo.printjogo()
 		
 	def decontaminate_vars(self):
 		

@@ -16,9 +16,13 @@ class DetalheCompeticao(MyCacheHandler):
 	cache_namespace = "detalhe_competicao"
 	cache_url = None
 
+	render_this_page_without_main = False
+
 	#memcache values
 	dados = None
 	html = None
+	title = None
+	
 	sid = None
 	
 	# get vars
@@ -79,6 +83,9 @@ class DetalheCompeticao(MyCacheHandler):
 		})
 		return html
 		
+	def renderTitle(self):
+		return self.competicao.cmp_nome_completo+" "+self.competicao.cmp_epoca.epo_nome
+
 	def decontaminate_vars(self):
 		
 		if os.environ.has_key("HTTP_REFERER"):

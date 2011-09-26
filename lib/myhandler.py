@@ -20,6 +20,7 @@ from google.appengine.runtime.apiproxy_errors import *
 from google.appengine.api.datastore_errors import *
 from google.appengine.runtime import DeadlineExceededError
 from google.appengine.ext.db import Timeout
+from django.template import Context, Template
 
 # myHandler gere mensagens de erro, e também gere formas de geração de página.
 
@@ -31,32 +32,11 @@ class MyHandler(webapp.RequestHandler):
 
 	pattern = re.compile("<!--STARTCUTTINGPART-->(.*)<!--ENDCUTTINGPART-->", re.S)
 	
-	def render_template_block(self, template_file, template_values={}):
-		val = MyHandler.render(self, template_file, template_values)
-		m = MyHandler.pattern.search(val)
-		return m.group(1)
-
 	def render_subdir_template_block(self, template_dir, template_file, template_values={}):
-		val = MyHandler.render_subdir(self, template_dir, template_file, template_values)
+		val = self.render_subdir(template_dir, template_file, template_values)
 		m = MyHandler.pattern.search(val)
 		return m.group(1)
 		
-	def render(self, template_file, template_values={}):
-		values = {
-		'host':os.environ['HTTP_HOST'],
-		'request':self.request,
-		'settings': config.SETTINGS,
-		"goback": os.environ['HTTP_REFERER'] if os.environ.has_key('HTTP_REFERER') else "javascript:history.back()",
-		"lista_top_jogadores_populares": listas.get_top_jogadores_populares(),
-		"lista_top_jogos_populares": listas.get_top_jogos_populares(),
-		"lista_top_arbitros_populares": listas.get_top_arbitros_populares(),
-		"lista_top_lances_populares": listas.get_top_lances_populares()
-		}
-		values.update(template_values)
-
-		template_path = os.path.join(config.APP_ROOT_DIR, config.TEMPLATE_DIR, template_file)
-		return template.render(template_path, values)
-
 	def render_subdir(self, template_dir, template_file, template_values={}):
 		values = {
 		'host':os.environ['HTTP_HOST'],
@@ -71,14 +51,34 @@ class MyHandler(webapp.RequestHandler):
 		values.update(template_values)
 		template_path = os.path.join(config.APP_ROOT_DIR, config.TEMPLATE_DIR, template_dir, template_file)
 		return template.render(template_path, values)
-	
-	def render_to_output(self, template_file, template_values={}):
-		val = MyHandler.render(self, template_file, template_values)
-		self.response.out.write(val)
 		
 	def render_subdir_to_output(self, template_dir, template_file, template_values={}):
-		val = MyHandler.render_subdir(self, template_dir, template_file, template_values)
+		val = self.render_subdir(template_dir, template_file, template_values)
 		self.response.out.write(val)
+
+	def render_main_with_blocks(self, content_html, block_values={}):
+		
+#		logging.info("render_main_with_blocks")
+		main_template_path = os.path.join(config.APP_ROOT_DIR, config.TEMPLATE_DIR, config.MAIN_TEMPLATE_HTML)
+#		main_template_html = memcache.get("main_template_html")
+#		if not main_template_html:
+#			f = open(main_template_path, "r")
+#			main_template_html = f.read()
+#			memcache.set("main_template_html", main_template_html, time=86400)
+
+		block_values.update({"content":content_html})
+		
+		logging.info(block_values)
+		return self.render(main_template_path, block_values)
+
+	def render_template_block(self, template_file, template_values={}):
+		return self.render_subdir_template_block(".", template_file, template_values)
+
+	def render(self, template_file, template_values={}):
+		return self.render_subdir(".", template_file, template_values)
+
+	def render_to_output(self, template_file, template_values={}):
+		return self.render_subdir_to_output(".", template_file, template_values)
 
 	# get milliseconds	
 	def generate_sid(self):

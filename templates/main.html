@@ -37,7 +37,7 @@ var disqus_developer = 1
 <script type="text/javascript" src="js/snippets.js" ></script>
 <script type="text/javascript" src="js/calendar.js" ></script>
 <script type="text/javascript" src="js/lib/jquery.bt.js" ></script>
-<title>{% block title %}{% endblock %} | {{ settings.maintitle }}</title>
+<title>{% block title %}{% endblock title %}{{title}} | {{ settings.maintitle }}</title>
 <link href="/blog/rss2" type="application/rss+xml" rel="alternate" title="{{ settings.title }} RSS Feed" />
 <link rel="shortcut icon" href="/favicon.ico">
 </HEAD>
@@ -212,9 +212,10 @@ var disqus_developer = 1
 				<LI class="withoutmenu"><A HREF="/blog">Blogue</a></LI>
 			</UL>
 		</NAV>
-		
+		<DIV ID="main-admin-content">{% block admin %}{% endblock admin %}{{admin}}</DIV>
+				
 		<DIV ID="main-content">
-			<DIV ID='main-body'>{% block content %}{% endblock %}</DIV>
+			<DIV ID='main-body'>{% block content %}{% endblock content %}{{content}}</DIV>
 		</DIV>
 		
 		<FOOTER ID="main-footer1">

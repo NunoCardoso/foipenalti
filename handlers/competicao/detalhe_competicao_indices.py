@@ -15,6 +15,7 @@ class DetalheCompeticaoIndices(DetalheCompeticao):
 		
 	# memcache vars
 	cache_namespace = "detalhe_competicao_indices"
+	render_this_page_without_main = True
 
 	# objecto do respectivo acumulador
 	nspace1 = "icc"

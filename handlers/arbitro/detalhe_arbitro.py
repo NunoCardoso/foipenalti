@@ -16,9 +16,13 @@ class DetalheArbitro(MyCacheHandler):
 	cache_namespace = "detalhe_arbitro"
 	cache_url = None
 	
+	render_this_page_without_main = False
+	
 	#memcache values
 	dados = None
 	html = None
+	title = None
+	
 	sid = None
 
 	# get vars
@@ -26,7 +30,7 @@ class DetalheArbitro(MyCacheHandler):
 	arbitro = None
 	
 	referer = None
-	
+		
 	def get(self):
 		self.decontaminate_vars()
 		if not self.arbitro:
@@ -78,6 +82,9 @@ class DetalheArbitro(MyCacheHandler):
 			"flash":flash_message
 		})
 		return html
+	
+	def renderTitle(self):
+		return self.arbitro.arb_nome
 		
 	def decontaminate_vars(self):
 		

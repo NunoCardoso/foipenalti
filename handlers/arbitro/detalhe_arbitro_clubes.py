@@ -16,6 +16,7 @@ class DetalheArbitroClubes(DetalheArbitro):
 		
 	# memcache vars
 	cache_namespace = "detalhe_arbitro_clubes"
+	render_this_page_without_main = True
 	
 	# important, to avoid extra count++
 	def get(self):

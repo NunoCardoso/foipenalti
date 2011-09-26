@@ -20,13 +20,17 @@ class MyCacheHandler(MyHandler):
 
 # classes que estendem isto podem popular estas variáveis, durante a verificação se a cache 
 # está fresca ou não, assim poupa-se umas chamadas à memcache e DB
+
 	use_cache = True # use cache or not
 	refreshen_cache = False # check if it needs to be refreshen
-	softcache_html = None
+	render_this_page_without_main = True # True to render the page alone without the main. False to use main as wrapper.
+	
+	softcache_content_html = None
+	softcache_all_html = None
 	hardcache_html = None
 	cache_namespace = None
 	user_is_admin = False
-		
+	
 	def head(self):
 		self.response.set_status(200)
 		return
@@ -37,6 +41,8 @@ class MyCacheHandler(MyHandler):
 			self.user_is_admin = users.is_current_user_admin()
 
 	def requestHandler(self):
+		
+		self.checkIfAdminUser()
 		
 		if self.use_cache and not self.refreshen_cache:
 			
@@ -54,27 +60,36 @@ class MyCacheHandler(MyHandler):
 			
 			# 1.1 check SOFTCACHE HTML
 			#logging.debug("1.1 check soft cache HTML")
-			this_softcache_html = None
+			softcache_content_html = None
 
-			if self.softcache_html:
-				this_softcache_html = self.softcache_html
+			if self.softcache_content_html:
+				softcache_content_html = self.softcache_content_html
 			else:
-				this_softcache_html = memcache.get(self.cache_url, namespace="html")
-				
-			if this_softcache_html:
-				if this_softcache_html.has_key("signature"):
-					
-					last_modified = this_softcache_html['date'].strftime(HTTP_DATE_FMT)
-					self.response.headers['Last-Modified'] = str(last_modified)
-					self.response.headers['ETag'] = '"%s"' % str(this_softcache_html['signature']) # unicode to str
+				softcache_content_html = memcache.get(self.cache_url, namespace="html")
 
-					if client_etags and this_softcache_html['signature'] in client_etags:
+			if softcache_content_html:
+				if softcache_content_html.has_key("signature"):
+					
+					last_modified = softcache_content_html['date'].strftime(HTTP_DATE_FMT)
+					self.response.headers['Last-Modified'] = str(last_modified)
+					self.response.headers['ETag'] = '"%s"' % str(softcache_content_html['signature']) # unicode to str
+
+					if client_etags and softcache_content_html['signature'] in client_etags:
 						logging.info("Client request with ETag, returning 304 from softcache_html") 
 						self.response.set_status(304)
 						return
 					else:
 						logging.info("Client request with NO ETag, returning 200 from softcache_html") 
-						self.response.out.write(this_softcache_html["content"])
+						if self.render_this_page_without_main:
+							softcache_all_html = softcache_content_html["content"]
+						else:
+							blocks = {"title":softcache_content_html["title"]}
+							if self.user_is_admin:
+								blocks.update({"admin":softcache_content_html["admin"]})
+							
+							softcache_all_html = self.render_main_with_blocks(softcache_content_html["content"], blocks)
+						
+						self.response.out.write(softcache_all_html)
 						self.response.set_status(200)
 						return
 			
@@ -98,6 +113,8 @@ class MyCacheHandler(MyHandler):
 					# let's refrest SOFTCACHE
 					#logging.debug("1/1 Refreshing softcache_html from hardcache_html") 
 					memcache.set(self.cache_url, {
+						"title": this_hardcache_html.cch_title,
+						"admin": this_hardcache_html.get_admin_url(),
 						"content": this_hardcache_html.cch_content,
 						"date":this_hardcache_html.cch_date,
 						"signature":this_hardcache_html.cch_signature
@@ -115,7 +132,16 @@ class MyCacheHandler(MyHandler):
 					else:
 						# set a 200 - may be new user
 						logging.info("Client request with NO ETag, returning 200 from soft_HTML <- hard_HTML") 
-						self.response.out.write(this_hardcache_html.cch_content)
+						if self.render_this_page_without_main:
+							hardcache_all_html = this_hardcache_html.cch_content
+						else:
+							blocks = {"title":this_hardcache_html.cch_title}
+							if self.user_is_admin:
+								blocks.update({"admin":this_hardcache_html.get_admin_url()})
+							
+							hardcache_all_html = self.render_main_with_blocks(this_hardcache_html.cch_content, blocks)
+						
+						self.response.out.write(hardcache_all_html)
 						self.response.set_status(200)
 						return
 
@@ -137,6 +163,8 @@ class MyCacheHandler(MyHandler):
 					# either way, let's render a new HTML. We have to return a body on any request...
 					self.dados = softcache_dados["dados"]
 					self.html = self.renderHTML()
+					self.title = self.renderTitle()
+					
 					signature = hashlib.md5(self.html.encode("ascii","ignore")).hexdigest()
 					date = datetime.datetime.now()
 						
@@ -149,6 +177,7 @@ class MyCacheHandler(MyHandler):
 					hardcache_html.cch_namespace = self.cache_namespace
 					hardcache_html.cch_signature = signature
 					hardcache_html.cch_date = date
+					hardcache_html.cch_title = self.title
 					hardcache_html.cch_content = self.html if not type(self.html) is django.utils.safestring.SafeUnicode else self.html.encode("utf-8") 
 						
 					hardcache_html.put()
@@ -156,6 +185,8 @@ class MyCacheHandler(MyHandler):
 					# refresh softcache_html
 					#logging.debug("2/2 Refreshing softcache_html from softcache_dados") 
 					memcache.set(self.cache_url, {
+						"title": hardcache_html.cch_title,
+						"admin": hardcache_html.get_admin_url(),
 						"content": hardcache_html.cch_content,
 						"date":hardcache_html.cch_cdate,
 						"signature":hardcache_html.cch_signature
@@ -166,7 +197,16 @@ class MyCacheHandler(MyHandler):
 					last_modified = hardcache_html.cch_cdate.strftime(HTTP_DATE_FMT)
 					self.response.headers['Last-Modified'] = str(last_modified)
 					self.response.headers['ETag'] = '"%s"' % str(hardcache_html.cch_signature)
-					self.response.out.write(hardcache_html.cch_content)
+					if self.render_this_page_without_main:
+						hardcache_all_html = hardcache_html.cch_conten
+					else:
+						blocks = {"title":hardcache_html.cch_title}
+						if self.user_is_admin:
+							blocks.update({"admin":hardcache_html.get_admin_url()})
+						
+						hardcache_all_html = self.render_main_with_blocks(hardcache_html.cch_content, blocks)
+					
+					self.response.out.write(hardcache_all_html)
 					self.response.set_status(200)
 					return
 				
@@ -183,10 +223,13 @@ class MyCacheHandler(MyHandler):
 					# either way, let's render a new HTML. We have to return a body on any request...
 					self.dados = hardcache_dados.ccd_content
 					self.html = self.renderHTML()
+					self.title = self.renderTitle()
 				
 					# let's refrest SOFTCACHE_DADOS
 					#logging.debug("1/3 Refreshing softcache_dados from hardcache_dados") 
 					memcache.set(self.cache_url, {
+						"title": hardcache_dados.ccd_title,
+						"admin": hardcache_dados.get_admin_url(),
 						"content": hardcache_dados.ccd_content,
 						"date":hardcache_dados.ccd_date,
 						"signature":hardcache_dados.ccd_signature
@@ -210,6 +253,8 @@ class MyCacheHandler(MyHandler):
 					# let's refresh SOFTCACHE_HTML
 					#logging.debug("3/3 Refreshing softcache_html from hardcache_html") 
 					memcache.set(self.cache_url, {
+						"title": hardcache_html.cch_title,
+						"admin": hardcache_html.get_admin_url(),
 						"content": hardcache_html.cch_content,
 						"date":hardcache_html.cch_date,
 						"signature":hardcache_html.cch_signature
@@ -221,7 +266,16 @@ class MyCacheHandler(MyHandler):
 					last_modified = hardcache_html.cch_date.strftime(HTTP_DATE_FMT)
 					self.response.headers['Last-Modified'] = str(last_modified)
 					self.response.headers['ETag'] = '"%s"' % str(hardcache_html.cch_signature)
-					self.response.out.write(hardcache_html.cch_content)
+					if self.render_this_page_without_main:
+						hardcache_all_html = hardcache_html.cch_content
+					else:
+						blocks = {"title":hardcache_html.cch_title}
+						if self.user_is_admin:
+							blocks.update({"admin":hardcache_html.get_admin_url()})
+						
+						hardcache_all_html = self.render_main_with_blocks(hardcache_html.cch_content, blocks)
+					
+					self.response.out.write(hardcache_all_html)
 					self.response.set_status(200)
 					return
 		
@@ -239,10 +293,10 @@ class MyCacheHandler(MyHandler):
 			# either way, let's render a new HTML. We have to return a body on any request...
 		self.dados = self.renderDados()
 		self.html = self.renderHTML()
-		#logging.info(self.html)
+		self.title = self.renderTitle()
 
 		sig = None
-		logging.info(type(self.html))
+
 		if not type(self.html) is django.utils.safestring.SafeUnicode:
 			sig = self.html.decode("utf-8","ignore")
 		else:
@@ -263,12 +317,15 @@ class MyCacheHandler(MyHandler):
 			hardcache_dados.ccd_namespace = self.cache_namespace	
 			hardcache_dados.ccd_signature = signature
 			hardcache_dados.ccd_date = date
+			hardcache_dados.ccd_title = self.title
 			hardcache_dados.ccd_content = self.dados
 			hardcache_dados.put()
 				
 			# let's refrest SOFTCACHE_DADOS
 			#logging.debug("2/4 Refreshing softcache_dados from hardcache_dados") 
 			memcache.set(self.cache_url, {
+				"title": hardcache_dados.ccd_title,
+				"admin": hardcache_dados.get_admin_url(),
 				"content": hardcache_dados.ccd_content,
 				"date":hardcache_dados.ccd_date,
 				"signature":hardcache_dados.ccd_signature
@@ -286,12 +343,14 @@ class MyCacheHandler(MyHandler):
 		hardcache_html.cch_signature = signature
 		hardcache_html.cch_date = date
 		hardcache_html.cch_content = self.html if not type(self.html) is django.utils.safestring.SafeUnicode else self.html.encode("utf-8") 
-	#	hardcache_html.cch_content = self.html.encode("utf-8") 
+		hardcache_html.cch_title = self.title
 		hardcache_html.put()
 
 		# let's refresh SOFTCACHE_HTML
 		#logging.debug("4/4 Refreshing softcache_html from hardcache_html") 
 		memcache.set(self.cache_url, {
+			"title": hardcache_html.cch_title,
+			"admin": hardcache_html.get_admin_url(),
 			"content": hardcache_html.cch_content,
 			"date":hardcache_html.cch_date,
 			"signature":hardcache_html.cch_signature
@@ -303,6 +362,14 @@ class MyCacheHandler(MyHandler):
 		last_modified = hardcache_html.cch_date.strftime(HTTP_DATE_FMT)
 		self.response.headers['Last-Modified'] = str(last_modified)
 		self.response.headers['ETag'] = '"%s"' % str(hardcache_html.cch_signature)
-		self.response.out.write(hardcache_html.cch_content)
+		if self.render_this_page_without_main:
+			hardcache_all_html = hardcache_html.cch_content
+		else:
+			blocks = {"title":hardcache_html.cch_title}
+			if self.user_is_admin:
+				blocks.update({"admin":hardcache_html.get_admin_url()})
+			
+			hardcache_all_html = self.render_main_with_blocks(hardcache_html.cch_content, blocks)
+		self.response.out.write(hardcache_all_html)
 		self.response.set_status(200)
 		return

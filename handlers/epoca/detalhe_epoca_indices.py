@@ -15,6 +15,7 @@ class DetalheEpocaIndices(DetalheEpoca):
 		
 	# memcache vars
 	cache_namespace = "detalhe_epoca_indices"
+	render_this_page_without_main = True
 
 	# objecto do respectivo acumulador
 	nspace1 = "icc"

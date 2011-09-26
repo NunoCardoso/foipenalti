@@ -23,10 +23,12 @@ class HomePage(MyCacheHandler):
 	refreshen_cache = False # check if it needs to be refreshen
 	cache_namespace = "homepage"
 	cache_url = None
+	render_this_page_without_main = False
 
 	#memcache values
 	dados = None
 	html = None
+	title = None
 	
 	epoca = None
 	competicao = None
@@ -361,6 +363,9 @@ class HomePage(MyCacheHandler):
 	
 		return html
 
+	def renderTitle(self):
+		return u"Página Principal"
+		
 	def decontaminate_vars(self):
 		
 		if self.request.get("cache") and self.request.get("cache") == "false":

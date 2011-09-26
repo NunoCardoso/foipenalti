@@ -15,6 +15,7 @@ class DetalheEpocaJogadores(DetalheEpoca):
 		
 	# memcache vars
 	cache_namespace = "detalhe_epoca_jogadores"
+	render_this_page_without_main = True
 
 	# objecto do respectivo acumulador
 	nspace = "top_jogadores"
