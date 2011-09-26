@@ -85,10 +85,10 @@ def gera(competicao, acuc_basico,
 		acumulador_jornadas = sorted(acumulador_jornadas, cmp=lambda x,y: cmp(x.acuj_jornada.jor_ordem, y.acuj_jornada.jor_ordem))
 
 		stats_total = {
-				"arbitro":{},
-				"jogo": {},
-				"jogador":{},
-				"clube":{}
+			"arbitro":{},
+			"jogo": {},
+			"jogador":{},
+			"clube":{}
 		}	
 		
 		for ac in acumulador_jornadas:
@@ -113,6 +113,9 @@ def gera(competicao, acuc_basico,
 			
 			# save copies to the parcial_stats
 			parcial["clube"] = deepcopy(stats_total["clube"])
+			parcial["arbitro"] = deepcopy(stats_total["arbitro"])
+			parcial["jogo"] = deepcopy(stats_total["jogo"])
+		#	parcial["jogador"] = deepcopy(stats_total["jogador"])
 			stats_parcial.append(parcial)
 			
 	else:
@@ -202,8 +205,8 @@ def gera(competicao, acuc_basico,
 	if acuc_icc == "on":
 		# vamos assumir que sabemos que queremos uma tabela icc / Liga
 		arbitros = Arbitro.all().fetch(1000)
-		stats_total["icc"] = GraficoICC.gera_novo_grafico_icc(stats_total, clubes)
-		stats_total["ica"] = GraficoICA.gera_novo_grafico_ica(stats_total, arbitros)
+		stats_total["icc"] = GraficoICC.gera_novo_grafico_icc(stats_total, stats_parcial, clubes)
+		stats_total["ica"] = GraficoICA.gera_novo_grafico_ica(stats_total, stats_parcial, arbitros)
 		
 ############
 ### TOPS ###

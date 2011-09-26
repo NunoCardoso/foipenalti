@@ -11,8 +11,24 @@ class GraficoICC:
 	
 	# clubes dá uma lista dos clubes elegíveis para o ICC
 	@staticmethod
-	def gera_novo_grafico_icc( stats_hash, clubes):
+	def gera_novo_grafico_icc( stats_hash, stats_parcial_hash, clubes):
 
+		#	{"total":
+		#		[{"clu":key1, "icc":xxx, "height", xxx}, 
+		#		 {"clu":key2, "icc":xxx, "height", xxx}, 
+		#		 {"..."}], 
+		#	 "parcial":
+		#		[{"jornada":jornada1, "grafico_icc":
+		#			[{"clu":key1,"icc":1, etc},
+		#			 {"clu":key2,"icc":2, etc},
+		#			 {"..."}] },
+		#		 {"jornada":jornada2, "grafico_icc":
+		#			[{"clu":key1,"icc":1, etc},
+		#			 {"clu":key2,"icc":2, etc},
+		#			 {"..."}] },
+		#		 {...}]
+		#  }
+		
 			clu_ids = []
 			for clube in clubes:
 				clu_ids.append(clube.key().id())

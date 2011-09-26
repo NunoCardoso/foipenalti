@@ -167,9 +167,13 @@ class ParseJogo(MyHandler):
 	
 			logging.info('Tácticas preenchidas.')
 
-			# hash now, array later after all filled up
+			# hash now. Use an array so we know the final order 
 			output["jogadores_clube1"] = {}
 			output["jogadores_clube2"] = {}
+
+			jogadores_clube1_order = []
+			jogadores_clube2_order = []
+
 
 			logging.info("A analisar titulares do %s" % results["clube1"])
 			
@@ -179,6 +183,8 @@ class ParseJogo(MyHandler):
 				if local_jogadores_clube1.has_key(remote_jogador["numero"]):
 					local_jogador = local_jogadores_clube1[remote_jogador["numero"]]
 					output["jogadores_clube1"][local_jogador.key().id()] = {}
+					jogadores_clube1_order.append(local_jogador.key().id())
+					
 				else:
 					logging.error("Jogador MaisFutebol %s do %s com número %s não consta no FoiPenalti, corrige isso!" % (remote_jogador["nome"], results["clube1"], remote_jogador["numero"]) )	
 
@@ -189,6 +195,7 @@ class ParseJogo(MyHandler):
 				if local_jogadores_clube2.has_key(remote_jogador["numero"]):
 					local_jogador = local_jogadores_clube2[remote_jogador["numero"]]
 					output["jogadores_clube2"][local_jogador.key().id()] = {}
+					jogadores_clube2_order.append(local_jogador.key().id())
 				else:
 					logging.error("Jogador MaisFutebol %s do %s com número %s não consta no FoiPenalti, corrige isso!" % (remote_jogador["nome"], results["clube2"], remote_jogador["numero"]) )	
 
@@ -223,7 +230,7 @@ class ParseJogo(MyHandler):
 				if local_jogadores_clube1.has_key(remote_jogadores_nome1[remote_jogador_entrada_nome]):
 					local_jogador_entrada = local_jogadores_clube1[remote_jogadores_nome1[remote_jogador_entrada_nome]]
 					output["jogadores_clube1"][local_jogador_entrada.key().id()] = {"substituicao_entrada":remote_jogador_minuto}
-					logging.info(output["jogadores_clube1"][local_jogador_entrada.key().id()])
+					jogadores_clube1_order.append(local_jogador_entrada.key().id())
 				else:	
 					logging.error("Jogador MaisFutebol %s do %s, que entrou ao minuto %s, não consta no FoiPenalti, corrige isso!" % (remote_jogador_entrada_nome, results["clube1"], remote_jogador_minuto) )	
 
@@ -244,7 +251,7 @@ class ParseJogo(MyHandler):
 				if local_jogadores_clube2.has_key(remote_jogadores_nome2[remote_jogador_entrada_nome]):
 					local_jogador_entrada = local_jogadores_clube2[remote_jogadores_nome2[remote_jogador_entrada_nome]]
 					output["jogadores_clube2"][local_jogador_entrada.key().id()] = {"substituicao_entrada":remote_jogador_minuto}
-					logging.info(output["jogadores_clube2"][local_jogador_entrada.key().id()])
+					jogadores_clube2_order.append(local_jogador_entrada.key().id())
 				else:	
 					logging.error("Jogador MaisFutebol %s do %s, que entrou ao minuto %s, não consta no FoiPenalti, corrige isso!" % (remote_jogador_entrada_nome, results["clube2"], remote_jogador_minuto) )	
 
@@ -319,4 +326,14 @@ class ParseJogo(MyHandler):
 				if not added:
 					logging.error("Jogador MaisFutebol %s, que marcou golo ao minuto %s, não consta no FoiPenalti, corrige isso!" % (remote_golo_jogador, remote_golo_minuto) )	
 		
+			output_jogadores_1 = []
+			output_jogadores_2 = []
+			for idx, val in enumerate(jogadores_clube1_order):
+				output_jogadores_1.append({"id":val, "info":output["jogadores_clube1"][val]})
+			for idx, val in enumerate(jogadores_clube2_order):
+				output_jogadores_2.append({"id":val, "info":output["jogadores_clube2"][val]})
+			
+			output["jogadores_clube1"] = output_jogadores_1
+			output["jogadores_clube2"] = output_jogadores_2
+			
 			return self.response.out.write(simplejson.dumps({"status":"OK", "message":output}))

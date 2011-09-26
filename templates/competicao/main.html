@@ -35,10 +35,8 @@ var disqus_developer = 1
 <script type="text/javascript" src="js/lib/jquery.jcarousel.min.js" ></script>
 <script type="text/javascript" src="js/main.js" ></script>
 <script type="text/javascript" src="js/snippets.js" ></script>
-{% if request.path|ishomepage %}
 <script type="text/javascript" src="js/calendar.js" ></script>
 <script type="text/javascript" src="js/lib/jquery.bt.js" ></script>
-{% endif %}
 <title>{% block title %}{% endblock %} | {{ settings.maintitle }}</title>
 <link href="/blog/rss2" type="application/rss+xml" rel="alternate" title="{{ settings.title }} RSS Feed" />
 <link rel="shortcut icon" href="/favicon.ico">

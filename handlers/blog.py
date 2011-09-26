@@ -10,7 +10,7 @@ from google.appengine.api import memcache
 
 import blogview as view
 import logging
-from classes import Post
+from classes import *
 from lib.myhandler import MyHandler
 from lib.mycachehandler import MyCacheHandler
 

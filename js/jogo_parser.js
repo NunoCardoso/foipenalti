@@ -13,7 +13,6 @@ $(document).ready(function() {
 			success: function(response)  {
 				hideWaitingDiv()	
 				if (response["status"] == "OK") {	
-					console.debug(response)
 					fill_out_jogadores(response["message"])
 				} else {
 					errorMessageWaitingDiv(response["message"])	
@@ -29,21 +28,22 @@ $(document).ready(function() {
 
 function fill_out_jogadores(info) {
 	
+	console.debug(info)
 	// info tem resultados_clube1, resultados_clube2, arbitro(id), tacticas_clube1, tacticas_clube2
 	if ("arbitro" in info) {
 		$("#jog_arbitro_id").val(info["arbitro"])
 	}
-	if ("resultados_clube1" in info) {
-		$("#jog_golos_clube1").val(info["resultados_clube1"])
+	if ("resultado_clube1" in info) {
+		$("#jog_golos_clube1").val(""+info["resultado_clube1"])
 	}
-	if ("resultados_clube2" in info) {
-		$("#jog_golos_clube2").val(info["resultados_clube2"])
-	}
-	if ("tacticas_clube1" in info) {
-		$("#jog_tactica_clube1").val(info["tacticas_clube1"])
+	if ("resultado_clube2" in info) {
+		$("#jog_golos_clube2").val(""+info["resultado_clube2"])
 	}
 	if ("tacticas_clube1" in info) {
-		$("#jog_tactica_clube2").val(info["tacticas_clube1"])
+		$("#jog_tactica_clube1").val(""+info["tacticas_clube1"])
+	}
+	if ("tacticas_clube1" in info) {
+		$("#jog_tactica_clube2").val(""+info["tacticas_clube1"])
 	}
 	
 			
@@ -58,13 +58,13 @@ function fill_out_jogadores(info) {
 function fill_out_jogadores_batch(my_count, jogadores_batch) {	
 	var count = my_count 
 	for (i in jogadores_batch) {
-		var jgd_id = i
+		var jgd_id = jogadores_batch[i]["id"]
 		// activate the change checkbox
 		$("#jjj"+count+"_checkbox").attr("checked", true)
 		// select the player
 		$("#jjj"+count+"_jogador_id").val(jgd_id)
 		// go through all features
-		var jgd_info = jogadores_batch[i]
+		var jgd_info = jogadores_batch[i]["info"]
 		if (jgd_info) {
 			if ("cartao amarelo" in jgd_info) {
 				$("#jjj"+count+"_amarelo_minuto").val(jgd_info["cartao amarelo"])
@@ -85,18 +85,18 @@ function fill_out_jogadores_batch(my_count, jogadores_batch) {
 				for(i in jgd_info["golos"]) {
 					var golo = jgd_info["golos"][i]
 					var golos_input = $($("#jjj"+count+"_golos_minutos")[$("#jjj"+count+"_golos_minutos").size()-1])
-					golos_input.val(golo["minuto"])
-					var golos_add_input_link = golos_input.next(".duplicate-input-link")
-					golos_add_input_link.trigger("click")
-					// clean up the new one
-					$($("#jjj"+count+"_golos_minutos")[$("#jjj"+count+"_golos_minutos").size()-1]).val("")
+					//console.debug(golos_input)
+					golos_input.clone().insertAfter(golos_input);
+					var golos_input2 = $($("#jjj"+count+"_golos_minutos")[$("#jjj"+count+"_golos_minutos").size()-1])
+					//console.debug(golos_input2)
+					golos_input2.val(golo["minuto"])
 									
 					var tipos_input = $($("#jjj"+count+"_golos_tipos")[$("#jjj"+count+"_golos_tipos").size()-1])
-					tipos_input.val(golo["tipo"])
-					var tipos_add_input_link = tipos_input.next(".duplicate-input-link")
-					tipos_add_input_link.trigger("click")
-					// clean up the new one
-					$($("#jjj"+count+"_golos_tipos")[$("#jjj"+count+"_golos_minutos").size()-1]).val("")
+					//console.debug(tipos_input)
+					tipos_input.clone().insertAfter(tipos_input);
+					var tipos_input2 = $($("#jjj"+count+"_golos_tipos")[$("#jjj"+count+"_golos_tipos").size()-1])
+					//console.debug(tipos_input2)
+					tipos_input2.val(golo["tipo"])
 				}
 			}
 		}

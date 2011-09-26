@@ -275,6 +275,7 @@ function change_epocas(options) {
 // tira variável tab do URL
 function get_tab() { 
 	vars = window.location.search.match(/tab=([^&]+)/)
+	console.debug(vars)
 	if (vars) return vars[1]
 	return false
 }

@@ -10,44 +10,21 @@
 <!-- usar a classe carrossel-pic-title no DIV e no UL! -->
 	<SECTION class="carrossel-div carrossel-pic-title fp-carrossel-pic-title">
 		<ul id="carrossel-pic-title" class="carrossel-pic-title"> 
-						<li>
-							<DIV class="fp-medium-radius fp-homepage-front-pic"  style="background-image:url('img/homepage/20110923_porto_benfica.png');">
-								<DIV class="fp-homepage-front-pic-top-black-strip">
-									<DIV class="fp-homepage-front-pic-title">
-							F.C.Porto 2-2 Benfica. Clássico de golos sul-americanos não dá líder isolado.
-									</DIV>
-								</DIV>
-								<DIV class="fp-homepage-front-pic-bottom-black-strip">
-									<DIV class="fp-homepage-front-pic-footer">
-										<DIV class="fp-homepage-front-pic-credits">
-										Imagem: <A href="http://maisfutebol.iol.pt">MaisFutebol</A>
-										</DIV>
-			E com este resultado, o Sporting pode recuperar mais terreno. Veja a <a href="http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:6:Porto:Benfica">ficha do jogo</A> e a análise dos lances.
-									</DIV>
-								</DIV>
-							</DIV>
-						</li>
-
-			<li>
-					<DIV class="fp-medium-radius fp-homepage-front-pic"  style="background-image:url('img/homepage/20110920_rioave_sporting.png');">
-					<DIV class="fp-homepage-front-pic-top-black-strip">
-					<DIV class="fp-homepage-front-pic-title">
-					Rio-Ave 2-3 Sporting. Leão masoquista! 
-					</DIV>
-					</DIV>
-					<DIV class="fp-homepage-front-pic-bottom-black-strip">
-					<DIV class="fp-homepage-front-pic-footer">
-					<DIV class="fp-homepage-front-pic-credits">
-					Imagem: <A href="http://desporto.sapo.pt">SAPO Desporto</A>
-					</DIV>
-			Mais uma grande reviravolta, com os sustos do costume. Veja a <a href="http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:5:RioAve:Sporting">ficha do jogo</A> e a decisão dos lances.
-					</DIV>
-					</DIV>
-					</DIV>
-			</li>
-
-
-	</ul>
+{% for info in homepage_info %}
+<li>
+	<DIV class="fp-medium-radius fp-homepage-front-pic"  style="background-image:url('{{info.image}}');">
+		<DIV class="fp-homepage-front-pic-top-black-strip">
+			<DIV class="fp-homepage-front-pic-title">{{info.title}}</DIV>
+		</DIV>
+		<DIV class="fp-homepage-front-pic-bottom-black-strip">
+			<DIV class="fp-homepage-front-pic-footer">
+				<DIV class="fp-homepage-front-pic-credits">Imagem: <A href="{{info.source_url}}">{{info.source_title}}</A>
+				</DIV>{{info.description}}</DIV>
+			</DIV>
+		</DIV>
+</li>
+{% endfor %}
+		</ul>
 	</SECTION>	
 
 <!-- FIM DE CARROSEL DE IMAGEM, INICIO DE CARROSSEL DE CLASSIFICACAO -->
@@ -188,10 +165,11 @@
 		<P><B><A href="/detalhe_epoca?id={{epoca.key.id}}">Época {{epoca}}:</A></B></P> 
 		<P><A href="/detalhe_epoca?menu=detalhe_epoca_sumario">Sumário</A> |  
 			<A href="/detalhe_epoca?menu=detalhe_epoca_clubes">Clubes</A> |  
-			<A href="/detalhe_epoca?menu=detalhe_epoca_jogadores&menu=mais_golos">Melhores marcadores</A> |  
+			<A href="/detalhe_epoca?menu=detalhe_epoca_jogadores&tab=mais_golos">Melhores marcadores</A> |  
 			<A href="/detalhe_epoca?menu=detalhe_epoca_jogos">Jogos</A> | 
 			<A href="/detalhe_epoca?menu=detalhe_epoca_jogos&tab=calendario">Calendário</A> | 
-			<A href="/detalhe_epoca?menu=detalhe_epoca_indices&tab=grafico">Gráfico ICC&#0153;</A> | 
+			<A href="/detalhe_epoca?menu=detalhe_epoca_indices&tab=grafico_icc">ICC&#0153;</A> | 
+			<A href="/detalhe_epoca?menu=detalhe_epoca_indices&tab=grafico_ica">ICA&#0153;</A> | 
 			<A href="/detalhe_epoca?menu=detalhe_epoca_indices&tab=tabela">Tabela ICC&#0153;</A> | 
 			<A href="/detalhe_epoca?menu=detalhe_epoca_arbitros">Árbitros</A> 
 		</P>
@@ -204,7 +182,8 @@
 			<A href="/detalhe_competicao?menu=detalhe_competicao_jogos">Jogos</A> | 
 			<A href="/detalhe_competicao?menu=detalhe_competicao_jogos&tab=jornadas">Jornadas</A> | 
 			<A href="/detalhe_competicao?menu=detalhe_competicao_jogos&tab=calendario">Calendário</A> | 
-			<A href="/detalhe_competicao?menu=detalhe_competicao_indices&tab=grafico">Gráfico ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?menu=detalhe_competicao_indices&tab=grafico_icc">ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?menu=detalhe_competicao_indices&tab=grafico_ica">ICA&#0153;</A> | 
 			<A href="/detalhe_competicao?menu=detalhe_competicao_indices&tab=tabela">Tabela ICC&#0153;</A> | 
 			<A href="/detalhe_competicao?menu=detalhe_competicao_arbitros">Árbitros</A>.  
 		</P>
@@ -215,7 +194,8 @@
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_clubes">Clubes</A> |  
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_jogadores">Jogadores</A> |  
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_jogos">Jogos</A> | 
-			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_indices&tab=grafico">Gráfico ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_indices&tab=grafico_icc">ICC&#0153;</A> | 
+<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_indices&tab=grafico_ica">ICA&#0153;</A> | 			
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_indices&tab=tabela">Tabela ICC&#0153;</A> | 
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_arbitros">Árbitros</A>.  
 		</P>
@@ -227,7 +207,7 @@
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_sumario&tab=classificacao">Classificacao</A> |			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_clubes">Clubes</A> |  
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_jogadores">Jogadores</A> |  
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_jogos">Jogos</A> | 
-			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_indices&tab=grafico">Gráfico ICC&#0153;</A> | 
+			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_indices&tab=grafico_icc">ICC&#0153;</A> | <A href="/detalhe_competicao?competicao={{epoca}}:TacaPortugal&menu=detalhe_competicao_indices&tab=grafico_ica">ICA&#0153;</A> | 	
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_indices&tab=tabela">Tabela ICC&#0153;</A> | 
 			<A href="/detalhe_competicao?competicao={{epoca}}:TacaLiga&menu=detalhe_competicao_arbitros">Árbitros</A>.  
 		</P>

@@ -10,7 +10,7 @@ class GraficoICA:
 	grafico = None
 	
 	@staticmethod
-	def gera_novo_grafico_ica( stats_hash, arbitros):
+	def gera_novo_grafico_ica( stats_hash, stash_parcial, arbitros):
 
 			arb_ids = []
 			for arbitro in arbitros:

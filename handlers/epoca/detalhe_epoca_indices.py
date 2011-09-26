@@ -108,13 +108,9 @@ class DetalheEpocaIndices(DetalheEpoca):
 		for idx, val in enumerate(grafico_ica):
 			grafico_ica[idx]["arbitro"] = hash_arbitros[grafico_ica[idx]["arb"]]
 
-		logging.info(grafico_ica)
-		logging.info(len(grafico_ica))
 		if len(grafico_ica) > 16: 
-
-			list_1 = grafico_ica[:5]
-			list_2 = grafico_ica[-5:]
-			
+			list_1 = grafico_ica[:8]
+			list_2 = grafico_ica[-8:]
 			for el in list_2:
 				list_1.append(el)
 			grafico_ica = list_1
