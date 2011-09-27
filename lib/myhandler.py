@@ -58,17 +58,9 @@ class MyHandler(webapp.RequestHandler):
 
 	def render_main_with_blocks(self, content_html, block_values={}):
 		
-#		logging.info("render_main_with_blocks")
 		main_template_path = os.path.join(config.APP_ROOT_DIR, config.TEMPLATE_DIR, config.MAIN_TEMPLATE_HTML)
-#		main_template_html = memcache.get("main_template_html")
-#		if not main_template_html:
-#			f = open(main_template_path, "r")
-#			main_template_html = f.read()
-#			memcache.set("main_template_html", main_template_html, time=86400)
-
 		block_values.update({"content":content_html})
-		
-		logging.info(block_values)
+		#	logging.info(block_values)
 		return self.render(main_template_path, block_values)
 
 	def render_template_block(self, template_file, template_values={}):

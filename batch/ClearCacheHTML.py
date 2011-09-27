@@ -2,7 +2,7 @@
 from google.appengine.ext import db
 from classes import *
 import datetime
-d = datetime.datetime(2011, 10, 12)
+d = datetime.datetime(2011, 9, 25)
 cac = CacheHTML.all().filter("cch_date < ", d).order("-cch_date").fetch(1000)
 count = 0
 for c in cac:

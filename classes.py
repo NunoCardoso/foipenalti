@@ -6,6 +6,7 @@ import logging
 import pickle
 import sys
 import os
+import re
 
 # from blog: Force sys.path to have our own directory first, so we can import from it.
 app_root_dir = os.path.abspath(os.path.dirname(__file__))
@@ -985,7 +986,11 @@ class CacheHTML(db.Model):
 	
 	def get_admin_url(self):
 		# converter detalhe_XXXXX?id=YYY até /admin/XXXXX/edit?id=YYYY
-		return self.cch_url
+		logging.info(self.cch_url)
+		m = re.search("/detalhe_(\w+)\?id=(\d+)(&\w+=.*)?", self.cch_url)
+		if m:
+			return u"<a href='/admin/%s/edit?id=%s'>Administrar</a>" % (m.group(1), m.group(2))
+		return None
 
 class CacheDados(db.Model):
 	ccd_namespace = db.StringProperty(
@@ -1004,8 +1009,10 @@ class CacheDados(db.Model):
 	
 	def get_admin_url(self):
 		# converter detalhe_XXXXX?id=YYY até /admin/XXXXX/edit?id=YYYY
-		return self.ccd_url
-	
+		m = re.search("/detalhe_(\w+)\?id=(\d+)(&\w+=.*)?", self.ccd_url)
+		if m:
+			return u"/admin/%s/edit?id=%s" % (m.group(1), m.group(2))
+		return None
 
 class AcumuladorJornada(db.Model):
 	acuj_versao = db.IntegerProperty()

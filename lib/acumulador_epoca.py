@@ -306,8 +306,8 @@ def gera(epoca, acue_basico,
 	if acue_icc == "on":
 		# vamos assumir que sabemos que queremos uma tabela icc / Liga
 		arbitros = Arbitro.all().fetch(1000)
-		stats["icc"] = GraficoICC.gera_novo_grafico_icc(stats, clubes)
-		stats["ica"] = GraficoICA.gera_novo_grafico_ica(stats, arbitros)
+		stats["icc"] = GraficoICC.gera_novo_grafico_icc(stats, {}, clubes)
+		stats["ica"] = GraficoICA.gera_novo_grafico_ica(stats, {}, arbitros)
 
 ############
 ### TOPS ###

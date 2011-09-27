@@ -177,7 +177,7 @@ class MyCacheHandler(MyHandler):
 					hardcache_html.cch_namespace = self.cache_namespace
 					hardcache_html.cch_signature = signature
 					hardcache_html.cch_date = date
-					hardcache_html.cch_title = self.title
+					hardcache_html.cch_title = self.title if not type(self.title) is django.utils.safestring.SafeUnicode else self.title.encode("utf-8") 
 					hardcache_html.cch_content = self.html if not type(self.html) is django.utils.safestring.SafeUnicode else self.html.encode("utf-8") 
 						
 					hardcache_html.put()
@@ -343,7 +343,7 @@ class MyCacheHandler(MyHandler):
 		hardcache_html.cch_signature = signature
 		hardcache_html.cch_date = date
 		hardcache_html.cch_content = self.html if not type(self.html) is django.utils.safestring.SafeUnicode else self.html.encode("utf-8") 
-		hardcache_html.cch_title = self.title
+		hardcache_html.cch_title = self.title  if not type(self.title) is django.utils.safestring.SafeUnicode else self.title.encode("utf-8") 
 		hardcache_html.put()
 
 		# let's refresh SOFTCACHE_HTML

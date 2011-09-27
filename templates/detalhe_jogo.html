@@ -1,3 +1,4 @@
+{% autoescape off %}
 {% spaceless %}
 {% if flash %}
 	{% if flash|startswith:"Err" %}
@@ -418,3 +419,4 @@ tablink.trigger("click")
 Jogo inexistente.
 {% endif %}
 {% endspaceless %}
+{% endautoescape %}

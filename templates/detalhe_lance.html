@@ -1,3 +1,4 @@
+{% autoescape off %}
 {% spaceless %}
 {% if flash %}
 	{% if flash|startswith:"Err" %}
@@ -185,3 +186,4 @@ tablink.trigger("click")
 <div><a href="/agradecimentos">Fonte dos dados</a></div>
 </div>
 {% endspaceless %}
+{% endautoescape %}

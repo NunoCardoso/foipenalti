@@ -27,7 +27,7 @@ a:hover {color:#0000aa;text-decoration:underline;}
 
 .epoca-container {
 	display: inline;
-}
+} 
 
 #main-ajax-content {
 	width:100%;
@@ -166,6 +166,12 @@ a.main-button-disabled:active span {
  position: relative;
   min-height: 400px;
 
+}
+
+#main-admin-content {
+ background-color:white;
+ color:#000000;	
+ text-indent: 0px;	
 }
 
 /***********/

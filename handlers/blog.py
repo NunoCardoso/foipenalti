@@ -172,13 +172,13 @@ class RSS2Handler(MyCacheHandler):
 	def checkCacheFreshen(self):
 		data_cache = None # data do HTML gerado em cache
 		
-		self.softcache_rrs =  memcache.get(self.cache_url, namespace=self.cache_namespace)
-		if self.softcache_html:
-			data_cache = self.softcache_html['date']
+		self.softcache_content_html =  memcache.get(self.cache_url, namespace=self.cache_namespace)
+		if self.softcache_content_html:
+			data_cache = self.softcache_content_html['date']
 		else:
-			self.hardcache_html = CacheHTML.all().filter("cch_url = ",self.cache_url).get()
-			if self.hardcache_html:
-				data_cache = self.hardcache_html.cch_date
+			hardcache_content_html = CacheHTML.all().filter("cch_url = ",self.cache_url).get()
+			if hardcache_content_html:
+				data_cache = hardcache_content_html.cch_date
 		
 		# não é mto eficiente
 		blog_date = Post.all().order('-pub_date').get().pub_date

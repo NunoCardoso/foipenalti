@@ -1,3 +1,4 @@
+{% autoescape off %}
 {% spaceless %}
 {% if flash %}
 	{% if flash|startswith:"Err" %}
@@ -146,3 +147,4 @@ table-layout: fixed;">
 Jornada inexistente.
 {% endif %}
 {% endspaceless %}
+{% endautoescape %}
