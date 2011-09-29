@@ -14,6 +14,16 @@ from classes import *
 from lib.myhandler import MyHandler
 from lib.mycachehandler import MyCacheHandler
 
+
+def slugify(value):
+    """
+    Adapted from Django's django.template.defaultfilters.slugify.
+    """
+    import unicodedata
+    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+    value = unicode(re.sub('[^\w\s-]', '', value).strip().lower())
+    return re.sub('[-\s]+', '-', value)
+
 class IndexHandler(MyHandler):
 
     def get(self):
@@ -213,5 +223,8 @@ class RSS2Handler(MyCacheHandler):
 		return rss
 
 	def renderHTML(self):
-		#logging.info(type(self.dados.to_xml()))
-		return self.dados.to_xml()#.encode("UTF-8")
+		return self.dados.to_xml()
+
+	def renderTitle(self):
+		return config.SETTINGS["maintitle"]
+	

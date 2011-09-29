@@ -392,26 +392,26 @@ class Jogo(db.Model):
 		return self.jog_nome.encode( "utf-8" )
 	
 	def printjogo(self, clube=None):
-		golos1 = ""
+		golos1 = u""
 		if  self.jog_golos_clube1 != None:
 			golos1 = self.jog_golos_clube1
-		golos2 = ""
+		golos2 = u""
 		if  self.jog_golos_clube2 != None:
 			golos2 = self.jog_golos_clube2
 		
 		clube1 = None
 		if clube and self.jog_clube1.key().id() == clube:
-			clube1 = "<B>%s</B>" % self.jog_clube1.clu_nome_curto	
+			clube1 = u"<B>%s</B>" % self.jog_clube1.clu_nome_curto	
 		else:
 			clube1 = self.jog_clube1.clu_nome_curto
 
 		clube2 = None
 		if clube and self.jog_clube2.key().id() == clube:
-			clube2 = "<B>%s</B>" % self.jog_clube2.clu_nome_curto	
+			clube2 = u"<B>%s</B>" % self.jog_clube2.clu_nome_curto	
 		else:
 			clube2 = self.jog_clube2.clu_nome_curto
 
-		return "%s %s - %s %s" % (clube1, golos1, golos2, clube2)
+		return u"%s %s - %s %s" % (clube1, golos1, golos2, clube2)
 		
 class Lance(db.Model):
 	
@@ -1137,14 +1137,6 @@ def getAcumuladorEpoca(epoca, versao, namespace):
 		return obj
 	return None
 
-def slugify(value):
-    """
-    Adapted from Django's django.template.defaultfilters.slugify.
-    """
-    import unicodedata
-    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
-    value = unicode(re.sub('[^\w\s-]', '', value).strip().lower())
-    return re.sub('[-\s]+', '-', value)
 
 class Post(db.Model):
     title = db.StringProperty()

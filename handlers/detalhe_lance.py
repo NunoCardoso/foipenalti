@@ -39,7 +39,7 @@ class DetalheLance(MyCacheHandler):
 			new_sid = self.generate_sid()
 			memcache.set(str(new_sid), error, namespace="flash")
 			self.add_sid_to_cookie(new_sid)
-			self.redirect(referer)	
+			self.redirect(self.referer)	
 			return
 		
 		self.checkCacheFreshen()
@@ -117,7 +117,7 @@ class DetalheLance(MyCacheHandler):
 		return html
 
 	def renderTitle(self):
-		return "Lance n. %s, %s" % (self.lance.lan_numero, self.lance.lan_jogo.printjogo())
+		return u"Lance n. %s, %s" % (self.lance.lan_numero, self.lance.lan_jogo.printjogo())
 		
 	def decontaminate_vars(self):
 		

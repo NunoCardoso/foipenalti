@@ -39,7 +39,7 @@ class DetalheClube(MyCacheHandler):
 			new_sid = self.generate_sid()
 			memcache.set(str(new_sid), error, namespace="flash")
 			self.add_sid_to_cookie(new_sid)
-			self.redirect(referer)	
+			self.redirect(self.referer)	
 			return
 
 		self.checkCacheFreshen()

@@ -34,12 +34,12 @@ class DetalheJogo(MyCacheHandler):
 	def get(self):
 		self.decontaminate_vars()
 		if not self.jogo:
-			error = u"Erro: Não há jogo com id %s" % jog_id
+			error = u"Erro: Não há jogo com id %s" % self.request.get("id")
 			logging.error(error)
 			new_sid = self.generate_sid()
 			memcache.set(str(new_sid), error, namespace="flash")
 			self.add_sid_to_cookie(new_sid)
-			self.redirect(referer)	
+			self.redirect(self.referer)	
 			return
 			
 		self.checkCacheFreshen()

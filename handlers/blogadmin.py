@@ -6,7 +6,8 @@ from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
 import classes
-from classes import Post
+from classes import *
+import blog
 import blogview as view
 from lib.myhandler import MyHandler
 
@@ -23,7 +24,7 @@ class CreatePostHandler(MyHandler):
 
         slug = self.request.get('slug').strip()
         if slug == '':
-            slug = slugify(new_post.title)
+            slug = blog.slugify(new_post.title)
         new_post.slug = slug
 
         excerpt = self.request.get('excerpt').strip()
@@ -106,7 +107,7 @@ class EditPostHandler(MyHandler):
 
             slug = self.request.get('slug').strip()
             if slug == '':
-                slug = slugify(post.title)
+                slug = blog.slugify(post.title)
             post.slug = slug
 
             excerpt = self.request.get('excerpt').strip()
