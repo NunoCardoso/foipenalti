@@ -269,7 +269,7 @@ class Save(MyHandler):
 			try:
 				arbitro = Arbitro.get_by_id(int(self.request.get('jog_arbitro_id')))
 			except:
-				pass
+				arbitro = Arbitro.all().filter("arb_nome = ", 'jog_arbitro').get()
 
 			list_link_sites = []
 			empty = True

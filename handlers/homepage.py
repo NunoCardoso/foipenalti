@@ -34,6 +34,14 @@ class HomePage(MyCacheHandler):
 	competicao = None
 		
 	homepage_info = [
+	
+		{"image":u"img/homepage/20111002_benfica_pacos.jpg",
+		 "title":u"Benfica 4-1 Paços de Ferreira. Benfica isolado no topo, como há muito não se via!",
+		 "source_url":u"http://desporto.sapo.pt",
+		 "source_title":u"SAPO Desporto",
+		 "description":u"Saviola mói a defesa do Paços e bisa. "+
+		 u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:7:Benfica:PacosFerreira'>"+
+		 u"ficha do jogo</A> e a decisão dos lances."},
 
 		{"image":u"img/homepage/20110825_sporting_setubal.jpg",
 		 "title":u"Sporting 3-0 Setúbal. Wolfswinkel é craque! Schaars também não fica atrás!",
@@ -42,14 +50,6 @@ class HomePage(MyCacheHandler):
 		 "description":u"Primeira vitória em Alvalade, e já estão a 3 pontos dos líderes. "+
 		  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:6:Sporting:Setubal'>"+
 		  u"ficha do jogo</A> e a decisão dos lances."},
-		
-		{"image":u"img/homepage/20110925_braga_nacional.jpg",
-		 "title":u"Braga 2-0 Nacional. Este Nuno está fresco como uma alface!",
-		 "source_url":u"http://desporto.sapo.pt",
-		 "source_title":u"SAPO Desporto",
-		 "description":u"E sai mais um líder para a 6ª jornada! "+
-		 u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:6:Braga:Nacional'>"+
-		 u"ficha do jogo</A> e a decisão dos lances."},
 
 		{"image":u"img/homepage/20110923_porto_benfica.png",
 		 "title":u"F.C.Porto 2-2 Benfica. Clássico de golos sul-americanos não dá líder isolado.",

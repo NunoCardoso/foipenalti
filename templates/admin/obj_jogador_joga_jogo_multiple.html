@@ -52,8 +52,15 @@
 				<input class="aware-change datepicker-datetime" type="text" name="jog_data2_{% if new_for_parent_id %}new{% endif %}{% if multiple_edir %}edit{% endif %}" id="jog_data_single2_{% if new_for_parent_id %}new{% endif %}{% if multiple_edir %}edit{% endif %}" size=20 value="{{obj.jog_data|pp_year_month_day_hour_minute}}" placeholder="2011-01-01 00:00"/>
 			</div>
 			
+			
+			
 			<div style="display:inline;">
 			Árbitro: 
+			
+			
+			<a href="#" class="toogleDisplay">[x]</a>
+			<div style="display:inline;">
+			
 			<select class="aware-change" size=1 name="jog_arbitro_id" id="jog_arbitro_id"/>
 			<option value="">--</option>
 			{% for arbitro in arbitros %}
@@ -61,7 +68,14 @@
 				{% endfor %}
 			</select>	
 			</div>
+			
+			<div style="display:none;">
+			<input class="aware-change nome_arbitro_autocomplete" type="text" AUTOCOMPLETE="OFF" size="20" id="jog_arbitro" name="jog_arbitro" placeholder="Árbitro" {% if multiple_edit %}  value='{{obj.jog_arbitro.arb_nome}}'{% endif %}>
+			</div>
+			
+			</div>
 		</div>
+		
 		<div style="width:100%;">
  			Clube/golos:
 				<div style="display:inline;">

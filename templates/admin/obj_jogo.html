@@ -35,6 +35,10 @@
 			
 			<div style="display:inline;">
 			Árbitro: 
+			
+			<a href="#" class="toogleDisplay">[x]</a>
+			<div style="display:inline;">
+						
 			<select size=1 name="jog_arbitro_id" id="jog_arbitro_id"/>
 			<option value="">--</option>
 			{% for arbitro in arbitros %}
@@ -42,6 +46,13 @@
 				{% endfor %}
 			</select>	
 			</div>
+			
+			<div style="display:none;">
+			<input class="aware-change nome_arbitro_autocomplete" type="text" AUTOCOMPLETE="OFF" size="20" id="jog_arbitro" name="jog_arbitro" placeholder="Árbitro" {% if multiple_edit %}  value='{{obj.jog_arbitro.arb_nome}}'{% endif %}>
+			</div>
+			
+			</div>
+
 		</td>
 		</tr></table>
 	</td></tr>
