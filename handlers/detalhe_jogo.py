@@ -106,7 +106,8 @@ class DetalheJogo(MyCacheHandler):
 			try:
 				numero = ctj.ctj_numero
 			except:
-				numero = 0
+				numero = jogador.jgd_numero
+				
 			props = {
 			"jogador":jogador,
 			"numero": numero,	

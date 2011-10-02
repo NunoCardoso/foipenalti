@@ -757,9 +757,12 @@ class ClubeTemJogador(db.Model):
 				 {'Número de camisola':'ctj_numero'}]
 
 	def __str__( self ):
-		name = u"%s:%s" % (
+		name = u"%s:%s:%s:%s" % (
 			self.ctj_clube.__str__().decode("utf-8"),
-			self.ctj_jogador.__str__().decode("utf-8"))
+			self.ctj_jogador.__str__().decode("utf-8"),
+			self.ctj_numero,
+			self.ctj_epocas.__str__().decode("utf-8"))
+			
 		return name.encode( "utf-8" )
 		
 

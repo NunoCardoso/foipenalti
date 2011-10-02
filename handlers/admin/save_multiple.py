@@ -769,6 +769,55 @@ class SaveMultiple(MyHandler):
 
 					obj.jgd_clube_actual = clube			
 					obj.jgd_posicao = posicao
+					
+					# EDIÇÂO DE CTJ
+					# 1. apanhar a época corrente
+					epocas = []
+					epocas.append(config.EPOCA_CORRENTE.key()) 
+
+					# 2. ir á BD de CTJ para este jogador
+					ctjs = obj.jgd_clubes.filter("ctj_epocas in ", epocas).fetch(1000)
+
+					# 3. É estranho não ter CTJ, mas se não tiver, crio. 
+					if not ctjs:
+						new_obj = ClubeTemJogador(
+						ctj_jogador = obj,
+						ctj_clube = clube, 
+						ctj_numero = numero,
+						ctj_epocas = epocas
+						)
+						db.put(new_obj)
+						flash_messages.append(u"%s %s: %s" % (new_obj.kind(), "Adicionado", new_obj.__str__().decode("utf-8","replace") ) ) 
+						memcache_objs[str(new_obj.key().id())] = new_obj
+
+					else:
+
+						# se o clube é válido (náo é unknown)
+						if clube.clu_nome != "unknown":
+							# vamos ver se encontro entrada para este clube
+							ctj_deste_clube = None
+							for idx, val in enumerate(ctjs):
+								if (ctjs[idx].ctj_clube == clube):
+									ctj_deste_clube = ctjs[idx]
+
+							if ctj_deste_clube != None:
+							#  se encontro um clube comum para a época dada, actualizo o número desse ctj. 
+							# um jogador não pode ter números diferentes, numa época, para o mesmo clube!!
+								ctj_deste_clube.ctj_numero = numero
+								db.put(ctj_deste_clube)
+								flash_messages.append(u"%s %s: %s" % (ctj_deste_clube.kind(), "Editado", ctj_deste_clube.__str__().decode("utf-8","replace") ) ) 
+								memcache_objs[str(ctj_deste_clube.key().id())] = ctj_deste_clube
+							else:
+								# tem clube diferente: crio um novo CTJ
+								new_obj = ClubeTemJogador(
+									ctj_jogador = obj,
+									ctj_clube = clube, 
+									ctj_numero = numero,
+									ctj_epocas = epocas
+								)
+								db.put(new_obj)
+								flash_messages.append(u"%s %s: %s" % (new_obj.kind(), "Adicionado", new_obj.__str__().decode("utf-8","replace") ) ) 
+								memcache_objs[str(new_obj.key().id())] = new_obj
 
 					clube.clu_ultima_alteracao = date
 					objs.append(obj)

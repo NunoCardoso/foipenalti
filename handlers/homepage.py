@@ -35,29 +35,29 @@ class HomePage(MyCacheHandler):
 		
 	homepage_info = [
 	
-		{"image":u"img/homepage/20111002_benfica_pacos.jpg",
-		 "title":u"Benfica 4-1 Paços de Ferreira. Benfica isolado no topo, como há muito não se via!",
-		 "source_url":u"http://desporto.sapo.pt",
-		 "source_title":u"SAPO Desporto",
-		 "description":u"Saviola mói a defesa do Paços e bisa. "+
-		 u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:7:Benfica:PacosFerreira'>"+
-		 u"ficha do jogo</A> e a decisão dos lances."},
+	{"image":u"img/homepage/20111002_academica_porto.jpg",
+	 "title":u"Académica 0-3 F.C.Porto. Quando não se inventa... percebeste, Vítor?",
+	 "source_url":u"http://maisfutebol.iol.pt",
+	 "source_title":u"MaisFutebol",
+	 "description":u"F.C.Porto não larga a liderança do campeonato. Walter marca e justifica a aposta. Vítor Pereira proibido de inventar nas substituições. "+
+	 u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:7:Academica:Porto'>"+
+	 u"ficha do jogo</A> e a decisão dos lances."},
 
-		{"image":u"img/homepage/20110825_sporting_setubal.jpg",
-		 "title":u"Sporting 3-0 Setúbal. Wolfswinkel é craque! Schaars também não fica atrás!",
-		 "source_url":u"http://desporto.sapo.pt",
-		 "source_title":u"SAPO Desporto",
-		 "description":u"Primeira vitória em Alvalade, e já estão a 3 pontos dos líderes. "+
-		  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:6:Sporting:Setubal'>"+
-		  u"ficha do jogo</A> e a decisão dos lances."},
+	{"image":u"img/homepage/20111002_guimaraes_sporting.jpg",
+	 "title":u"V. Guimarães 0-1 Sporting. Sporting outra vez a decidir no primeiro quarto-de-hora, e a jogar com 10.",
+	 "source_url":u"http://desporto.sapo.pt",
+	 "source_title":u"SAPO Desporto",
+	 "description":u"Vitória de Guimarães afunda-se na tabela. Sporting junta-se ao lote de segundos.  "+
+	  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:7:Guimaraes:Sporting'>"+
+	  u"ficha do jogo</A> e a decisão dos lances."},
 
-		{"image":u"img/homepage/20110923_porto_benfica.png",
-		 "title":u"F.C.Porto 2-2 Benfica. Clássico de golos sul-americanos não dá líder isolado.",
-		 "source_url":u"http://maisfutebol.iol.pt",
-		 "source_title":u"MaisFutebol",
-		 "description":u"E com este resultado, o Sporting pode recuperar mais terreno. "+
-		 u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:6:Porto:Benfica'>"+
-		 u"ficha do jogo</A> e a decisão dos lances."}
+	{"image":u"img/homepage/20111002_benfica_pacos.jpg",
+	 "title":u"Benfica 4-1 Paços de Ferreira. Benfica isolado no topo, como há muito não se via!",
+	 "source_url":u"http://desporto.sapo.pt",
+	 "source_title":u"SAPO Desporto",
+	 "description":u"Saviola mói a defesa do Paços e bisa. "+
+	 u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:7:Benfica:PacosFerreira'>"+
+	 u"ficha do jogo</A> e a decisão dos lances."}
 	]	
 	
 	def get(self):

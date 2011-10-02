@@ -544,7 +544,7 @@ class New(MyHandler):
 					if epoca:	
 						epocas.append(epoca.key()) 
 
-			# by default, add the current epoca
+			# Por defeito, adiciona a época corrente ao novo jogador.
 			if not epocas:
 				epocas.append(config.EPOCA_CORRENTE.key()) 
 
