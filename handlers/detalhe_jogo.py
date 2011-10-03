@@ -61,7 +61,6 @@ class DetalheJogo(MyCacheHandler):
 		
 		if data_cache and self.jogo.jog_ultima_alteracao > data_cache:
 			self.refreshen_cache = True
-			logging.info("refreshen cache = true")
 			
 	def renderDados(self):
 		

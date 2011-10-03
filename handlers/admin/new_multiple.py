@@ -620,7 +620,8 @@ class NewMultiple(MyHandler):
 			jogo.jog_jornada.jor_competicao.cmp_epoca.epo_ultima_alteracao = date
 			jogo.jog_jornada.jor_competicao.cmp_ultima_alteracao = date
 			jogo.jog_jornada.jor_ultima_alteracao = date
-
+			jogo.jog_ultima_alteracao = date
+			
 			if jogo.jog_clube1 in objs:
 				objs.remove(jogo.jog_clube1)
 			objs.append(jogo.jog_clube1)	
