@@ -125,6 +125,15 @@ $(document).ready(function() {
 		}
 	}); 
 
+	// a "reset-comentadores" checkbox that prefills comnentadores
+   $(".reset-comentadores").live("click", function(ev, ui) {
+		$("table.tabela-comentadores").each(function() {
+			selects = $(this).find(".comentadores")
+			selects.eq(0).val(72014) // Jorge Coroado
+			selects.eq(2).val(70018) // Paulo PAraty
+			selects.eq(1).val(49027) // Pedro Henriques
+		})
+	});
 	// switch display visibility to sibling DIVs
 	$(".toogleDisplay").live("click", function(ev, ui) {
 		ev.preventDefault();
@@ -138,7 +147,7 @@ $(document).ready(function() {
 
 	// be alert on change, and make the table's only checkbox checked
    $(".aware-change").live("change", function(ev, ui) {
-		$(this).parents("TABLE:first").find(
+		$(this).closest("TABLE.element").find(
 			"input[id$='_checkbox']").attr("checked",true)
 	
 	}); 

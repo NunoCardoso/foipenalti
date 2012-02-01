@@ -56,29 +56,30 @@ def gera(jornada):
 		
 		for lance in jogo.jog_lances:
 			lan_id = lance.key().id()
-			lance.lan_icc = abs(stats["lance"][lan_id]["icc1"])
-			lance.lan_ica = stats["lance"][lan_id]["ica"]
-			lance.lan_clubes = [jogo.jog_clube1.key(),jogo.jog_clube2.key()]
+			if stats["lance"].has_key(lan_id):
+				lance.lan_icc = abs(stats["lance"][lan_id]["icc1"])
+				lance.lan_ica = stats["lance"][lan_id]["ica"]
+				lance.lan_clubes = [jogo.jog_clube1.key(),jogo.jog_clube2.key()]
 			
-			lan_causa, lan_apitado, lan_consequencia = lance.divide_tipo_lance() 
-			lance.lan_causa = lan_causa
-			lance.lan_apitado = lan_apitado
-			lance.lan_consequencia = lan_consequencia
-			lance.lan_julgamento_arbitro = stats["lance"][lan_id]["dn"]
+				lan_causa, lan_apitado, lan_consequencia = lance.divide_tipo_lance() 
+				lance.lan_causa = lan_causa
+				lance.lan_apitado = lan_apitado
+				lance.lan_consequencia = lan_consequencia
+				lance.lan_julgamento_arbitro = stats["lance"][lan_id]["dn"]
 			
-			if stats["lance"][lan_id]["dn"] == \
-				Lance.translation_julgamento_arbitro.index('Beneficiou a equipa da casa'):
+				if stats["lance"][lan_id]["dn"] == \
+					Lance.translation_julgamento_arbitro.index('Beneficiou a equipa da casa'):
 	
-				lance.lan_clube_beneficiado = jogo.jog_clube1.key()
-				lance.lan_clube_prejudicado = jogo.jog_clube2.key()
+					lance.lan_clube_beneficiado = jogo.jog_clube1.key()
+					lance.lan_clube_prejudicado = jogo.jog_clube2.key()
 				
-			elif stats["lance"][lan_id]["dn"] == \
-				Lance.translation_julgamento_arbitro.index('Beneficiou a equipa visitante'):
+				elif stats["lance"][lan_id]["dn"] == \
+					Lance.translation_julgamento_arbitro.index('Beneficiou a equipa visitante'):
 				
-				lance.lan_clube_beneficiado = jogo.jog_clube2.key()
-				lance.lan_clube_prejudicado = jogo.jog_clube1.key()
-			lance.lan_clubes = [jogo.jog_clube1.key(),jogo.jog_clube2.key()]
-			lance.put()
+					lance.lan_clube_beneficiado = jogo.jog_clube2.key()
+					lance.lan_clube_prejudicado = jogo.jog_clube1.key()
+				lance.lan_clubes = [jogo.jog_clube1.key(),jogo.jog_clube2.key()]
+				lance.put()
 			
 	return stats
 	

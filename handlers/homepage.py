@@ -34,30 +34,29 @@ class HomePage(MyCacheHandler):
 	competicao = None
 		
 	homepage_info = [
-	
-	{"image":u"img/homepage/20111002_academica_porto.jpg",
-	 "title":u"Académica 0-3 F.C.Porto. Quando não se inventa... percebeste, Vítor?",
-	 "source_url":u"http://maisfutebol.iol.pt",
-	 "source_title":u"MaisFutebol",
-	 "description":u"F.C.Porto não larga a liderança do campeonato. Walter marca e justifica a aposta. Vítor Pereira proibido de inventar nas substituições. "+
-	 u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:7:Academica:Porto'>"+
-	 u"ficha do jogo</A> e a decisão dos lances."},
-
-	{"image":u"img/homepage/20111002_guimaraes_sporting.jpg",
-	 "title":u"V. Guimarães 0-1 Sporting. Sporting outra vez a decidir no primeiro quarto-de-hora, e a jogar com 10.",
+	{"image":u"img/homepage/20120130_gilvicente_porto.jpg",
+	 "title":u"Gil-Vicente 3-1 F.C.Porto. Mau demais, e com muita paixão.",
 	 "source_url":u"http://desporto.sapo.pt",
 	 "source_title":u"SAPO Desporto",
-	 "description":u"Vitória de Guimarães afunda-se na tabela. Sporting junta-se ao lote de segundos.  "+
-	  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:7:Guimaraes:Sporting'>"+
+	 "description":u"Falta de Hulk gritante, bem como a falta de talento de Bruno Paixão. "+
+	  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:17:GilVicente:Porto'>"+
 	  u"ficha do jogo</A> e a decisão dos lances."},
 
-	{"image":u"img/homepage/20111002_benfica_pacos.jpg",
-	 "title":u"Benfica 4-1 Paços de Ferreira. Benfica isolado no topo, como há muito não se via!",
+	{"image":u"img/homepage/20120130_sporting_beiramar.jpg",
+	 "title":u"Sporting 2-0 Beira-Mar. Capitão América a bisar",
 	 "source_url":u"http://desporto.sapo.pt",
 	 "source_title":u"SAPO Desporto",
-	 "description":u"Saviola mói a defesa do Paços e bisa. "+
-	 u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:7:Benfica:PacosFerreira'>"+
-	 u"ficha do jogo</A> e a decisão dos lances."}
+	 "description":u"Sporting só hoje é que prova o sabor da vitória em 2012. "+
+	  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:17:Sporting:BeiraMar'>"+
+	  u"ficha do jogo</A> e a decisão dos lances."},
+
+	{"image":u"img/homepage/20120130_feirense_benfica.jpg",
+	 "title":u"Feirense 1-2 Benfica. Líder já vai a 5 pontos!",
+	 "source_url":u"http://desporto.sapo.pt",
+	 "source_title":u"SAPO Desporto",
+	 "description":u"Jogo com casos polémicos. "+
+	  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:17:Feirense:Benfica'>"+
+	  u"ficha do jogo</A> e a decisão dos lances."}
 	]	
 	
 	def get(self):

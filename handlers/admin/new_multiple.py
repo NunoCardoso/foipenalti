@@ -301,9 +301,19 @@ class NewMultiple(MyHandler):
 						self.request.get(prefix+str(index)+'_data'), "%Y-%m-%d %H:%M") if \
 						self.request.get(prefix+str(index)+'_data') else None
 
-					try:
-						clube_casa = Clube.get_by_id(int(self.request.get(prefix+str(index)+'_clube1_id')))
-					except:
+					if len(self.request.get(prefix+str(index)+'_clube1_id')) > 0:
+						try:
+							clube_casa = Clube.get_by_id(int(self.request.get(prefix+str(index)+'_clube1_id')))
+						except:
+							pass
+					
+					if not clube_casa:	
+						try:
+							clube_casa = Clube.all().filter("clu_nome = ", self.request.get(prefix+str(index)+'_clube1')).get()
+						except:
+							pass
+
+					if not clube_casa:
 						error = u"Erro: Não encontrei clube de casa com id %s!" % \
 						self.request.get(prefix+str(index)+'_clube1_id')
 						logging.error(error)
@@ -312,9 +322,19 @@ class NewMultiple(MyHandler):
 						self.redirect(referer)	
 						return
 				
-					try:
-						clube_fora = Clube.get_by_id(int(self.request.get(prefix+str(index)+'_clube2_id')))
-					except:
+					if len(self.request.get(prefix+str(index)+'_clube2_id')) > 0:
+						try:
+							clube_fora = Clube.get_by_id(int(self.request.get(prefix+str(index)+'_clube2_id')))
+						except:
+							pass
+
+					if not clube_fora:	
+						try:
+							clube_fora = Clube.all().filter("clu_nome = ", self.request.get(prefix+str(index)+'_clube2')).get()
+						except:
+							pass
+
+					if not clube_fora:
 						error = u"Erro: Não encontrei clube visitante com nome %s!" % self.request.get(prefix+str(index)+'_clube2_id')
 						logging.error(error)
 						memcache.set(str(new_sid), error, namespace="flash")
@@ -1060,6 +1080,7 @@ class NewMultiple(MyHandler):
 				try:
 					clube_casa = Clube.get_by_id(int(self.request.get('jog_clube1_id')))
 				except:
+					
 					error = u"Erro: Não encontrei clube de casa com nome %s!" % \
 				 	self.request.get('jog_clube1_id')
 					logging.error(error)

@@ -284,7 +284,7 @@ class List(MyHandler):
 				# Clubes.key
 				elif filter_field == "jog_clubes":
 					clube = Clube.all().filter("clu_nome = ", filter_needle).get()
-					objs.filter(filter_field+" IN ", clube.key())
+					objs.filter(filter_field+" IN ", [clube.key()])
 			
 				# data
 				elif filter_field == "jor_data":

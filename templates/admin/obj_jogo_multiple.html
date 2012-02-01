@@ -32,7 +32,7 @@
 			{% if multiple_edit and objs|has_element:i %}
 			<input type="hidden" name="jog{{i}}_id" id="jog{{i}}_id" value="{{objs|get_element:i|get_id}}"/> 
 			{% endif %}			
-<table>
+<table class="element">
 	<tr>
 		<td style="margin:5px;">
 			<input type="checkbox" id="jog{{i}}_checkbox" name="jog{{i}}_checkbox">
@@ -68,7 +68,9 @@
 <table>
 	<tr>
 	   <td>Clube/golos:
-		<div style="display:inline;">
+		<div style="display: inline;">
+			<a href="#" class="toogleDisplay">[x]</a>
+			<div style="display:inline;">
 			<select size=1 class="aware-change" name="jog{{i}}_clube1_id" id="jog{{i}}_clube1_id"/>
 			
 			{% for clube in clubes %}
@@ -76,12 +78,20 @@
 			{% endfor %}
 			</select>	
 		</div>
+		
+		<div style="display:none;">
+		<input class="aware-change nome_clube_autocomplete" type="text" AUTOCOMPLETE="OFF" size="20" id="jog{{i}}_clube1" name="jog{{i}}_clube1" placeholder="Clube1" {% if multiple_edit %}  value='{{objs|get_element:i|attribute:"jog_clube1"|attribute:"clu_nome"}}'{% endif %}>
+		</div>
+		</div>
 
 		<div style="display:inline;">
 			<input class="aware-change" type="number" min="0" step="1" name="jog{{i}}_golos_clube1" id="jog_golos_clube1" size=4{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jog_golos_clube1"}}'{% endif %}/>
 			 - 
 			<input class="aware-change" type="number" min="0" step="1" name="jog{{i}}_golos_clube2" id="jog_golos_clube2" size=4{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"jog_golos_clube2"}}'{% endif %}/>
 		</div>
+
+		<div style="display: inline;">
+			<a href="#" class="toogleDisplay">[x]</a>
 			
 		<div style="display:inline;">
 			<select size=1 class="aware-change" name="jog{{i}}_clube2_id" id="jog{{i}}_clube2_id"/>
@@ -90,6 +100,10 @@
 			<option value="{{clube.key.id}}" {% if multiple_edit and objs|has_element:i and objs|get_element:i|attribute:"jog_clube2"|eq:clube %} SELECTED{% endif %}>{{clube.clu_nome_curto}}</option>
 			{% endfor %}
 			</select>
+		</div>
+		<div style="display:none;">
+		<input class="aware-change nome_clube_autocomplete" type="text" AUTOCOMPLETE="OFF" size="20" id="jog{{i}}_clube2" name="jog{{i}}_clube2" placeholder="Clube2" {% if multiple_edit %}  value='{{objs|get_element:i|attribute:"jog_clube2"|attribute:"clu_nome"}}'{% endif %}>
+		</div>
 		</div>
 		
 		<div style="display:inline;">

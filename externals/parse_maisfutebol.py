@@ -84,8 +84,12 @@ class ParseMaisFutebol:
 			suplentes_equipa2 = tabelas_equipas.xpath("/table/tr[position()=4]/td[position()=3]/table")[0]
 			subst_equipa1 = tabelas_equipas.xpath("/table/tr[position()=6]/td[position()=1]/table")[0]
 			subst_equipa2 = tabelas_equipas.xpath("/table/tr[position()=6]/td[position()=3]/table")[0]
-			cartoes_equipa1 = tabelas_equipas.xpath("/table/tr[position()=8]/td[position()=1]/table")[0]
-			cartoes_equipa2 = tabelas_equipas.xpath("/table/tr[position()=8]/td[position()=3]/table")[0]
+			cartoes_equipa1 = tabelas_equipas.xpath("/table/tr[position()=8]/td[position()=1]/table")
+			if cartoes_equipa1:
+				cartoes_equipa1 = cartoes_equipa1[0]
+			cartoes_equipa2 = tabelas_equipas.xpath("/table/tr[position()=8]/td[position()=3]/table")
+			if cartoes_equipa2:
+				cartoes_equipa2 = cartoes_equipa2[0]
 
 			tabelas_golos = self.reDOM(tabelas[2])
 
@@ -95,8 +99,10 @@ class ParseMaisFutebol:
 			jogadores_suplentes_equipa2 = self.reDOM(suplentes_equipa2)
 			substituicoes_equipa1 = self.reDOM(subst_equipa1)
 			substituicoes_equipa2 = self.reDOM(subst_equipa2)
-			cartoes_equipa1 = self.reDOM(cartoes_equipa1)
-			cartoes_equipa2 = self.reDOM(cartoes_equipa2)
+			if cartoes_equipa1:
+				cartoes_equipa1 = self.reDOM(cartoes_equipa1)
+			if cartoes_equipa2:
+				cartoes_equipa2 = self.reDOM(cartoes_equipa2)
 
 		# JOGADORES TITULARES
 
@@ -190,44 +196,45 @@ class ParseMaisFutebol:
 # CARTOES
 		
 			hash_cartoes = {"icarta.gif":"cartao amarelo","icartv.gif":"cartao vermelho","icartav.gif":"cartao duplo amarelo"}
-		
-			for idx, val in enumerate(cartoes_equipa1.find("tr")):
-				elems = self.reDOM(val)
-				minuto = elems.xpath("/tr/td[position()=1]")
-				cartao = elems.xpath("/tr/td[position()=2]/img")[0]
-				jogador = elems.xpath("/tr/td[position()=2]/a")
+			if cartoes_equipa1:
+				for idx, val in enumerate(cartoes_equipa1.find("tr")):
+					elems = self.reDOM(val)
+					minuto = elems.xpath("/tr/td[position()=1]")
+					cartao = elems.xpath("/tr/td[position()=2]/img")[0]
+					jogador = elems.xpath("/tr/td[position()=2]/a")
 
-				if minuto and cartao and jogador:
-					try:
-						minuto = int(minuto[0].text().strip().replace("'",""))
-					except:
-						pass
+					if minuto and cartao and jogador:
+						try:
+							minuto = int(minuto[0].text().strip().replace("'",""))
+						except:
+							pass
 
-					try:
-						cartao = re.search("src=\".images.([^\"]*)\"", cartao.html()).group(1)
-					except:
-						pass
+						try:
+							cartao = re.search("src=\".images.([^\"]*)\"", cartao.html()).group(1)
+						except:
+							pass
 			
-				jog_cart_equipa1_arr.append({"minuto":minuto, "cartao":hash_cartoes[cartao], "jogador":jogador[0].text().strip()})
+					jog_cart_equipa1_arr.append({"minuto":minuto, "cartao":hash_cartoes[cartao], "jogador":jogador[0].text().strip()})
 
-			for idx, val in enumerate(cartoes_equipa2.find("tr")):
-				elems = self.reDOM(val)
-				minuto = elems.xpath("/tr/td[position()=1]")
-				cartao = elems.xpath("/tr/td[position()=2]/img")[0]
-				jogador = elems.xpath("/tr/td[position()=2]/a")
+			if cartoes_equipa2:
+				for idx, val in enumerate(cartoes_equipa2.find("tr")):
+					elems = self.reDOM(val)
+					minuto = elems.xpath("/tr/td[position()=1]")
+					cartao = elems.xpath("/tr/td[position()=2]/img")[0]
+					jogador = elems.xpath("/tr/td[position()=2]/a")
 
-				if minuto and cartao and jogador:
-					try:
-						minuto = int(minuto[0].text().strip().replace("'",""))
-					except:
-						pass
+					if minuto and cartao and jogador:
+						try:
+							minuto = int(minuto[0].text().strip().replace("'",""))
+						except:
+							pass
 
-					try:
-						cartao = re.search("src=\".images.([^\"]*)\"", cartao.html()).group(1)
-					except:
-						pass
+						try:
+							cartao = re.search("src=\".images.([^\"]*)\"", cartao.html()).group(1)
+						except:
+							pass
 
-					jog_cart_equipa2_arr.append({"minuto":minuto, "cartao":hash_cartoes[cartao], "jogador":jogador[0].text().strip()})
+						jog_cart_equipa2_arr.append({"minuto":minuto, "cartao":hash_cartoes[cartao], "jogador":jogador[0].text().strip()})
 
 # GOLOS
 

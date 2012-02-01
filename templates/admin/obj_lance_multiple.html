@@ -27,13 +27,16 @@
 		<td><input type="checkbox" class="checkbox-all">Seleccionar todos</td>
 	</tr>
 	<tr>
+		<td><input type="checkbox" class="reset-comentadores">Pré-seleccionar comentadores</td>
+	</tr>
+	<tr>
 		<td>
 			{% for i in howmany|get_range %}
 			<table class="obj">
 				<TR>
 					<TD>
 
-	<table>
+	<table class="element">
 		<tr>
 			<td>
 			{% if multiple_edit and objs|has_element:i %}
@@ -102,7 +105,8 @@
 			JELs:
 			{% if multiple_edit and objs|has_element:i %}
 			{% for jel in objs|get_element:i|attribute:"lan_jogadores" %}
-				<table><tr><td>
+				<table class="element">
+					<tr><td>
 				<input type="hidden" name="lan{{i}}_jel_id" value="{{jel|get_id}}">
 					<div class="toDuplicate_lan{{i}}_jel_{{multiple_edit}} aware-change" style="display:inline;"> 
 						<input style="height:12px;" type="checkbox" id="lan{{i}}_jel_checkbox" name="lan{{i}}_jel_checkbox">
@@ -128,7 +132,8 @@
 				</td></tr></table>
 					{% endfor %}
 					{% endif %}
-				<table><tr><td>
+				<table class="element">
+					<tr><td>
 					<div class="toDuplicate_lan{{i}}_jel_{{multiple_edit}}" style="display:inline;"> 
 						<input style="height:12px;" type="checkbox" id="lan{{i}}_jel_checkbox" name="lan{{i}}_jel_checkbox">
 						{% if new_for_parent_id %}
@@ -162,13 +167,13 @@
 	
 <!-- inicio tabela comentadores -->
 
-	<table>
+	<table class="tabela-comentadores">
 		<tr>
 	{% if multiple_edit and objs|has_element:i %}
 	{% for ccl in objs|get_element:i|attribute:"lan_comentadores" %}
 			<td>
 			<div style="display:inline;">
-			<table>
+			<table class="element">
 				<tr>
 					<TD>	
 						<div style="display:inline;"> 
@@ -176,7 +181,7 @@
 							<input type="hidden" name="lan{{i}}_ccl{{forloop.counter0}}_id" value="{{ccl|get_id}}">
 						</div>
 						<div style="display:inline;"> 
-							<select size=1 class="aware-change" name="lan{{i}}_ccl{{forloop.counter0}}_comentador" id="lan{{ lance }}_ccl{{forloop.counter0}}_comentador">
+							<select size=1 class="comentadores aware-change" name="lan{{i}}_ccl{{forloop.counter0}}_comentador" id="lan{{ lance }}_ccl{{forloop.counter0}}_comentador">
 							<option value="" DEFAULT>-- Comentadores --</option>
 							{% for comentador in comentadores %}
 							<option value="{{ comentador.key.id }}" {% if ccl.ccl_comentador.com_nome|eq:comentador.com_nome %}SELECTED{% endif %}>{{ comentador.com_nome }}</option>
@@ -209,14 +214,14 @@
 	{% for j in 3|get_range %}
 		<td>
 			<div style="display:inline;">
-			<table>
+			<table class="element">
 				<tr>
 					<td>
 						<div style="display:inline;"> 
 							<input style="display:inline; height:12px; width:12px;" type="checkbox" id="lan{{i}}_ccl{{j}}_checkbox" name="lan{{i}}_ccl{{j}}_checkbox">
 						</div>
 						<div style="display:inline;"> 
-							<select size=1 class="aware-change" name="lan{{i }}_ccl{{j}}_comentador" id="lan{{ lance }}_ccl{{j}}_comentador">
+							<select size=1 class="comentadores aware-change" name="lan{{i }}_ccl{{j}}_comentador" id="lan{{ lance }}_ccl{{j}}_comentador">
 							<option value="" DEFAULT>-- Comentadores --</option>
 							{% for comentador in comentadores %}
 							<option value="{{ comentador.key.id }}">{{ comentador.com_nome }}</option>
