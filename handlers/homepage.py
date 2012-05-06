@@ -34,30 +34,23 @@ class HomePage(MyCacheHandler):
 	competicao = None
 		
 	homepage_info = [
-	{"image":u"img/homepage/20120130_gilvicente_porto.jpg",
-	 "title":u"Gil-Vicente 3-1 F.C.Porto. Mau demais, e com muita paixão.",
-	 "source_url":u"http://desporto.sapo.pt",
-	 "source_title":u"SAPO Desporto",
-	 "description":u"Falta de Hulk gritante, bem como a falta de talento de Bruno Paixão. "+
-	  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:17:GilVicente:Porto'>"+
-	  u"ficha do jogo</A> e a decisão dos lances."},
 
-	{"image":u"img/homepage/20120130_sporting_beiramar.jpg",
-	 "title":u"Sporting 2-0 Beira-Mar. Capitão América a bisar",
-	 "source_url":u"http://desporto.sapo.pt",
-	 "source_title":u"SAPO Desporto",
-	 "description":u"Sporting só hoje é que prova o sabor da vitória em 2012. "+
-	  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:17:Sporting:BeiraMar'>"+
-	  u"ficha do jogo</A> e a decisão dos lances."},
+     {"image":u"img/homepage/20120505_benfica_leiria.jpg",
+      "title":u"Benfica 1-0 Leiria. Mau demais para ser verdade.",
+    "source_url":u"http://desporto.sapo.pt",
+    "source_title":u"SAPO Desporto",
+    "description":u"Nota de apreço aos jogadores do Leiria, heróis que salvaram a verdade desportiva. "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:29:Benfica:Leiria'>"+
+    u"ficha do jogo</A>."},
 
-	{"image":u"img/homepage/20120130_feirense_benfica.jpg",
-	 "title":u"Feirense 1-2 Benfica. Líder já vai a 5 pontos!",
-	 "source_url":u"http://desporto.sapo.pt",
-	 "source_title":u"SAPO Desporto",
-	 "description":u"Jogo com casos polémicos. "+
-	  u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:17:Feirense:Benfica'>"+
-	  u"ficha do jogo</A> e a decisão dos lances."}
-	]	
+     {"image":u"img/homepage/20120505_porto_sporting.jpg",
+      "title":u"F.C.Porto 2-0 Sporting. Hulk consagra-se como matador de leões.",
+    "source_url":u"http://desporto.sapo.pt",
+    "source_title":u"SAPO Desporto",
+    "description":u"Temporada fenomenal do Incrível, coroada com mais dois golos. "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:29:Porto:Sporting'>"+
+    u"ficha do jogo</A>."}
+     	]	
 	
 	def get(self):
 		self.epoca = config.EPOCA_CORRENTE

@@ -15,3 +15,6 @@ blacklist:
   description: BeiduSpider
 - subnet: 220.181.108.0/24
   description: BeiduSpider
+
+- subnet: 178.238.232.57
+  description: um alemao qualquer

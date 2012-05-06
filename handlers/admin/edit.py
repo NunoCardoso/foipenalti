@@ -698,7 +698,7 @@ class Edit(MyHandler):
 				# novo dependente 1: novos lances anexados a este comentador
 				'new1': self.render_subdir("admin", 'obj_%s_multiple.html' % objname1, {
 						'new_for_parent_id':True, "objname":objname1, 
-						'this_id':'com_id', 'obj':obj
+						'this_id':'com_id', 'obj':obj, 'howmany':3
 				})
 			})		
 

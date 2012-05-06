@@ -130,7 +130,7 @@ $(document).ready(function() {
 		$("table.tabela-comentadores").each(function() {
 			selects = $(this).find(".comentadores")
 			selects.eq(0).val(72014) // Jorge Coroado
-			selects.eq(2).val(70018) // Paulo PAraty
+			selects.eq(2).val(3484938) // Leirós
 			selects.eq(1).val(49027) // Pedro Henriques
 		})
 	});
