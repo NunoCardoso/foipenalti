@@ -5,8 +5,8 @@ APP_ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_DIR="templates"
 
 USE_CACHE_DADOS = False
-EPOCA_CORRENTE = Epoca.all().filter("epo_nome = ", u"2011/2012").get()
-ULTIMA_EPOCA_NA_DB = Epoca.all().filter("epo_nome = ", u"2011/2012").get()
+EPOCA_CORRENTE = Epoca.all().filter("epo_nome = ", u"2012/2013").get()
+ULTIMA_EPOCA_NA_DB = Epoca.all().filter("epo_nome = ", u"2012/2013").get()
 COMPETICAO_CORRENTE = EPOCA_CORRENTE.epo_competicoes.filter("cmp_tipo = ", u"Liga").get()
 VERSAO_ACUMULADOR=2
 DEVEL = True

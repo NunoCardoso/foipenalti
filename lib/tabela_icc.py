@@ -88,6 +88,8 @@ class TabelaICC:
 			clube_id = clube.key().id()
 			clubes[idx] = {"clube":clube, "clube_id":clube_id, "pior_arbitro":None, "melhor_arbitro":None}
 		
+		if self.tabela == None:
+			return []
 		for idx, val in enumerate(self.tabela):
 
 			arb_id = self.tabela[idx]["arb"]

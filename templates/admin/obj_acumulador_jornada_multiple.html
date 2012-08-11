@@ -32,7 +32,7 @@
 				<input type="checkbox" id="acuj{{i}}_checkbox" name="acuj{{i}}_checkbox">
 			</td>
 			<td>
-				<input type="text" class="aware-change" name="acuj{{i}}_jornada" id="acuj{{i}}_jornada" size=20 placeholder="Jornada"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"acuj_jornada"}}'{% else %} value='2011/2012:Liga:X'{% endif %}/>
+				<input type="text" class="aware-change" name="acuj{{i}}_jornada" id="acuj{{i}}_jornada" size=20 placeholder="Jornada"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"acuj_jornada"}}'{% else %} value='2012/2013:Liga:X'{% endif %}/>
 			</td>
 			<td>
 				<input type="text" class="aware-change" name="acuj{{i}}_versao" id="acuj{{i}}_versao" size=5 placeholder="Versão"{% if multiple_edit and objs|has_element:i %} value='{{objs|get_element:i|attribute:"acuj_versao"}}'{% else %} value='2'{% endif %}/>

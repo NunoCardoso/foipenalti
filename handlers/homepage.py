@@ -35,20 +35,26 @@ class HomePage(MyCacheHandler):
 		
 	homepage_info = [
 
-     {"image":u"img/homepage/20120505_benfica_leiria.jpg",
-      "title":u"Benfica 1-0 Leiria. Mau demais para ser verdade.",
+     {"image":u"img/homepage/20120513_sporting_braga.jpg",
+      "title":u"Sporting 3-2 Braga. Van Wolfenstein em 3D.",
     "source_url":u"http://desporto.sapo.pt",
     "source_title":u"SAPO Desporto",
-    "description":u"Nota de apreço aos jogadores do Leiria, heróis que salvaram a verdade desportiva. "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:29:Benfica:Leiria'>"+
+    "description":u"Ricky acaba a temporada em grande. Lima bem tentou, e 20 golos é uma bonita marca. "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:30:Sporting:Braga'>"+
     u"ficha do jogo</A>."},
-
-     {"image":u"img/homepage/20120505_porto_sporting.jpg",
-      "title":u"F.C.Porto 2-0 Sporting. Hulk consagra-se como matador de leões.",
+     {"image":u"img/homepage/20120513_rioave_porto.jpg",
+      "title":u"Rio Ave 2-5 F.C.Porto. Kléber acorda e mostra que é ponta de lança.",
     "source_url":u"http://desporto.sapo.pt",
     "source_title":u"SAPO Desporto",
-    "description":u"Temporada fenomenal do Incrível, coroada com mais dois golos. "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:29:Porto:Sporting'>"+
+    "description":u"Primeiro hat-trick do brasileiro. Djalma e James também marcam. "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:30:RioAve_Porto'>"+
+    u"ficha do jogo</A>."},
+     {"image":u"img/homepage/20120513_setubal_benfica.jpg",
+      "title":u"Setúbal 1-3 Benfica. Chuta-chuta bisa, e Tacuara leva a bola de prata!",
+    "source_url":u"http://desporto.sapo.pt",
+    "source_title":u"SAPO Desporto",
+    "description":u"Óscar Cardozo sagra-se rei dos goleadores. "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:30:Setubal:Benfica'>"+
     u"ficha do jogo</A>."}
      	]	
 	

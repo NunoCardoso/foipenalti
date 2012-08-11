@@ -1,8 +1,8 @@
 blacklist:
-- subnet: 93.126.72.176
+- subnet: 93.126.72.176/24
   description: um ucraniano qualquer. Vi com www.ipaddresslocation.org/ip-address-locator.php
 
-- subnet: 192.114.71.13
+- subnet: 192.114.71.13/24
   description: um israelita qualquer.
 
 - subnet: 119.63.192.0/24
@@ -16,5 +16,7 @@ blacklist:
 - subnet: 220.181.108.0/24
   description: BeiduSpider
 
-- subnet: 178.238.232.57
+- subnet: 178.238.232.57/24
   description: um alemao qualquer
+- subnet: 187.57.249.220/24
+  description: hits de segundo a segundo

@@ -59,6 +59,8 @@
 		<LI CLASS="main-submenu-lastitem">
 
 			<SELECT id="epoca" name="epoca" style="margin-right:10px;margin-left:10px;margin-top: 5px;">
+arbitro/
+            <OPTION VALUE="2012/2013"{% if epoca.epo_nome|eq:"2012/2013" %} SELECTED{% endif %}>2012/2013</OPTION>
 			<OPTION VALUE="2011/2012"{% if epoca.epo_nome|eq:"2011/2012" %} SELECTED{% endif %}>2011/2012</OPTION>
 			<OPTION VALUE="2010/2011"{% if epoca.epo_nome|eq:"2010/2011" %} SELECTED{% endif %}>2010/2011</OPTION>
 			</SELECT>

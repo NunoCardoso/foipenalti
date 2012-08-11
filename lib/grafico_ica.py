@@ -65,10 +65,14 @@ class GraficoICA:
 			self.grafico = acuc.acuc_content["ica"]
 		
 	def get_top_bons(self, howmuch = 3):
+		if self.grafico == None:
+			return []
 		new_grafico = self.grafico[:]
 		return new_grafico[:(howmuch)]
 		
 	def get_top_maus(self, howmuch = 3):
+		if self.grafico == None:
+			return []
 		new_grafico = self.grafico[:]
 		new_grafico.reverse()
 		return new_grafico[:(howmuch)]

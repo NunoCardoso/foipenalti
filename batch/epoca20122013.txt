@@ -1,0 +1,240 @@
+J1	17/08	Olhanense 	20:15	 Estoril Praia		 
+J1	18/08	Rio Ave 	18:15	 Marítimo		 
+J1	18/08	Benfica 	20:15	 SC Braga		 
+J1	19/08	Nacional 	16:00	 V. Setúbal		 
+J1	19/08	P. Ferreira 	18:00	 Moreirense		 
+J1	19/08	Gil Vicente 	18:15	 FC Porto		 
+J1	19/08	V. Guimarães 	20:30	 Sporting		 
+J1	20/08	Beira-Mar 	20:15	 Académica		 
+J2	26/08	V. Setúbal 	26/08	 Benfica		 
+J2	26/08	Marítimo 	26/08	 Gil Vicente		 
+J2	26/08	Sporting 	26/08	 Rio Ave		 
+J2	26/08	Estoril Praia 	26/08	 P. Ferreira		 
+J2	26/08	FC Porto 	26/08	 V. Guimarães		 
+J2	26/08	Académica 	26/08	 Olhanense		 
+J2	26/08	SC Braga 	26/08	 Beira-Mar		 
+J2	26/08	Moreirense 	26/08	 Nacional		 
+J3	02/09	Rio Ave 	02/09	 Académica		 
+J3	02/09	Marítimo 	02/09	 Sporting		 
+J3	02/09	Benfica 	02/09	 Nacional		 
+J3	02/09	P. Ferreira 	02/09	 SC Braga		 
+J3	02/09	Beira-Mar 	02/09	 Moreirense		 
+J3	02/09	Olhanense 	02/09	 FC Porto		 
+J3	02/09	V. Guimarães 	02/09	 Estoril Praia		 
+J3	02/09	Gil Vicente 	02/09	 V. Setúbal		 
+J4	23/09	V. Setúbal 	23/09	 Olhanense		 
+J4	23/09	Nacional 	23/09	 P. Ferreira		 
+J4	23/09	Sporting 	23/09	 Gil Vicente		 
+J4	23/09	Estoril Praia 	23/09	 Marítimo		 
+J4	23/09	FC Porto 	23/09	 Beira-Mar		 
+J4	23/09	Académica 	23/09	 Benfica		 
+J4	23/09	SC Braga 	23/09	 Rio Ave		 
+J4	23/09	Moreirense 	23/09	 V. Guimarães		 
+J5	30/09	Marítimo 	30/09	 Académica		 
+J5	30/09	Gil Vicente 	30/09	 Moreirense		 
+J5	30/09	Rio Ave 	30/09	 FC Porto		 
+J5	30/09	Sporting 	30/09	 Estoril Praia		 
+J5	30/09	P. Ferreira 	30/09	 Benfica		 
+J5	30/09	Beira-Mar 	30/09	 V. Setúbal		 
+J5	30/09	Olhanense 	30/09	 Nacional		 
+J5	30/09	V. Guimarães 	30/09	 SC Braga		 
+J6	07/10	V. Setúbal 	07/10	 P. Ferreira		 
+J6	07/10	Nacional 	07/10	 Gil Vicente		 
+J6	07/10	Benfica 	07/10	 Beira-Mar		 
+J6	07/10	Estoril Praia 	07/10	 Rio Ave		 
+J6	07/10	FC Porto 	07/10	 Sporting		 
+J6	07/10	Académica 	07/10	 V. Guimarães		 
+J6	07/10	SC Braga 	07/10	 Olhanense		 
+J6	07/10	Moreirense 	07/10	 Marítimo		 
+J7	28/10	Sporting 	28/10	 Académica		 
+J7	28/10	Rio Ave 	28/10	 Nacional		 
+J7	28/10	Marítimo 	28/10	 SC Braga		 
+J7	28/10	Estoril Praia 	28/10	 FC Porto		 
+J7	28/10	Beira-Mar 	28/10	 P. Ferreira		 
+J7	28/10	Olhanense 	28/10	 Moreirense		 
+J7	28/10	V. Guimarães 	28/10	 V. Setúbal		 
+J7	28/10	Gil Vicente 	28/10	 Benfica		 
+J8	04/11	V. Setúbal 	04/11	 Sporting		 
+J8	04/11	P. Ferreira 	04/11	 Olhanense		 
+J8	04/11	Nacional 	04/11	 Beira-Mar		 
+J8	04/11	Benfica 	04/11	 V. Guimarães		 
+J8	04/11	FC Porto 	04/11	 Marítimo		 
+J8	04/11	Académica 	04/11	 Estoril Praia		 
+J8	04/11	SC Braga 	04/11	 Gil Vicente		 
+J8	04/11	Moreirense 	04/11	 Rio Ave		 
+J9	11/11	Marítimo 	11/11	 V. Setúbal		 
+J9	11/11	Sporting 	11/11	 SC Braga		 
+J9	11/11	Rio Ave 	11/11	 Benfica		 
+J9	11/11	Estoril Praia 	11/11	 Moreirense		 
+J9	11/11	FC Porto 	11/11	 Académica		 
+J9	11/11	Olhanense 	11/11	 Beira-Mar		 
+J9	11/11	V. Guimarães 	11/11	 Nacional		 
+J9	11/11	Gil Vicente 	11/11	 P. Ferreira		 
+J10	25/11	V. Setúbal 	25/11	 Rio Ave		 
+J10	25/11	Nacional 	25/11	 Estoril Praia		 
+J10	25/11	Benfica 	25/11	 Olhanense		 
+J10	25/11	P. Ferreira 	25/11	 Marítimo		 
+J10	25/11	Beira-Mar 	25/11	 V. Guimarães		 
+J10	25/11	Académica 	25/11	 Gil Vicente		 
+J10	25/11	SC Braga 	25/11	 FC Porto		 
+J10	25/11	Moreirense 	25/11	 Sporting		 
+J11	09/12	Gil Vicente 	09/12	 Beira-Mar		 
+J11	09/12	Rio Ave 	09/12	 P. Ferreira		 
+J11	09/12	Marítimo 	09/12	 Nacional		 
+J11	09/12	Sporting 	09/12	 Benfica		 
+J11	09/12	Estoril Praia 	09/12	 V. Setúbal		 
+J11	09/12	FC Porto 	09/12	 Moreirense		 
+J11	09/12	Académica 	09/12	 SC Braga		 
+J11	09/12	V. Guimarães 	09/12	 Olhanense		 
+J12	16/12	V. Setúbal 	16/12	 FC Porto		 
+J12	16/12	Nacional 	16/12	 Sporting		 
+J12	16/12	Benfica 	16/12	 Marítimo		 
+J12	16/12	P. Ferreira 	16/12	 V. Guimarães		 
+J12	16/12	Beira-Mar 	16/12	 Rio Ave		 
+J12	16/12	Olhanense 	16/12	 Gil Vicente		 
+J12	16/12	SC Braga 	16/12	 Estoril Praia		 
+J12	16/12	Moreirense 	16/12	 Académica		 
+J13	06/01	Rio Ave 	06/01	 Olhanense		 
+J13	06/01	Marítimo 	06/01	 Beira-Mar		 
+J13	06/01	Sporting 	06/01	 P. Ferreira		 
+J13	06/01	Estoril Praia 	06/01	 Benfica		 
+J13	06/01	FC Porto 	06/01	 Nacional		 
+J13	06/01	Académica 	06/01	 V. Setúbal		 
+J13	06/01	SC Braga 	06/01	 Moreirense		 
+J13	06/01	Gil Vicente 	06/01	 V. Guimarães		 
+J14	13/01	V. Setúbal 	13/01	 Moreirense		 
+J14	13/01	Nacional 	13/01	 SC Braga		 
+J14	13/01	Benfica 	13/01	 FC Porto		 
+J14	13/01	P. Ferreira 	13/01	 Académica		 
+J14	13/01	Beira-Mar 	13/01	 Estoril Praia		 
+J14	13/01	Olhanense 	13/01	 Sporting		 
+J14	13/01	V. Guimarães 	13/01	 Marítimo		 
+J14	13/01	Gil Vicente 	13/01	 Rio Ave		 
+J15	20/01	Rio Ave 	20/01	 V. Guimarães		 
+J15	20/01	Marítimo 	20/01	 Olhanense		 
+J15	20/01	Sporting 	20/01	 Beira-Mar		 
+J15	20/01	Estoril Praia 	20/01	 Gil Vicente		 
+J15	20/01	FC Porto 	20/01	 P. Ferreira		 
+J15	20/01	Académica 	20/01	 Nacional		 
+J15	20/01	SC Braga 	20/01	 V. Setúbal		 
+J15	20/01	Moreirense 	20/01	 Benfica		 
+J16	27/01	Marítimo 	27/01	 Rio Ave		 
+J16	27/01	V. Setúbal 	27/01	 Nacional		 
+J16	27/01	SC Braga 	27/01	 Benfica		 
+J16	27/01	Moreirense 	27/01	 P. Ferreira		 
+J16	27/01	Académica 	27/01	 Beira-Mar		 
+J16	27/01	Estoril Praia 	27/01	 Olhanense		 
+J16	27/01	Sporting 	27/01	 V. Guimarães		 
+J16	27/01	FC Porto 	27/01	 Gil Vicente		 
+J17	03/02	Benfica 	03/02	 V. Setúbal		 
+J17	03/02	Gil Vicente 	03/02	 Marítimo		 
+J17	03/02	Rio Ave 	03/02	 Sporting		 
+J17	03/02	P. Ferreira 	03/02	 Estoril Praia		 
+J17	03/02	V. Guimarães 	03/02	 FC Porto		 
+J17	03/02	Olhanense 	03/02	 Académica		 
+J17	03/02	Beira-Mar 	03/02	 SC Braga		 
+J17	03/02	Nacional 	03/02	 Moreirense		 
+J18	10/02	Académica 	10/02	 Rio Ave		 
+J18	10/02	Sporting 	10/02	 Marítimo		 
+J18	10/02	Nacional 	10/02	 Benfica		 
+J18	10/02	SC Braga 	10/02	 P. Ferreira		 
+J18	10/02	Moreirense 	10/02	 Beira-Mar		 
+J18	10/02	FC Porto 	10/02	 Olhanense		 
+J18	10/02	Estoril Praia 	10/02	 V. Guimarães		 
+J18	10/02	V. Setúbal 	10/02	 Gil Vicente		 
+J19	17/02	Olhanense 	17/02	 V. Setúbal		 
+J19	17/02	P. Ferreira 	17/02	 Nacional		 
+J19	17/02	Gil Vicente 	17/02	 Sporting		 
+J19	17/02	Marítimo 	17/02	 Estoril Praia		 
+J19	17/02	Beira-Mar 	17/02	 FC Porto		 
+J19	17/02	Benfica 	17/02	 Académica		 
+J19	17/02	Rio Ave 	17/02	 SC Braga		 
+J19	17/02	V. Guimarães 	17/02	 Moreirense		 
+J20	24/02	FC Porto 	24/02	 Rio Ave		 
+J20	24/02	Académica 	24/02	 Marítimo		 
+J20	24/02	Estoril Praia 	24/02	 Sporting		 
+J20	24/02	Benfica 	24/02	 P. Ferreira		 
+J20	24/02	V. Setúbal 	24/02	 Beira-Mar		 
+J20	24/02	Nacional 	24/02	 Olhanense		 
+J20	24/02	SC Braga 	24/02	 V. Guimarães		 
+J20	24/02	Moreirense 	24/02	 Gil Vicente		 
+J21	03/03	P. Ferreira 	03/03	 V. Setúbal		 
+J21	03/03	Gil Vicente 	03/03	 Nacional		 
+J21	03/03	Beira-Mar 	03/03	 Benfica		 
+J21	03/03	Rio Ave 	03/03	 Estoril Praia		 
+J21	03/03	Sporting 	03/03	 FC Porto		 
+J21	03/03	V. Guimarães 	03/03	 Académica		 
+J21	03/03	Olhanense 	03/03	 SC Braga		 
+J21	03/03	Marítimo 	03/03	 Moreirense		 
+J22	10/03	Nacional 	10/03	 Rio Ave		 
+J22	10/03	Benfica 	10/03	 Gil Vicente		 
+J22	10/03	V. Setúbal 	10/03	 V. Guimarães		 
+J22	10/03	Moreirense 	10/03	 Olhanense		 
+J22	10/03	P. Ferreira 	10/03	 Beira-Mar		 
+J22	10/03	FC Porto 	10/03	 Estoril Praia		 
+J22	10/03	Académica 	10/03	 Sporting		 
+J22	10/03	SC Braga 	10/03	 Marítimo		 
+J23	17/03	Rio Ave 	17/03	 Moreirense		 
+J23	17/03	Gil Vicente 	17/03	 SC Braga		 
+J23	17/03	Estoril Praia 	17/03	 Académica		 
+J23	17/03	Marítimo 	17/03	 FC Porto		 
+J23	17/03	Olhanense 	17/03	 P. Ferreira		 
+J23	17/03	V. Guimarães 	17/03	 Benfica		 
+J23	17/03	Beira-Mar 	17/03	 Nacional		 
+J23	17/03	Sporting 	17/03	 V. Setúbal		 
+J24	30/03	P. Ferreira 	30/03	 Gil Vicente		 
+J24	30/03	Nacional 	30/03	 V. Guimarães		 
+J24	30/03	Beira-Mar 	30/03	 Olhanense		 
+J24	30/03	Moreirense 	30/03	 Estoril Praia		 
+J24	30/03	SC Braga 	30/03	 Sporting		 
+J24	30/03	V. Setúbal 	30/03	 Marítimo		 
+J24	30/03	Benfica 	30/03	 Rio Ave		 
+J24	30/03	Académica 	30/03	 FC Porto		 
+J25	07/04	Sporting 	07/04	 Moreirense		 
+J25	07/04	FC Porto 	07/04	 SC Braga		 
+J25	07/04	Gil Vicente 	07/04	 Académica		 
+J25	07/04	Marítimo 	07/04	 P. Ferreira		 
+J25	07/04	Olhanense 	07/04	 Benfica		 
+J25	07/04	Rio Ave 	07/04	 V. Setúbal		 
+J25	07/04	Estoril Praia 	07/04	 Nacional		 
+J25	07/04	V. Guimarães 	07/04	 Beira-Mar		 
+J26	21/04	Beira-Mar 	21/04	 Gil Vicente		 
+J26	21/04	Olhanense 	21/04	 V. Guimarães		 
+J26	21/04	SC Braga 	21/04	 Académica		 
+J26	21/04	Moreirense 	21/04	 FC Porto		 
+J26	21/04	V. Setúbal 	21/04	 Estoril Praia		 
+J26	21/04	Benfica 	21/04	 Sporting		 
+J26	21/04	Nacional 	21/04	 Marítimo		 
+J26	21/04	P. Ferreira 	21/04	 Rio Ave		 
+J27	28/04	Académica 	28/04	 Moreirense		 
+J27	28/04	Estoril Praia 	28/04	 SC Braga		 
+J27	28/04	Gil Vicente 	28/04	 Olhanense		 
+J27	28/04	Rio Ave 	28/04	 Beira-Mar		 
+J27	28/04	V. Guimarães 	28/04	 P. Ferreira		 
+J27	28/04	Marítimo 	28/04	 Benfica		 
+J27	28/04	Sporting 	28/04	 Nacional		 
+J27	28/04	FC Porto 	28/04	 V. Setúbal		 
+J28	05/05	V. Guimarães 	05/05	 Gil Vicente		 
+J28	05/05	Moreirense 	05/05	 SC Braga		 
+J28	05/05	V. Setúbal 	05/05	 Académica		 
+J28	05/05	Nacional 	05/05	 FC Porto		 
+J28	05/05	Benfica 	05/05	 Estoril Praia		 
+J28	05/05	P. Ferreira 	05/05	 Sporting		 
+J28	05/05	Beira-Mar 	05/05	 Marítimo		 
+J28	05/05	Olhanense 	05/05	 Rio Ave		 
+J29	12/05	Rio Ave 	12/05	 Gil Vicente		 
+J29	12/05	Marítimo 	12/05	 V. Guimarães		 
+J29	12/05	Sporting 	12/05	 Olhanense		 
+J29	12/05	Estoril Praia 	12/05	 Beira-Mar		 
+J29	12/05	Académica 	12/05	 P. Ferreira		 
+J29	12/05	FC Porto 	12/05	 Benfica		 
+J29	12/05	SC Braga 	12/05	 Nacional		 
+J29	12/05	Moreirense 	12/05	 V. Setúbal		 
+J30	19/05	Benfica 	19/05	 Moreirense		 
+J30	19/05	V. Setúbal 	19/05	 SC Braga		 
+J30	19/05	Nacional 	19/05	 Académica		 
+J30	19/05	P. Ferreira 	19/05	 FC Porto		 
+J30	19/05	Gil Vicente 	19/05	 Estoril Praia		 
+J30	19/05	Beira-Mar 	19/05	 Sporting		 
+J30	19/05	Olhanense 	19/05	 Marítimo		 
+J30	19/05	V. Guimarães 	19/05	 Rio Ave

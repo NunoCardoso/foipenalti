@@ -57,7 +57,7 @@
 				<input type="hidden" name="ccl{{i}}_lance_id" id="ccl{{i}}_lance_id" value="{{obj|get_id}}"/> 
 				{% else %}
 				<div style="display:inline;">
-					<input type="text" class="aware-change" name="ccl{{i}}_lance" id="ccl{{i}}_lance" size=40 placeholder="2011/2012:Liga:3:XXX:YYY:1" {% if multiple_edit and objs|has_element:i %}value='{{objs|get_element:i|attribute:"ccl_lance"}}'{% endif %}/>
+					<input type="text" class="aware-change" name="ccl{{i}}_lance" id="ccl{{i}}_lance" size=40 placeholder="2012/2013:Liga:3:XXX:YYY:1" {% if multiple_edit and objs|has_element:i %}value='{{objs|get_element:i|attribute:"ccl_lance"}}'{% endif %}/>
 				</div>
 				{% endif %}
 				
