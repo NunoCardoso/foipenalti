@@ -35,26 +35,12 @@ class HomePage(MyCacheHandler):
 		
 	homepage_info = [
 
-     {"image":u"img/homepage/20120513_sporting_braga.jpg",
-      "title":u"Sporting 3-2 Braga. Van Wolfenstein em 3D.",
+     {"image":u"img/homepage/20120819_benfica_braga.jpg",
+      "title":u"Benfica 2-2 Braga. A novela do lateral esquerdo...",
     "source_url":u"http://desporto.sapo.pt",
     "source_title":u"SAPO Desporto",
-    "description":u"Ricky acaba a temporada em grande. Lima bem tentou, e 20 golos é uma bonita marca. "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:30:Sporting:Braga'>"+
-    u"ficha do jogo</A>."},
-     {"image":u"img/homepage/20120513_rioave_porto.jpg",
-      "title":u"Rio Ave 2-5 F.C.Porto. Kléber acorda e mostra que é ponta de lança.",
-    "source_url":u"http://desporto.sapo.pt",
-    "source_title":u"SAPO Desporto",
-    "description":u"Primeiro hat-trick do brasileiro. Djalma e James também marcam. "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:30:RioAve_Porto'>"+
-    u"ficha do jogo</A>."},
-     {"image":u"img/homepage/20120513_setubal_benfica.jpg",
-      "title":u"Setúbal 1-3 Benfica. Chuta-chuta bisa, e Tacuara leva a bola de prata!",
-    "source_url":u"http://desporto.sapo.pt",
-    "source_title":u"SAPO Desporto",
-    "description":u"Óscar Cardozo sagra-se rei dos goleadores. "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2011/2012:Liga:30:Setubal:Benfica'>"+
+    "description":u"Estamos de bolta! "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:1:Benfica:Braga'>"+
     u"ficha do jogo</A>."}
      	]	
 	
@@ -184,9 +170,9 @@ class HomePage(MyCacheHandler):
 		top_clubes_prejudicados_icc =  grafico.get_top_prejudicados(3)
 		
 		for idx, val in enumerate(top_clubes_beneficiados_icc):
-			top_clubes_beneficiados_icc[idx]["clu"] = Clube.get_by_id(top_clubes_beneficiados_icc[idx]["clu"])
+			top_clubes_beneficiados_icc[idx]["clube"] = Clube.get_by_id(top_clubes_beneficiados_icc[idx]["clu"])
 		for idx, val in enumerate(top_clubes_prejudicados_icc):
-			top_clubes_prejudicados_icc[idx]["clu"] = Clube.get_by_id(top_clubes_prejudicados_icc[idx]["clu"])	
+			top_clubes_prejudicados_icc[idx]["clube"] = Clube.get_by_id(top_clubes_prejudicados_icc[idx]["clu"])	
 
 # CRIAR TOPS ARBITROS ICA
 		grafico_ica = GraficoICA()
@@ -196,9 +182,9 @@ class HomePage(MyCacheHandler):
 		top_arbitros_maus_ica = grafico_ica.get_top_maus(3)
 
 		for idx, val in enumerate(top_arbitros_bons_ica):
-			top_arbitros_bons_ica[idx]["arb"] = Arbitro.get_by_id(top_arbitros_bons_ica[idx]["arb"])
+			top_arbitros_bons_ica[idx]["arbitro"] = Arbitro.get_by_id(top_arbitros_bons_ica[idx]["arb"])
 		for idx, val in enumerate(top_arbitros_maus_ica):
-			top_arbitros_maus_ica[idx]["arb"] = Arbitro.get_by_id(top_arbitros_maus_ica[idx]["arb"])	
+			top_arbitros_maus_ica[idx]["arbitro"] = Arbitro.get_by_id(top_arbitros_maus_ica[idx]["arb"])	
 
 # CRIAR TOPS 3 GRANDES/ÁRBITROS (TABELA ICC)	
 		tabela_icc = TabelaICC()
