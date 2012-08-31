@@ -5,7 +5,6 @@ from google.appengine.ext import db
 
 import os
 import datetime
-import logging
 import re
 import config 
 
@@ -54,7 +53,6 @@ class ProcurarJogo(MyHandler):
 			# let's take off the page. THe cache stores the full results, not the page view
 			memcache_label = self.request.path+":"+self.request.query_string
 			
-			logging.info("A procurar memcache por "+memcache_label)
 			# if this search is in memcache, let's use it
 			cacheresultados = memcache.get(memcache_label)
 			
@@ -68,16 +66,10 @@ class ProcurarJogo(MyHandler):
 					'epoca','competicao','jornada']:
 					cache = memcache.get(elem)
 					if cache and cache['date'] > cacheresultados['date']:
-						logging.info("Modelo '"+elem+"' tem elementos mais frescos ("+str(cache['date'])+") do que a cache desta procura ("+str(cacheresultados['date'])+")")
 						cache_old = True
 					
-				if not cache_old:	
-					logging.info ("Cache desta procura ("+str(cacheresultados['date'])+") ainda é fresca.")
-				
 			if not cacheresultados or cache_old:
 			
-				logging.info("Memcache para "+memcache_label+" é inexistente ou obsoleta. A gerar novos dados.")
-				
 				# jogos = None, cono está no início
 				# devia fazer default a Jogos.all(), mas de notar que há épocas, competições e jornadas 
 				# como critérios antecessores. Estes podem já refinar. 
@@ -140,7 +132,6 @@ class ProcurarJogo(MyHandler):
 							jogos_list.append(jjj.jjj_jogo.key())
 						jogos.filter("__key__ in ",jogos_list)
 				
-			#	logging.info("Tenho jogos filtrados, count = "+str(jogos.count())+" (num_resultados = "+str(num_resultados)+")")
 					
 # FIM DA FILTRAGEM
 					
@@ -164,7 +155,6 @@ class ProcurarJogo(MyHandler):
 				
 				memcache_label = self.request.path+":"+self.request.query_string
 				
-#				logging.info("Setting new memcache data for "+memcache_label+" : "+str(results_page))
 				# let's put search results on cache
 				memcache.set(memcache_label, 
 				{"date":datetime.datetime.today() , "results_page":results_page, 
@@ -172,7 +162,6 @@ class ProcurarJogo(MyHandler):
 					"results_page_links":results_page_links},time=86400)
 				
 			else:
-				logging.info("Memcache existe para "+memcache_label+", a obter dados da memcache")
 				results_page = cacheresultados['results_page']
 				results_total = cacheresultados['results_total']
 				results_page_links = cacheresultados['results_page_links']

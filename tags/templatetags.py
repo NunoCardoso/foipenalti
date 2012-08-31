@@ -559,7 +559,6 @@ def getfirstvideo(list):
 	
 @register.filter("resizeHeightKeepRatio")
 def resizeHeightKeepRatio(value, height):
-	logging.info(value)
 	width = None
 	height = None
 	patt_width = re.compile("width=.(\d+)", re.I)
@@ -570,14 +569,11 @@ def resizeHeightKeepRatio(value, height):
 		width = float(m.group(1))
 	if m2:
 		height = float(m2.group(1))
-	logging.info(width)
-	logging.info(height)
 	
 	ratio = (float) (width / height)
 	newwidth = 300.0 * ratio
 	string = re.sub("height=(.)(\d+)","height=\1"+str(300),value)
 	string = re.sub("width=(.)(\d+)","width=\1"+str(int(newwidth)), string)
-#	logging.info(string)
 
 	return string
 

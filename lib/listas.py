@@ -4,29 +4,20 @@ from google.appengine.api import memcache
 
 import os
 import datetime
-import logging
 import re
 import config 
 import mymemcache
 
 from classes import *
 
-# epoca
-# competicao
-# jogador[]
-# clube[]
-
-
 def get_lista_clubes():
 		
 		lista_todos_clubes = None
-#		logging.info("getting")
 		cacheresultados = memcache.get('lista_todos_clubes')
 		cache_old = mymemcache.check(cacheresultados, ['clube'])
 			
 		if not cacheresultados: # or cache_old:
 			lista_todos_clubes = []
-#			logging.info("generating")
 			clubes = Clube.all().order("clu_nome_curto")
 			for clube in clubes:
 				lista_todos_clubes.append(clube)
@@ -36,7 +27,6 @@ def get_lista_clubes():
 				'lista_todos_clubes':lista_todos_clubes}
 			)
 		else:
-#			logging.info(cacheresultados)
 			lista_todos_clubes  = cacheresultados['lista_todos_clubes']
 		return lista_todos_clubes
 		
@@ -180,9 +170,6 @@ def get_lista_tipos_lances():
 			
 		if not cacheresultados:
 			
-			# devolve uma lista com tuplos
-			#lista = sorted(Lance.translation_tipo.copy().items(), key=lambda t: t[0])
-#			logging.info(lista)
 			lista = Lance.translation_classe
 			# devolve um dicionário de lances bem ordenadinha; OrderedDict lembra-se das posições!
 			memcache.set('lista_todos_tipos_lances',{"date":datetime.datetime.today(),

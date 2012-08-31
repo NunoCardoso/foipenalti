@@ -13,11 +13,17 @@
 <DIV id="console" style="margin:10px;float:right;width:300px;height:200px;background-color:#000;color:white;overflow:auto;"></DIV>
 </div>
 <H3>TaskQueues</H3>
+Refrescar 1 jornada
+<table>
+	<tr>
+	<td>Jornada: <input type="text" name="jornada" id="jornada" size=30 placeholder="2012/2013:Liga:1" value="{{jornada}}"/><input type="text" name="versao" id="versao" size=5 placeholder="2" value="2"/> Em: <input type="text" name="countdown" id="countdown" size=5 placeholder="Seg." value="2"/>seg. <A href="#" class="refresh1j">Lançar tarefa</a></td>
+	</tr>
+</table>
 
 Refrescar 1 jornada, 1 competição, 1 época
 <table>
 	<tr>
-	<td>Jornada: <input type="text" name="jornada" id="jornada" size=30 placeholder="2012/2013:Liga:1" value="{{jornada}}"/><input type="text" name="versao" id="versao" size=5 placeholser="2" value="2"/> Em: <input type="text" name="countdown" id="countdown" size=5 placeholder="Seg." value="2"/>seg. <A href="#" class="refresh1j1c1e">Lançar tarefa</a></td>
+	<td>Jornada: <input type="text" name="jornada" id="jornada" size=30 placeholder="2012/2013:Liga:1" value="{{jornada}}"/><input type="text" name="versao" id="versao" size=5 placeholder="2" value="2"/> Em: <input type="text" name="countdown" id="countdown" size=5 placeholder="Seg." value="2"/>seg. <A href="#" class="refresh1j1c1e">Lançar tarefa</a></td>
 	</tr>
 </table>
 Refrescar toda uma época
@@ -39,6 +45,19 @@ Refrescar toda uma época
 
 <script>
 $(document).ready(function() {
+	$(".refresh1j").live("click", function(ev, ui) {
+		ev.preventDefault();
+		jornada = $(this).siblings("#jornada").val()
+		versao = $(this).siblings("#versao").val()
+		countdown = $(this).siblings("#countdown").val()
+		ajaxMainLoader({
+			"url":"/task/acumulador_task_manager?action=refresh1j&jornada="+
+			jornada+"&versao="+versao+"&countdown="+countdown, 
+			"target_div":$("#console") 
+			})
+		$("#console").append("<P>Tarefa refresh1j adicionada.</P>")	
+	})
+
 	$(".refresh1j1c1e").live("click", function(ev, ui) {
 		ev.preventDefault();
 		jornada = $(this).siblings("#jornada").val()
@@ -51,6 +70,7 @@ $(document).ready(function() {
 			})
 		$("#console").append("<P>Tarefa refresh1j1c1e adicionada.</P>")	
 	})
+
 
 	$(".refresh1e").live("click", function(ev, ui) {
 		ev.preventDefault();

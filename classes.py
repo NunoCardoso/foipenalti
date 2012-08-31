@@ -2,7 +2,6 @@
 
 from google.appengine.api import memcache
 from google.appengine.ext import db
-import logging
 import pickle
 import sys
 import os
@@ -990,7 +989,7 @@ class CacheHTML(db.Model):
 	
 	def get_admin_url(self):
 		# converter detalhe_XXXXX?id=YYY até /admin/XXXXX/edit?id=YYYY
-		logging.info(self.cch_url)
+
 		m = re.search("/detalhe_(\w+)\?id=(\d+)(&\w+=.*)?", self.cch_url)
 		if m:
 			return u"<a href='/admin/%s/edit?id=%s'>Administrar</a>" % (m.group(1), m.group(2))

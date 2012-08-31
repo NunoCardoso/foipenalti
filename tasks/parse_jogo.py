@@ -40,7 +40,9 @@ class ParseJogo(MyHandler):
 	'Sp. Braga':'Braga',
 	'U. Leiria':'Leiria',
 	'V. Guimarães':'Guimaraes',
-	'V. Setúbal':'Setubal'
+	'V. Setúbal':'Setubal',
+        'Moreirense':'Moreirense',
+        'Estoril':'Estoril'
 	} 
 	
 	def get(self):

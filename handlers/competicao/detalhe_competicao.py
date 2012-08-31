@@ -93,9 +93,6 @@ class DetalheCompeticao(MyCacheHandler):
 		else:
 			self.referer = "/procurar_competicao"
 		
-		logging.info("self.request.path")
-		logging.info(self.request.path)
-		
 		if self.request.get("cache") and self.request.get("cache") == "false":
 			self.use_cache = False
 

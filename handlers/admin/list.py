@@ -129,6 +129,46 @@ class List(MyHandler):
 		
 		self.response.out.write(html)
 	
+        def gera_lista_vazia(self, params):
+
+		objs = params["objs"]
+		objname = params["objname"]
+
+		filter_field = None
+		filter_needle = None
+		url = None
+		referrer = None
+		page_index = None
+		limit = None
+		flash = None
+		fields = None
+		
+		if params.has_key("filter_field"):
+			filter_field = params["filter_field"]
+		if params.has_key("filter_needle"):
+			filter_needle = params["filter_needle"]
+		if params.has_key("url"):
+			url = params["url"]
+		if params.has_key("referrer"):
+			referrer = params["referrer"]
+		if params.has_key("flash"):
+			flash = params["flash"]
+		if params.has_key("fields"):
+			fields = params["fields"]
+		
+		template_path = os.path.join(config.APP_ROOT_DIR, "templates", "admin", "list.html")
+
+		return template.render(template_path, {
+			'objs': None,
+			'flash':flash,
+			'objname': objname,
+			'number': 0,
+			'filter_field':filter_field,
+			'filter_needle':filter_needle,
+			'basepath':generate_basepath(objname, url),
+			'fields' : fields
+		})
+
 	# objs: envia os objs para iterar
 	# objname: o tipo de objectos que se está a iterar
 	# filter_field, filter_needle: filtros para estes objextos
@@ -137,6 +177,9 @@ class List(MyHandler):
 	# a um id, portanto há que reconstruir a lista de objs.
 	# page_index, limir
 	
+
+
+
 	def gera_lista(self, params):
 		
 		objs = params["objs"]

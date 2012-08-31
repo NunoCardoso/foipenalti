@@ -5,7 +5,6 @@ from google.appengine.ext import db
 
 import os
 import datetime
-import logging
 import re
 import config 
 
@@ -62,16 +61,10 @@ class ProcurarArbitro(MyHandler):
 				for elem in ['arbitro','jogo']:
 					cache = memcache.get(elem)
 					if cache and cache['date'] > cacheresultados['date']:
-						logging.info("Modelo '"+elem+"' tem elementos mais frescos ("+str(cache['date'])+") do que a cache desta procura ("+str(cacheresultados['date'])+")")
 						cache_old = True
 					
-				if not cache_old:	
-					logging.info ("Cache desta procura ("+str(cacheresultados['date'])+") ainda é fresca.")
-				
 			if not cacheresultados or cache_old:
 			
-				logging.info("Memcache para "+memcache_label+" é inexistente ou obsoleta. A gerar novos dados.")
-				
 				arbitros = Arbitro.all()
 				
 				if arb_clube1:
@@ -81,11 +74,9 @@ class ProcurarArbitro(MyHandler):
 					if arb_clube2:
 						clube2 = Clube.get_by_id(int(arb_clube2))
 						jogos = Jogo.gql("WHERE jog_clube1 = :1 AND jog_clube2 = :2",  clube1, clube2)
-						#logging.info("Fitro: jog_clube1 "+ str(clube1)+" AND jog_clube2 = "+ str(clube2))
 					else: 
 						jogos = Jogo.gql("WHERE jog_clube1 = :1",  clube1)
 						jogos2 = Jogo.gql("WHERE jog_clube2 = :1",  clube1)
-						#logging.info("Fitro: jog_clube1 "+ str(clube1)+" OR jog_clube2 = "+ str(clube1))
 					
 					arbs = []	
 					if jogos: 
@@ -104,11 +95,6 @@ class ProcurarArbitro(MyHandler):
 				if arb_nome:
 					arbitro_key = Arbitro.get_by_id(int(arb_nome))
 					arbitros.filter("__key__ IN",[arbitro_key.key()]) 
-					
-					#logging.info("filtro: arb_nome "+arb_nome)
-												
-				#logging.info("Got new arbitros, count = "+str(arbitros.count())+" (num_resultados = "+str(num_resultados)+")")
-				
 				# now, let's prepare the pages
 				myPagedQuery = PagedQuery(arbitros, int(num_resultados))
 				myPagedQuery.order("-arb_numero_visitas")
@@ -127,7 +113,6 @@ class ProcurarArbitro(MyHandler):
 					"results_page_links":results_page_links},time=86400)
 				
 			else:
-				logging.info("Memcache existe para "+memcache_label+", a obter dados da memcache")
 				results_page = cacheresultados['results_page']
 				results_total = cacheresultados['results_total']
 				results_page_links = cacheresultados['results_page_links']

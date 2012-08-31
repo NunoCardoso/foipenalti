@@ -22,12 +22,12 @@ class Refresh(MyHandler):
 		date = datetime.datetime.now()
 		flash_messages=[]
 
-##############
-### 1J1C1E ###
-##############
 
 		if action == "1j1c1e":
 		
+##############
+### 1J1C1E ###
+##############
 			versao = None
 			try:
 				versao = int(self.request.get('versao'))
@@ -124,6 +124,51 @@ class Refresh(MyHandler):
 				flash_messages.append(message)
 				logging.info(message)
 
+			return self.response.out.write("<BR>".join(flash_messages))
+
+
+
+		elif action == "1j":
+		
+##########
+### 1J ###
+##########
+			versao = None
+			try:
+				versao = int(self.request.get('versao'))
+			except:
+				versao = config.VERSAO_ACUMULADOR
+		
+# JORNADA
+			
+			jornada = None
+			try:
+				jornada = Jornada.all().filter("jor_nome = ", self.request.get("jornada")).get()
+			except:
+				error = u"Erro: Não encontrei jornada %s!" % self.request.get('jornada')
+				logging.error(error)
+				return
+				
+			stats_jornada = acumulador_jornada.gera(jornada)
+			
+			obj = AcumuladorJornada.all().filter("acuj_jornada = ", jornada).filter("acuj_versao = ", versao).get()
+			if not obj:
+				obj = AcumuladorJornada(
+					acuj_epoca = jornada.jor_competicao.cmp_epoca,
+					acuj_competicao = jornada.jor_competicao,
+					acuj_jornada = jornada
+				)
+				
+			obj.acuj_date = date
+			obj.acuj_versao = versao
+			obj.acuj_content = stats_jornada
+			obj.put()
+			
+			# os acumuladores não são chamados por ID, mas por namespaces/jor-cmp-epo 
+			memcache.set(u"acumulador-%s-%s" % (jornada, versao), obj, time=86400)
+			message = u"Refresh task %s: %s %s adicionada." % (action, obj.kind(), obj) 
+			flash_messages.append(message)
+			logging.info(message)
 			return self.response.out.write("<BR>".join(flash_messages))
 
 ##########

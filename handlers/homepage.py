@@ -2,7 +2,6 @@
 
 import os
 import datetime
-import logging
 import re
 import config 
 import classes
@@ -35,13 +34,30 @@ class HomePage(MyCacheHandler):
 		
 	homepage_info = [
 
-     {"image":u"img/homepage/20120819_benfica_braga.jpg",
-      "title":u"Benfica 2-2 Braga. A novela do lateral esquerdo...",
+     {"image":u"img/homepage/20120826_sporting_rioave.jpg",
+      "title":u"Sporting 0-1 Rio Ave. Estamos suprendidíssimos... NOT!",
     "source_url":u"http://desporto.sapo.pt",
     "source_title":u"SAPO Desporto",
-    "description":u"Estamos de bolta! "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:1:Benfica:Braga'>"+
+    "description":u"Sá Pinto tem muito que trabalhar ainda. Arbitragem sem grandes casos. "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:2:Sporting:RioAve'>"+
+    u"ficha do jogo</A>."},
+
+     {"image":u"img/homepage/20120826_porto_guimaraes.jpg",
+      "title":u"FC Porto 4-0 Guimarães. Campeão mostra os galões.",
+    "source_url":u"http://desporto.sapo.pt",
+    "source_title":u"SAPO Desporto",
+    "description":u"Lucho mostra como velhos são os trapos. Hulk manda míssil e Jackson imita Panenka. "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:2:Porto:Guimaraes'>"+
+    u"ficha do jogo</A>."},
+
+     {"image":u"img/homepage/20120826_setubal_benfica.jpg",
+      "title":u"Setúbal 0-5 Benfica. Esmagar para a liderança.",
+    "source_url":u"http://desporto.sapo.pt",
+    "source_title":u"SAPO Desporto",
+    "description":u"Expulsão aos 8 minutos foi correcta, já o primeiro golo... "+
+    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:2:Setubal:Benfica'>"+
     u"ficha do jogo</A>."}
+
      	]	
 	
 	def get(self):
@@ -245,24 +261,20 @@ class HomePage(MyCacheHandler):
 
 		ultima_epoca_na_db = config.ULTIMA_EPOCA_NA_DB
 
-		#logging.info("Rendering noticias")
 		noticias_html = self.render_subdir('homepage','gera_mini_blog.html', {
 			"posts": self.dados['posts']
 		})		
 			
-		#logging.info("Rendering classificação real")
 		classificacao_real_html = self.render_subdir('homepage','gera_classificacao_real.html', {
 			"classificacao_real": self.dados['cl_real'],
 			"competicao":self.competicao
 		})		
 			
-		#logging.info("Rendering classificação virtual")
 		classificacao_virtual_html = self.render_subdir('homepage','gera_classificacao_virtual.html', {
 			"classificacao_virtual": self.dados['cl_virtual'],
 			"competicao":self.competicao
 		})
 		
-		#logging.info("Rendering jornada anterior")
 		jornada_anterior_html = None
 		if self.dados.has_key("jornada_anterior") and self.dados.has_key("jornada_anterior_dados") :
 			jornada_anterior_html = self.render_subdir('homepage','gera_jornada.html', {
@@ -270,7 +282,6 @@ class HomePage(MyCacheHandler):
 			"jornada_dados": self.dados['jornada_anterior_dados']
 			})
 		
-		#logging.info("Rendering jornada corrente")
 		jornada_corrente_html = None
 		if self.dados.has_key("jornada_corrente") and self.dados.has_key("jornada_corrente_dados") :
 			jornada_corrente_html = self.render_subdir('homepage','gera_jornada.html', {
@@ -278,7 +289,6 @@ class HomePage(MyCacheHandler):
 			"jornada_dados": self.dados['jornada_corrente_dados']
 		})
 		
-		#logging.info("Rendering jornada posterior")
 		jornada_posterior_html = None
 		if self.dados.has_key("jornada_posterior") and self.dados.has_key("jornada_posterior_dados") :
 			jornada_posterior_html = self.render_subdir('homepage','gera_jornada.html', {
@@ -300,7 +310,6 @@ class HomePage(MyCacheHandler):
 			"top_tabela_icc_3_grandes": self.dados['top_tabela_icc_3_grandes']
 		})
 		
-		#logging.info("Rendering homepage")
 		html = self.render_subdir('homepage','homepage.html', {
 		
 			"homepage_info":self.homepage_info,

@@ -99,16 +99,26 @@ class Home(MyHandler):
 			initial_objs =  AcumuladorEpoca.all()
 			fields = AcumuladorEpoca.fields
 	
-		lista = List().gera_lista({
+                lista = List().gera_lista_vazia({
 			"objs":initial_objs, 
 			"objname":objname, 
 			"filter_field":None,
 			"filter_needle":None, 
 			"url":self.request.url, 
 			"referrer":objname,
-			"page_index":1, 
-			"limit":15,
-			"flash":None})
+			"flash":None,
+                        "fields":fields
+			})
+#		lista = List().gera_lista({
+#			"objs":initial_objs, 
+#			"objname":objname, 
+#			"filter_field":None,
+#			"filter_needle":None, 
+#			"url":self.request.url, 
+#			"referrer":objname,
+#			"page_index":1, 
+#			"limit":15,
+#			"flash":None})
 
 #############
 ### EPOCA ###

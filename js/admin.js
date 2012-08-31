@@ -28,6 +28,14 @@ $(document).ready(function() {
 		 	"target_div":$(this).parents("DIV.tab_contents")
 		})
 	});
+
+	$(".admin-list-creator-link").live("click", function(ev, ui) {
+		ev.preventDefault(); 
+		ajaxMainLoader({
+			"url":$(this).attr("href"),
+		 	"target_div":$(this).parents("DIV.tab_contents")
+		})
+	});
 	
 	// LIST FILTER BUTTON
 	$(".admin-table-filter-button").live("click", function(ev, ui) {

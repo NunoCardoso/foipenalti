@@ -42,6 +42,7 @@ class MyCacheHandler(MyHandler):
 
 	def requestHandler(self):
 		
+                logging.info("Requesting handler for %s" % self.request.path)
 		self.checkIfAdminUser()
 		
 		if self.use_cache and not self.refreshen_cache:
@@ -59,7 +60,6 @@ class MyCacheHandler(MyHandler):
 				client_etags = [x.strip('" ') for x in self.request.headers['If-None-Match'].split(',')]
 			
 			# 1.1 check SOFTCACHE HTML
-			#logging.debug("1.1 check soft cache HTML")
 			softcache_content_html = None
 
 			if self.softcache_content_html:
@@ -75,11 +75,11 @@ class MyCacheHandler(MyHandler):
 					self.response.headers['ETag'] = '"%s"' % str(softcache_content_html['signature']) # unicode to str
 
 					if client_etags and softcache_content_html['signature'] in client_etags:
-						logging.info("Client request with ETag, returning 304 from softcache_html") 
+						#logging.info("Client request with ETag, returning 304 from softcache_html") 
 						self.response.set_status(304)
 						return
 					else:
-						logging.info("Client request with NO ETag, returning 200 from softcache_html") 
+						#logging.info("Client request with NO ETag, returning 200 from softcache_html") 
 						if self.render_this_page_without_main:
 							softcache_all_html = softcache_content_html["content"]
 						else:
@@ -126,12 +126,12 @@ class MyCacheHandler(MyHandler):
 
 					if client_etags and this_hardcache_html.cch_signature in client_etags:
 						# set a 304
-						logging.info("Client request with ETag, returning 304 from soft_HTML <- hard_HTML") 
+						#logging.info("Client request with ETag, returning 304 from soft_HTML <- hard_HTML") 
 						self.response.set_status(304)
 						return
 					else:
 						# set a 200 - may be new user
-						logging.info("Client request with NO ETag, returning 200 from soft_HTML <- hard_HTML") 
+						#logging.info("Client request with NO ETag, returning 200 from soft_HTML <- hard_HTML") 
 						if self.render_this_page_without_main:
 							hardcache_all_html = this_hardcache_html.cch_content
 						else:
@@ -158,7 +158,7 @@ class MyCacheHandler(MyHandler):
 					if softcache_dados.has_key("signature"):
 						if client_etags and softcache_dados['signature'] in client_etags:
 						# Client has an up-to-date HTML version, but I don't have it in the cache_HTML?  Weird... 
-							logging.warning("Client request with ETag, but I don't have nonthing on [soft|hard]cache_html...") 
+							#logging.warning("Client request with ETag, but I don't have nonthing on [soft|hard]cache_html...") 
 				
 					# either way, let's render a new HTML. We have to return a body on any request...
 					self.dados = softcache_dados["dados"]
@@ -193,7 +193,7 @@ class MyCacheHandler(MyHandler):
 					}, namespace="html", time=86400)
 				
 					# return 200
-					logging.info("Client request, returning 200 from from soft_HTML <- hard_HTML <- soft_DADOS") 
+					#logging.info("Client request, returning 200 from from soft_HTML <- hard_HTML <- soft_DADOS") 
 					last_modified = hardcache_html.cch_cdate.strftime(HTTP_DATE_FMT)
 					self.response.headers['Last-Modified'] = str(last_modified)
 					self.response.headers['ETag'] = '"%s"' % str(hardcache_html.cch_signature)
@@ -218,7 +218,7 @@ class MyCacheHandler(MyHandler):
 					if hardcache_dados.ccd_signature:
 						if client_etags and hardcache_dados.ccd_signature in client_etags:
 							# Client has an up-to-date HTML version, but I don't have it in the cache_HTML?  Weird... 
-							logging.warning("Client request with ETag, but I don't have nonthing on [soft|hard]cache_html...") 
+							#logging.warning("Client request with ETag, but I don't have nonthing on [soft|hard]cache_html...") 
 					
 					# either way, let's render a new HTML. We have to return a body on any request...
 					self.dados = hardcache_dados.ccd_content
@@ -262,7 +262,7 @@ class MyCacheHandler(MyHandler):
 				
 					# let's handle request	
 					# set a 200 
-					logging.info("Client request, returning 200 from from soft_HTML <- hard_HTML <- soft_DADOS <- hardDADOS") 
+					#logging.info("Client request, returning 200 from from soft_HTML <- hard_HTML <- soft_DADOS <- hardDADOS") 
 					last_modified = hardcache_html.cch_date.strftime(HTTP_DATE_FMT)
 					self.response.headers['Last-Modified'] = str(last_modified)
 					self.response.headers['ETag'] = '"%s"' % str(hardcache_html.cch_signature)
@@ -282,8 +282,8 @@ class MyCacheHandler(MyHandler):
 # 3. if not cache, or
 # if cache, and everything fails (soft_html, hard_html, soft_dados, hard_dados
 	
-		if not self.use_cache:
-			logging.info("FORÇADO a gerar dados e regenerar cache por comando GET") 
+		#if not self.use_cache:
+			#logging.info("FORÇADO a gerar dados e regenerar cache por comando GET") 
 		#else:
 		#	if self.refreshen_cache:
 			#	logging.info("Há cache OBSOLETA, tenho que gerar dados frescos") 
@@ -358,7 +358,7 @@ class MyCacheHandler(MyHandler):
 		
 		# let's handle request	
 		# set a 200 
-		logging.info("Client request, returning 200 from from soft_HTML <- hard_HTML <- soft_DADOS <- hardDADOS <- GENERATE") 
+		#logging.info("Client request, returning 200 from from soft_HTML <- hard_HTML <- soft_DADOS <- hardDADOS <- GENERATE") 
 		last_modified = hardcache_html.cch_date.strftime(HTTP_DATE_FMT)
 		self.response.headers['Last-Modified'] = str(last_modified)
 		self.response.headers['ETag'] = '"%s"' % str(hardcache_html.cch_signature)

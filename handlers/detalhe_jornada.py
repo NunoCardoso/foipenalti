@@ -171,7 +171,6 @@ class DetalheJornada(MyCacheHandler):
 					pass
 
 		if not jornada:
-			logging.info(self.request.get("competicao")+":"+self.request.get("jornada"))
 			if self.request.get("competicao"):
 				try:
 					jornada = Jornada.all().filter("jor_nome =", self.request.get("competicao")+":"+self.request.get("jornada")).get()

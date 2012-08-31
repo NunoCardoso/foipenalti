@@ -39,6 +39,15 @@ class AcumuladorTaskManager(MyHandler):
 			task_name = "%s-%s" % (action, datestring)
 			url="/task/refresh/1j1c1e?jornada=%s&versao=%s" % (jornada, versao) 
 				
+		elif action == "refresh1j":
+			
+			countdown = int(self.request.get("countdown"))
+			versao = self.request.get("versao")
+			jornada = self.request.get("jornada")
+
+			task_name = "%s-%s" % (action, datestring)
+			url="/task/refresh/1j?jornada=%s&versao=%s" % (jornada, versao) 
+
 		elif action == "refresh1e":
 
 			countdown = self.request.get("countdown")
