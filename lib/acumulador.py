@@ -307,7 +307,6 @@ def gera_top_arbitros(stats_hash):
 	icc = {}
 	
 	for jogo_key, jogo_values in stats_hash["jogo"].items():
-		#logging.info(jogo_values)
 	
 		arb_id = None
 		if jogo_values.has_key("arb"):
@@ -323,10 +322,9 @@ def gera_top_arbitros(stats_hash):
 				icc[arb_id] = 0
 			icc[arb_id] += abs(jogo_values['icc1'])
 			
-			#logging.info(arb_id)
 
 	for arbitro_key, arbitro_values in stats_hash["arbitro"].items():
-		#logging.info(arbitro_key)
+
 		if not cartoes_mostrados.has_key(arbitro_key):
 			cartoes_mostrados[arbitro_key] = {"tot":0, "ca":0, "cda":0, "cv":0}
 			
@@ -381,7 +379,6 @@ def gera_top_jogadores(stats_hash, competicao):
 	numero_cartoes = {}
 	
 	# isto é muito exigente do ponto de vista computacional. É melhor fazer uma truncagem.
-	#logging.info("A percorrer jogadores todos")
 
 	for jogador_key, clubes in stats_hash["jogador"].items():
 		cartoes[jogador_key] = {"tot":0, "ca":0, "cda":0, "cv":0}
@@ -396,15 +393,8 @@ def gera_top_jogadores(stats_hash, competicao):
 			
 			if clube_values["gm"] > 0:
 				golos[jogador_key] += clube_values["gm"]
-				# if jogador_key == 143L:
-				# 	logging.info("Cardozo:")
-				# 	logging.info(golos[jogador_key])
-				# 	logging.info(clube_values["gm"])
 				
-	logging.info("A percorrer jels todos")
 	# agora, vamos à BD e percorrer todos os JEL		
-
-
 
 	for lance in Lance.all().filter("lan_competicao = ", competicao):
 		for jels in lance.lan_jogadores:
@@ -412,9 +402,7 @@ def gera_top_jogadores(stats_hash, competicao):
 	 		if not lances.has_key(jgd_id):
 				lances[jgd_id] = 0
 	 		lances[jgd_id] += 1
-
 				
-	#logging.info(lances)
 	mais_cartoes_order = sorted(cartoes, cmp=lambda x,y: \
 		cmp(cartoes[x]["tot"], cartoes[y]["tot"] ), reverse=True )
 	

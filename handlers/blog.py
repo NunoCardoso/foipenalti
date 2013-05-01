@@ -26,6 +26,11 @@ def slugify(value):
 
 class IndexHandler(MyHandler):
 
+    def head(self):
+        self.response.set_status(200)
+        return
+
+
     def get(self):
         query = Post.all()
         query.order('-pub_date')
@@ -38,6 +43,10 @@ class IndexHandler(MyHandler):
 class PostHandler(MyHandler):
     
     pattern = re.compile("<!--STARTCUTTINGPART-->(.*)<!--ENDCUTTINGPART-->", re.S)
+
+    def head(self, year, month, day, slug):
+        self.response.set_status(200)
+        return
 
     def get(self, year, month, day, slug):
 	
@@ -83,6 +92,11 @@ class PostHandler(MyHandler):
             self.response.out.write(html)
             	
 class TagHandler(MyHandler):
+
+    def head(self, tag):
+        self.response.set_status(200)
+        return
+
     def get(self, tag):
         query = Post.all()
         query.filter('tags = ', tag)
@@ -96,6 +110,10 @@ class TagHandler(MyHandler):
         page.render_paginated_query(self, query, 'posts', 'templates/blog/index.html', template_values)
 
 class YearHandler(MyHandler):
+
+    def head(self, year):
+        self.response.set_status(200)
+        return
 
     def get(self, year):
         year = int(year)
@@ -118,6 +136,10 @@ class YearHandler(MyHandler):
         page.render_paginated_query(self, query, 'posts', 'templates/blog/index.html', template_values)
 
 class MonthHandler(MyHandler):
+
+    def head(self, year, month):
+        self.response.set_status(200)
+        return
 
     def get(self, year, month):
         year = int(year)
@@ -144,6 +166,10 @@ class MonthHandler(MyHandler):
         page.render_paginated_query(self, query, 'posts', 'templates/blog/index.html', template_values)
 
 class DayHandler(MyHandler):
+
+    def head(self, year, month, day):
+        self.response.set_status(200)
+        return
 
     def get(self, year, month, day):
         year = int(year)
@@ -173,6 +199,10 @@ class RSS2Handler(MyCacheHandler):
 
 	cache_namespace = "rss"
 	cache_url = "/rss"
+
+        def head(self, tag):
+            self.response.set_status(200)
+            return
 
 	def get(self):
 		self.checkCacheFreshen()

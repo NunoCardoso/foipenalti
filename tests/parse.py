@@ -19,8 +19,9 @@ print "Loaded file %s, parsing..." % f
 response = ParseMaisFutebol().parse(html)
 
 results = response["message"]
+
 print "=== %s %s-%s %s ===" % (results["clube1"], results["resultado_clube1"], results["resultado_clube2"], results["clube2"])
-print "=== Árbitro: %s Tácticas: %s %s ===" % (results["arbitro"], results["tacticas_clube1"], results["tacticas_clube2"])
+print "=== Árbitro: %s\nTácticas: %s %s ===" % (results["arbitro"], results["tacticas_clube1"], results["tacticas_clube2"])
 
 print "\n=== JOGADORES TITULARES DO %s (%s) ===\n" % (results["clube1"], len(results["jogadores_titulares_clube1"]) )
 for idx, val in enumerate(results["jogadores_titulares_clube1"]):

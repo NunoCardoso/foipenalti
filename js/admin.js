@@ -29,14 +29,6 @@ $(document).ready(function() {
 		})
 	});
 
-	$(".admin-list-creator-link").live("click", function(ev, ui) {
-		ev.preventDefault(); 
-		ajaxMainLoader({
-			"url":$(this).attr("href"),
-		 	"target_div":$(this).parents("DIV.tab_contents")
-		})
-	});
-	
 	// LIST FILTER BUTTON
 	$(".admin-table-filter-button").live("click", function(ev, ui) {
 		ev.preventDefault(); 
@@ -141,6 +133,9 @@ $(document).ready(function() {
 			selects.eq(2).val(3484938) // Leirós
 			selects.eq(1).val(49027) // Pedro Henriques
 		})
+
+		$("select[id$='_decisao']").val(1)
+
 	});
 	// switch display visibility to sibling DIVs
 	$(".toogleDisplay").live("click", function(ev, ui) {

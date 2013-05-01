@@ -28,37 +28,20 @@ class HomePage(MyCacheHandler):
 	dados = None
 	html = None
 	title = None
-	
+
 	epoca = None
 	competicao = None
-		
-	homepage_info = [
 
-     {"image":u"img/homepage/20120826_sporting_rioave.jpg",
-      "title":u"Sporting 0-1 Rio Ave. Estamos suprendidíssimos... NOT!",
-    "source_url":u"http://desporto.sapo.pt",
-    "source_title":u"SAPO Desporto",
-    "description":u"Sá Pinto tem muito que trabalhar ainda. Arbitragem sem grandes casos. "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:2:Sporting:RioAve'>"+
-    u"ficha do jogo</A>."},
+	homepage_info = [	
+	{"image":u"img/homepage/20130420_moreirense_porto.jpg",
+	"title":u"Moreirense 0-3 FC Porto. Jackson pressiona Benfica.",
+	"source_url":u"http://desporto.sapo.pt",
+	"source_title":u"SAPO Desporto",
+	"description":u"A perseguição continua, para o derby de hoje. "+
+        "Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:26:Moreirense:Porto'>"+
+	u"ficha do jogo</A>."}
 
-     {"image":u"img/homepage/20120826_porto_guimaraes.jpg",
-      "title":u"FC Porto 4-0 Guimarães. Campeão mostra os galões.",
-    "source_url":u"http://desporto.sapo.pt",
-    "source_title":u"SAPO Desporto",
-    "description":u"Lucho mostra como velhos são os trapos. Hulk manda míssil e Jackson imita Panenka. "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:2:Porto:Guimaraes'>"+
-    u"ficha do jogo</A>."},
-
-     {"image":u"img/homepage/20120826_setubal_benfica.jpg",
-      "title":u"Setúbal 0-5 Benfica. Esmagar para a liderança.",
-    "source_url":u"http://desporto.sapo.pt",
-    "source_title":u"SAPO Desporto",
-    "description":u"Expulsão aos 8 minutos foi correcta, já o primeiro golo... "+
-    u"Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:2:Setubal:Benfica'>"+
-    u"ficha do jogo</A>."}
-
-     	]	
+	]	
 	
 	def get(self):
 		self.epoca = config.EPOCA_CORRENTE

@@ -24,7 +24,7 @@ class Edit(MyHandler):
 	
 	def get(self, objname):
 		
-		id = int(self.request.get('id'))
+		id = self.request.get('id')
 		sid = self.get_sid_from_cookie()
 		tab = self.request.get('tab')
 		flash_message = None
@@ -48,8 +48,11 @@ class Edit(MyHandler):
 
 		if objname == "epoca":
 			
-			obj = Epoca.get_by_id(id)
-			
+			try:
+                            obj = Epoca.get_by_id(int(id))
+			except: 
+                            obj = Epoca.all().filter("epo_nome = ", id).get()
+
 			#### DEPENDENTE 1: COMPETICAO ####
 			objname1 = "competicao"
 			
@@ -103,7 +106,10 @@ class Edit(MyHandler):
 ##################################
 
 		elif objname == "competicao":
-			obj = Competicao.get_by_id(id)
+			try:
+                            obj = Competicao.get_by_id(int(id))
+			except: 
+                            obj = Competicao.all().filter("cmp_nome = ", id).get()
 			
 			#### DEPENDENTE 1: JORNADAS ####
 			objname1 = "jornada"
@@ -192,7 +198,10 @@ class Edit(MyHandler):
 		
 		elif objname == "jornada":
 			
-			obj = Jornada.get_by_id(id)
+			try:
+                            obj = Jornada.get_by_id(int(id))
+			except: 
+                            obj = Jornada.all().filter("jor_nome = ", id).get()
 
 			#### DEPENDENTE 1: JOGOS ####
 			objname1 = 'jogo'
@@ -249,8 +258,10 @@ class Edit(MyHandler):
 ############################
 
 		elif objname == "jogo":
-			
-			obj = Jogo.get_by_id(id)
+			try:
+                            obj = Jogo.get_by_id(int(id))
+			except: 
+                            obj = Jogo.all().filter("jog_nome = ", id).get()
 
 			# DEPENDENTE 1
 			objname1 = 'jogador_joga_jogo'
@@ -399,7 +410,10 @@ class Edit(MyHandler):
 			
 		elif objname == "lance":
 			
-			obj = Lance.get_by_id(id)
+			try:
+                            obj = Lance.get_by_id(int(id))
+			except: 
+                            obj = Lance.all().filter("lan_nome = ", id).get()
 
 			# DEPENDENTE 1	
 			objname1 = 'comentador_comenta_lance'
@@ -488,7 +502,10 @@ class Edit(MyHandler):
 		
 		elif objname == "clube":
 			
-			obj = Clube.get_by_id(id)
+			try:
+                            obj = Clube.get_by_id(int(id))
+			except: 
+                            obj = Clube.all().filter("clu_nome = ", id).get()
 
 			# DEPENDENTE 1	
 			objname1 = 'jogador'
@@ -564,7 +581,10 @@ class Edit(MyHandler):
 
 		elif objname == "jogador":
 		
-			obj = Jogador.get_by_id(id)
+			try:
+                            obj = Jogador.get_by_id(int(id))
+			except: 
+                            obj = Jogador.all().filter("jgd_nome = ", id).get()
 
 			#dependente 1
 			objname1 = 'clube_tem_jogador'
@@ -625,7 +645,10 @@ class Edit(MyHandler):
 		
 		elif objname == "arbitro":
 			
-			obj = Arbitro.get_by_id(id)
+			try:
+                            obj = Arbitro.get_by_id(int(id))
+			except: 
+                            obj = Arbitro.all().filter("arb_nome = ", id).get()
 
 			# DEPENDENCIA 1: JOGOS
 			objname1 = 'jogo'
@@ -749,6 +772,7 @@ class Edit(MyHandler):
 ######## EDIT clube_tem_jogador #########
 			
 		elif objname == "clube_tem_jogador":
+
 			obj = ClubeTemJogador.get_by_id(id)
 
 			# now let's render the edit page

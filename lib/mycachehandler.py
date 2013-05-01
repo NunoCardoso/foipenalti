@@ -155,8 +155,8 @@ class MyCacheHandler(MyHandler):
 			#	logging.debug("2.1 check soft cache DADOS")
 				softcache_dados =  memcache.get(self.cache_url, namespace="dados")
 				if softcache_dados:
-					if softcache_dados.has_key("signature"):
-						if client_etags and softcache_dados['signature'] in client_etags:
+					#if softcache_dados.has_key("signature"):
+						#if client_etags and softcache_dados['signature'] in client_etags:
 						# Client has an up-to-date HTML version, but I don't have it in the cache_HTML?  Weird... 
 							#logging.warning("Client request with ETag, but I don't have nonthing on [soft|hard]cache_html...") 
 				
@@ -215,8 +215,8 @@ class MyCacheHandler(MyHandler):
 				hardcache_dados = CacheDados.all().filter("ccd_url = ",self.cache_url).get()
 				if hardcache_dados:
 
-					if hardcache_dados.ccd_signature:
-						if client_etags and hardcache_dados.ccd_signature in client_etags:
+					#if hardcache_dados.ccd_signature:
+						#if client_etags and hardcache_dados.ccd_signature in client_etags:
 							# Client has an up-to-date HTML version, but I don't have it in the cache_HTML?  Weird... 
 							#logging.warning("Client request with ETag, but I don't have nonthing on [soft|hard]cache_html...") 
 					

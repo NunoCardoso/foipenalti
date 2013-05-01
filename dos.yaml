@@ -1,0 +1,26 @@
+blacklist:
+- subnet: 62.219.8.226
+  description: 3000 hits
+#- subnet: 195.85.221.94
+#  description: Banco BPI, weird
+#- subnet: 94.132.142.60
+#  description: Zon Porto, weird
+- subnet: 93.126.72.176
+  description: um ucraniano qualquer. Vi com www.ipaddresslocation.org/ip-address-locator.php
+- subnet: 192.114.71.13
+  description: um israelita qualquer.
+- subnet: 119.63.192.0/24
+- subnet: 178.238.232.57
+  description: um alemao qualquer
+- subnet: 187.57.249.220
+  description: hits de segundo a segundo
+- subnet: 119.63.196.0/24
+  description: BeiduSpider
+- subnet: 119.63.198.0/24
+  description: BeiduSpider
+- subnet: 123.125.71.0/24
+  description: BeiduSpider
+- subnet: 220.181.108.0/24
+  description: BeiduSpider
+- subnet: 62.219.8.225/24
+  description: um israelita qualquer

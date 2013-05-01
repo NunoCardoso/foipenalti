@@ -67,9 +67,17 @@ class ParseMaisFutebol:
 			logging.error(trace)
 			return {"status":"Error","message":sys.exc_info()}
 
+                tacticas_equipa1 = None
+                tacticas_equipa2 = None
 		try:
-			tacticas_equipa1 = tabelas_equipas.xpath("/table/tr[position()=1]/td[position()=1]")[0].text().strip()  
-			tacticas_equipa2 = tabelas_equipas.xpath("/table/tr[position()=1]/td[position()=3]")[0].text().strip()
+			tacticas_equipa1 = tabelas_equipas.xpath("/table/tr[position()=1]/td[position()=1]")
+			
+                        if tacticas_equipa1.__class__.__name__ == 'ElementSet':
+				tacticas_equipa1 = tacticas_equipa1[0].text().strip()  
+
+			tacticas_equipa2 = tabelas_equipas.xpath("/table/tr[position()=1]/td[position()=3]")
+                        if tacticas_equipa2.__class__.__name__ == 'ElementSet':
+				tacticas_equipa2 = tacticas_equipa2[0].text().strip()
 		except:
 			trace = "".join(traceback.format_exc())
 			logging.error("Não consegui xpath table")
@@ -203,6 +211,9 @@ class ParseMaisFutebol:
 					cartao = elems.xpath("/tr/td[position()=2]/img")[0]
 					jogador = elems.xpath("/tr/td[position()=2]/a")
 
+					if jogador == []:
+						jogador = elems.xpath("/tr/td[position()=2]")
+
 					if minuto and cartao and jogador:
 						try:
 							minuto = int(minuto[0].text().strip().replace("'",""))
@@ -213,7 +224,7 @@ class ParseMaisFutebol:
 							cartao = re.search("src=\".images.([^\"]*)\"", cartao.html()).group(1)
 						except:
 							pass
-			
+
 					jog_cart_equipa1_arr.append({"minuto":minuto, "cartao":hash_cartoes[cartao], "jogador":jogador[0].text().strip()})
 
 			if cartoes_equipa2:
@@ -222,6 +233,9 @@ class ParseMaisFutebol:
 					minuto = elems.xpath("/tr/td[position()=1]")
 					cartao = elems.xpath("/tr/td[position()=2]/img")[0]
 					jogador = elems.xpath("/tr/td[position()=2]/a")
+
+					if jogador == []:
+						jogador = elems.xpath("/tr/td[position()=2]")
 
 					if minuto and cartao and jogador:
 						try:
