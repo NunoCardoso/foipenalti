@@ -5,7 +5,8 @@ import config
 import PyRSS2Gen
 import re
 
-from google.appengine.ext import webapp
+import webapp2
+
 from google.appengine.api import memcache
 
 import blogview as view
@@ -84,7 +85,7 @@ class PostHandler(MyHandler):
                 }
 
             page = view.Page()
-            html = page.render_to_string(self, 'templates/blog/post.html', template_values)
+            html = page.rendertostring(self, 'templates/blog/post.html', template_values)
             # antigamente, tinha: 
             #page.render(self, 'templates/blog/post.html', template_values)
             logging.info("Blog post inserted into memcache.")

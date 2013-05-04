@@ -5,7 +5,9 @@ import string
 import datetime
 from dateutil.relativedelta import *
 
-from google.appengine.ext.webapp import template
+from django.template.loaders.filesystem import Loader
+from django.template.loader import render_to_string
+
 from google.appengine.ext import db
 from google.appengine.api import memcache
 from google.appengine.api import users
@@ -105,9 +107,9 @@ class Page:
         values.update(template_values)
 
         template_path = os.path.join(config.APP_ROOT_DIR, template_file)
-        handler.response.out.write(template.render(template_path, values))
+        handler.response.out.write(render_to_string(template_path, values))
 
-    def render_to_string (self, handler, template_file, template_values={}):
+    def rendertostring (self, handler, template_file, template_values={}):
         """Render a template"""
         archive_list = get_archive_list()
         tag_list = get_tag_list()
@@ -122,7 +124,7 @@ class Page:
         values.update(template_values)
 
         template_path = os.path.join(config.APP_ROOT_DIR, template_file)
-        return template.render(template_path, values)
+        return render_to_string(template_path, values)
 
 
     def render_paginated_query(self, handler, query, values_name, template_file, template_values={}):

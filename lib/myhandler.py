@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from google.appengine.api import memcache
-from google.appengine.ext.webapp import template
-from google.appengine.ext import webapp
 from google.appengine.ext import db
+
+import webapp2
+from django.template.loaders.filesystem import Loader
+from django.template.loader import render_to_string
+
 import logging
 import config
 import os
@@ -24,7 +27,7 @@ from django.template import Context, Template
 
 # myHandler gere mensagens de erro, e também gere formas de geração de página.
 
-class MyHandler(webapp.RequestHandler):
+class MyHandler(webapp2.RequestHandler):
 
 ##################
 #### RENDER ######
@@ -50,7 +53,7 @@ class MyHandler(webapp.RequestHandler):
 		}
 		values.update(template_values)
 		template_path = os.path.join(config.APP_ROOT_DIR, config.TEMPLATE_DIR, template_dir, template_file)
-		return template.render(template_path, values)
+		return render_to_string(template_path, values)
 		
 	def render_subdir_to_output(self, template_dir, template_file, template_values={}):
 		val = self.render_subdir(template_dir, template_file, template_values)

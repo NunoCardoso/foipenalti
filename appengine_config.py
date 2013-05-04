@@ -36,32 +36,17 @@ import re
 import config
 import os
 
-# 0) WSGI middleware declaration.
-
-# Only use this if you're not Django; with Django, it's easier to add
-#   'google.appengine.ext.appstats.recording.AppstatsDjangoMiddleware',
-# to your Django settings.py file.
-
-# def webapp_add_wsgi_middleware(app):
-#   from google.appengine.ext.appstats import recording
-#   app = recording.appstats_wsgi_middleware(app)
-#   return app
-
-
-# 1) Django version declaration.
-
-# If your application uses Django and requires a specific version of
-# Django, uncomment the following block of three lines.  Currently
-# supported values for the Django version are '0.96' (the default),
-# '1.0', and '1.1'.
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 import django
 
 from django.conf import settings
+
 APP_ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
+
 settings.configure(TEMPLATE_DIRS =  (
-    os.path.join(APP_ROOT_DIR, "templates")
+    os.path.join(APP_ROOT_DIR, "templates"),
+    os.path.join(APP_ROOT_DIR, "templates","blog")
 ))
 # 2) Configuration constants.
 

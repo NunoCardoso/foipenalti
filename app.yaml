@@ -2,7 +2,7 @@ application: foipenalti-hrd
 version: 5
 runtime: python27
 api_version: 1
-threadsafe: false
+threadsafe: true
 
 handlers:
 - url: /css
@@ -41,27 +41,27 @@ handlers:
   upload: static/robots.txt
   expiration: 10d 
 
-- url: /remote_api
-  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
-  login: admin
+#- url: /remote_api
+#  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
+#  login: admin
 
 - url: /admin/.*
-  script: boot.py
+  script: fp.app
   login: admin
 
 - url: /task/.*
-  script: boot.py
+  script: fp.app
   login: admin
 
 - url: /cron/.*
-  script: boot.py
+  script: fp.app
   login: admin
 
-- url: /stats.*
-  script: $PYTHON_LIB/google/appengine/ext/appstats/ui.py
+#- url: /stats.*
+#  script: $PYTHON_LIB/google/appengine/ext/appstats/ui.py
 
 - url: /.*
-  script: boot.py
+  script: fp.app
 
 # pre-compile all Pythons
 derived_file_type:
@@ -76,6 +76,3 @@ libraries:
 - name: django
   version: "1.2"
 
-builtins:
-#- datastore_admin: on
-#- appstats: on

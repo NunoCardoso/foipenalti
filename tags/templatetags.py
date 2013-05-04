@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 #import the webapp module
-from google.appengine.ext import webapp
 from google.appengine.ext import db
-from django.template.defaultfilters import removetags
+
+from django.template import Library
 
 from django.utils import simplejson
 from django.conf import settings
@@ -16,7 +16,7 @@ from classes import *
 from lib import gera_icc_para_jogo
 
 # get registry, we need it to register our filter later.
-register = webapp.template.create_template_register()
+register =  Library()
 
 weekday = {"1":u"2ª feira",
 "2":u"3ª feira",

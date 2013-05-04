@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from google.appengine.api import memcache
-from google.appengine.ext.webapp import template
 from google.appengine.ext import db
+
+from django.template.loaders.filesystem import Loader
+from django.template.loader import render_to_string
 
 import os
 import datetime
@@ -158,7 +160,7 @@ class List(MyHandler):
 		
 		template_path = os.path.join(config.APP_ROOT_DIR, "templates", "admin", "list.html")
 
-		return template.render(template_path, {
+		return render_to_string(template_path, {
 			'objs': None,
 			'flash':flash,
 			'objname': objname,
@@ -745,7 +747,7 @@ class List(MyHandler):
 		
 		template_path = os.path.join(config.APP_ROOT_DIR, "templates", "admin", "list.html")
 
-		return template.render(template_path, {
+		return render_to_string(template_path, {
 			'objs': myResults,
 			'flash':flash,
 			'objname': objname,

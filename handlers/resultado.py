@@ -34,4 +34,4 @@ class Resultado(MyHandler):
 		id = self.request.get("id")
 	
 		url = to+"?id="+id
-		return self.redirect(url)
+		return self.redirect(str(url))

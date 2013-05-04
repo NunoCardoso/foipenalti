@@ -1,10 +1,7 @@
 from django import template
-#from google.appengine.ext import webapp
+from django.template import Library
 
-# http://www.soyoucode.com/2011/set-variable-django-template
-register = template.Library()
-# get registry, we need it to register our filter later.
-#register = webapp.template.create_template_register()
+register = Library()
 
 class SetVarNode(template.Node):
  
