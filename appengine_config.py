@@ -56,8 +56,6 @@ import os
 # '1.0', and '1.1'.
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-from google.appengine.dist import use_library
-use_library('django', '1.2')
 import django
 
 from django.conf import settings

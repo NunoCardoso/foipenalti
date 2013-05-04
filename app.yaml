@@ -1,7 +1,8 @@
 application: foipenalti-hrd
 version: 5
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: false
 
 handlers:
 - url: /css
@@ -71,7 +72,10 @@ admin_console:
   - name: Criar posta blog
     url: /admin/post/create
 
+libraries:
+- name: django
+  version: "1.2"
 
 builtins:
-- datastore_admin: on
+#- datastore_admin: on
 #- appstats: on
