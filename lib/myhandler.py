@@ -17,11 +17,11 @@ import Cookie
 import time
 import listas
 
-from exception import BadParameterException
-from google.appengine.api import datastore
-from google.appengine.runtime.apiproxy_errors import *
-from google.appengine.api.datastore_errors import *
-from google.appengine.runtime import DeadlineExceededError
+#from exception import BadParameterException
+#from google.appengine.api import datastore
+#from google.appengine.runtime.apiproxy_errors import *
+#from google.appengine.api.datastore_errors import *
+#from google.appengine.runtime import DeadlineExceededError
 from google.appengine.ext.db import Timeout
 from django.template import Context, Template
 

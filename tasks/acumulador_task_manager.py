@@ -83,4 +83,4 @@ class AcumuladorTaskManager(MyHandler):
 		message = u"Tarefa %s adicionada" % task_name
 		logging.info(message)
 		messages.append(message)
-		return "<BR>".join(messages)
+		#return "<BR>".join(messages)
