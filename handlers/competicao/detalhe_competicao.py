@@ -5,6 +5,7 @@ import datetime
 import logging
 import re
 import config 
+import errors
 
 from classes import *
 from google.appengine.api import memcache
@@ -32,7 +33,11 @@ class DetalheCompeticao(MyCacheHandler):
 	referer = None
 	
 	def get(self):
-		self.decontaminate_vars()
+		try:
+		    self.decontaminate_vars()
+                except:
+                    return errors.overquota(self)
+
 		if not self.competicao: 	
 			error = u"Erro: Não há competição com os parâmetros dados."
 			logging.error(error)
@@ -124,7 +129,7 @@ class DetalheCompeticao(MyCacheHandler):
 				self.competicao = Competicao.all().filter("cmp_nome = ", epoca.epo_nome+":"+competicao_tipo).get()
 
 		if not self.competicao:
-			self.competicao =  config.COMPETICAO_CORRENTE
+			self.competicao = self.getConstants().getCompeticaoCorrente()
 			self.epoca = self.competicao.cmp_epoca
 
 		# request.path starts with "/"

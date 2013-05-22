@@ -546,7 +546,7 @@ class New(MyHandler):
 
 			# Por defeito, adiciona a época corrente ao novo jogador.
 			if not epocas:
-				epocas.append(config.EPOCA_CORRENTE.key()) 
+				epocas.append(self.getConstants().getEpocaCorrente().key()) 
 
 # obj jogador 
 

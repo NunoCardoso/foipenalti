@@ -760,7 +760,7 @@ class NewMultiple(MyHandler):
 
 					# by default, add the current epoca
 					if not epocas:
-						epocas.append(config.EPOCA_CORRENTE.key()) 
+						epocas.append(self.getConstants().getEpocaCorrente().key()) 
 
 		# obj jogador 
 

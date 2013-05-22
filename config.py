@@ -1,13 +1,11 @@
 import os
+import sys
+
 from classes import *
 
 APP_ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 TEMPLATE_DIR="templates"
-
 USE_CACHE_DADOS = False
-EPOCA_CORRENTE = Epoca.all().filter("epo_nome = ", u"2012/2013").get()
-ULTIMA_EPOCA_NA_DB = Epoca.all().filter("epo_nome = ", u"2012/2013").get()
-COMPETICAO_CORRENTE = EPOCA_CORRENTE.epo_competicoes.filter("cmp_tipo = ", u"Liga").get()
 VERSAO_ACUMULADOR=2
 DEVEL = True
 MAIN_TEMPLATE_HTML="main.html"
@@ -25,14 +23,14 @@ def getCurrentHost():
 		else:
 			if os.environ["HTTP_HOST"].startswith("localhost"):
 				CURRENT_HOST='localhost:8080'
-
+	else: 
+		CURRENT_HOST = 'www.foipenalti.com'
 	return CURRENT_HOST
 	
 # presente em todos os templates
 SETTINGS = {
-	 'maintitle': "Foi Penalti!",
-	 'image_avatar': "http://a2.twimg.com/profile_images/1109160638/avatar_bigger.png",
-	
+    'maintitle': "Foi Penalti!",
+    'image_avatar': "http://a2.twimg.com/profile_images/1109160638/avatar_bigger.png",
 	#### BLOG STUFF 
     'title': 'Blog do \'Foi Penalti!\'',
     'description': "O tira-teimas do sistema",
@@ -40,7 +38,7 @@ SETTINGS = {
     'email': 'foipenalti@foipenalti.com',
     'url': 'http://www.foipenalti.com',
     'items_per_page': 10,
-	 'current_host': getCurrentHost(),
+    'current_host': getCurrentHost(),
     'google_analytics': False,
     'disqus': "foipenalti"
 }

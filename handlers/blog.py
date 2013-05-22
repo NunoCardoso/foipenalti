@@ -11,10 +11,11 @@ from google.appengine.api import memcache
 
 import blogview as view
 import logging
+import errors
+
 from classes import *
 from lib.myhandler import MyHandler
 from lib.mycachehandler import MyCacheHandler
-
 
 def slugify(value):
     """
@@ -31,15 +32,16 @@ class IndexHandler(MyHandler):
         self.response.set_status(200)
         return
 
-
     def get(self):
-        query = Post.all()
-        query.order('-pub_date')
+        try:
+            query = Post.all()
+            query.order('-pub_date')
 
-        template_values = {'page_title': 'Home',
-                          }
-        page = view.Page()
-        page.render_paginated_query(self, query, 'posts', 'templates/blog/index.html', template_values)
+            template_values = {'page_title': 'Home'}
+            page = view.Page()
+            page.render_paginated_query(self, query, 'posts', 'templates/blog/index.html', template_values)
+        except:
+            return errors.overquota(self)
 
 class PostHandler(MyHandler):
     

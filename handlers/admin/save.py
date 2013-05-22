@@ -492,7 +492,7 @@ class Save(MyHandler):
 			# EDIÇÂO DE CTJ
 			# 1. apanhar a época corrente
 			epocas = []
-			epocas.append(config.EPOCA_CORRENTE.key()) 
+			epocas.append(self.getConstants().getEpocaCorrente().key()) 
 			
 			# 2. ir á BD de CTJ para este jogador
 			ctjs = obj.jgd_clubes.filter("ctj_epocas in ", epocas).fetch(1000)

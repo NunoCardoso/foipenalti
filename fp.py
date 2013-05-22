@@ -82,10 +82,22 @@ class Duvidas(MyHandler):
 	def get(self):
 		self.render_to_output('duvidas.html', {})		
 
+class Webapp2HandlerAdapter(webapp2.BaseHandlerAdapter):
+    def __call__(self, request, response, exception):
+        request.route_args = {}
+        request.route_args['exception'] = exception
+        handler = self.handler(request, response)
+        return handler.get()
+
 class Error404Handler(MyHandler):
-	def get(self):
-		self.response.set_status(404)
-		self.render_to_output('error.html', {})		
+    def get(self):
+	self.response.set_status(404)
+	self.render_to_output('error.html', {})		
+
+class Error500Handler(MyHandler):
+    def get(self):
+	self.response.set_status(500)
+	self.render_to_output('over_quota.html', {})		
 
 class Redirect(MyHandler):
 	def get(self):
@@ -229,6 +241,8 @@ app = webapp2.WSGIApplication([
 
 # 404
 			('/.*', Error404Handler)
-			], debug=False)
+			])
 			
 
+app.error_handlers[404] = Webapp2HandlerAdapter(Error404Handler)
+app.error_handlers[500] = Webapp2HandlerAdapter(Error500Handler)

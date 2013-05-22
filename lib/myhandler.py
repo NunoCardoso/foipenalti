@@ -17,6 +17,9 @@ import Cookie
 import time
 import listas
 
+import const
+from const import Constants
+
 #from exception import BadParameterException
 #from google.appengine.api import datastore
 #from google.appengine.runtime.apiproxy_errors import *
@@ -33,7 +36,12 @@ class MyHandler(webapp2.RequestHandler):
 #### RENDER ######
 ##################
 
+        constants = Constants();
+
 	pattern = re.compile("<!--STARTCUTTINGPART-->(.*)<!--ENDCUTTINGPART-->", re.S)
+
+        def getConstants(self):
+             return self.constants
 	
 	def render_subdir_template_block(self, template_dir, template_file, template_values={}):
 		val = self.render_subdir(template_dir, template_file, template_values)

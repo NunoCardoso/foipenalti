@@ -57,8 +57,9 @@ handlers:
   script: fp.app
   login: admin
 
-#- url: /stats.*
-#  script: $PYTHON_LIB/google/appengine/ext/appstats/ui.py
+- url: /stats.*
+  script: google.appengine.ext.appstats.ui.app
+  login: admin
 
 - url: /.*
   script: fp.app

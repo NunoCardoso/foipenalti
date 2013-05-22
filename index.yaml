@@ -19,6 +19,12 @@ indexes:
   - name: __key__
     direction: desc
 
+- kind: Competicao
+  properties:
+  - name: cmp_nome
+  - name: cmp_ultima_alteracao
+    direction: desc
+
 - kind: Jornada
   properties:
   - name: __key__

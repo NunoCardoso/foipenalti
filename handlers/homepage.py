@@ -5,8 +5,10 @@ import datetime
 import re
 import config 
 import classes
+import errors
 
 from classes import *
+
 from lib.mycachehandler import MyCacheHandler
 from handlers.detalhe_jornada import DetalheJornada
 from google.appengine.api import memcache
@@ -33,25 +35,22 @@ class HomePage(MyCacheHandler):
 	competicao = None
 
 	homepage_info = [	
-	{"image":u"img/homepage/slb_fcp.jpg",
-	"title":u"28ª jornada, e aproxima-se a hora da verdade!",
+	{"image":u"img/homepage/20130519_porto.jpg",
+	"title":u"Porto Porto Porto! Tricampeão nacional!",
 	"source_url":u"http://desporto.sapo.pt",
 	"source_title":u"SAPO Desporto",
-	"description":u"FC Porto-Benfica marcado para 11 de Maio. Será o Benfica campeão nesse dia?"}
-
-#	{"image":u"img/homepage/20130420_moreirense_porto.jpg",
-#	"title":u"Moreirense 0-3 FC Porto. Jackson pressiona Benfica.",
-#	"source_url":u"http://desporto.sapo.pt",
-#	"source_title":u"SAPO Desporto",
-#	"description":u"A perseguição continua, para o derby de hoje. "+
-#        "Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:26:Moreirense:Porto'>"+
-#	u"ficha do jogo</A>."}
-
+	"description":u"No campeonato mais emocionante dos últimos anos, FC Porto ganha ao foto-finish. "+
+        "Veja a <a href='http://www.foipenalti.com/detalhe_jogo?jogo=2012/2013:Liga:30:PacosFerreira:Porto'>"+
+	u"ficha do jogo Paços de Ferreira 0-2 FC Porto</A>."}
 	]	
 	
 	def get(self):
-		self.epoca = config.EPOCA_CORRENTE
-		self.competicao = config.COMPETICAO_CORRENTE
+		try:
+			self.epoca = self.getConstants().getEpocaCorrente()
+			self.competicao = self.getConstants().getCompeticaoCorrente()
+		except:
+			return errors.overquota(self)
+			
 		self.decontaminate_vars()
 		self.checkCacheFreshen()
 		self.requestHandler()
@@ -248,7 +247,7 @@ class HomePage(MyCacheHandler):
 
 	def renderHTML(self):
 
-		ultima_epoca_na_db = config.ULTIMA_EPOCA_NA_DB
+		ultima_epoca_na_db = self.getConstants().getUltimaEpocaNaDB()
 
 		noticias_html = self.render_subdir('homepage','gera_mini_blog.html', {
 			"posts": self.dados['posts']

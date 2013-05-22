@@ -55,7 +55,6 @@ def get_lista_todos_clubes_por_visitas():
 
 def get_lista_epocas():
 		
-		ultima_epoca_na_db = config.ULTIMA_EPOCA_NA_DB
 		lista_epocas = []
 		cacheresultados = memcache.get('lista_todos_epocas')
 		cache_old = mymemcache.check(cacheresultados, ['epoca'])
@@ -63,8 +62,7 @@ def get_lista_epocas():
 		if not cacheresultados or cache_old:
 			epocas = Epoca.all()
 			for epoca in epocas:
-		#		if epoca.epo_data_inicio >= ultima_epoca_na_db.epo_data_inicio:
-					lista_epocas.append(epoca)
+				lista_epocas.append(epoca)
 			# True is for a reverse
 			lista_epocas = sorted(lista_epocas, cmp=lambda x,y: cmp(x.epo_nome, y.epo_nome))
 			lista_epocas.reverse()	

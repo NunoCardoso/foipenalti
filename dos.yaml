@@ -24,3 +24,11 @@ blacklist:
   description: BeiduSpider
 - subnet: 62.219.8.225/24
   description: um israelita qualquer
+- subnet: 46.119.114.21
+  description: spadex.ru
+- subnet: 5.9.82.230
+  description: um palhaco russo
+- subnet: 187.14.18.70
+  description: brazuca pedido segundo a segundo
+- subnet: 176.8.88.90
+  description: ucraniano
