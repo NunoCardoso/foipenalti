@@ -48,13 +48,11 @@ class HomePage(MyCacheHandler):
 		try:
 			self.epoca = self.getConstants().getEpocaCorrente()
 			self.competicao = self.getConstants().getCompeticaoCorrente()
+			self.decontaminate_vars()
+			self.checkCacheFreshen()
+			self.requestHandler()
 		except:
 			return errors.overquota(self)
-			
-		self.decontaminate_vars()
-		self.checkCacheFreshen()
-		self.requestHandler()
-		
 		return 
 		
 	def checkCacheFreshen(self):
